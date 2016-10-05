@@ -129,8 +129,9 @@ CREATE TABLE Friend_Requests
 
 CREATE TABLE Servers
 (
-    server_id int,
+    server_id bigint,
     IP varchar(128), //Designed for 128bit IPv6 addressing
     server_index int,
+    PRIMARY KEY(server_id)
 );
 
