@@ -6,10 +6,8 @@ from Model.Authors import Authors
 
 class test_Authors(unittest.TestCase):
 
-    signalFromQuery = False
-
     def setUp(self):
-        print "starting test!"
+        pass
     
     def test_author1(self, willClear=True, willQuery=True):
 
@@ -81,35 +79,32 @@ class test_Authors(unittest.TestCase):
 
     def SaveAllToDB(self):
 
-        if self.signalFromQuery is True:
-            for author in authors:
-                myAuthor=Authors(author)
-                db.session.add(myAuthor)
+        for author in authors:
+            myAuthor=Authors(author)
+            db.session.add(myAuthor)
 
-            db.session.commit()
-
+        db.session.commit()
 
 
-    def queryTest(self):
 
-        self.signalFromQuery=True
+    def test_query(self):
+
         self.SaveAllToDB()
 
         myAuthor=Authors.query.get(1)
-        matchFields(author1, myAuthor)
+        self.matchFields(author1, myAuthor)
         
         myAuthor=Authors.query.get(2)
-        matchFields(author2, myAuthor)
+        self.matchFields(author2, myAuthor)
 
         myAuthor=Authors.query.get(3)
-        matchFields(author3, myAuthor)
+        self.matchFields(author3, myAuthor)
 
         myAuthor=Authors.query.get(4)
-        matchFields(author4, myAuthor)
+        self.matchFields(author4, myAuthor)
 
         db.session.query(Authors).delete()
         db.session.commit()
-        self.signalFromQuery=False 
 
 
 

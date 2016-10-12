@@ -26,7 +26,7 @@ class Authors(db.Model):
     numberOf_friendRequests = db.Column(db.Integer)
     
     
-    def __new__(cls, datum):
+    def __new__(cls, datum=None):
 
         """
         Input: See comments in __init__
@@ -35,6 +35,11 @@ class Authors(db.Model):
             Checks whether author_id is inside datum dictionary.
             If not found, then it returns None 
         """
+
+        # When the DB will query and retrieve objects, __new__ will have to called to create the objects and datum wont be provided
+        if datum == None:
+            return super(Authors, cls).__new__(cls)
+
         if 'author_id' not in datum.keys():
             return None
         else:
