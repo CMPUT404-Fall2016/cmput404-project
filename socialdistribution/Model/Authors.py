@@ -1,29 +1,29 @@
-# from .db import db
+from db import db
 
 class Authors(db.Model):
     #    __tablename__ = 'users'
     
-    author_id = Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, primary_key=True)
     
-    name = Column(db.String(60))
+    name = db.Column(db.String(60))
     
-    login_name = Column(db.String(60), unique=True)
+    login_name = db.Column(db.String(60), unique=True)
     
-    password = Column(db.String(30))
+    password = db.Column(db.String(30))
     
-    address = Column(db.String(100))
+    address = db.Column(db.String(100))
     
-    birthdate = Column(db.DateTime)
+    birthdate = db.Column(db.DateTime)
     
-    bio = Column(db.String(200))
+    bio = db.Column(db.String(200))
     
-    numberOf_friends = Column(db.Integer)
+    numberOf_friends = db.Column(db.Integer)
     
-    numberOf_followers = Column(db.Integer)
+    numberOf_followers = db.Column(db.Integer)
     
-    numberOf_followees = Column(db.Integer)
+    numberOf_followees = db.Column(db.Integer)
     
-    numberOf_friendRequests = Column(db.Integer)
+    numberOf_friendRequests = db.Column(db.Integer)
     
     
     def __new__(cls, datum):
@@ -78,6 +78,8 @@ class Authors(db.Model):
 
         if "bio" in datum.keys():
             self.bio = datum["bio"]
+        else:
+            self.bio = empty_string
 
         if "numberOf_friends" in datum.keys():
             self.numberOf_friends = datum["numberOf_friends"]
@@ -102,3 +104,6 @@ class Authors(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.login_name)
+
+
+db.create_all()

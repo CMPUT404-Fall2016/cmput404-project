@@ -43,3 +43,5 @@ author4["name"] 	  = "No Man"
 author4["login_name"] = "No_man"
 author4["password"]   = "123456"
 author4["birthdate"]  = currentTime
+
+authors=[author1, author2, author3, author4]
