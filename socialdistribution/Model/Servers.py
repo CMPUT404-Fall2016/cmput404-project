@@ -1,25 +1,29 @@
-from .db import db
+from db import db
 
 class Servers(db.Model):
 
-    server_id = Column(db.BigInteger, primary_key=True)
+    server_id = db.Column(db.BigInteger, primary_key=True)
 
-    IP = Column(db.String(128), unique=True)
+    IP = db.Column(db.String(40), unique=True)
     
-    server_index = Column(db.Integer, unique=True)
+    server_index = db.Column(db.Integer, unique=True)
 
 
-    def __new__(cls, datum):
+    def __new__(cls, datum=None):
 
-        """
-        Input: For datum, see comments in __init__
+    #     """
+    #     Input: For datum, see comments in __init__
         
-        Description:
-            Checks whether the keys for column names are inside datum dictionary.
-            If not found, then it returns None 
-        """
-        
-        if 'server_id' or 'IP' or 'server_index' not in datum.keys():
+    #     Description:
+    #         Checks whether the keys for column names are inside datum dictionary.
+    #         If not found, then it returns None 
+    #     """
+
+        # When the DB will query and retrieve objects, __new__ will have to called to create the objects and datum wont be provided
+        if datum == None:
+            return super(Servers, cls).__new__(cls)
+
+        if ('server_id' and 'IP' and 'server_index') not in datum.keys():
             return None
         else:
             return super(Servers, cls).__new__(cls)
@@ -39,6 +43,9 @@ class Servers(db.Model):
 
         """
 
-        server_id = datum['server_id']
-        IP = datum['IP']
-        server_index = datum['server_index']
+        self.server_id = datum['server_id']
+        self.IP = datum['IP']
+        self.server_index = datum['server_index']
+
+
+db.create_all()
