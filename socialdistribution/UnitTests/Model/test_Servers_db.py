@@ -1,7 +1,8 @@
 import unittest
 from db import db
 from sample_data.data1 import *
-from Model.Servers import Servers
+# from Model.Servers import Servers
+from model import *
 
 
 class test_Servers(unittest.TestCase):

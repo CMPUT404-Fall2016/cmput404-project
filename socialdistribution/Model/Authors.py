@@ -1,7 +1,10 @@
 from db import db
+# from Model.Author_Relationships import Author_Relationships
+from model import *
 
 class Authors(db.Model):
-    #    __tablename__ = 'users'
+    
+    __tablename__ = 'authors'
     
     author_id = db.Column(db.Integer, primary_key=True)
     
@@ -111,4 +114,19 @@ class Authors(db.Model):
         return '<User %r>' % (self.login_name)
 
 
-db.create_all()
+    def delete(self, serverObj):
+
+        """
+        deletes itself from the server and before doing that it deletes any relationships the author has with any other author. 
+
+        TODO: 1) Delete the its entries from the friendrequest table
+              2) I guess we will also need to write code to delete the author's corresponding posts, URLs, images, etc.
+        """
+
+        query_param={"server_author_1" : [serverObj, self]}
+        Author_Relationships.deleteRowsByQuery(query_param)
+        query_param={"server_author_2" : [serverObj, self]}
+        Author_Relationships.deleteRowsByQuery(query_param)
+        db.session.delete(self)
+        db.session.commit()        
+

@@ -2,6 +2,8 @@ from db import db
 
 class Servers(db.Model):
 
+    __tablename__ = 'servers'
+
     server_id = db.Column(db.BigInteger, primary_key=True)
 
     IP = db.Column(db.String(40), unique=True)
@@ -48,4 +50,3 @@ class Servers(db.Model):
         self.server_index = datum['server_index']
 
 
-db.create_all()

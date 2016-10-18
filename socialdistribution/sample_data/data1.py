@@ -74,4 +74,27 @@ server3["server_index"] = 3
 servers=[server1, server2, server3]
 
 
+#Instances of Author_Relationships
+
+AR_empty={}
+
+AR1={}
+AR1["AuthorRelationship_id"] = 1
+AR1["authorServer1_id"] = server1["server_index"]
+AR1["authorServer2_id"] = server2["server_index"]
+AR1["author1_id"] = author1["author_id"]
+AR1["author2_id"] = author2["author_id"]
+AR1["relationship_type"] = 1 # author 1 is only following author 2.
+
+AR2={}
+AR2["AuthorRelationship_id"] = 2
+AR2["authorServer1_id"] = server1["server_index"]
+AR2["authorServer2_id"] = server2["server_index"]
+# Suppose there are 2 identical accounts on 2 servers, eg both have author1
+AR2["author1_id"] = author1["author_id"]
+AR2["author2_id"] = author1["author_id"]
+AR2["relationship_type"] = 2 # author 1(server1) and author 1(server2) are mutually following each other(they are friends).
+
+author_relationships=[AR1, AR2]
+
 

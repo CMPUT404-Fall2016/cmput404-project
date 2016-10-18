@@ -1,21 +1,27 @@
 from db import db
+from Model.Authors import Authors
+from Model.Servers import Servers
+from model import *
+from sqlalchemy import and_
 
 class Author_Relationships(db.Model):
+    __tablename__ = 'author_relationships'
 
-    AuthorRelationship_id = Column(db.Integer, primary_key=True)
+    # AuthorRelationship_id = db.Column(db.Integer, primary_key=True)
+    AuthorRelationship_id = db.Column(db.Integer)
     
-    authorServer1_id = Column(db.Integer)
+    authorServer1_id = db.Column(db.Integer)
     
-    author1_id = Column(db.Integer)
+    author1_id = db.Column(db.Integer)
     
-    authorServer2_id = Column(db.Integer)
+    authorServer2_id = db.Column(db.Integer)
     
-    author2_id = Column(db.Integer)
+    author2_id = db.Column(db.Integer)
     
-    relationship_type = Column(db.Integer)
+    relationship_type = db.Column(db.Integer)
 
-    ForeignKeyConstraint([authorServer1_id, author1_id],['Servers.server_index', 'Authors.author_id'])
-    ForeignKeyConstraint([authorServer2_id, author2_id],['Servers.server_index', 'Authors.author_id'])
+    db.PrimaryKeyConstraint(authorServer1_id, author1_id)
+    db.PrimaryKeyConstraint(authorServer2_id, author2_id)
 
 
     def __new__(cls, datum=None):
@@ -38,7 +44,7 @@ class Author_Relationships(db.Model):
             return super(Author_Relationships, cls).__new__(cls)
 
 
-    
+
     def __init__(self, datum):
         """
         Input:
@@ -60,3 +66,159 @@ class Author_Relationships(db.Model):
         self.authorServer2_id = datum['authorServer2_id']
         self.relationship_type = datum['relationship_type']
 
+
+
+    def insert(self):
+
+        """
+        Call this method for inserting an Author_Relationships row into the DB. 
+        Before inserting, it makes sure that the authors, servers are all present in their respective DB. 
+        """
+        willInsert = True
+
+        if Authors.query.filter(Authors.author_id == self.author1_id).all() == []:
+            willInsert = False
+
+        if Authors.query.filter(Authors.author_id == self.author2_id).all() == []:
+            willInsert = False
+
+        if Servers.query.filter(Servers.server_index == self.authorServer1_id).all() == []:
+            willInsert = False
+
+        if Servers.query.filter(Servers.server_index == self.authorServer2_id).all() == []:
+            willInsert = False
+
+        if willInsert is True:
+            db.session.add(self)
+            db.session.commit()
+            return True #Returns true as it succesfully inserted the row.
+
+        return False #In case insertion failed
+
+
+    def updateRow(self):
+
+        """
+        Call this method to update any changes made to any rows in the DB, such as changing the relationship type.
+        """
+        self.insert()
+
+
+    @staticmethod
+    def deleteRowsByQuery(query_param):
+
+        """
+        Read query method's description for query_param.
+        
+        This method uses static method query for first retrieving a set of rows that matches the query given in query_param
+        and then deletes  
+        """
+        rows=Author_Relationships.query(query_param)
+        if rows==[]:
+            return
+
+        for row in rows:
+            db.session.delete(row)
+
+        db.session.commit()
+
+
+
+    @staticmethod
+    def query(query_param):
+
+        """
+        query param is a dictionary containing query information.
+        
+        Types of queries:
+        1) query_param['server_author_1']=[server1_obj, author1_obj]
+           query_param['server_author_2']=[server2_obj, author2_obj]
+ 
+        2) query_param['server_author_1']=[server1_obj, author1_obj]
+
+        3) query_param['server_author_1']=[server1_obj, author1_obj]
+           query_param['relationship_type']=relationship_type value
+
+        4) query_param['server_author_2']=[server2_obj, author2_obj]
+
+        5) query_param['server_author_2']=[server2_obj, author2_obj]
+           query_param['relationship_type']=relationship_type value
+
+        6) query_param['relationship_type']=relationship_type value
+
+        7) query_param={} // This gives back all the rows
+
+        """
+
+        s=db.session.query(Author_Relationships).filter
+        
+        if query_param=={}:
+            return db.session.query(Author_Relationships).all()
+
+        if "server_author_1" and "server_author_2" in query_param.keys():
+            server1, author1 = query_param["server_author_1"]
+            server2, author2 = query_param["server_author_2"]
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1.author_id,
+                                                                  Author_Relationships.author2_id == author2.author_id,
+                                                                  Author_Relationships.authorServer1_id == server1.server_index,
+                                                                  Author_Relationships.authorServer2_id == server2.server_index
+                                                                  ).all()
+
+            return results
+
+        
+        ###### For querying with author1
+
+        if "server_author_1" in query_param.keys():
+            server1, author1 = query_param["server_author_1"]
+
+            if "relationship_type" in query_param.keys():
+                
+                relationship_type=query_param["relationship_type"]
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1.author_id,
+                                                                      Author_Relationships.authorServer1_id == server1.server_index,
+                                                                      Author_Relationships.relationship_type == relationship_type
+                                                                      ).all()
+
+            else:
+
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1.author_id,
+                                                                      Author_Relationships.authorServer1_id == server1.server_index,
+                                                                      ).all()
+
+            return results
+
+
+        ###### For querying with author2
+
+        if "server_author_2" in query_param.keys():
+            server2, author2 = query_param["server_author_2"]
+
+            if "relationship_type" in query_param.keys():
+                
+                relationship_type=query_param["relationship_type"]
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2.author_id,
+                                                                      Author_Relationships.authorServer2_id == server2.server_index,
+                                                                      Author_Relationships.relationship_type == relationship_type
+                                                                      ).all()
+
+            else:
+
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2.author_id,
+                                                                      Author_Relationships.authorServer2_id == server2.server_index,
+                                                                      ).all()
+
+            return results
+
+
+        ###### For a given relationship_type get all the rows.
+        if "relationship_type" in query_param.keys():
+    
+            relationship_type=query_param["relationship_type"]
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.relationship_type == relationship_type
+                                                                  ).all()
+
+            return results
+
+
+    # _ANS = query.__func__()

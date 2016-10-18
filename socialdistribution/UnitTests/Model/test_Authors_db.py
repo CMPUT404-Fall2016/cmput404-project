@@ -1,7 +1,8 @@
 import unittest
 from db import db
 from sample_data.data1 import *
-from Model.Authors import Authors
+# from Model.Authors import Authors
+from model import *
 
 
 class test_Authors(unittest.TestCase):
