@@ -98,3 +98,96 @@ AR2["relationship_type"] = 2 # author 1(server1) and author 1(server2) are mutua
 author_relationships=[AR1, AR2]
 
 
+
+# Instances of Posts table
+
+post1 = {}
+post1["post_id"] = 1
+post1["author_id"] = 1
+post1["title"] = "test1"
+post1["text"]="TEXT1"
+post1["creation_time"]=currentTime
+post1["view_permission"]=1
+post1["post_type"]=1
+post1["numberOf_comments"]=1
+post1["numberOf_URL"]=2
+post1["numberOf_images"]=2
+
+post_empty={}
+
+post2 = {}
+post2["post_id"] = 2
+post2["author_id"] = 1
+post2["title"] = "test2"
+post2["text"]="TEXT2"
+post2["creation_time"]=currentTime
+post2["view_permission"]=2
+post2["post_type"]=2
+post2["numberOf_comments"]=2
+post2["numberOf_URL"]=3
+post2["numberOf_images"]=3
+
+post3 = {}
+post3["post_id"] = 3
+post3["author_id"] = 3
+post3["title"] = "test3"
+post3["text"]="TEXT3"
+post3["creation_time"]=currentTime
+post3["view_permission"]=3
+post3["post_type"]=3
+post3["numberOf_comments"]=1
+post3["numberOf_URL"]=3
+post3["numberOf_images"]=3
+
+post4 = {}
+post4["post_id"] = 4
+post4["author_id"] = 4
+post4["title"] = "test4"
+post4["text"]="TEXT4"
+post4["creation_time"]=currentTime
+post4["view_permission"]=4
+post4["post_type"]=4
+
+
+posts=[post1, post2, post3, post4]
+
+
+
+
+# instances of comments
+
+comment1 = {}
+comment1["comment_id"]=1
+comment1["post_id"]= 1
+comment1["comment_text"]="wow, such post"
+comment1["creation_time"]=currentTime
+
+comment_empty={}
+
+
+comment2 = {}
+comment2["comment_id"]=2
+comment2["post_id"]= 2
+comment2["comment_text"]="wow, such post, should be second post"
+comment2["creation_time"]=currentTime
+
+
+
+comment3 = {}
+comment3["comment_id"]=3
+comment3["post_id"]= 2
+comment3["comment_text"]="wow, such post, should be post 2 again"
+comment3["creation_time"]=currentTime
+
+
+comment4 = {}
+comment4["comment_id"]=4
+comment4["post_id"]= 3
+comment4["comment_text"]="wow, such post, this is for post 3!!!"
+comment4["creation_time"]=currentTime
+
+
+
+comments=[comment1, comment2, comment3, comment4]
+
+

@@ -28,6 +28,8 @@ class Authors(db.Model):
     
     numberOf_friendRequests = db.Column(db.Integer)
     
+    posts = db.relationship('Posts', backref = 'person', lazy = 'dynamic')
+    
     
     def __new__(cls, datum=None):
 
