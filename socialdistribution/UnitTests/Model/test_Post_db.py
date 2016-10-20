@@ -108,7 +108,10 @@ class test_Posts(unittest.TestCase):
         myPost=Posts.query.get(2)
         self.matchFields(post2, myPost)
         
-        myPosts=Posts.query.get(3)
+        myPost=Posts.query.get(3)
+        print "HIHIHIHIHI: "
+        print post3["post_id"]
+        print myPost.post_id
         self.matchFields(post3, myPost)
         
         myPost=Posts.query.get(4)
@@ -130,8 +133,9 @@ class test_Posts(unittest.TestCase):
         if "post_id" not in test_data.keys():
             self.assertTrue(ORM_object == None), "ORM Object should be None!"
             return
-
-        print ORM_object
+        print "here is post_id: "
+        print ORM_object.post_id
+        print test_data["post_id"]
         
         self.assertTrue(ORM_object.post_id == test_data["post_id"]), "ORM object's author_id field doesnt match!"
         self.assertTrue(ORM_object.title == test_data["title"]), "ORM object's name field doesnt Match!"
