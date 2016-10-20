@@ -1,6 +1,7 @@
 from datetime import datetime
 import time
 import random
+import os
 
 random.seed(time.time())
 currentTime=datetime.now()
@@ -189,5 +190,27 @@ comment4["creation_time"]=currentTime
 
 
 comments=[comment1, comment2, comment3, comment4]
+
+
+#Image Objects
+
+images = []
+for i in range(1, 5):
+	
+	blob = os.urandom(1000)
+	image = {}
+	image["image_id"] = i
+	image["post_id"] = i*10
+	image["comment_id"] = i*100
+	image["image"] = blob
+	
+	images.append(image)
+
+images[1]["comment_id"] = None
+images[3]["comment_id"] = None
+
+
+
+
 
 
