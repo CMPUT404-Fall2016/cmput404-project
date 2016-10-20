@@ -34,38 +34,38 @@ class Comments(db.Model):
         else:
             return super(Comments,cls).__new__(cls)
 
-def __init__(self,datum):
-    
-    """
-        Input:
-        datum is a dictionary with keys as column names and values as their corresponding values.
-        eg,
-        
-        Description:
-        This constructor sets the values of fields based on datum dictionary. If any field
-        is missing from datum, its default value will be inserted.
-        
-        TODO:
+    def __init__(self,datum):
         
         """
+            Input:
+            datum is a dictionary with keys as column names and values as their corresponding values.
+            eg,
             
-            empty_string=""
+            Description:
+            This constructor sets the values of fields based on datum dictionary. If any field
+            is missing from datum, its default value will be inserted.
+            
+            TODO:
+            
+            """
                 
-                self.comment_id = datum["comment_id"]
-                    
-                    if "comment_text" in datum.keys():
-                        self.comment_text = datum["comment_text"]
-                            else:
-                                self.comment_text = empty_string
-                                    
-                                    if "creation_time" in datum.keys():
-                                        self.creation_time = datum["creation_time"]
-                                            
-                                            self.post_id = datum["post_id"]
-                                        
+        empty_string=""
+            
+        self.comment_id = datum["comment_id"]
+
+        if "comment_text" in datum.keys():
+            self.comment_text = datum["comment_text"]
+        else:
+            self.comment_text = empty_string
+
+        if "creation_time" in datum.keys():
+            self.creation_time = datum["creation_time"]
+
+        self.post_id = datum["post_id"]
 
 
-def __repr__(self):
-    return '<User %r>' % (self.comment_text)
+
+    def __repr__(self):
+        return '<User %r>' % (self.comment_text)
 
 db.create_all()

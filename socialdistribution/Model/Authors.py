@@ -2,6 +2,8 @@ from db import db
 # from Model.Author_Relationships import Author_Relationships
 from model import *
 
+
+
 class Authors(db.Model):
     
     __tablename__ = 'authors'
