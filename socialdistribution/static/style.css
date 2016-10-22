@@ -1,4 +1,11 @@
-p {
-    color: red;
-    text-align: center;
+textarea {
+  resize: none;
+}
+
+.unliked, .comments {
+  color: #888;
+}
+
+.posts-stream-end {
+  text-align: center;
 }
