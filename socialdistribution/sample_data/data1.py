@@ -210,7 +210,22 @@ images[1]["comment_id"] = None
 images[3]["comment_id"] = None
 
 
+#URL objects
 
+urls = []
+for i in range(1, 5):
+
+	url = {}
+	url["URL_id"] = i
+	url["post_id"] = i*10
+	url["comment_id"] = i*100
+	url["URL_link"] = "google.ca"
+	url["URL_type"] = i;
+
+	urls.append(url)
+
+
+	
 
 
 

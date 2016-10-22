@@ -1,7 +1,7 @@
 import unittest
 from db import db
 from sample_data.data1 import *
-from Model.Images import Images
+from Model.URL import URL
 
 '''
 	Testing URLs Model
@@ -25,51 +25,51 @@ class test_URLs(unittest.TestCase):
 			myurl = URL(url)
 			db.session.add(myurl)
 			db.session.commit
-			rows = db.session.query(url).count()
+			rows = db.session.query(URL).count()
 			self.assertTrue(rows == count, "Adding Failure")
 			count += 1
 
 
 
 	def test_Added(self):
-		print "Testing Added Images"
+		print "Testing Added URLs"
 		for i in range(4):
-			spec = images[i]
-			orm = Images.query.get(i+1)
+			spec = urls[i]
+			orm = URL.query.get(i+1)
 			#Bad Style. Should Loop Through Keys And Use A Loop
-			self.assertTrue(spec["image_id"] == orm.image_id, "Wrong Image")
-			self.assertTrue(spec["post_id"] == orm.post_id, "Wrong Image")
-			self.assertTrue(spec["comment_id"] == orm.comment_id, "Wrong Image")
-			self.assertTrue(spec["image"] == orm.image, "Wrong Image")
+			self.assertTrue(spec["URL_id"] == orm.URL_id, "Wrong URL")
+			self.assertTrue(spec["post_id"] == orm.post_id, "Wrong URL")
+			self.assertTrue(spec["comment_id"] == orm.comment_id, "Wrong URL")
+			self.assertTrue(spec["URL_link"] == orm.URL_link, "Wrong URL")
+			self.assertTrue(spec["URL_type"] == orm.URL_type, "Wrong URL")
 
 
 	def test_Delete(self):
-		print "Testing Delete Images"
-		blob = os.urandom(10000)
-		img = Images({"image_id" : 5, "post_id": 50, "comment_id" : 500, "image": blob})	
-		db.session.add(img)
+		print "Testing Delete URLs"
+		url = URL({"URL_id" : 5, "post_id": 50, "comment_id" : 500, "URL_link": "wtf", "URL_type": 5})	
+		db.session.add(url)
 		db.session.commit()
-		db.session.delete(img)
+		db.session.delete(url)
 		db.session.commit()	
-		rows = db.session.query(Images).count()
+		rows = db.session.query(URL).count()
 		self.assertTrue(rows == 4, "Deletion Failure")
 
 
 
 	# Test Setter
 	def test_ModLink(self):
-		link = ""
+		link = "facebook.com"
 		print "Testing Modify URLs"
 		url = db.session.query(URL).get(1)
 		url.set_link(link)
-		self.assertTrue(url.link == link, "Modification Failed")
+		self.assertTrue(url.URL_link == link, "Modification Failed")
 		
 		
 
 
 def runTest():
     # unittest.main()
-    test_suite = unittest.TestLoader().loadTestsFromTestCase(test_URL)
+    test_suite = unittest.TestLoader().loadTestsFromTestCase(test_URLs)
 
     testRunner = unittest.TextTestRunner()
     test_Result = testRunner.run(test_suite)
