@@ -150,7 +150,6 @@ class Author_Relationships(db.Model):
 
         """
 
-        s=db.session.query(Author_Relationships).filter
         
         if query_param=={}:
             return db.session.query(Author_Relationships).all()

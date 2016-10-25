@@ -80,25 +80,46 @@ servers=[server1, server2, server3]
 AR_empty={}
 
 AR1={}
-AR1["AuthorRelationship_id"] = 1
+AR1["AuthorRelationship_id"] = 2
 AR1["authorServer1_id"] = server1["server_index"]
 AR1["authorServer2_id"] = server2["server_index"]
+# Suppose there are 2 identical accounts on 2 servers, eg both have author1
 AR1["author1_id"] = author1["author_id"]
-AR1["author2_id"] = author2["author_id"]
-AR1["relationship_type"] = 1 # author 1 is only following author 2.
+AR1["author2_id"] = author1["author_id"]
+AR1["relationship_type"] = 2 # Both authors are friends (mutually following)
+
 
 AR2={}
-AR2["AuthorRelationship_id"] = 2
+AR2["AuthorRelationship_id"] = 1
 AR2["authorServer1_id"] = server1["server_index"]
 AR2["authorServer2_id"] = server2["server_index"]
-# Suppose there are 2 identical accounts on 2 servers, eg both have author1
 AR2["author1_id"] = author1["author_id"]
-AR2["author2_id"] = author1["author_id"]
-AR2["relationship_type"] = 2 # author 1(server1) and author 1(server2) are mutually following each other(they are friends).
+AR2["author2_id"] = author2["author_id"]
+AR2["relationship_type"] = 1 # Author 1 is following author 2
 
 author_relationships=[AR1, AR2]
 
 
+#Instances of Friend_Requests
+
+FR_empty={}
+
+FR1={}
+FR1["friendrequests_id"] = 1
+FR1["fromAuthor_id"] = author1["author_id"]
+FR1["fromAuthorServer_id"] = server1["server_index"]
+# Suppose there are 2 identical accounts on 2 servers, eg both have author1
+FR1["toAuthor_id"] = author1["author_id"]
+FR1["toAuthorServer_id"] = server2["server_index"]
+FR1["isChecked"] = False 
+
+FR2={}
+FR2["friendrequests_id"] = 2
+FR2["fromAuthor_id"] = author1["author_id"]
+FR2["fromAuthorServer_id"] = server1["server_index"]
+FR2["toAuthor_id"] = author2["author_id"]
+FR2["toAuthorServer_id"] = server1["server_index"]
+FR2["isChecked"] = True 
 
 # Instances of Posts table
 

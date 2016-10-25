@@ -1,10 +1,13 @@
 from flask import Flask
-app = Flask(__name__)
+from Server.main import Main as server
 
-@app.route("/")
-def hello():
-    return "Hello World!"
 
 if __name__ == "__main__":
-    app.run()
+	"""
+	TODO: May have to add code for initializing the db
+	"""
+	
+	app = Flask(__name__)
+	myServer=server(app)
+    myServer.run()
 
