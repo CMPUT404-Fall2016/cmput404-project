@@ -63,7 +63,7 @@
             </a>
           </div>
           <div class="post-body media-body">
-            <h4 class="media-heading">Post Title</h4>
+            <h4 class="media-heading">Post Title: a sample post</h4>
             <a href="#">
               <p class="post-author">By Author</p>
             </a>
@@ -80,25 +80,29 @@
             </ul>
           </div>  
         </li>
-        <li class="list-group-item github-container media">
-          <div class="media-left">
-            <a href="#" class="github-dp">
-              <img src="https://github.com/stat3kk.png" class="media-object" height="55" width="55" alt="Github DP">
-            </a>
-          </div>
-          <div class="post-body media-body">
-            <h4 class="media-heading">Github Activity</h4>
-            <a href="#" class="github-repo">
-              <p class="">Repo Name</p>
-            </a>
-            <p class="github-message">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est accusamus reiciendis quaerat, earum deleniti placeat nostrum consectetur repellat provident rem, voluptas laudantium, voluptates tenetur deserunt perspiciatis unde aperiam ipsa nobis?
-            </p>
-          </div>
-        </li>
-        <li class="list-group-item media posts-stream-end">
+        <template id="github-container">
+          <li class="list-group-item media">
+            <div class="media-left">
+              <a href="#" class="github-dp">
+                <img src="https://github.com/stat3kk.png" class="media-object" height="55" width="55" alt="Github DP">
+              </a>
+            </div>
+            <div class="post-body media-body">
+              <h4 class="media-heading">Github Activity</h4>
+              <a href="#" class="github-repo-url">
+                <p class="github-repo-name">Repo Name</p>
+              </a>
+              <p class="github-message">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est accusamus reiciendis quaerat, earum deleniti placeat nostrum consectetur repellat provident rem, voluptas laudantium, voluptates tenetur deserunt perspiciatis unde aperiam ipsa nobis?
+              </p>
+            </div>
+          </li>
+        </template>
+        <template class="posts-stream-end">
+          <li class="list-group-item media">
           <span>No More Posts ):</span>
         </li>
+        </template>
       </ol>
 
     </div>
@@ -109,6 +113,7 @@
 </footer> -->
 
 <script src="../scripts/navbar-load.js"></script>
+<script src="../scripts/github.js"></script>
 
 </body>
 </html>
