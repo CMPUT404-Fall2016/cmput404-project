@@ -68,4 +68,4 @@ class Comments(db.Model):
     def __repr__(self):
         return '<User %r>' % (self.comment_text)
 
-db.create_all()
+# db.create_all()
