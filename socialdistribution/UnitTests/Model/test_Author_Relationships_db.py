@@ -35,7 +35,7 @@ class test_Author_Relationships(unittest.TestCase):
         self.AR2=Author_Relationships(AR2)
         self.assertTrue(self.AR2 != None), "Should not return None!"
         self.matchFields(AR2, self.AR2)
-        self.assertTrue(self.AR2.insert() != False), "Should return True"
+        self.assertTrue(self.AR2.insert()), "Should return True"
 
         self.AR1=Author_Relationships(AR1)
         self.assertTrue(self.AR1 != None), "Should not return None!"

@@ -30,7 +30,7 @@ class Authors(db.Model):
     
     numberOf_friendRequests = db.Column(db.Integer)
     
-    posts = db.relationship('Posts', backref = 'person', lazy = 'dynamic')
+    posts = db.relationship('Posts', backref = 'authors', lazy = 'dynamic')
     
     
     def __new__(cls, datum=None):

@@ -86,7 +86,7 @@ class Friend_Requests(db.Model):
 
 
     @staticmethod
-    def query(self, query_param):
+    def query(query_param):
         """
         query param is a dictionary containing query information.
         
