@@ -9,11 +9,13 @@ $(document).ready(function() {
   var processEvents = function (json) {
     var result = JSON.parse(json);
     // var 30days = new Date().setDate(today.getDate()-30)
-    for(var i=0; i < 5; ++i) {
+    for(var i=0; i < result.length; ++i) {
+      var repo = "https://github.com/" + result[i].repo.name;
+      githubContainer.content.querySelector(".github-type").innerHTML = result[i].type;
       githubContainer.content.querySelector(".github-dp").href = result[i].actor.url;
-      githubContainer.content.querySelector(".github-repo-url").href = result[i].repo.url;
-      githubContainer.content.querySelector(".github-repo-name").innerHTML = result[i].repo.name;
-      
+      githubContainer.content.querySelector(".github-repo-url").href = repo;
+      githubContainer.content.querySelector(".github-repo-url").innerHTML = repo;
+      githubContainer.content.querySelector(".github-date").innerHTML = result[i].created_at;
       var clone = document.importNode(githubContainer.content, true);
       postContainer.appendChild(clone);
     }
