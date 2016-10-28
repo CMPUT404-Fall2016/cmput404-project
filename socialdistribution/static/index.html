@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Rad Site</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../static/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="navbar"></div>
+<!-- main page content -->
+<div class="container" id="page-container">
+  <div class="row">
+
+    <!-- dashboard left   -->
+    <div class="col-sm-4 col-lg-3 text-center">
+      <div class="well well-sm">
+        <img src="../sample_data/kitten.jpg" class="img-thumbnail" height="120" width="120" alt="Avatar">
+      </div>
+      <!-- friend/follower buttons -->
+      <div class="list-group">
+        <a href="#" class="list-group-item active"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> My Stream</a>
+        <a href="#" class="list-group-item"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Following</a>
+        <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Followers</a>
+        <a href="#" class="list-group-item"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Friends</a>
+      </div>      
+    </div>
+
+    <!-- main page content -->
+    <div class="col-sm-8 col-lg-7 content-main well well-sm">
+      
+      <!-- form for creating a post -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default text-left">
+            <div class="panel-body">
+              <form role="form">
+              <fieldset>
+                <div class="form-group">
+                  <textarea class="form-control" id="post-textarea" rows="3" placeholder="What's going on?"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="btn btn-default btn-file"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Add Image 
+                    <input type="file" style="display: none;">
+                  </label>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ol id="posts" class="list-group">
+        <li class="list-group-item post-container media">
+          <div class="media-left">
+            <a href="#" class="post-author-dp">
+              <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
+            </a>
+          </div>
+          <div class="post-body media-body">
+            <h4 class="media-heading">Post Title: a sample post</h4>
+            <a href="#">
+              <p class="post-author">By Author</p>
+            </a>
+            <p class="post-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+            </p>
+            <ul class="list-inline list-unstyled">
+              <li class="like-button">
+                <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+              </li>
+              <li class="comments-button">
+                <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+              </li>
+            </ul>
+          </div>  
+        </li>
+        <template id="github-container">
+          <li class="list-group-item media">
+            <div class="media-left">
+              <a href="#" class="github-dp">
+                <img src="https://github.com/stat3kk.png" class="media-object" height="55" width="55" alt="Github DP">
+              </a>
+            </div>
+            <div class="post-body media-body">
+              <h5 class="media-heading github-type">Activity Type</h5>
+              <a href="#" class="github-repo-url">Repo Name</a>
+              <p class="github-date">
+              </p>
+            </div>
+          </li>
+        </template>
+        <template class="posts-stream-end">
+          <li class="list-group-item media">
+          <span>No More Posts ):</span>
+        </li>
+        </template>
+      </ol>
+
+    </div>
+  </div>
+</div>
+
+<!-- <footer class="container-fluid text-center">
+</footer> -->
+<script src="../scripts/login-check.js"></script>
+<script src="../scripts/navbar-load.js"></script>
+<script src="../scripts/github.js"></script>
+
+</body>
+</html>
