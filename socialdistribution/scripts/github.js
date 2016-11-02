@@ -3,9 +3,9 @@ $(document).ready(function() {
   // this is the author's github_username, empty string if there isn't one
   var github_name = "";
 
-  //debug
+  // searches cookies for a github_username
+  // debug
   // document.cookie = "github_name=stat3kk; expires=Thu, 18 Dec 2018 12:00:00 UTC";
-
   (function getGithubUsername() {
     // look for the github_name in cookies
     var cookies = document.cookie.split(";");
@@ -28,10 +28,9 @@ $(document).ready(function() {
     // });
   })();
 
-  var github_url = "https://api.github.com/users/" + github_name + "/events";
-
-  var postContainer = document.getElementById("posts");
-  var githubContainer = document.getElementById("github-container");
+  var github_url = "https://api.github.com/users/" + github_name + "/events",
+      sidebar = document.getElementById("github"),
+      githubTemplate = document.getElementById("github-container");
 
   // standard AJAX request
   function sendAJAX(method, url, message, callback) {
@@ -45,11 +44,14 @@ $(document).ready(function() {
               callback(xhr.responseText);
             }
           }
-        } 
+        }
         catch(e) {
           alert('Error: ' + e.name);
         }
       }
+    }
+    if(message) {
+      xhr.setHeader("Content-Type", "application/json");
     }
     xhr.send(JSON.stringify(message));
   }
@@ -62,15 +64,15 @@ $(document).ready(function() {
         var repo_url = "https://github.com/" + result[i].repo.name;
 
         // fill the container with details
-        githubContainer.content.querySelector(".github-type").innerHTML = result[i].type;
-        githubContainer.content.querySelector(".github-dp").href = result[i].actor.url;
-        githubContainer.content.querySelector(".github-repo-url").href = repo_url;
-        githubContainer.content.querySelector(".github-repo-url").innerHTML = repo_url;
-        githubContainer.content.querySelector(".github-date").innerHTML = result[i].created_at;
-        
+        githubTemplate.content.querySelector(".github-type").innerHTML = result[i].type;
+        githubTemplate.content.querySelector(".github-dp").href = result[i].actor.url;
+        githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
+        githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
+        githubTemplate.content.querySelector(".github-date").innerHTML = result[i].created_at;
+
         // clone the template to render and append to the dom
-        var clone = document.importNode(githubContainer.content, true);
-        postContainer.appendChild(clone);
+        var clone = document.importNode(githubTemplate.content, true);
+        sidebar.appendChild(clone);
       }
     });
   }

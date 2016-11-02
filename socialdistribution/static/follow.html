@@ -7,65 +7,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+
     <link href="css/follow.css" rel="stylesheet">
-    
-    <!-- get this shit outta here -->
-    <style>
-      /* Set black background color, white text and some padding */
-      footer {
-        background-color: #555;
-        color: white;
-        padding: 15px;
-      }
-    </style>
-          
+
   </head>
   <body>
-    
-    <!-- move this to a separate html file and load with JS -->
-    <nav id="navbarfixtop" class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Logo</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
-            <li><a href="#">Messages?</a></li>
-          </ul>
-          <form class="navbar-form navbar-right" role="search">
-            <div class="form-group input-group">
-              <input type="text" class="form-control" placeholder="Search..">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">
-                    <span class="glyphicon glyphicon-search"></span>
-                  </button>
-                </span>
-                </div>
-          </form>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> My Account <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Friend Requests</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Settings</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="index.html">Logout</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- move this to a separate html file and load with JS -->
-    
+    <div id="navbar"></div>
     <div class="container text-center" id="toppadding">
       <div class="row">
         <div class="col-sm-3 well">
@@ -76,64 +23,39 @@
           <div class="list-group">
             <a href="index.html" class="list-group-item active"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> My Stream</a>
             <a href="follow.html" class="list-group-item"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Friends</a>
-            
+
           </div>
         </div>
         <div class="col-sm-7">
-          
+
           <div class="row">
             <div class="col-sm-12">
               <div class="panel panel-default text-left">
                 <div class="panel-body">
-                  
-                  <!-- form for creating a post -->
-                  
-                    <!--<fieldset>
-                      <div class="list-group">
-                      <span>
-                        <div class="col-sm-3">
-                        <a href="sample.html" class="list-group-item active"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Following</a>
-                        </div>
-                        <div class="col-sm-3">
-                        <a href="follow.html" class="list-group-item"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Follower</a>
-                        </div>
-                        <div class="col-sm-3">
-                        <a href="follow.html" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Friends</a>
-                        </div>
-                        <div class="col-sm-3">
-                        <a href="follow.html" class="list-group-item"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> FOAF</a>
-                        </div>
-                      </span>
-                      </div>
-                    </fieldset>-->
-                    
-                    <ul class="nav nav-tabs">
-                        <li><a href="#following" class="list-group-item active"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Following</a></li>
-                        
-                        <li><a href="#follower" class="list-group-item"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Follower</a></li>
-                
-                        <li><a href="#friends" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Friends</a></li>
-                
-                        <li><a href="#foaf" class="list-group-item"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> FOAF</a></li>
-                    </ul>
-                
 
+                  <ul class="nav nav-tabs">
+                    <li><a href="#following" class="list-group-item active"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Following</a></li>
+
+                    <li><a href="#follower" class="list-group-item"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Follower</a></li>
+
+                    <li><a href="#friends" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Friends</a></li>
+
+                    <li><a href="#foaf" class="list-group-item"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> FOAF</a></li>
+                  </ul>
 
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div class="tab-content">
-          <!--<div class="row">-->
-            
             <div id="following" class="tab-pane fade in active">
                 <div class="col-sm-6">
                     <div class="well">
                         <div class="row">
                             <div class="col-sm-6">
                                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    
+
                                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>following</p></a>
                                     </div>
                             <div class="col-sm-6">
@@ -165,14 +87,14 @@
 
             </div>
 
-            
+
             <div id="follower" class="tab-pane fade">
                 <div class="col-sm-6">
                     <div class="well">
                         <div class="row">
                             <div class="col-sm-6">
                                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    
+
                                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>follower</p></a>
                                     </div>
                             <div class="col-sm-6">
@@ -203,14 +125,14 @@
                 </div>
 
             </div>
-            
+
             <div id="friends" class="tab-pane fade">
                 <div class="col-sm-6">
                     <div class="well">
                         <div class="row">
                             <div class="col-sm-6">
                                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    
+
                                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>friends</p></a>
                                     </div>
                             <div class="col-sm-6">
@@ -241,14 +163,14 @@
                 </div>
 
             </div>
-            
+
             <div id="foaf" class="tab-pane fade">
                 <div class="col-sm-6">
                     <div class="well">
                         <div class="row">
                             <div class="col-sm-6">
                                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    
+
                                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf1</p></a>
                                     </div>
                             <div class="col-sm-6">
@@ -283,7 +205,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -319,7 +241,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -355,7 +277,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -391,7 +313,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -427,7 +349,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -463,7 +385,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -499,7 +421,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -535,7 +457,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -571,7 +493,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -607,7 +529,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -643,7 +565,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -679,7 +601,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -715,7 +637,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -751,7 +673,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -787,7 +709,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -823,7 +745,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -859,7 +781,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -895,7 +817,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    
+
                     <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
                     </div>
             <div class="col-sm-6">
@@ -932,12 +854,9 @@
         </div>
       </div>
     </div>
-    
-    <!--<footer class="container-fluid text-center">
-      <p>Footer Text</p>
-    </footer>-->
-    
     <script src="tabs.js"></script>
-    
+    <script src="../scripts/navbar-load.js"></script>
+
+    </script>
   </body>
 </html>
