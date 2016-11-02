@@ -18,7 +18,7 @@ class Author_Relationships(db.Model):
     
     author2_id = db.Column(db.Integer)
     
-    relationship_type = db.Column(db.Integer)
+    relationship_type = db.Column(db.Integer) # if 1, author1 is following author 2, if 2 then author2 is following author1, if 3 then both are friends
 
     db.PrimaryKeyConstraint(authorServer1_id, author1_id)
     db.PrimaryKeyConstraint(authorServer2_id, author2_id)
@@ -148,11 +148,60 @@ class Author_Relationships(db.Model):
 
         7) query_param={} // This gives back all the rows
 
+        8) query_param["author_ids"]=[author1_id, author2_id] #Add test later
+
+        9) query_param["server_author_id1"]=[server1_index, author1_id]
+
+        10) query_param["server_author_id2"]=[server2_index, author2_id]
+
+        11) query_param["server_author_id1"]=[server1_index, author1_id]
+            query_param["server_author_id2"]=[server2_index, author2_id]
+
         """
 
         
         if query_param=={}:
             return db.session.query(Author_Relationships).all()
+
+
+        if "author_ids" in query_param.keys():
+            author1_id, author2_id = query_param["author_ids"]
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
+                                                                  Author_Relationships.author2_id == author2_id,
+                                                                  ).all()
+
+            return results
+
+
+        if "server_author_id1" and "server_author_id2" in query_param.keys():
+            server1_id, author1_id = query_param["server_author_id1"]
+            server2_id, author2_id = query_param["server_author_id2"]
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
+                                                                  Author_Relationships.author2_id == author2_id,
+                                                                  Author_Relationships.authorServer1_id == server1_id,
+                                                                  Author_Relationships.authorServer2_id == server2_id,
+                                                                  ).all()
+
+            return results
+
+
+        if "server_author_id1" in query_param.keys():
+            server1_id, author1_id = query_param["server_author_id1"]
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
+                                                                  Author_Relationships.authorServer1_id == server1_id,
+                                                                  ).all()
+
+            return results
+
+
+        if "server_author_id2" in query_param.keys():
+            server2_id, author2_id = query_param["server_author_id2"]
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2_id,
+                                                                  Author_Relationships.authorServer2_id == server2_id,
+                                                                  ).all()
+
+            return results
+
 
         if "server_author_1" and "server_author_2" in query_param.keys():
             server1, author1 = query_param["server_author_1"]
@@ -220,4 +269,5 @@ class Author_Relationships(db.Model):
             return results
 
 
+        return None
     # _ANS = query.__func__()

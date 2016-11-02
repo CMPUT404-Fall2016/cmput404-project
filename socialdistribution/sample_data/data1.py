@@ -94,7 +94,7 @@ AR2["authorServer2_id"] = server2["server_index"]
 # Suppose there are 2 identical accounts on 2 servers, eg both have author1
 AR2["author1_id"] = author1["author_id"]
 AR2["author2_id"] = author1["author_id"]
-AR2["relationship_type"] = 2 # Both authors are friends (mutually following)
+AR2["relationship_type"] = 3 # Both authors are friends (mutually following)
 
 author_relationships=[AR1, AR2]
 

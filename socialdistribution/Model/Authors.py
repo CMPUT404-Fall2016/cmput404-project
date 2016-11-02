@@ -9,6 +9,8 @@ class Authors(db.Model):
     __tablename__ = 'authors'
     
     author_id = db.Column(db.Integer, primary_key=True)
+
+    github_id = db.Column(db.String(200)) #Test cases later
     
     name = db.Column(db.String(60))
     
@@ -112,6 +114,9 @@ class Authors(db.Model):
             self.numberOf_friendRequests = datum["numberOf_friendRequests"]
         else:
             self.numberOf_friendRequests = 0
+
+        if "github_id" in datum.keys():
+            self.github_id = datum["github_id"]
 
 
     def __repr__(self):

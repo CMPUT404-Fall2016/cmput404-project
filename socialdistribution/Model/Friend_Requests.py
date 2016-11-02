@@ -12,12 +12,15 @@ class Friend_Requests(db.Model):
     fromAuthor_id = db.Column(db.Integer)
     
     fromAuthorServer_id = db.Column(db.Integer)
+
+    fromAuthorDisplayName = db.Column(db.String(64))
     
     toAuthor_id = db.Column(db.Integer)
     
     toAuthorServer_id = db.Column(db.Integer)
     
     isChecked = db.Column(db.Boolean)
+
 
     db.PrimaryKeyConstraint(fromAuthorServer_id, fromAuthor_id)
     db.PrimaryKeyConstraint(toAuthorServer_id, toAuthor_id)
