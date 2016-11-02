@@ -64,7 +64,13 @@ var uploadImage = function(src, name, type){
 };
 
 uploadImage(imgsrc, name, 'image/jpeg');
-var postFormData = document.getElementById("post-form");
-var JSONobj = {"title:":
+var postForm = document.getElementById("post-form"),
+    data = [],
+    JSONobj = {
+      "title":postForm.elements["title"].value,
+      "description":postForm.elements["desc"].value,
+      "contentType":postForm.elements["text-type"].value;
+
+
 
 }

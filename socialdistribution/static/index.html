@@ -4,8 +4,8 @@
   <title>Rad Site</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="../static/style.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -17,23 +17,25 @@
 
     <!-- profile sidebar -->
     <div class="col-sm-4 col-lg-3 text-center">
-      <div class="well well-sm">
-        <img src="../sample_data/kitten.jpg" class="img-thumbnail" height="120" width="120" alt="Avatar">
-        <div class="list-group">
-          <a href="#" class="list-group-item active"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> My Stream</a>
-          <a href="#" class="list-group-item"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Following</a>
-          <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Followers</a>
-          <a href="#" class="list-group-item"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Friends</a>
-        </div>
+      <div class="panel">
+        <a href="#" class="thumbnail" id="author-dp">
+          <img src="../sample_data/kitten.jpg" alt="profile pic">
+        </a>
+        <h4>Display Name</h4>
+        <ul class="nav nav-pills nav-justified">
+          <li><a href="follow.html">Following</a></li>
+          <li><a href="#">Followers</a></li>
+          <li><a href="#">Friends</a></li>
+        </ul>
       </div>
     </div>
 
     <!-- middle content -->
-    <div class="col-sm-8 col-lg-6 content-main well well-sm">
+    <div class="col-sm-8 col-lg-6 content-main">
       <!-- form for creating a post -->
       <div class="panel panel-default text-left">
         <div class="panel-body">
-          <form enctype="application/json" method="post" action="" id="post-form">
+          <form method="post" action="" id="post-form">
             <fieldset>
               <div class="form-group">
                 <input type="text" class="form-control" name="title" placeholder="Post title">
@@ -50,20 +52,45 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">Add Image</label>
-                <input type="file" name="post-image">
+                <input type="file" name="image">
               </div>
-              <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Post</button>
             </fieldset>
           </form>
         </div>
       </div>
       <!-- list group for holding posts -->
-      <ol id="posts" class="list-group"></ol>
+      <ol id="posts" class="list-group">
+        <li class="list-group-item post-container media">
+          <div class="media-left">
+            <a href="#" class="post-author-dp">
+              <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
+            </a>
+          </div>
+          <div class="post-body media-body">
+            <h4 class="media-heading">Post Title: a sample post</h4>
+            <a href="#">
+              <p class="post-author">By Author</p>
+            </a>
+            <p class="post-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+            </p>
+            <ul class="list-inline list-unstyled">
+              <li class="like-button">
+                <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+              </li>
+              <li class="comments-button">
+                <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ol>
     </div>
 
     <!-- github sidebar -->
     <div class="hidden-sm col-lg-3 text-center">
-      <div class="well well-sm">
+      <div class="">
         <ol id="github" class="list-group">
         </ol>
       </div>
@@ -105,7 +132,7 @@
   <li class="list-group-item media">
     <div class="media-left">
       <a href="#" class="github-dp">
-        <img src="https://github.com/stat3kk.png" class="media-object" height="55" width="55" alt="Github DP">
+        <img src="https://github.com/stat3kk.png" class="media-object" height="50" width="50" alt="Github DP">
       </a>
     </div>
     <div class="post-body media-body">
@@ -126,9 +153,9 @@
 
 <!-- <footer class="container-fluid text-center">
 </footer> -->
-<script src="../scripts/login-check.js"></script>
-<script src="../scripts/navbar-load.js"></script>
-<script src="../scripts/github.js"></script>
-<script src="../scripts/post.js"></script>
+<script src="js/login-check.js"></script>
+<script src="js/navbar-load.js"></script>
+<script src="js/github.js"></script>
+<!-- <script src="js/post.js"></script> -->
 </body>
 </html>
