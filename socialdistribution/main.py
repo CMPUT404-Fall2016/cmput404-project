@@ -6,6 +6,7 @@ app.debug = True
 
 
 @app.route('/login.html')
+@app.route('/')
 def login():
     return app.send_static_file('login.html')
 
@@ -15,6 +16,8 @@ def start():
     return app.send_static_file('index.html')
 
 
+@app.route('/profile.html')
+def return ap.send_static_file('profile.html')
 
 if __name__ == "__main__":
     app.run()
