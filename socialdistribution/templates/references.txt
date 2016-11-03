@@ -1,4 +1,1 @@
 references
-
-http://bootsnipp.com/snippets/featured/input-file-popover-preview-image
-http://www.w3schools.com/bootstrap/bootstrap_templates.asp
