@@ -17,7 +17,8 @@ def start():
 
 
 @app.route('/profile.html')
-def return ap.send_static_file('profile.html')
+def profile():
+    return app.send_static_file('profile.html')
 
 if __name__ == "__main__":
     app.run()
