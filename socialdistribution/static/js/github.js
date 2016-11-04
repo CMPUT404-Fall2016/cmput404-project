@@ -1,39 +1,28 @@
 $(document).ready(function() {
 
-  // this is the author's github_username, empty string if there isn't one
-  var github_name = "";
-
   // searches cookies for a github_username
   // debug
   // document.cookie = "github_name=stat3kk; expires=Thu, 18 Dec 2018 12:00:00 UTC";
-  (function getGithubUsername() {
+  function getGithubUsername() {
     // look for the github_name in cookies
     var cookies = document.cookie.split(";");
     for(var i=0; i < cookies.length; i++) {
       var gname = cookies[i].split("=");
       if(gname[0] == "github_name") {
-        github_name = gname[1];
-        return;
+        return = gname[1];
       }
     }
-    // // if not found, query the DB for it
-    // sendAJAX("GET", "http://service/author/github_username", "", function(text) {
-    //   username = JSON.parse(text);
-    //   console.log(username);
-    //   if(username) {
-    //     return username;
-    //   } else {
-    //     return "";
-    //   }
-    // });
-  })();
+    return "";
+  }
 
-  var github_url = "https://api.github.com/users/" + github_name + "/events",
+  // this is the author's github_username, empty string if there isn't one
+  var github_name = localStorage.getItem("github_username"),
+      github_url = "https://api.github.com/users/" + github_name + "/events",
       sidebar = document.getElementById("github"),
       githubTemplate = document.getElementById("github-container");
 
   // standard AJAX request
-  function sendAJAX(method, url, message, callback) {
+  function sendAJAX(method, url, message, session_id, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, url);
     xhr.onreadystatechange = function(){
@@ -41,7 +30,7 @@ $(document).ready(function() {
         try {
           if (xhr.status==200) {
             if(callback) {
-              callback(xhr.responseText);
+              callback(JSON.parse(xhr.responseText));
             }
           }
         }
@@ -59,8 +48,7 @@ $(document).ready(function() {
   // get the events and process them to be displayed in github-containers
   if(github_name) {
     sendAJAX("GET", github_url, "", function(events) {
-      var result = JSON.parse(events);
-      for(var i=0; i < result.length; ++i) {
+      for(var i=0; i < events.length; ++i) {
         var repo_url = "https://github.com/" + result[i].repo.name;
 
         // fill the container with details
