@@ -1,15 +1,11 @@
 import flask
 from flask import Flask, request, render_template
 import json
-<<<<<<< HEAD
 
 
-from Server.main import *
-
-=======
 import init_location
 from Server.main import *
->>>>>>> c3ad5fb4ebdb06c6ee253e7bf1bd63d9793dcf64
+
 
 #app = Flask(__name__, static_url_path='')
 app.debug = True
