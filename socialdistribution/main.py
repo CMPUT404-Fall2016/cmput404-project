@@ -24,4 +24,6 @@ def profile():
     return app.send_static_file('profile.html')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
+    myServer=server(app)
+    myServer.run(debug=True)
