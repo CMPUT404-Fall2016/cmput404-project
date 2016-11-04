@@ -80,9 +80,7 @@
       </div>
     </div>
   </div>
-  
-  <template id="post-container">
-    <!--<li class="list-group-item post-container media">
+      <!--<li class="list-group-item post-container media">
       <div class="media-left">
         <a href="#" class="post-author-dp">
           <img src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
@@ -93,56 +91,38 @@
       <div class="media-body">
         <button id="friend-accept" onclick="" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p></a>
       </div>
-    </li>
-    <div class="col-sm-12">
-      <div class="well">
-        <div class="row">
-          <div class="col-sm-6">
-            <a href="#" class="post-author-dp">
-              <img src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
-            </a>
-              
-            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p id="user2name"> Profile</p> </a>
-          </div>
-          <div class="col-sm-6">
-            
-            <button id="friend-accept" onclick="" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p></a>
-                
-          </div>
-        </div>
-      </div>-->
+    </li>-->
       
+  <template id="post-container" class="follow-container">
+    <div class="container-counter">
       <li class="list-group-item post-container media">
       <!--<div class="col-sm-12">-->
       
-      
-            <div class="col-sm-3">
+        <div class="media-left">
+
               <h4></h4>
               <a href="#" class="post-author-dp">
-                <img src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+                <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
               </a>
               <h4></h4>
-            </div>
-            
-            <div class="col-sm-4">
-            
-            <div class="col-sm-4">
-              <h4></h4>
-              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p id="user2name"> Profile</p>
-              </a>
-              <h4></h4>
-            </div>
-            
-            <div class="col-sm-3">
-              <h4></h4>
-              <button id="friend-accept" onclick="" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Follow</p>
-              </button>
-              <h4></h4>
-            </div>
-          
-        
+
+        </div>
+
+        <div class="media-body">
+
+          <h4>
+            <a href="#" id="profilepageusername">
+              <span id="thisusername">Profile</span>
+            </a>
+          </h4>
+
+          <a href="" id="friend-accept" onclick="thisisatest(); return false;" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Follow</p>
+          </a>
+
+        </div>
      
       </li>
+    </div>
   </template>
   
   <script src="tabs.js"></script>
