@@ -1,10 +1,14 @@
 import flask
 from flask import Flask, request, render_template
 import json
+<<<<<<< HEAD
 import Server.main
 import init_location
+=======
+from Server.main import *
+>>>>>>> 35ce85bb0d0989a480ee61cee6c5483e7a379515
 
-app = Flask(__name__, static_url_path='')
+#app = Flask(__name__, static_url_path='')
 app.debug = True
 
 
@@ -25,5 +29,6 @@ def profile():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    myServer=server(app)
-    myServer.run(debug=True)
+#     myServer=server(app)
+#     myServer.run(debug=True)
+    
