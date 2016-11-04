@@ -1,3 +1,3 @@
 $(document).ready(function(){
-  $('#navbar').load('../static/navbar.html');
+  $('#navbar').load('/navbar.html');
 });

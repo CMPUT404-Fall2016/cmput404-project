@@ -13,14 +13,8 @@
   <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="css/landing-page.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -42,47 +36,44 @@
 
           <ul class="nav nav-pills nav-justified">
             <li class="active"><a data-toggle="pill" href="#login">Login</a></li>
-            <li><a data-toggle="pill" href="#create">Create Account</a></li>
+            <li><a data-toggle="pill" href="#register">Register</a></li>
           </ul>
 
           <div class="tab-content">
             <div id="login" class="tab-pane fade in active">
-              <form role="form" action="" method="post">
+              <form role="form" id="login-form" action="" method="post">
                 <fieldset>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username" required>
+                    <input type="text" class="form-control" name="username" placeholder="Username" required maxlength="16" pattern="[a-zA-Z0-9]" title="alphanumeric characters only">
                   </div>
                   <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Password" required>
+                    <input type="password" class="form-control" name="password" placeholder="Password" required maxlength="25">
                   </div>
                   <button class="btn btn-success">Login</button>
                 </fieldset>
               </form>
             </div>
-            <div id="create" class="tab-pane fade">
-              <form id="tab" action="" method="">
+            <div id="register" class="tab-pane fade">
+              <form role="form" id="register-form" action="/register" method="post">
                 <div class="form-group">
-                  <input type="text" class="form-control" name="username" placeholder="Username (for logging in)" required>
+                  <input type="text" class="form-control" name="username" placeholder="Username (up to 16 characters alphanumeric)" required pattern="[a-zA-Z0-9]" maxlength="16" title="alphanumeric characters only">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" name="password" placeholder="Password" required>
+                  <input type="text" class="form-control" name="displayName" placeholder="Display Name (up to 16 characters alphanumeric)" required pattern="[a-zA-Z0-9]" maxlength="16" title="alphanumeric characters only">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password" required>
+                  <input type="password" class="form-control" name="password" placeholder="Password" required id="password" maxlength="25">
                 </div>
-                <button class="btn btn-primary">Create Account</button>
+                <div class="form-group">
+                  <input type="password" class="form-control" name="confirm" placeholder="Confirm Password" required id="confirm" maxlength="25">
+                </div>
+                <div class="alert alert-danger hidden" id="match-alert" role="alert">
+                    Passwords do not match.
+                </div>
+                <button type="submit" class="btn btn-primary" id="create">Create Account</button>
               </form>
             </div>
           </div>
-
-          <!--<div class="tab-content">
-            <div id="login" class="tab-pane fade in active">
-
-            </div>
-            <div id="create" class="tab-pane fade">
-
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -90,5 +81,9 @@
   <div id="credit">
     Photo by <a href="https://unsplash.com/@jtc">Jesse Collins</a>
   </div>
+
+  <script src="/js/login.js"></script>
+
+
 </body>
 </html>
