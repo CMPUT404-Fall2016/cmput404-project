@@ -7,15 +7,15 @@ class Friend_Requests(db.Model):
 
     __tablename__ = 'friend_requests'
     
-    friendrequests_id = db.Column(db.Integer, unique=True, primary_key = True)
+    friendrequests_id = db.Column(db.String(33), unique=True, primary_key = True)
     
-    fromAuthor_id = db.Column(db.Integer)
+    fromAuthor_id = db.Column(db.String(33))
     
     fromAuthorServer_id = db.Column(db.Integer)
 
     fromAuthorDisplayName = db.Column(db.String(64))
     
-    toAuthor_id = db.Column(db.Integer)
+    toAuthor_id = db.Column(db.String(33))
     
     toAuthorServer_id = db.Column(db.Integer)
     

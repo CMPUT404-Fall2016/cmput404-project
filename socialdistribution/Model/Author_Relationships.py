@@ -8,15 +8,19 @@ class Author_Relationships(db.Model):
     __tablename__ = 'author_relationships'
 
     # AuthorRelationship_id = db.Column(db.Integer, primary_key=True)
-    AuthorRelationship_id = db.Column(db.Integer)
+    AuthorRelationship_id = db.Column(db.String(33))
     
     authorServer1_id = db.Column(db.Integer)
     
-    author1_id = db.Column(db.Integer)
+    author1_id = db.Column(db.String(33))
     
+    author1_name = db.Column(db.String(60))
+
     authorServer2_id = db.Column(db.Integer)
     
-    author2_id = db.Column(db.Integer)
+    author2_id = db.Column(db.String(33))
+
+    author2_name = db.Column(db.String(60))
     
     relationship_type = db.Column(db.Integer) # if 1, author1 is following author 2, if 2 then author2 is following author1, if 3 then both are friends
 
@@ -65,7 +69,10 @@ class Author_Relationships(db.Model):
         self.authorServer1_id = datum['authorServer1_id']
         self.authorServer2_id = datum['authorServer2_id']
         self.relationship_type = datum['relationship_type']
-
+        if "author1_name" in datum.keys():
+            self.author1_name = datum["author1_name"]
+        if "author2_name" in datum.keys():
+            self.author2_name = datum["author2_name"]
 
 
     def insert(self):
@@ -150,9 +157,9 @@ class Author_Relationships(db.Model):
 
         8) query_param["author_ids"]=[author1_id, author2_id] #Add test later
 
-        9) query_param["server_author_id1"]=[server1_index, author1_id]
+        9) query_param["server_author_id1"]=[server1_index, author1_id, type]
 
-        10) query_param["server_author_id2"]=[server2_index, author2_id]
+        10) query_param["server_author_id2"]=[server2_index, author2_id, type]
 
         11) query_param["server_author_id1"]=[server1_index, author1_id]
             query_param["server_author_id2"]=[server2_index, author2_id]
@@ -173,7 +180,7 @@ class Author_Relationships(db.Model):
             return results
 
 
-        if "server_author_id1" and "server_author_id2" in query_param.keys():
+        if "server_author_id1" in query_param.keys() and "server_author_id2" in query_param.keys():
             server1_id, author1_id = query_param["server_author_id1"]
             server2_id, author2_id = query_param["server_author_id2"]
             results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
@@ -186,18 +193,20 @@ class Author_Relationships(db.Model):
 
 
         if "server_author_id1" in query_param.keys():
-            server1_id, author1_id = query_param["server_author_id1"]
+            server1_id, author1_id, relationship_type = query_param["server_author_id1"]
             results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
                                                                   Author_Relationships.authorServer1_id == server1_id,
+                                                                  Author_Relationships.relationship_type == relationship_type
                                                                   ).all()
 
             return results
 
 
         if "server_author_id2" in query_param.keys():
-            server2_id, author2_id = query_param["server_author_id2"]
+            server2_id, author2_id, relationship_type = query_param["server_author_id2"]
             results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2_id,
                                                                   Author_Relationships.authorServer2_id == server2_id,
+                                                                  Author_Relationships.relationship_type == relationship_type
                                                                   ).all()
 
             return results

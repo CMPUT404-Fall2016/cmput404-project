@@ -4,7 +4,7 @@
 
 CREATE TABLE Posts
 (
-    post_id int,
+    post_id varchar(33),
     title varchar(64),
     text varchar(800),
     creation_time datetime,
@@ -22,8 +22,8 @@ CREATE TABLE Posts
 
 CREATE TABLE Comments
 (
-    comment_id int,
-    post_id int,
+    comment_id varchar(33),
+    post_id varchar(33),
     text varchar(800),
     creation_time datetime,
     PRIMARY KEY (comment_id),
@@ -37,9 +37,9 @@ CREATE TABLE Comments
 
 CREATE TABLE Images
 (
-    image_id int,
-    post_id int,
-    comment_id int,
+    image_id varchar(33),
+    post_id varchar(33),
+    comment_id varchar(33),
     image BLOB,
     PRIMARY KEY (image_id),
     FOREIGN KEY (post_id) REFERENCES Posts(post_id),
@@ -52,9 +52,9 @@ CREATE TABLE Images
 
 CREATE TABLE URL
 (
-    URL_id int,
-    post_id int,
-    comment_id int,
+    URL_id varchar(33),
+    post_id varchar(33),
+    comment_id varchar(33),
     URL_link varchar(2048),
     type int,
     PRIMARY KEY (URL_id),
@@ -68,7 +68,7 @@ CREATE TABLE URL
 
 CREATE TABLE Authors
 (
-    author_id int,
+    author_id varchar(33),
     name varchar(60),
     login_name varchar(60),
     password varchar(30),
@@ -89,10 +89,10 @@ CREATE TABLE Authors
 
 CREATE TABLE Author_Relationships
 (
-    AuthorRelationship_id int,
-    author1_id int,
+    AuthorRelationship_id varchar(33),
+    author1_id varchar(33),
     authorServer1_id int,
-    author2_id int,
+    author2_id varchar(33),
     authorServer2_id int,
     type int,
     PRIMARY KEY (AuthorRelationship_id),
@@ -106,10 +106,10 @@ CREATE TABLE Author_Relationships
 
 CREATE TABLE Friend_Requests
 (
-    friendRequest_id int,
-    fromAuthor_id int,
+    friendRequest_id varchar(33),
+    fromAuthor_id varchar(33),
     fromAuthorServer_index int,
-    toAuthor_id int,
+    toAuthor_id varchar(33),
     toAuthorServer_index int,
     isChecked boolean,
     PRIMARY KEY (friendRequest_id),
@@ -130,8 +130,8 @@ CREATE TABLE Friend_Requests
 
 CREATE TABLE Servers
 (
-    server_id bigint,
-    IP varchar(40), //Designed for 128bit IPv6 addressing
+    server_id varchar(33),
+    IP varchar(100), //Designed for 128bit IPv6 addressing
     server_index int,
     PRIMARY KEY(server_id)
 );

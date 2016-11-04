@@ -1,4 +1,5 @@
 from db import db
+import uuid
 
 from Model.Author_Relationships import Author_Relationships
 from Model.Authors import Authors
@@ -11,13 +12,14 @@ from Model.URL import URL
 
 
 """
-__App_state is a global variable that contains important information about the state of the server. 
+APP_state is a global variable that contains important information about the state of the server. 
 
-__App_state['no_friend_Requests'] : Number of friend requests send to this server. Used for id'ing friend requests
-(MAYBE) ** __App_state['no_Authors'] : Number of Authors created on the server so far. Used for id'ing the authors **
+APP_state['no_friend_Requests'] : Number of friend requests send to this server. Used for id'ing friend requests
+(MAYBE) ** APP_state['no_Authors'] : Number of Authors created on the server so far. Used for id'ing the authors **
 """
-__App_state = {}
-db.create_all()
+APP_state = {}
+APP_state["session_ids"]={}
+APP_state["no_servers"] = 0
 
 def DELETE_ALL():
 	db.session.query(Author_Relationships).delete()
@@ -30,11 +32,30 @@ def DELETE_ALL():
 	db.session.query(URL).delete()
 
 
-def loadAppState():
-	pass
+def initAppState():
+	global APP_state
+	if "session_ids" not in APP_state.keys():
+		APP_state["session_ids"]={}
+
 
 def saveAppState():
 	pass
+
+def initServerObj():
+	server={}
+	server["server_id"] = uuid.uuid4().hex
+	server["IP"] = "http://127.0.0.1:5000"  
+	APP_state["no_servers"] += 1
+	server["server_index"] = 1
+	myServer=Servers(server)
+	APP_state['local_server_Obj'] = myServer
+	db.session.add(myServer)
+	db.session.commit()
+
+db.create_all()
+initServerObj()
+
+
 
 
 

@@ -8,7 +8,7 @@ class Authors(db.Model):
     
     __tablename__ = 'authors'
     
-    author_id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.String(33), primary_key=True)
 
     github_id = db.Column(db.String(200)) #Test cases later
     
@@ -75,12 +75,16 @@ class Authors(db.Model):
 
         if "name" in datum.keys():
             self.name = datum["name"]
+        else:
+            self.name = empty_string
 
         if "login_name" in datum.keys():
             self.login_name = datum["login_name"]
 
         if "password" in datum.keys():
             self.password = datum["password"]
+        else:
+            self.password = empty_string
 
         if "address" in datum.keys():
             self.address = datum["address"]
@@ -89,6 +93,8 @@ class Authors(db.Model):
 
         if "birthdate" in datum.keys():
             self.birthdate = datum["birthdate"]
+        else :
+            self.birthdate = None
 
         if "bio" in datum.keys():
             self.bio = datum["bio"]
@@ -117,6 +123,8 @@ class Authors(db.Model):
 
         if "github_id" in datum.keys():
             self.github_id = datum["github_id"]
+        else:
+            self.github_id = None
 
 
     def __repr__(self):
