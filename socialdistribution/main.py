@@ -1,6 +1,8 @@
 import flask
 from flask import Flask, request, render_template
 import json
+from Server import main as server
+
 app = Flask(__name__, static_url_path='')
 app.debug = True
 
@@ -21,4 +23,6 @@ def profile():
     return app.send_static_file('profile.html')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
+    myServer=server(app)
+    myServer.run(debug=True)
