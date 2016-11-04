@@ -37,10 +37,9 @@ function sendAJAX(method, url, message, session_id, callback) {
       }
     }
   }
-  if(message) {
-    xhr.setRequestHeader("Content-Type", "application/json");
-  }
-  xhr.send(JSON.stringify(message));
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  console.log(message);
+  xhr.send(message);
 }
 
 

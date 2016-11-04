@@ -1,6 +1,9 @@
 import flask
 from flask import Flask, request, render_template
 import json
+import Server.main
+import init_location
+
 app = Flask(__name__, static_url_path='')
 app.debug = True
 
