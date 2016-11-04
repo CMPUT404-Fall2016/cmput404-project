@@ -1,9 +1,9 @@
 import flask
 from flask import Flask, request, render_template
 import json
-from Server import main as server
+from Server.main import *
 
-app = Flask(__name__, static_url_path='')
+#app = Flask(__name__, static_url_path='')
 app.debug = True
 
 
@@ -24,5 +24,6 @@ def profile():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    myServer=server(app)
-    myServer.run(debug=True)
+#     myServer=server(app)
+#     myServer.run(debug=True)
+    
