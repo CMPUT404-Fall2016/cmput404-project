@@ -12,10 +12,10 @@ $(document).ready(function(){
 function checkPassword() {
     if (registerPassword.value != registerConfirm.value) {
       $("#match-alert").removeClass("hidden");
-      $("#create").prop("disabled", true);
+      $("#create-btn").prop("disabled", true);
     } else {
       $("#match-alert").addClass("hidden");
-      $("#create").prop("disabled", false);
+      $("#create-btn").prop("disabled", false);
     }
 }
 
@@ -45,7 +45,7 @@ function sendAJAX(method, url, message, session_id, callback) {
 
 
 // encodes the form data as a json object and sends AJAX request
-$("#create").click(function () {
+$("#create-btn").click(function () {
 
   var registerData = {}
   registerData["login_name"] = registerForm.elements["username"].value;
@@ -60,18 +60,50 @@ $("#create").click(function () {
 
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {
-      localStorage.setItem(author_id, response["author_id"]);
-      localStorage.setItem(display_name, response["display_name"]);
-      localStorage.setItem(github_username, response["github_username"]);
-      window.location.replace("/");
+      login(message);
 
-    // author exists in the database
-    } else if (response == "DUPLICATE") {
-      $("#duplicate-alert").className = "alert alert-danger alert-dismissible";
-
+    // author already exists
+    } else if (response["status"] == "DUPLICATE") {
+      $("#duplicate-alert").prop("disabled", false);
     // what the fuck man
     } else {
-      $("#server-alert").className = "alert alert-danger";
+      $("#server-alert").prop("disabled", false);
+    }
+  });
+});
+
+// stores commonly used data in local storage and redirects to index.html
+function login(data) {
+  localStorage.setItem(author_id, data["author_id"]);
+  localStorage.setItem(display_name, data["display_name"]);
+  localStorage.setItem(github_username, data["github_username"]);
+  window.location.replace("/");
+}
+
+$("#login-btn").click(function() {
+
+  var loginData = {};
+  loginData["login_name"] = $("#login-form").find("input[name='username']").val();
+  loginData["password"] = $("#login-form").find("input[name='password']").val();
+
+  var message = JSON.stringify(loginData);
+
+  // // debug
+  // console.log(message);
+  // return false;
+  sendAJAX("POST", "/login", message, function(response) {
+
+    // login is successful so log the user in
+    if(response["status"] == "SUCCESS") {
+      login(message);
+
+    // username or password is incorrect
+    } else if (response["status"] == "NO_MATCH") {
+      $("#incorrect-alert").prop("disabled", true);
+
+    // again, what the fUCK
+    } else {
+      $(".server-alert").prop("disabled");
     }
   });
 });
