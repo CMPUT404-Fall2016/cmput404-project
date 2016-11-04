@@ -22,7 +22,7 @@
           </a>
           <h4>Display Name</h4>
           <ul class="nav nav-pills nav-justified">
-            <li><a href="follow.html">Following</a></li>
+            <li><a href="profile.html">Following</a></li>
             <li><a href="#">Followers</a></li>
             <li><a href="#">Friends</a></li>
           </ul>
@@ -48,813 +48,189 @@
           </div>
         </div>
 
+        <!--</div>-->
         <div class="tab-content">
+          <!-- posts -->
           <div id="posts" class="tab-pane fade in active">
-              <div class="col-sm-6">
-                  <div class="well">
-                      <div class="row">
-                          <div class="col-sm-6">
-                              <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                                  <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>following</p></a>
-                                  </div>
-                          <div class="col-sm-6">
-                              <div class="dropdown">
-                                  <div class="well2">
-                                      <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                       Dropdown
-                                       <span class="caret"></span>
-                                       </button>-->
-                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                      <ul class="dropdown-menu">
-                                          <li><a href="#">Profile</a></li>
-                                          <li class="divider"></li>
-                                          <li class="dropdown-header"></li>
-                                          <li><a href="#">Follow</a></li>
-                                          <li><a href="#">Add Friend</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="#">Unfollow</a></li>
-                                          <li><a href="#">Unfriend</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="#">Block</a></li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+            <li class="list-group-item post-container media">
+              <div class="media-left">
+                <a href="#" class="post-author-dp">
+                  <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
+                    </a>
               </div>
-
+              <div class="post-body media-body">
+                <h4 class="media-heading">Post Title: a sample post</h4>
+                <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a></span>
+                <!--<a href="#">
+                  <p><span class="post-author">By Author</span><span class</p>
+                </a>-->
+                <p class="post-content">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+                </p>
+                <ul class="list-inline list-unstyled">
+                  <li class="like-button">
+                    <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+                  </li>
+                  <li class="comments-button">
+                    <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+                  </li>
+                </ul>
+              </div>
+            </li>
           </div>
-          <div class="tab-content">
-            <div id="following" class="tab-pane fade">
-                <div class="col-sm-6">
-                    <div class="well">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                                    <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>following</p></a>
-                                    </div>
-                            <div class="col-sm-6">
-                                <div class="dropdown">
-                                    <div class="well2">
-                                        <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                         Dropdown
-                                         <span class="caret"></span>
-                                         </button>-->
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Profile</a></li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header"></li>
-                                            <li><a href="#">Follow</a></li>
-                                            <li><a href="#">Add Friend</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Unfollow</a></li>
-                                            <li><a href="#">Unfriend</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Block</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+          
+          <!-- following tab-->
+          <div id="following" class="tab-pane fade">
+            <div class="col-sm-6">
+              <div class="well">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                      
+                      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>following</p></a>
+                      </div>
+                  <div class="col-sm-6">
+                    <div class="dropdown">
+                      <div class="well2">
+                        <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                         Dropdown
+                         <span class="caret"></span>
+                         </button>-->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Profile</a></li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header"></li>
+                          <li><a href="#">Follow</a></li>
+                          <li><a href="#">Add Friend</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Unfollow</a></li>
+                          <li><a href="#">Unfriend</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Block</a></li>
+                        </ul>
+                      </div>
                     </div>
+                  </div>
                 </div>
-
-            </div>
-
-
-          <div id="followers" class="tab-pane fade">
-              <div class="col-sm-6">
-                  <div class="well">
-                      <div class="row">
-                          <div class="col-sm-6">
-                              <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                                  <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>follower</p></a>
-                                  </div>
-                          <div class="col-sm-6">
-                              <div class="dropdown">
-                                  <div class="well2">
-                                      <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                       Dropdown
-                                       <span class="caret"></span>
-                                       </button>-->
-                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                      <ul class="dropdown-menu">
-                                          <li><a href="#">Profile</a></li>
-                                          <li class="divider"></li>
-                                          <li class="dropdown-header"></li>
-                                          <li><a href="#">Follow</a></li>
-                                          <li><a href="#">Add Friend</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="#">Unfollow</a></li>
-                                          <li><a href="#">Unfriend</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="#">Block</a></li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
               </div>
-
+            </div>
           </div>
-
+        
+        
+          <!-- follower tab-->
+          <div id="follower" class="tab-pane fade">
+            <div class="col-sm-6">
+              <div class="well">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                      
+                      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>follower</p></a>
+                      </div>
+                  <div class="col-sm-6">
+                    <div class="dropdown">
+                      <div class="well2">
+                        <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                         Dropdown
+                         <span class="caret"></span>
+                         </button>-->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Profile</a></li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header"></li>
+                          <li><a href="#">Follow</a></li>
+                          <li><a href="#">Add Friend</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Unfollow</a></li>
+                          <li><a href="#">Unfriend</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Block</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        
+          <!-- friend tab -->
           <div id="friends" class="tab-pane fade">
-              <div class="col-sm-6">
-                  <div class="well">
-                      <div class="row">
-                          <div class="col-sm-6">
-                              <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                                  <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>friends</p></a>
-                                  </div>
-                          <div class="col-sm-6">
-                              <div class="dropdown">
-                                  <div class="well2">
-                                      <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                       Dropdown
-                                       <span class="caret"></span>
-                                       </button>-->
-                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                      <ul class="dropdown-menu">
-                                          <li><a href="#">Profile</a></li>
-                                          <li class="divider"></li>
-                                          <li class="dropdown-header"></li>
-                                          <li><a href="#">Follow</a></li>
-                                          <li><a href="#">Add Friend</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="#">Unfollow</a></li>
-                                          <li><a href="#">Unfriend</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="#">Block</a></li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
+            <div class="col-sm-6">
+              <div class="well">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                      
+                      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>friends</p></a>
                       </div>
+                  <div class="col-sm-6">
+                    <div class="dropdown">
+                      <div class="well2">
+                        <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                         Dropdown
+                         <span class="caret"></span>
+                         </button>-->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Profile</a></li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header"></li>
+                          <li><a href="#">Follow</a></li>
+                          <li><a href="#">Add Friend</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Unfollow</a></li>
+                          <li><a href="#">Unfriend</a></li>
+                          <li class="divider"></li>
+                          <li><a href="#">Block</a></li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
+                </div>
               </div>
-
+            </div>
           </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                          <div class="col-sm-6">
-                              <div class="dropdown">
-                                <div class="well2">
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                    </ul>
-                                  </div>
-                              </div>
-                          </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-
-            <div class="col-sm-6">
-              <div class="well">
-                  <div class="row">
-                      <div class="col-sm-6">
-                          <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-                              <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"> <p>foaf2</p></a>
-                              </div>
-                      <div class="col-sm-6">
-                          <div class="dropdown">
-                              <div class="well2">
-                                  <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                   Dropdown
-                                   <span class="caret"></span>
-                                   </button>-->
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#">Profile</a></li>
-                                      <li class="divider"></li>
-                                      <li class="dropdown-header"></li>
-                                      <li><a href="#">Follow</a></li>
-                                      <li><a href="#">Add Friend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Unfollow</a></li>
-                                      <li><a href="#">Unfriend</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#">Block</a></li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-          </div>
-          <!--</div>-->
-
-
+        </div>
+        
+        
+        
+        <!--Tabs-->
       </div>
     </div>
   </div>
+  
+  <template id="post-container">
+    <li class="list-group-item post-container media">
+      <div class="media-left">
+        <a href="#" class="post-author-dp">
+          <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
+            </a>
+      </div>
+      <div class="post-body media-body">
+        <h4 class="media-heading">Post Title: a sample post</h4>
+        <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
+        <p class="post-content">
+        
+        </p>
+        <ul class="list-inline list-unstyled">
+          <li class="like-button">
+            <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+          </li>
+          <li class="comments-button">
+            <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </template>
+  
   <script src="tabs.js"></script>
   <script src="js/navbar-load.js"></script>
+  <script src="js/authorpost.js"></script>
 
   </script>
 </body>
