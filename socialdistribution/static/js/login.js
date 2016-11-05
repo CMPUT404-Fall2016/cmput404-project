@@ -38,8 +38,7 @@ function sendAJAX(method, url, message, session_id, callback) {
     }
   }
   xhr.setRequestHeader('Content-Type', 'application/json');
-  console.log(message);
-  xhr.send(message);
+  xhr.send(JSON.stringify(message));
 }
 
 
@@ -51,11 +50,10 @@ $("#create-btn").click(function () {
   registerData["name"] = registerForm.elements["displayName"].value;
   registerData["password"] = registerPassword.value;
 
-  var message = JSON.stringify(registerData);
   // // debug
   // console.log(message);
   // return false;
-  sendAJAX("POST", "http://127.0.0.1:5000/register", message, function(response) {
+  sendAJAX("POST", "http://127.0.0.1:5000/register", registerData, function(response) {
 
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {
@@ -85,12 +83,10 @@ $("#login-btn").click(function() {
   loginData["login_name"] = $("#login-form").find("input[name='username']").val();
   loginData["password"] = $("#login-form").find("input[name='password']").val();
 
-  var message = JSON.stringify(loginData);
-
   // // debug
   // console.log(message);
   // return false;
-  sendAJAX("POST", "/login", message, function(response) {
+  sendAJAX("POST", "/login", loginData, function(response) {
 
     // login is successful so log the user in
     if(response["status"] == "SUCCESS") {
