@@ -1,6 +1,8 @@
 import flask
 from flask import Flask, request, render_template
 import json
+
+
 import init_location
 from Server.main import *
 
@@ -8,7 +10,7 @@ app = Flask(__name__, static_url_path='')
 app.debug = True
 
 
-@app.route('/login.html')
+@app.route('/login.html', methods = ['GET', 'POST'])
 @app.route('/')
 def login():
     return app.send_static_file('login.html')
