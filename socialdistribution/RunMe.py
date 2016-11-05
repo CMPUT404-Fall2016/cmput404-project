@@ -8,11 +8,12 @@ import UnitTests.Model.test_URL_db as test_URL_db
 import UnitTests.Model.test_Friend_Requests_db as test_Friend_Requests_db
 import UnitTests.Model.test_Author_Relationships_db as test_Author_Relationships_db 
 import UnitTests.Model.test_Servers_db as test_Servers_db
-import Server.main
+# import Server.main
+import main
 
 
 def runServer():
-	Server.main.run()
+	main.run()
 
 def runTests():
 	test_Authors_db.runTest()
