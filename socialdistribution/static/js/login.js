@@ -57,6 +57,8 @@ $("#create-btn").click(function () {
 
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {
+      alert("Successfully created!");
+      alert(response);
       login(message);
 
     // author already exists
