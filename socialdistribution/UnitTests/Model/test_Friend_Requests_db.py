@@ -54,7 +54,7 @@ class test_Friend_Requests(unittest.TestCase):
         self.matchFields(FR_empty, myFR)
 
         query_param = {}
-        query_param['friendrequests_id']=1
+        query_param['friendrequests_id']="1"
         results=Friend_Requests.query(query_param)
         self.assertTrue(len(results) == 1), "Should return a single row"
         if len(results) == 1:

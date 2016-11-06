@@ -93,17 +93,17 @@ class test_Comments(unittest.TestCase):
         
         self.SaveAllToDB()
         
-        myComment=Comments.query.get(1)
+        myComment=Comments.query.get("1")
         self.matchFields(comment1, myComment)
         
-        myComment=Comments.query.get(2)
+        myComment=Comments.query.get("2")
         self.matchFields(comment2, myComment)
 
 
-        myComment=Comments.query.get(3)
+        myComment=Comments.query.get("3")
         self.matchFields(comment3, myComment)
 
-        myComment=Comments.query.get(4)
+        myComment=Comments.query.get("4")
         self.matchFields(comment4, myComment)
 
 

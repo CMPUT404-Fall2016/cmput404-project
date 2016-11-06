@@ -102,19 +102,19 @@ class test_Posts(unittest.TestCase):
         
         self.SaveAllToDB()
         
-        myPost=Posts.query.get(1)
+        myPost=Posts.query.get("1")
         self.matchFields(post1, myPost)
         
-        myPost=Posts.query.get(2)
+        myPost=Posts.query.get("2")
         self.matchFields(post2, myPost)
         
-        myPost=Posts.query.get(3)
+        myPost=Posts.query.get("3")
         print "HIHIHIHIHI: "
         print post3["post_id"]
         print myPost.post_id
         self.matchFields(post3, myPost)
         
-        myPost=Posts.query.get(4)
+        myPost=Posts.query.get("4")
         self.matchFields(post4, myPost)
         
         db.session.query(Posts).delete()

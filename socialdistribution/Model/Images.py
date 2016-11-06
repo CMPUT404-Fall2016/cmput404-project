@@ -4,11 +4,11 @@ from Comments import Comments
 
 class Images(db.Model):
 
-	image_id = db.Column(db.Integer, unique=True, primary_key=True)
+	image_id = db.Column(db.String(33), unique=True, primary_key=True)
     
-	post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id') )
+	post_id = db.Column(db.String(33), db.ForeignKey('posts.post_id') )
     
-	comment_id = db.Column(db.Integer, db.ForeignKey('comments.comment_id'))
+	comment_id = db.Column(db.String(33), db.ForeignKey('comments.comment_id'))
     
 	image = db.Column(db.LargeBinary)
 

@@ -8,7 +8,7 @@ class Posts(db.Model):
     
     __tablename__ = 'posts'
 
-    post_id = db.Column(db.Integer, primary_key=True, unique=True)
+    post_id = db.Column(db.String(33), primary_key=True, unique=True)
     
     title = db.Column(db.String(64))
     
@@ -26,7 +26,7 @@ class Posts(db.Model):
     
     numberOf_images = db.Column(db.Integer)
 
-    author_id = db.Column(db.Integer, db.ForeignKey('authors.author_id'))
+    author_id = db.Column(db.String(33), db.ForeignKey('authors.author_id'))
     
     comments = db.relationship('Comments', backref = 'comm', lazy = 'dynamic')
 

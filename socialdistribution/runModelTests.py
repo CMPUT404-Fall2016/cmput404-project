@@ -12,9 +12,6 @@ import UnitTests.Model.test_Servers_db as test_Servers_db
 import main
 
 
-def runServer():
-	main.run()
-
 def runTests():
 	test_Authors_db.runTest()
 	DELETE_ALL()
@@ -33,7 +30,5 @@ def runTests():
 	test_Servers_db.runTest()
 	DELETE_ALL()
 
-
-if __name__=="__main__":
-	runServer()
-	# runTests()
+if __name__ == "__main__":
+	runTests()
