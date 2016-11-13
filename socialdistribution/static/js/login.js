@@ -20,7 +20,7 @@ function checkPassword() {
 }
 
 // standard AJAX request
-function sendAJAX(method, url, message, session_id, callback) {
+function sendAJAX(method, url, message, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open(method, url);
   xhr.onreadystatechange = function(){
@@ -28,6 +28,7 @@ function sendAJAX(method, url, message, session_id, callback) {
       try {
         if (xhr.status==200) {
           if(callback) {
+            // console.log(xhr.responseText);
             callback(JSON.parse(xhr.responseText));
           }
         }
@@ -57,12 +58,10 @@ $("#create-btn").click(function () {
 
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {
-      alert("Successfully created!");
-      alert(response);
-      login(message);
+      login(response);
 
     // author already exists
-    } else if (response["status"] == "DUPLICATE") {
+    } else if (response[status] == "DUPLICATE") {
       $("#duplicate-alert").prop("disabled", false);
     // what the fuck man
     } else {
@@ -73,14 +72,15 @@ $("#create-btn").click(function () {
 
 // stores commonly used data in local storage and redirects to index.html
 function login(data) {
-  localStorage.setItem(author_id, data["author_id"]);
-  localStorage.setItem(display_name, data["display_name"]);
-  localStorage.setItem(github_username, data["github_username"]);
-  window.location.replace("/");
+  // localStorage.setItem(author_id, data["author_id"]);
+  // localStorage.setItem(display_name, data["display_name"]);
+  // localStorage.setItem(github_username, data["github_username"]);
+  window.location.replace("index.html");
 }
 
-$("#login-btn").click(function() {
+$("#login-btn").click(function(e) {
 
+  e.preventDefault();
   var loginData = {};
   loginData["login_name"] = $("#login-form").find("input[name='username']").val();
   loginData["password"] = $("#login-form").find("input[name='password']").val();
@@ -89,10 +89,10 @@ $("#login-btn").click(function() {
   // console.log(message);
   // return false;
   sendAJAX("POST", "/login", loginData, function(response) {
-
+    console.log(response);
     // login is successful so log the user in
     if(response["status"] == "SUCCESS") {
-      login(message);
+      login(response);
 
     // username or password is incorrect
     } else if (response["status"] == "NO_MATCH") {
@@ -100,7 +100,7 @@ $("#login-btn").click(function() {
 
     // again, what the fUCK
     } else {
-      $(".server-alert").prop("disabled");
+      $(".server-alert").prop("disabled", false);
     }
   });
 });
