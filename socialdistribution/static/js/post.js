@@ -64,13 +64,18 @@ var uploadImage = function(src, name, type){
 };
 
 uploadImage(imgsrc, name, 'image/jpeg');
-var postForm = document.getElementById("post-form"),
-    data = [],
-    JSONobj = {
-      "title":postForm.elements["title"].value,
-      "description":postForm.elements["desc"].value,
-      "contentType":postForm.elements["text-type"].value;
 
+// encode form data as a JSON object
+var postForm = document.getElementById("post-form"),
+postData = {};
+postData["title"] = postForm.elements["title"].value;
+postData["description"] = postForm.elements["desc"].value;
+postData["contentType"] = postForm.elements["text-type"].value;
+postData["content"] = postForm.elements["post-text"].value;
+
+// encode the current time in ISO 8601
+var timestamp = new Date();
+postData["published"] = timestamp.toISOString();
 
 
 }
