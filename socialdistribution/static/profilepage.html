@@ -17,7 +17,7 @@
       <!-- profile sidebar -->
       <div class="col-sm-4 col-lg-3 text-center">
         <div class="panel">
-          <a href="#" class="thumbnail" id="author-dp">
+          <a href="profilepage.html" class="thumbnail" id="author-dp">
             <img src="../sample_data/kitten.jpg" alt="profile pic">
           </a>
           <h4 id="profilename">Display Name</h4>
@@ -79,10 +79,40 @@
                   
                 </tbody>
               </table>
-              <a href="#" type="button" class="btn btn-info">Edit</a>
+              <a data-toggle="pill" href="#profilechange" type="button" class="btn btn-info">Edit</a>
             </div>
           
           
+          </div>
+          
+          <!-- TEMP -->
+          <div id="profilechange" class="tab-pane fade">
+            <h4 id="profilename">Display Name</h4>
+            
+            <div class=" col-md-9 col-lg-9 ">
+              <form role="form" id="login-form">
+                <fieldset>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username" disabled="disabled">
+                      </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="displayName" placeholder="Display Name">
+                      </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="githubid" placeholder="Github Id" required>
+                      </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="bio" placeholder="Bio">
+                      </div>
+                  <!--            <div class="form-group">-->
+                  <!--              <input type="date" class="form-control">-->
+                  <!--            </div>-->
+                  
+                  <a data-toggle="pill" href="#profile" type="button" class="btn btn-info">Save</a>
+                  <a data-toggle="pill" href="#profile" type="button" class="btn btn-warning">Cancel</a>
+                </fieldset>
+              </form>
+            </div>
           </div>
           
           <!-- posts -->
