@@ -10,3 +10,5 @@ $(document).ready(function() {
   var clonedTemplate = myTemplate.content.cloneNode(true);
   normalContent.appendChild(clonedTemplate)
 });
+
+

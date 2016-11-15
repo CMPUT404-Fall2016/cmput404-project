@@ -51,37 +51,37 @@
         <div class="tab-content">
           <!-- profile tab-->
           <div id="profile" class="tab-pane fade in active">
-            <h4 id="profilename">Display Name</h4>
+<!--            <h4 id="profilehname">Display Name</h4>-->
+<!---->
+<!--            <div class=" col-md-9 col-lg-9 ">-->
+<!--              <table class="table table-user-information">-->
+<!--                <tbody>-->
+<!--                  <tr>-->
+<!--                    <td>Username</td>-->
+<!--                    <td id="profileusername">Temp username</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Name:</td>-->
+<!--                    <td id="profilename">Temp name</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Github_id:</td>-->
+<!--                    <td id="profilegithubid">Temp github id</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Bio:</td>-->
+<!--                    <td id="profilebio">Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. </td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Date of Birth (Might not need this)</td>-->
+<!--                    <td id="profilebirthday">2000-01-01</td>-->
+<!--                  </tr>-->
+<!--                  -->
+<!--                </tbody>-->
+<!--              </table>-->
+<!--              <a data-toggle="pill" href="#profilechange" type="button" class="btn btn-info">Edit</a>-->
+<!--            </div>-->
 
-            <div class=" col-md-9 col-lg-9 ">
-              <table class="table table-user-information">
-                <tbody>
-                  <tr>
-                    <td>Username</td>
-                    <td id="profileusername">Temp username</td>
-                  </tr>
-                  <tr>
-                    <td>Name:</td>
-                    <td id="profilename">Temp name</td>
-                  </tr>
-                  <tr>
-                    <td>Github_id:</td>
-                    <td id="profilegithubid">Temp github id</td>
-                  </tr>
-                  <tr>
-                    <td>Bio:</td>
-                    <td id="profilebio">Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. </td>
-                  </tr>
-                  <tr>
-                    <td>Date of Birth (Might not need this)</td>
-                    <td id="profilebirthday">2000-01-01</td>
-                  </tr>
-                  
-                </tbody>
-              </table>
-              <a data-toggle="pill" href="#profilechange" type="button" class="btn btn-info">Edit</a>
-            </div>
-          
           
           </div>
           
@@ -162,7 +162,7 @@
         <h4 class="media-heading">Post Title: a sample post</h4>
         <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
         <p class="post-content">
-        
+          This is the existing content.
         </p>
         <ul class="list-inline list-unstyled">
           <li class="like-button">
@@ -176,12 +176,47 @@
     </li>
   </template>
   
+  <template id="profiledatas">
+<!--    <h4>-->
+      <h4 id="profilehname" class=="profilehname">Profile</h4>
+<!--    </h4>-->
+
+    <div class=" col-md-9 col-lg-9 ">
+      <table class="table table-user-information">
+        <tbody>
+          <tr>
+            <td>Username</td>
+            <td id="profileusername" class="profileusername">Temp username</td>
+          </tr>
+          <tr>
+            <td>Name:</td>
+            <td id="profilename" class="profilename">Temp name</td>
+          </tr>
+          <tr>
+            <td>Github_id:</td>
+            <td id="profilegithubid" class="profilegithubid">Temp github id</td>
+          </tr>
+          <tr>
+            <td>Bio:</td>
+            <td id="profilebio" class="profilebio">Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. </td>
+          </tr>
+          <tr>
+            <td>Date of Birth (Might not need this)</td>
+            <td id="profilebirthday">2000-01-01</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <a data-toggle="pill" href="#profilechange" type="button" class="btn btn-info">Edit</a>
+    </div>
+  </template>
+  
   <template id="profileeditmode">
     <div id="profilechange">
       <h4 id="profilename">Display Name</h4>
       
       <div class=" col-md-9 col-lg-9 ">
-        <form role="form" id="login-form">
+        <form role="form" id="edit-form">
           <fieldset>
             <div class="form-group">
               <input type="text" class="form-control" name="username" placeholder="Username" disabled="disabled">
@@ -207,9 +242,12 @@
     </div>
   </template>
   
-  <script src="js/tabs.js"></script>
+  
+  
+<!--  <script src="js/tabs.js"></script>-->
   <script src="js/navbar-load.js"></script>
   <script src="js/authorpost.js"></script>
+  <script src="js/profiledata.js"></script>
 
   </script>
 </body>
