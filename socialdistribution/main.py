@@ -7,6 +7,31 @@ import uuid
 from model import *
 from Server.author_endpointHandlers import *
 
+
+# admin stuff -----------------------------------
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+
+
+import os
+import os.path as op
+from db import db
+
+from wtforms import validators
+
+
+
+
+from flask_admin.contrib import sqla
+from flask_admin.contrib.sqla import filters
+from flask_admin.form import rules
+#------------------------------------------------
+
+
+
+
+
 handler = None # This will be the global REST_handlers object
 COOKIE_NAME = "cookie_cmput404_"
 COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","cookie_cmput404_github_id"] 
@@ -20,9 +45,27 @@ def getHandler():
 
 
 
+
 # def main(self, app):
 
 app = Flask(__name__, static_url_path='')
+
+
+app.config['SECRET_KEY'] = '123456790'
+
+# Create admin
+admin = Admin(app, name='Example: Admin', template_mode='bootstrap3')
+
+# Add views
+admin.add_view(ModelView(Authors, db.session))
+admin.add_view(ModelView(Posts, db.session))
+admin.add_view(ModelView(Images, db.session))
+admin.add_view(ModelView(URL, db.session))
+
+
+
+
+
 # api = Api(app)
 # parser = reqparse.RequestParser()
 # api.add_resource(Login, '/login/')
