@@ -29,15 +29,15 @@ $(document).ready(function() {
   var clonedTemplate = myTemplate.content.cloneNode(true);
   normalContent.appendChild(clonedTemplate)
                   
-                  var text1 = "Changed1";
-                  var text2 = "Changed2";
-                  var text3 = "Changed3";
-                  var text4 = "Changed4";
-                  
-                  document.getElementsByName('username')[0].placeholder=text1;
-                  document.getElementsByName('displayName')[0].placeholder=text2;
-                  document.getElementsByName('githubid')[0].placeholder=text3;
-                  document.getElementsByName('bio')[0].placeholder=text4;
+//                  var text1 = "Changed1";
+//                  var text2 = "Changed2";
+//                  var text3 = "Changed3";
+//                  var text4 = "Changed4";
+//                  
+//                  document.getElementsByName('username')[0].placeholder=text1;
+//                  document.getElementsByName('displayName')[0].placeholder=text2;
+//                  document.getElementsByName('githubid')[0].placeholder=text3;
+//                  document.getElementsByName('bio')[0].placeholder=text4;
                   
                   
 });
@@ -65,6 +65,19 @@ function sendAJAX(method, url, message, session_id, callback) {
                     xhr.send(JSON.stringify(message));
 
 }
+
+$("#editprofilebtn").click(function (e) {
+
+      var text1 = "Changed1";
+      var text2 = "Changed2";
+      var text3 = "ChangedHa";
+      var text4 = "Changed4";
+
+      document.getElementsByName('username')[0].placeholder=text1;
+      document.getElementsByName('displayName')[0].placeholder=text2;
+      document.getElementsByName('githubid')[0].placeholder=text3;
+      document.getElementsByName('bio')[0].placeholder=text4;
+});
 
 
 $("#saveprofilechange").click(function (e) {

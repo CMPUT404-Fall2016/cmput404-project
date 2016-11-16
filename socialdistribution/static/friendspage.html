@@ -38,8 +38,8 @@
 
                 <ul class="nav nav-pills nav-justified">
                   <li class="active"><a data-toggle="pill" id="fdtab" href="#friendstab">Friends</a></li>
-                  <li><a data-toggle="pill" id="fingtab" href="#following">Following</a></li>
-                  <li><a data-toggle="pill" id="fertab" href="#follower">Follower</a></li>
+<!--                  <li><a data-toggle="pill" id="fingtab" href="#following">Following</a></li>-->
+                  <li><a data-toggle="pill" id="fertab" href="#frequest">Request</a></li>
                 </ul>
 
               </div>
@@ -51,8 +51,8 @@
         <div class="tab-content">
 
           <!-- following tab-->
-          <div id="following" class="tab-pane fade">
-
+<!--          <div id="following" class="tab-pane fade">-->
+<!---->
 <!--              <div class="well">-->
 <!--                <div class="row">-->
 <!--                  <div class="col-sm-6">-->
@@ -76,13 +76,65 @@
 <!--                  </div>-->
 <!--                </div>-->
 <!--              </div>-->
+<!---->
+<!--          </div>-->
 
-          </div>
-        
         
           <!-- follower tab-->
-          <div id="follower" class="tab-pane fade">
-
+          <div id="frequest" class="tab-pane fade">
+<!--            <div class="well">-->
+<!--              <div class="row">-->
+<!--                <div class="col-sm-6">-->
+<!--                  <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">-->
+<!--                    -->
+<!--                    <a href="#" id="friendnamelink" class="list-group-item"><p id="friendname">Author Name</p></a>-->
+<!--                    </div>-->
+<!--                <div class="col-sm-6">-->
+<!--                  <div class="dropdown">-->
+<!--                    <div class="well2">-->
+<!--                      -->
+<!--                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>-->
+<!--                      <ul class="dropdown-menu">-->
+<!--                        <li><a href="#">Profile</a></li>-->
+<!--                        <li class="divider"></li>-->
+<!--                        <li><a id="acceptrequest" href="#">Accept</a></li>-->
+<!--                      -->
+<!--                      </ul>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+            <div id="friendtemplate">
+              <li class="list-group-item post-container media">
+                <!--<div class="col-sm-12">-->
+                
+                <div class="media-left">
+                  
+                  <h4></h4>
+                  <a href="#" class="post-author-dp">
+                    <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+                      </a>
+                  <h4></h4>
+                  
+                </div>
+                
+                <div class="media-body">
+                  
+                  <h4>
+                    <a href="#" id="profilepagelink">
+                      <span id="thisusername">Profile</span>
+                    </a>
+                  </h4>
+                  <p id="author2id" style="display:none;">Author 2</p>
+                  <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p>
+                    </a>
+                  
+                </div>
+                
+              </li>
+            </div>
+            
           </div>
         
         
@@ -147,7 +199,7 @@
                 <!--                          <li><a href="#">Add Friend</a></li>-->
                 <li class="divider"></li>
                 <li><a href="#">Unfollow</a></li>
-                <!--                          <li><a href="#">Unfriend</a></li>-->
+                <li><a href="#">Unfriend</a></li>
                 <!--                          <li class="divider"></li>-->
                 <!--                          <li><a href="#">Block</a></li>-->
               </ul>
@@ -212,7 +264,6 @@
               <ul class="dropdown-menu">
                 <li><a href="#">Profile</a></li>
                 <li class="divider"></li>
-                <li class="dropdown-header"></li>
                 <li><a href="#">Follow</a></li>
                 <!--                          <li><a href="#">Add Friend</a></li>-->
                 <!--                          <li class="divider"></li>-->
@@ -228,9 +279,42 @@
     </div>
   </template>
   
+  <template id="friend-container">
+    <div id="friendtemplate">
+      <li class="list-group-item post-container media">
+        <!--<div class="col-sm-12">-->
+        
+        <div class="media-left">
+          
+          <h4></h4>
+          <a href="#" class="post-author-dp">
+            <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+              </a>
+          <h4></h4>
+          
+        </div>
+        
+        <div class="media-body">
+          
+          <h4>
+            <a href="#" id="profilepagelink">
+              <span id="thisusername">Profile</span>
+            </a>
+          </h4>
+          <p id="author2id" style="display:none;">Author 2</p>
+          <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
+            </a>
+          
+        </div>
+        
+      </li>
+    </div>
+  </template>
+  
   <script src="js/navbar-load.js"></script>
 <!--  <script src="js/authorpost.js"></script>-->
   <script src="js/friendsdata.js"></script>
+  <script src="js/friendrequest.js"></script>
 
   </script>
 </body>
