@@ -1,4 +1,8 @@
 $(document).ready(function() {
+                  
+                  
+                  
+                  
 
   var myTemplate = document.getElementById('profiledatas');
                   
@@ -19,6 +23,7 @@ $(document).ready(function() {
                   profilebiotext = "This is the changed content";
   pb.textContent = "This is the changed bio";
                   
+                  
   var normalContent = document.getElementById('profile');
                   
   var clonedTemplate = myTemplate.content.cloneNode(true);
@@ -33,8 +38,52 @@ $(document).ready(function() {
                   document.getElementsByName('displayName')[0].placeholder=text2;
                   document.getElementsByName('githubid')[0].placeholder=text3;
                   document.getElementsByName('bio')[0].placeholder=text4;
+                  
+                  
 });
 
+function sendAJAX(method, url, message, session_id, callback) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open(method, url);
+                    xhr.onreadystatechange = function(){
+                      if (xhr.readyState==4) {
+                        try {
+                          if (xhr.status==200) {
+                            if(callback) {
+                              callback(JSON.parse(xhr.responseText));
+                            }
+                        }
+                      }
+                        catch(e) {
+                          alert('Error: ' + e.name);
+                        }
+                      }
+                    }
+                    if(message) {
+                      xhr.setHeader("Content-Type", "application/json");
+                    }
+                    xhr.send(JSON.stringify(message));
+
+}
+
+
+$("#saveprofilechange").click(function (e) {
+                              var editprofiledata = {}
+                              editprofiledata["name"] = editprofiledata.elements["displayName"].value;
+                              editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
+                              editprofiledata["bio"] = editprofiledata.elements["bio"].value;
+                              
+                              sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
+                                       
+                              
+                                       
+                                       });
+                              
+                              
+                             
+                              
+                              });
+                              
 //
 //$(document).ready(function() {
 //                  

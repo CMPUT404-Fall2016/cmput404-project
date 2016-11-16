@@ -129,45 +129,10 @@
         
         
           <!-- friend tab -->
-          <div id="friends" class="tab-pane fade in active">
-<!--            <div class="col-sm-6">-->
-              <div class="well">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                      
-                      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>friends</p></a>
-                      </div>
-                  <div class="col-sm-6">
-                    <div class="dropdown">
-                      <div class="well2">
-                        <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                         Dropdown
-                         <span class="caret"></span>
-                         </button>-->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                          <li><a href="#">Profile</a></li>
-<!--                          <li class="divider"></li>-->
-                          <li class="dropdown-header"></li>
-<!--                          <li><a href="#">Follow</a></li>-->
-<!--                          <li><a href="#">Add Friend</a></li>-->
-                          <li class="divider"></li>
-                          <li><a href="#">Unfollow</a></li>
-<!--                          <li><a href="#">Unfriend</a></li>-->
-<!--                          <li class="divider"></li>-->
-<!--                          <li><a href="#">Block</a></li>-->
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-<!--          </div>-->
+          <div id="friendstab" class="tab-pane fade in active">
+
+        
         </div>
-        
-        
         
         <!--Tabs-->
       </div>
@@ -199,9 +164,44 @@
     </li>
   </template>
   
-  <script src="js/tabs.js"></script>
+  <template id="friends-container">
+    <div class="well">
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+            
+            <a href="#" id="friendnamelink" class="list-group-item"><p id="friendname">friends</p></a>
+        </div>
+        <div class="col-sm-6">
+          <div class="dropdown">
+            <div class="well2">
+              <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+               Dropdown
+               <span class="caret"></span>
+               </button>-->
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Profile</a></li>
+                <!--                          <li class="divider"></li>-->
+                <li class="dropdown-header"></li>
+                <!--                          <li><a href="#">Follow</a></li>-->
+                <!--                          <li><a href="#">Add Friend</a></li>-->
+                <li class="divider"></li>
+                <li><a href="#">Unfollow</a></li>
+                <!--                          <li><a href="#">Unfriend</a></li>-->
+                <!--                          <li class="divider"></li>-->
+                <!--                          <li><a href="#">Block</a></li>-->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  
   <script src="js/navbar-load.js"></script>
-  <script src="js/authorpost.js"></script>
+<!--  <script src="js/authorpost.js"></script>-->
+  <script src="js/friendsdata.js"></script>
 
   </script>
 </body>
