@@ -92,16 +92,16 @@ class test_Authors(unittest.TestCase):
 
         self.SaveAllToDB()
 
-        myAuthor=Authors.query.get(1)
+        myAuthor=Authors.query.get('1')
         self.matchFields(author1, myAuthor)
         
-        myAuthor=Authors.query.get(2)
+        myAuthor=Authors.query.get('2')
         self.matchFields(author2, myAuthor)
 
-        myAuthor=Authors.query.get(3)
+        myAuthor=Authors.query.get('3')
         self.matchFields(author3, myAuthor)
 
-        myAuthor=Authors.query.get(4)
+        myAuthor=Authors.query.get('4')
         self.matchFields(author4, myAuthor)
 
         db.session.query(Authors).delete()

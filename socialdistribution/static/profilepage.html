@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Rad Site</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="css/profile.css" rel="stylesheet">
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="container text-center" id="toppadding">
+    <div class="row">
+
+      <!-- profile sidebar -->
+      <div class="col-sm-4 col-lg-3 text-center">
+        <div class="panel">
+          <a href="profilepage.html" class="thumbnail" id="author-dp">
+            <img src="../sample_data/kitten.jpg" alt="profile pic">
+          </a>
+          <h4 id="profilename">Display Name</h4>
+          <ul class="nav nav-pills nav-justified">
+            <li><a href="friendspage.html">Following</a></li>
+            <li><a href="friendspage.html">Followers</a></li>
+            <li><a href="friendspage.html">Friends</a></li>
+          </ul>
+          
+        </div>
+      </div>
+
+      <div class="col-sm-7">
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default text-left">
+              <div class="panel-body">
+
+                <ul class="nav nav-pills nav-justified">
+                  <li class="active"><a data-toggle="pill" href="#profile">Profile</a></li>
+                  <li><a data-toggle="pill" href="#posts">Posts</a></li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--</div>-->
+        <div class="tab-content">
+          <!-- profile tab-->
+          <div id="profile" class="tab-pane fade in active">
+<!--            <h4 id="profilehname">Display Name</h4>-->
+<!---->
+<!--            <div class=" col-md-9 col-lg-9 ">-->
+<!--              <table class="table table-user-information">-->
+<!--                <tbody>-->
+<!--                  <tr>-->
+<!--                    <td>Username</td>-->
+<!--                    <td id="profileusername">Temp username</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Name:</td>-->
+<!--                    <td id="profilename">Temp name</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Github_id:</td>-->
+<!--                    <td id="profilegithubid">Temp github id</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Bio:</td>-->
+<!--                    <td id="profilebio">Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. </td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Date of Birth (Might not need this)</td>-->
+<!--                    <td id="profilebirthday">2000-01-01</td>-->
+<!--                  </tr>-->
+<!--                  -->
+<!--                </tbody>-->
+<!--              </table>-->
+<!--              <a data-toggle="pill" href="#profilechange" type="button" class="btn btn-info">Edit</a>-->
+<!--            </div>-->
+
+          
+          </div>
+          
+          <!-- TEMP -->
+          <div id="profilechange" class="tab-pane fade">
+            <h4 id="profilename">Profile Edit</h4>
+            
+            <div class=" col-md-9 col-lg-9 ">
+              <form role="form" id="login-form">
+                <fieldset>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username" disabled="disabled">
+                      </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="displayName" placeholder="Display Name">
+                      </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="githubid" placeholder="Github Id" required>
+                      </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="bio" placeholder="Bio">
+                      </div>
+                  <!--            <div class="form-group">-->
+                  <!--              <input type="date" class="form-control">-->
+                  <!--            </div>-->
+                  
+                  <a data-toggle="pill" href="#profile" type="button" class="btn btn-info">Save</a>
+                  <a data-toggle="pill" href="#profile" type="button" class="btn btn-warning">Cancel</a>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+          
+          <!-- posts -->
+          <div id="posts" class="tab-pane fade">
+            <li class="list-group-item post-container media">
+              <div class="media-left">
+                <a href="#" class="post-author-dp">
+                  <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
+                    </a>
+              </div>
+              <div class="post-body media-body">
+                <h4 class="media-heading">Post Title: a sample post</h4>
+                <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a></span>
+                <!--<a href="#">
+                  <p><span class="post-author">By Author</span><span class</p>
+                </a>-->
+                <p class="post-content">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+                </p>
+                <ul class="list-inline list-unstyled">
+                  <li class="like-button">
+                    <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+                  </li>
+                  <li class="comments-button">
+                    <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </div>
+          
+          
+        </div>
+        <!--Tabs-->
+      </div>
+    </div>
+  </div>
+  
+  <template id="post-container">
+    <li class="list-group-item post-container media">
+      <div class="media-left">
+        <a href="#" class="post-author-dp">
+          <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
+            </a>
+      </div>
+      <div class="post-body media-body">
+        <h4 class="media-heading">Post Title: a sample post</h4>
+        <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
+        <p class="post-content">
+          This is the existing content.
+        </p>
+        <ul class="list-inline list-unstyled">
+          <li class="like-button">
+            <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+          </li>
+          <li class="comments-button">
+            <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </template>
+  
+  <template id="profiledatas">
+<!--    <h4>-->
+      <h4 id="profilehname" class=="profilehname">Profile</h4>
+<!--    </h4>-->
+
+    <div class=" col-md-9 col-lg-9 ">
+      <table class="table table-user-information">
+        <tbody>
+          <tr>
+            <td>Username</td>
+            <td id="profileusername" class="profileusername">Temp username</td>
+          </tr>
+          <tr>
+            <td>Name:</td>
+            <td id="profilename" class="profilename">Temp name</td>
+          </tr>
+          <tr>
+            <td>Github_id:</td>
+            <td id="profilegithubid" class="profilegithubid">Temp github id</td>
+          </tr>
+          <tr>
+            <td>Bio:</td>
+            <td id="profilebio" class="profilebio">Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. </td>
+          </tr>
+          <tr>
+            <td>Date of Birth (Might not need this)</td>
+            <td id="profilebirthday">2000-01-01</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <a data-toggle="pill" href="#profilechange" type="button" class="btn btn-info">Edit</a>
+    </div>
+  </template>
+  
+  <template id="profileeditmode">
+    <div id="profilechange">
+      <h4 id="profilename">Profile Edit</h4>
+      
+      <div class=" col-md-9 col-lg-9 ">
+        <form role="form" id="edit-form">
+          <fieldset>
+            <div class="form-group">
+              <input type="text" class="form-control" name="username" placeholder="Username" disabled="disabled">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="displayName" placeholder="Display Name">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="githubid" placeholder="Github Id" required>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="bio" placeholder="Bio">
+            </div>
+<!--            <div class="form-group">-->
+<!--              <input type="date" class="form-control">-->
+<!--            </div>-->
+
+            <a href="#" type="button" class="btn btn-info">Save</a>
+            <a href="#" type="button" class="btn btn-warning">Cancel</a>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </template>
+  
+  
+  
+<!--  <script src="js/tabs.js"></script>-->
+  <script src="js/navbar-load.js"></script>
+  <script src="js/authorpost.js"></script>
+  <script src="js/profiledata.js"></script>
+
+  </script>
+</body>
+</html>

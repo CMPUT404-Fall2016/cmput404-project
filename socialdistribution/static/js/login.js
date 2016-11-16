@@ -62,7 +62,7 @@ $("#create-btn").click(function (e) {
       login(response);
 
     // author already exists
-    } else if (response[status] == "DUPLICATE") {
+  } else if (response["status"] == "DUPLICATE") {
       $("#duplicate-alert").prop("disabled", false);
     // what the fuck man
     } else {
@@ -76,7 +76,7 @@ function login(data) {
   // localStorage.setItem(author_id, data["author_id"]);
   // localStorage.setItem(display_name, data["display_name"]);
   // localStorage.setItem(github_username, data["github_username"]);
-  window.location.replace("index.html");
+  window.location.href = "index.html";
 }
 
 $("#login-btn").click(function(e) {
@@ -96,7 +96,7 @@ $("#login-btn").click(function(e) {
       login(response);
 
     // username or password is incorrect
-    } else if (response["status"] == "NO_MATCH") {
+  } else if (response["status"] == "NO_MATCH") {
       $("#incorrect-alert").prop("disabled", true);
 
     // again, what the fUCK

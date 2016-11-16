@@ -92,8 +92,10 @@ CREATE TABLE Author_Relationships
     AuthorRelationship_id varchar(33),
     author1_id varchar(33),
     authorServer1_id int,
+    author1_name varchar(60),
     author2_id varchar(33),
     authorServer2_id int,
+    author2_name varchar(60),
     type int,
     PRIMARY KEY (AuthorRelationship_id),
     FOREIGN KEY (author1_id) REFERENCES Authors(author_id),
@@ -109,6 +111,7 @@ CREATE TABLE Friend_Requests
     friendRequest_id varchar(33),
     fromAuthor_id varchar(33),
     fromAuthorServer_index int,
+    fromAuthorDisplayName varchar(64),
     toAuthor_id varchar(33),
     toAuthorServer_index int,
     isChecked boolean,
@@ -131,7 +134,7 @@ CREATE TABLE Friend_Requests
 CREATE TABLE Servers
 (
     server_id varchar(33),
-    IP varchar(100), //Designed for 128bit IPv6 addressing
+    IP varchar(100), 
     server_index int,
     PRIMARY KEY(server_id)
 );

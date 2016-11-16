@@ -5,9 +5,9 @@ class Comments(db.Model):
     
     __tablename__ = 'comments'
     
-    comment_id = db.Column(db.Integer, primary_key=True, unique=True)
+    comment_id = db.Column(db.String(33), primary_key=True, unique=True)
     
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
+    post_id = db.Column(db.String(33), db.ForeignKey('posts.post_id'))
     
     comment_text = db.Column(db.String(800))
     

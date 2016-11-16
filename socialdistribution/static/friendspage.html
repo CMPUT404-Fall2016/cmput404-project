@@ -17,14 +17,14 @@
       <!-- profile sidebar -->
       <div class="col-sm-4 col-lg-3 text-center">
         <div class="panel">
-          <a href="#" class="thumbnail" id="author-dp">
+          <a href="profilepage.html" class="thumbnail" id="author-dp">
             <img src="../sample_data/kitten.jpg" alt="profile pic">
           </a>
           <h4>Display Name</h4>
           <ul class="nav nav-pills nav-justified">
-            <li><a href="profile.html">Following</a></li>
-            <li><a href="#">Followers</a></li>
-            <li><a href="#">Friends</a></li>
+            <li><a href="friendspage.html">Following</a></li>
+            <li><a href="friendspage.html">Followers</a></li>
+            <li><a href="friendspage.html">Friends</a></li>
           </ul>
         </div>
       </div>
@@ -36,11 +36,10 @@
             <div class="panel panel-default text-left">
               <div class="panel-body">
 
-                <ul class="nav nav-tabs nav-justified">
-                  <li class="active"><a href="#posts"> My Posts</a></li>
-                  <li><a href="#following">Following</a></li>
-                  <li><a href="#follower">Follower</a></li>
-                  <li><a href="#friends">Friends</a></li>
+                <ul class="nav nav-pills nav-justified">
+                  <li class="active"><a data-toggle="pill" href="#friends">Friends</a></li>
+                  <li><a data-toggle="pill" href="#following">Following</a></li>
+                  <li><a data-toggle="pill" href="#follower">Follower</a></li>
                 </ul>
 
               </div>
@@ -50,45 +49,17 @@
 
         <!--</div>-->
         <div class="tab-content">
-          <!-- posts -->
-          <div id="posts" class="tab-pane fade in active">
-            <li class="list-group-item post-container media">
-              <div class="media-left">
-                <a href="#" class="post-author-dp">
-                  <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
-                    </a>
-              </div>
-              <div class="post-body media-body">
-                <h4 class="media-heading">Post Title: a sample post</h4>
-                <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a></span>
-                <!--<a href="#">
-                  <p><span class="post-author">By Author</span><span class</p>
-                </a>-->
-                <p class="post-content">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
-                </p>
-                <ul class="list-inline list-unstyled">
-                  <li class="like-button">
-                    <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
-                  </li>
-                  <li class="comments-button">
-                    <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </div>
-          
+
           <!-- following tab-->
           <div id="following" class="tab-pane fade">
-            <div class="col-sm-6">
+<!--            <div class="col-sm-6">-->
               <div class="well">
                 <div class="row">
                   <div class="col-sm-6">
-                    <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                    <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
                       
                       <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>following</p></a>
-                      </div>
+                  </div>
                   <div class="col-sm-6">
                     <div class="dropdown">
                       <div class="well2">
@@ -96,35 +67,35 @@
                          Dropdown
                          <span class="caret"></span>
                          </button>-->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                           <li><a href="#">Profile</a></li>
                           <li class="divider"></li>
-                          <li class="dropdown-header"></li>
-                          <li><a href="#">Follow</a></li>
+<!--                          <li class="dropdown-header"></li>-->
+<!--                          <li><a href="#">Follow</a></li>-->
                           <li><a href="#">Add Friend</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">Unfollow</a></li>
-                          <li><a href="#">Unfriend</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">Block</a></li>
+<!--                          <li class="divider"></li>-->
+<!--                          <li><a href="#">Unfollow</a></li>-->
+<!--                          <li><a href="#">Unfriend</a></li>-->
+<!--                          <li class="divider"></li>-->
+<!--                          <li><a href="#">Block</a></li>-->
                         </ul>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+<!--            </div>-->
           </div>
         
         
           <!-- follower tab-->
           <div id="follower" class="tab-pane fade">
-            <div class="col-sm-6">
+<!--            <div class="col-sm-6">-->
               <div class="well">
                 <div class="row">
                   <div class="col-sm-6">
-                    <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                    <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
                       
                       <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>follower</p></a>
                       </div>
@@ -135,35 +106,35 @@
                          Dropdown
                          <span class="caret"></span>
                          </button>-->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                           <li><a href="#">Profile</a></li>
                           <li class="divider"></li>
                           <li class="dropdown-header"></li>
                           <li><a href="#">Follow</a></li>
-                          <li><a href="#">Add Friend</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">Unfollow</a></li>
-                          <li><a href="#">Unfriend</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">Block</a></li>
+<!--                          <li><a href="#">Add Friend</a></li>-->
+<!--                          <li class="divider"></li>-->
+<!--                          <li><a href="#">Unfollow</a></li>-->
+<!--                          <li><a href="#">Unfriend</a></li>-->
+<!--                          <li class="divider"></li>-->
+<!--                          <li><a href="#">Block</a></li>-->
                         </ul>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+<!--            </div>-->
           </div>
         
         
           <!-- friend tab -->
-          <div id="friends" class="tab-pane fade">
-            <div class="col-sm-6">
+          <div id="friends" class="tab-pane fade in active">
+<!--            <div class="col-sm-6">-->
               <div class="well">
                 <div class="row">
                   <div class="col-sm-6">
-                    <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                    <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
                       
                       <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>friends</p></a>
                       </div>
@@ -174,18 +145,18 @@
                          Dropdown
                          <span class="caret"></span>
                          </button>-->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true">Dropdown<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                           <li><a href="#">Profile</a></li>
-                          <li class="divider"></li>
+<!--                          <li class="divider"></li>-->
                           <li class="dropdown-header"></li>
-                          <li><a href="#">Follow</a></li>
-                          <li><a href="#">Add Friend</a></li>
+<!--                          <li><a href="#">Follow</a></li>-->
+<!--                          <li><a href="#">Add Friend</a></li>-->
                           <li class="divider"></li>
                           <li><a href="#">Unfollow</a></li>
-                          <li><a href="#">Unfriend</a></li>
-                          <li class="divider"></li>
-                          <li><a href="#">Block</a></li>
+<!--                          <li><a href="#">Unfriend</a></li>-->
+<!--                          <li class="divider"></li>-->
+<!--                          <li><a href="#">Block</a></li>-->
                         </ul>
                       </div>
                     </div>
@@ -193,7 +164,7 @@
                 </div>
               </div>
             </div>
-          </div>
+<!--          </div>-->
         </div>
         
         
