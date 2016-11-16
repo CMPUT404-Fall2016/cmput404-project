@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   // searches cookies for a github_username
   // debug
-   document.cookie = "github_name=stat3kk; expires=Thu, 18 Dec 2018 12:00:00 UTC";
+  // document.cookie = "github_name=stat3kk; expires=Thu, 18 Dec 2018 12:00:00 UTC";
   function getGithubUsername() {
     // look for the github_name in cookies
     var cookies = document.cookie.split(";");
