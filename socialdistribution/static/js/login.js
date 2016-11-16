@@ -44,8 +44,9 @@ function sendAJAX(method, url, message, callback) {
 
 
 // encodes the form data as a json object and sends AJAX request
-$("#create-btn").click(function () {
+$("#create-btn").click(function (e) {
 
+  e.preventDefault();
   var registerData = {}
   registerData["login_name"] = registerForm.elements["username"].value;
   registerData["name"] = registerForm.elements["displayName"].value;
