@@ -39,23 +39,32 @@
           <form method="post" action="" id="post-form">
             <fieldset>
               <div class="form-group">
-                <input type="text" class="form-control" name="title" placeholder="Post title">
+                <input type="text" class="form-control" name="title" placeholder="Post title" required>
               </div>
               <div class="form-group">
                 <input type="text" class="form-control" name="desc" placeholder="Description (optional)">
               </div>
               <div class="form-group">
-                <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?"></textarea>
+                <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
               <div class="form-group">
-                <label class="radio-inline"><input type="radio" name="text-type">Plain Text</label>
+                <label class="radio-inline"><input type="radio" checked="checked" name="text-type">Plain Text</label>
                 <label class="radio-inline"><input type="radio" name="text-type">Markdown</label>
+              </div>
+              <div class="form-group">
+                <select name="visibility">
+                  <option selected="selected" value ="PUBLIC">Public</option>
+                  <option value ="FOAF">Friends of Friends</option>
+                  <option value ="FRIENDS">Friends</option>
+                  <option value ="PRIVATE">Private</option>
+                  <option value="SERVERONLY">Server Only</option>
+                </select>
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">Add Image</label>
                 <input type="file" name="image">
               </div>
-              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Post</button>
+              <button id="post-submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Post</button>
             </fieldset>
           </form>
         </div>
@@ -158,6 +167,6 @@
 <script src="/js/utilities.js"></script>
 <script src="/js/github.js"></script>
 <script src="/js/setmycookie.js"></script>
-<!-- <script src="js/post.js"></script> -->
+<script src="js/post.js"></script>
 </body>
 </html>

@@ -1,7 +1,5 @@
-$("#post-image").
-
-$("form").submit(function(event) {
-  event.preventDefault();
+$("#post-submit").click(function(e) {
+  e.preventDefault();
 
   // encode form data as a JSON object
   var postForm = document.getElementById("post-form"),
@@ -10,19 +8,22 @@ $("form").submit(function(event) {
   postData["description"] = postForm.elements["desc"].value;
   postData["contentType"] = postForm.elements["text-type"].value;
   postData["content"] = postForm.elements["post-text"].value;
-
+  postData["visibility"] = postForm.elements["visibility"].value;
   // encode the current time in ISO 8601
   var timestamp = new Date();
   postData["published"] = timestamp.toISOString();
-  sendAJAX("POST", )
 
-
+  // debug
+  // console.log(postData);
+  sendAJAX("POST", "/makePost", postData, null)
+  window.location.reload();
 });
 
 // http://stackoverflow.com/questions/34972072/how-to-send-image-to-server-with-http-post-in-javascript-and-store-base64-in-mon
 // 11/01/2016
 
 // converts an image to Base64 encoding for sending in http request
+// not used
 function convertToBase64(url, imagetype, callback) {
 
     var img = document.createElement('IMG'),
@@ -47,37 +48,4 @@ function convertToBase64(url, imagetype, callback) {
     // on the page or is cached the event listener will still fire
 
     img.src = url;
-}
-
-// Here we define the function that will send the request to the server.
-// It will accept the image name, and the base64 data as arguments
-var sendBase64ToServer = function(name, base64){
-    var httpPost = new XMLHttpRequest(),
-        path = "http://127.0.0.1:8000/uploadImage/" + name,
-        data = JSON.stringify({image: base64});
-    httpPost.onreadystatechange = function(err) {
-            if (httpPost.readyState == 4 && httpPost.status == 200){
-                console.log(httpPost.responseText);
-            } else {
-                console.log(err);
-            }
-        };
-    // Set the content type of the request to json since that's what's being sent
-    httpPost.setHeader('Content-Type', 'application/json');
-    httpPost.open("POST", path, true);
-    httpPost.send(data);
-};
-
-// This wrapper function will accept the name of the image, the url, and the
-// image type and perform the request
-
-var uploadImage = function(src, name, type){
-    convertToBase64(src, type, function(data){
-        sendBase64ToServer(name, data);
-    });
-};
-
-uploadImage(imgsrc, name, 'image/jpeg');
-
-
 }
