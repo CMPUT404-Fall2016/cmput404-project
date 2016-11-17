@@ -70,8 +70,10 @@ def initServerObj():
 	db.session.commit()
 
 def createDefaultAuthor():
-	defaultAuthor=Authors(author1)
-	db.session.add(defaultAuthor)
+	defaultAuthor1=Authors(author1)
+	defaultAuthor2=Authors(author2)
+	db.session.add(defaultAuthor1)
+	db.session.add(defaultAuthor2)
 	db.session.commit()
 
 db.create_all()
