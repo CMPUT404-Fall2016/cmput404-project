@@ -20,6 +20,22 @@ APP_state['no_friend_Requests'] : Number of friend requests send to this server.
 APP_state = {}
 APP_state["session_ids"]={}
 APP_state["no_servers"] = 0
+APP_state["admin_credentials"] = None
+
+def initAdmin():
+	try :
+		f = open("admin_credentials.txt")
+		text = f.read()
+		splitted = text.split(',')
+		login = splitted[0].split(':')[1].strip()
+		password = splitted[1].split(':')[1].strip()
+		APP_state['admin_credentials'] = [login, password]
+		f.close()
+		print APP_state["admin_credentials"] 
+
+	except Exception as e:
+		print "error while loading admin : ", e
+
 
 def DELETE_ALL():
 	db.session.query(Author_Relationships).delete()
@@ -54,6 +70,7 @@ def initServerObj():
 
 db.create_all()
 initServerObj()
+initAdmin()
 
 
 
