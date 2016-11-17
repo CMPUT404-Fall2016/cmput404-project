@@ -79,6 +79,11 @@ function login(data) {
   window.location.href = "index.html";
 }
 
+//redirects to 
+function login_admin(data) {
+    window.location.herf = "/admin/";
+}
+
 $("#login-btn").click(function(e) {
 
   e.preventDefault();
@@ -96,7 +101,11 @@ $("#login-btn").click(function(e) {
       login(response);
 
     // username or password is incorrect
-  } else if (response["status"] == "NO_MATCH") {
+    } else if (response["status"] == "ADMIN") {
+      login(response);
+
+    // again, what the fUCK
+    } else if (response["status"] == "NO_MATCH") {
       $("#incorrect-alert").prop("disabled", true);
 
     // again, what the fUCK
