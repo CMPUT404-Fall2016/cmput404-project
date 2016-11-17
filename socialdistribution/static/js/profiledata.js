@@ -249,8 +249,9 @@ $("#saveprofilechange").click(function (e) {
 
 
 
-$("#addfriendbtn").click(function(e) {
-                              e.preventDefault();
+//$("#addfriendbtn").click(function(e) {
+function addFriend() {
+//                        e.preventDefault();
                          console.log("button works");
 //                              var friendrequestdata = {};
 //                              friendrequestdata["author"].id = getCookieid();
@@ -262,19 +263,19 @@ $("#addfriendbtn").click(function(e) {
                          var myinfostuff = "/author" + myuserid;
                          
                          sendAJAX("GET", myinfostuff, "", function(result) {
-                                  
+                                  console.log(result);
                                   //var myid = result.id;
                                   var myhost = result.host;
                                   var mydisplayname = result.displayName;
 
                                   });
                          
-                                  var friendid = document.getElementById("pid");
+                                  var friendid = document.getElementById("pid").placeholder;
                                   
                          var getfriendinfo = "/author/" + friendid;
                          
                          sendAJAX("GET", getfriendinfo, "", function(result) {
-                                  
+                                  console.log(result);
                                   var friendid = result.id;
                                   var friendhost = result.host;
                                   var frienddisplayname = result.displayName;
@@ -282,15 +283,17 @@ $("#addfriendbtn").click(function(e) {
                                   });
                          
                          var friendrequestdata = {};
-                         friendrequestdata.author["id"] = myuserid;
-                         friendrequestdata.author["host"] = myhost;
-                         friendrequestdata.author["displayName"] = mydisplayname;
-                         
-                         friendrequestdata.friend["id"] = friendid;
-                         friendrequestdata.friend["host"] = friendhost;
-                         friendrequestdata.friend["displayName"] = frienddisplayname;
-                         friendrequestdata.friend["url"] = friendurl;
-                         
+  friendrequestdata["author"]={"id":myuserid, "host":myhost, "displayName":mydisplayname};
+//                         friendrequestdata["author"]["host"] = myhost;
+//                         friendrequestdata["author"]["displayName"] = mydisplayname;
+  
+  friendrequestdata["friend"]={"id":friendid, "host":friendhost, "displayName":frienddisplayname, "url":friendurl};
+  console.log(friendrequestdata);
+//                         friendrequestdata["friend"]["id"] = friendid;
+//                         friendrequestdata["friend"]["host"] = friendhost;
+//                         friendrequestdata["friend"]["displayName"] = frienddisplayname;
+//                         friendrequestdata["friend"]["url"] = friendurl;
+  
                          
                               sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
                                        console.log(response);
@@ -299,7 +302,7 @@ $("#addfriendbtn").click(function(e) {
                          
               
                               
-});
+}
 
 
 
