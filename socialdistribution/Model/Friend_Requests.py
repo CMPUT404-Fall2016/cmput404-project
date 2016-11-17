@@ -13,7 +13,7 @@ class Friend_Requests(db.Model):
     
     fromAuthorServer_id = db.Column(db.Integer)
 
-    fromAuthorDisplayName = db.Column(db.String(64))
+    fromAuthorDisplayName = db.Column(db.String(60))
     
     toAuthor_id = db.Column(db.String(33))
     
@@ -67,6 +67,8 @@ class Friend_Requests(db.Model):
         self.toAuthor_id = datum['toAuthor_id']
         self.toAuthorServer_id = datum['toAuthorServer_id']
         self.isChecked = datum['isChecked']
+        if "fromAuthorDisplayName" in datum.keys():
+            self.fromAuthorDisplayName = datum["fromAuthorDisplayName"]
 
 
     def insert(self):
@@ -102,6 +104,10 @@ class Friend_Requests(db.Model):
         3) query_param['sendTo']=[toAuthorServer_id, toAuthor_id]
 
         4) query_param['sendFrom']=[fromAuthorServer_id, fromAuthor_id]
+
+        5) query_param['sendTo']=[toAuthorServer_id, toAuthor_id]
+           query_param['sendFrom']=[fromAuthorServer_id, fromAuthor_id]        
+        
         """
 
         if query_param=={}:
@@ -115,6 +121,17 @@ class Friend_Requests(db.Model):
                                                              ).all()
             return results
 
+
+        if ('sendTo' in query_param.keys()) and ('sendFrom' in query_param.keys()) :
+
+            toAuthorServer_id, toAuthor_id = query_param['sendTo']
+            fromAuthorServer_id, fromAuthor_id = query_param['sendFrom']
+            results=db.session.query(Friend_Requests).filter(Friend_Requests.toAuthor_id == toAuthor_id,
+                                                             Friend_Requests.toAuthorServer_id == toAuthorServer_id,
+                                                             Friend_Requests.fromAuthor_id == fromAuthor_id,
+                                                             Friend_Requests.fromAuthorServer_id == fromAuthorServer_id
+                                                             ).all()
+            return results
 
         if 'sendTo' in query_param.keys():
 

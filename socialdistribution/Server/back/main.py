@@ -1,36 +1,11 @@
 import flask
-from flask import Flask, request, Response
+from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 # from Server.REST_handlers import REST_handlers
 import json
 import uuid
 from model import *
 from Server.author_endpointHandlers import *
-
-
-
-# admin stuff -----------------------------------
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
-from flask_basicauth import BasicAuth
-from werkzeug.exceptions import HTTPException
-
-import os
-import os.path as op
-from db import db
-
-from wtforms import validators
-
-
-
-from flask_admin.contrib import sqla
-import flask_admin.contrib.sqla
-from flask_admin.form import rules
-#------------------------------------------------
-
-
-
-
 
 handler = None # This will be the global REST_handlers object
 COOKIE_NAME = "cookie_cmput404_"
@@ -45,60 +20,9 @@ def getHandler():
 
 
 
-
 # def main(self, app):
 
 app = Flask(__name__, static_url_path='')
-
-
-
-app.config['ADMIN_CREDENTIALS'] = ('admin', 'pa$$word')
-basic_auth = BasicAuth(app)
-
-app.config['SECRET_KEY'] = '123456790'
-
-
-
-class ModelView(flask_admin.contrib.sqla.ModelView):
-    def is_accessible(self):
-        auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
-        if not auth or (auth.username, auth.password) != app.config['ADMIN_CREDENTIALS']:
-            raise HTTPException('', Response(
-                "Please log in.", 401,
-                {'WWW-Authenticate': 'Basic realm="Login Required"'}
-            ))
-        return True
-
-
-
-class UserView(ModelView):
-    can_create = False
-
-class PostView(ModelView):
-    can_create = False
-
-class ImageView(ModelView):
-    can_create = False
-
-class URLView(ModelView):
-    can_create = False
-
-
-#@app.route('/admin/')
-#@basic_auth.required
-# Create admin
-
-admin = Admin(app, name='Example: Admin')
-
-# Add views
-admin.add_view(UserView(Authors, db.session))
-admin.add_view(PostView(Posts, db.session))
-admin.add_view(ImageView(Images, db.session))
-admin.add_view(URLView(URL, db.session))
-
-
-
-
 # api = Api(app)
 # parser = reqparse.RequestParser()
 # api.add_resource(Login, '/login/')

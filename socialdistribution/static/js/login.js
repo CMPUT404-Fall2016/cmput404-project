@@ -18,31 +18,6 @@ function checkPassword() {
       $("#create-btn").prop("disabled", false);
     }
 }
-
-// standard AJAX request
-function sendAJAX(method, url, message, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open(method, url);
-  xhr.onreadystatechange = function(){
-    if (xhr.readyState==4) {
-      try {
-        if (xhr.status==200) {
-          if(callback) {
-            // console.log(xhr.responseText);
-            callback(JSON.parse(xhr.responseText));
-          }
-        }
-      }
-      catch(e) {
-        alert('Error: ' + e.name);
-      }
-    }
-  }
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.send(JSON.stringify(message));
-}
-
-
 // encodes the form data as a json object and sends AJAX request
 $("#create-btn").click(function (e) {
 
@@ -96,7 +71,7 @@ $("#login-btn").click(function(e) {
       login(response);
 
     // username or password is incorrect
-  } else if (response["status"] == "NO_MATCH") {
+    } else if (response["status"] == "NO_MATCH") {
       $("#incorrect-alert").prop("disabled", true);
 
     // again, what the fUCK
