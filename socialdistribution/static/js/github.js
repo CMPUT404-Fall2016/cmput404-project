@@ -9,7 +9,7 @@ $(document).ready(function() {
     for(var i=0; i < cookies.length; i++) {
       var gname = cookies[i].split("=");
       if(gname[0] == "github_name") {
-        return = gname[1];
+        return gname[1];
       }
     }
     return "";

@@ -107,34 +107,29 @@ $("#friend-accept").click(function(e) {
                         
 
 
-//
-//$(document).ready(function() {
-//                  
-//                  var myTemplate = document.getElementById('profiledatas');
-//                  
-////                  var displaynameh = document.getElementById('profilehname');
-////                  var displaynameb = document.getElementById('profileusername');
-////                  var pname = document.getElementById('profilename');
-////                  var githubid = document.getElementById('profilegethubid');
-////                  var pbio = document.getElementById('profilebio');
-//                  
-//                  var pu = myTemplate.content.querySelector(".profilehname");
-//                  pu.textContent = "This is the changed pname";
-//                  
-//                  var pu = myTemplate.content.querySelector(".profileusername");
-//                  pu.textContent = "This is the changed username";
-//                  
-//                  var pn = myTemplate.content.querySelector(".profilename");
-//                  pn.textContent = "This is the changed name";
-//                  
-//                  var pg = myTemplate.content.querySelector(".profilegithubid");
-//                  pg.textContent = "This is the changed github id";
-//                  
-//                  var pb = myTemplate.content.querySelector(".profilebio");
-//                  pb.textContent = "This is the changed bio";
-//                  
-//                  var normalContent = document.getElementById('profile');
-//                  
-//                  var clonedTemplate = myTemplate.content.cloneNode(true);
-//                  normalContent.appendChild(clonedTemplate)
-//});
+$("#unfriend").click(function(e) {
+                          
+                          e.preventDefault();
+                          //var friendsTemplate = document.getElementById('following-container');
+                          
+                          //                          var friendsTemplate = document.getElementById('friend-container');
+                          //
+                          //                          var phname = friendsTemplate.content.querySelector("#thisusername");
+                          //                          phname.textContent = "Change";
+                          //
+                          //                          var normalContent = document.getElementById('frequest');
+                          //
+                          //                          var clonedTemplate = friendsTemplate.content.cloneNode(true);
+                          //                          normalContent.appendChild(clonedTemplate)
+                          
+                          var acceptfrienddata = {};
+                          acceptfrienddata["author_id"] = document.getElementById("author2id").textContent;
+                          
+                          
+                          
+                          sendAJAX("POST", "http://127.0.0.1:5000/unfriend", acceptfrienddata, function(response) {
+                                   console.log(response);
+                                   window.location.href="friendspage.html";
+                                   
+                                   });
+                          });

@@ -49,39 +49,73 @@ function sendAJAX(method, url, message, session_id, callback) {
 
 $(document).ready(function() {
                   
-//                  function getCookieid() {
-//                    // look for the github_name in cookies
-//                    var cookies = document.cookie.split(";");
-//                    for(var i=0; i < cookies.length; i++) {
-//                      var gname = cookies[i].split("=");
-//                      if(gname[0] == "github_name") {
-//                        return = gname[1];
-//                      }
-//                    }
-//                    return "";
+                  function getCookieid() {
+                    // look for the github_name in cookies
+                    var cookies = document.cookie.split(";");
+                    for(var i=0; i < cookies.length; i++) {
+                      var gname = cookies[i].split("=");
+                      if(gname[0] == "cookie_cmput404_author_id") {
+                         return gname[1];
+                      }
+                    }
+                    return "";
+                  }
+                  
+                  var myauthorid = getCookieid();
+                  
+                  
+//                  if (getCookieid() == myauthorid) {
+//                    document.getElementById("editprofilebtn").style.display="";
 //                  }
-//                  
-                  
-                  
+//                  else {
+//                    document.getElementById("editprofilebtn").style.display="none";
+//                  }
                   
 
   var friendsTemplate = document.getElementById('friends-container');
                   
-
+                  var myauthorlink = "/author/" + myauthorid;
                   
-                  var friendsTemplate = document.getElementById('friends-container');
                   
-                  sendAJAX("GET", "/getFriends", "", function(events) {
+                  sendAJAX("GET", myauthorlink, "", function(events) {
                     for(var i=0; i < events.length; ++i) {
-                           var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
-                           friendsTemplate.content.querySelector("#friendname").textContent = result[i].authorname;
-                           friendsTemplate.content.querySelector("#friendnamelink").href = friendlink;
+                           //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+                           
+                           friendsTemplate.content.querySelector("#friendid").href = result[i].friends[i].id;
+                           friendsTemplate.content.querySelector("#friendhost").href = result[i].friends[i].host;
+                           friendsTemplate.content.querySelector("#frienddisplayName").textContent = result[i].friends[i].displayName;
+                           friendsTemplate.content.querySelector("#friendurl").href = result[i].friends[i].url;
+                           
+                           var normalContent = document.getElementById('friendstab');
                            
                            var clonedTemplate = friendsTemplate.content.cloneNode(true);
                            normalContent.appendChild(clonedTemplate)
                     }
                            
                   });
+                  
+//                  var friendsTemplate = document.getElementById('friends-container');
+//                  
+//                  var frienddatas = {};
+//                  frienddatas["authorid"] = myauthorid;
+//                  
+//                  var myfriendlink = "/friends/" + myauthorid;
+//                  
+//                  sendAJAX("POST", myfriendlink, frienddatas, function(events) {
+//                           for(var i=0; i < events.length; ++i) {
+//                           
+//                           var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+//                           
+//                           sendAJAX("GET", "/authors", "", function(events) {
+//                                    friendsTemplate.content.querySelector("#friendname").textContent = result[i].authorname;
+//                                    friendsTemplate.content.querySelector("#friendnamelink").href = friendlink;
+//                                    
+//                                    var clonedTemplate = friendsTemplate.content.cloneNode(true);
+//                                    normalContent.appendChild(clonedTemplate)
+//                                    }
+//                            }
+//                                    
+//                    });
                   /*var text1 = "Changed1";
                   var text2 = "Changed2";
                   var text3 = "Changed3";
@@ -153,6 +187,8 @@ $("#fdtab").click(function(e) {
                             friendsTemplate.content.querySelector("#friendname").textContent = result[i].authorname;
                             friendsTemplate.content.querySelector("#friendnamelink").href = friendlink;
                             
+                            var normalContent = document.getElementById('friendstab');
+                            
                             var clonedTemplate = friendsTemplate.content.cloneNode(true);
                             normalContent.appendChild(clonedTemplate)
                             }
@@ -160,4 +196,20 @@ $("#fdtab").click(function(e) {
                             });
                    });
 
+
+
+$("#unfriendauthor").click(function(e) {
+                   e.preventDefault();
+                   
+//                           var friendsTemplate = document.getElementById('friends-container');
+//
+//                           var normalContent = document.getElementById('friendstab');
+//                           
+//                           var clonedTemplate = friendsTemplate.content.cloneNode(true);
+//                           normalContent.appendChild(clonedTemplate)
+                   
+                           sendAJAX("POST", "/unfriend", "", function(events) {
+                   
+                   });
+                           });
 
