@@ -10,7 +10,7 @@ from Server.author_endpointHandlers import *
 
 
 # admin stuff -----------------------------------
-from flask_admin import Admin
+from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_basicauth import BasicAuth
 from werkzeug.exceptions import HTTPException
@@ -87,19 +87,24 @@ class ImageView(ModelView):
 class URLView(ModelView):
     can_create = True
 
+class Back(BaseView):
+    @expose('/')
+    def index(self):
+        return app.send_static_file('./admin/index.html')
+
 
 #@app.route('/admin/')
 #@basic_auth.required
 # Create admin
 
-admin = Admin(app, name='Example: Admin')
+admin = Admin(app, name='Example: Admin', template_mode='bootstrap3')
 
 # Add views
 admin.add_view(UserView(Authors, db.session))
 admin.add_view(PostView(Posts, db.session))
 admin.add_view(ImageView(Images, db.session))
 admin.add_view(URLView(URL, db.session))
-
+admin.add_view(Back(name='Back', endpoint='back'))
 
 
 
