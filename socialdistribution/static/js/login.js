@@ -30,7 +30,7 @@ $("#create-btn").click(function (e) {
   // // debug
   // console.log(message);
   // return false;
-  sendAJAX("POST", "http://127.0.0.1:5000/register", registerData, function(response) {
+  sendAJAX("POST", "/register", registerData, function(response) {
 
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {

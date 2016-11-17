@@ -34,7 +34,7 @@ class Comments(db.Model):
         else:
             return super(Comments,cls).__new__(cls)
 
-    def __init__(self,datum):
+    def __init__(self,datum=None):
         
         """
             Input:
@@ -49,6 +49,10 @@ class Comments(db.Model):
             
             """
                 
+        if datum == None:
+            self.comment_id = uuid.uuid4().hex
+            return
+
         empty_string=""
             
         self.comment_id = datum["comment_id"]

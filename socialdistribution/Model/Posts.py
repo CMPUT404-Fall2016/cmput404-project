@@ -50,7 +50,7 @@ class Posts(db.Model):
         else:
             return super(Posts,cls).__new__(cls)
     
-    def __init__(self,datum):
+    def __init__(self,datum=None):
         
         """
         Input:
@@ -64,7 +64,10 @@ class Posts(db.Model):
         TODO:
 
         """
-        
+        if datum == None:
+            self.post_id = uuid.uuid4().hex
+            return
+
         empty_string=""
         
         self.post_id = datum["post_id"]
