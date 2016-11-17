@@ -37,8 +37,8 @@
               <div class="panel-body">
 
                 <ul class="nav nav-tabs nav-justified">
-                  <li class="active"><a href="#posts"> Friends Request</a></li>
-                  <li><a href="#temp"> Temp</a></li>
+                  <li class="active"><a href="#frequest" data-toggle="pill"> Friends Request</a></li>
+                  <li><a href="#temp" data-toggle="pill"> Temp</a></li>
                 </ul>
 
               </div>
@@ -49,86 +49,116 @@
         <!--</div>-->
         <div class="tab-content">
           <!-- friends -->
-          <div id="posts" class="tab-pane fade in active">
-<!--            <div class="col-sm-6">-->
-              <div class="well">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <img src="img/test.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                      
-                    <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>follower</p></a>
-                  </div>
-                  <div class="col-sm-6">
-                    
-                      <button id="friend-accept" onclick="" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p></a>
-                    
-                      <button id="friend-decline" onclick="" class="list-group-item"><span class="glyphicon glyphicon-remove" aria-hidden="true"> Decline</p></a>
-                    
-                  </div>
-                </div>
+          <div id="frequest" class="tab-pane fade in active">
+            <div id="friendtemplate">
+            <li class="list-group-item post-container media">
+              <!--<div class="col-sm-12">-->
+
+              <div class="media-left">
+
+                <h4></h4>
+                <a href="#" class="post-author-dp">
+                  <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+                    </a>
+                <h4></h4>
+
               </div>
-<!--            </div>-->
+
+              <div class="media-body">
+
+                <h4>
+                  <a href="#" id="profilepagelink">
+                    <span id="thisusername">Profile</span>
+                  </a>
+                </h4>
+                <div id="author2id-1" style="display:none;">Author 2 id 1</div>
+                <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
+                  </a>
+
+              </div>
+
+            </li>
+            </div>
+
+            <div id="friendtemplate">
+            <li class="list-group-item post-container media">
+              <!--<div class="col-sm-12">-->
+
+              <div class="media-left">
+
+                <h4></h4>
+                <a href="#" class="post-author-dp">
+                  <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+                    </a>
+                <h4></h4>
+
+              </div>
+
+              <div class="media-body">
+
+                <h4>
+                  <a href="#" id="profilepagelink">
+                    <span id="thisusername">Profile</span>
+                  </a>
+                </h4>
+                <div id="author2id-2" style="display:none;">Author 2 id 2</div>
+                <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
+                  </a>
+
+              </div>
+
+            </li>
+          </div>
 
           </div>
-          
+
           <!--  tab-->
           <div id="temp" class="tab-pane fade">
           </div>
-        
-        
+
+
         <!--Tabs-->
       </div>
     </div>
   </div>
-      <!--<li class="list-group-item post-container media">
-      <div class="media-left">
-        <a href="#" class="post-author-dp">
-          <img src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
-        </a>
-        <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p id="user2name"> Profile</p>
-        </a>
-      </div>
-      <div class="media-body">
-        <button id="friend-accept" onclick="" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p></a>
-      </div>
-    </li>-->
-      
-  <template id="post-container" class="follow-container">
-    <div class="container-counter">
+
+  <template id="friend-container">
+    <div id="friendtemplate">
       <li class="list-group-item post-container media">
-      <!--<div class="col-sm-12">-->
-      
+        <!--<div class="col-sm-12">-->
+
         <div class="media-left">
 
-              <h4></h4>
-              <a href="#" class="post-author-dp">
-                <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+          <h4></h4>
+          <a href="#" class="post-author-dp">
+            <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
               </a>
-              <h4></h4>
+          <h4></h4>
 
         </div>
 
         <div class="media-body">
 
           <h4>
-            <a href="#" id="profilepageusername">
+            <a href="#" id="profilepagelink">
               <span id="thisusername">Profile</span>
             </a>
           </h4>
-
-          <a href="" id="friend-accept" onclick="thisisatest(); return false;" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Follow</p>
-          </a>
+          <p id="author2id" style="display:none;">Author 2</p>
+          <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
+            </a>
 
         </div>
-     
+
       </li>
     </div>
   </template>
-  
-  <script src="tabs.js"></script>
-  <script src="js/navbar-load.js"></script>
-  <script src="js/loaditem.js"></script>
 
-  </script>
+<!--  <script src="tabs.js"></script>-->
+  <script src="js/utilities.js"></script>
+<!--  <script src="js/loaditem.js"></script>-->
+  <script src="js/friendrequest.js"></script>
+
+
 </body>
 </html>

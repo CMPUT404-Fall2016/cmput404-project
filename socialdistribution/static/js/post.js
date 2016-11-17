@@ -2,7 +2,21 @@ $("#post-image").
 
 $("form").submit(function(event) {
   event.preventDefault();
-  var imageFile =
+
+  // encode form data as a JSON object
+  var postForm = document.getElementById("post-form"),
+  postData = {};
+  postData["title"] = postForm.elements["title"].value;
+  postData["description"] = postForm.elements["desc"].value;
+  postData["contentType"] = postForm.elements["text-type"].value;
+  postData["content"] = postForm.elements["post-text"].value;
+
+  // encode the current time in ISO 8601
+  var timestamp = new Date();
+  postData["published"] = timestamp.toISOString();
+  sendAJAX("POST", )
+
+
 });
 
 // http://stackoverflow.com/questions/34972072/how-to-send-image-to-server-with-http-post-in-javascript-and-store-base64-in-mon
@@ -64,18 +78,6 @@ var uploadImage = function(src, name, type){
 };
 
 uploadImage(imgsrc, name, 'image/jpeg');
-
-// encode form data as a JSON object
-var postForm = document.getElementById("post-form"),
-postData = {};
-postData["title"] = postForm.elements["title"].value;
-postData["description"] = postForm.elements["desc"].value;
-postData["contentType"] = postForm.elements["text-type"].value;
-postData["content"] = postForm.elements["post-text"].value;
-
-// encode the current time in ISO 8601
-var timestamp = new Date();
-postData["published"] = timestamp.toISOString();
 
 
 }
