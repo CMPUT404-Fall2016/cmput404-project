@@ -97,11 +97,13 @@ $(document).ready(function() {
                   
                   var mypTemplate = document.getElementById('profiledatas');
                   
+                  var friendauthorid = getFriendcookieid();
+                  
                   var myprofilelink = "/author/" + myauthorid;
                   var thisauthorlink = "/author/" + getFriendcookieid();
                   //sendAJAX("GET",)
                   
-                  if (myauthorid == getCookieid()) {
+                  if (myauthorid == getFriendcookieid()) {
                   
                           sendAJAX("GET", myprofilelink, "", function(result) {
                                    
@@ -139,9 +141,9 @@ $(document).ready(function() {
                       //document.getElementById("editprofilebtn").style.display="";
                   
                   }
-                  else {
+                  else if (friendauthorid == getFriendcookieid()){
                   
-                  sendAJAX("GET", thisauthorlink, "", function(result) {
+                      sendAJAX("GET", thisauthorlink, "", function(result) {
                            
                            console.log(result);
                            var td = mypTemplate.content.querySelector("#profilehname");
@@ -173,7 +175,7 @@ $(document).ready(function() {
                            
                            document.getElementById("editprofilebtn").style.display="none";
                            document.getElementById("addfriendbtn").style.display="";
-                           });
+                      });
                   
                   
                   }
