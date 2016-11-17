@@ -9,6 +9,7 @@ from Model.Images import Images
 from Model.Posts import Posts
 from Model.Servers import Servers
 from Model.URL import URL
+from sample_data.data1 import *
 
 
 """
@@ -20,6 +21,22 @@ APP_state['no_friend_Requests'] : Number of friend requests send to this server.
 APP_state = {}
 APP_state["session_ids"]={}
 APP_state["no_servers"] = 0
+APP_state["admin_credentials"] = None
+
+def initAdmin():
+	try :
+		f = open("admin_credentials.txt")
+		text = f.read()
+		splitted = text.split(',')
+		login = splitted[0].split(':')[1].strip()
+		password = splitted[1].split(':')[1].strip()
+		APP_state['admin_credentials'] = [login, password]
+		f.close()
+		print APP_state["admin_credentials"] 
+
+	except Exception as e:
+		print "error while loading admin : ", e
+
 
 def DELETE_ALL():
 	db.session.query(Author_Relationships).delete()
@@ -52,8 +69,15 @@ def initServerObj():
 	db.session.add(myServer)
 	db.session.commit()
 
+def createDefaultAuthor():
+	defaultAuthor=Authors(author1)
+	db.session.add(defaultAuthor)
+	db.session.commit()
+
 db.create_all()
 initServerObj()
+initAdmin()
+createDefaultAuthor()
 
 
 
