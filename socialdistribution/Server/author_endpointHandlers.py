@@ -455,9 +455,16 @@ def getAuthor(param):
 
 
 
-def verifyAdmin():
-    # APP_state['admin_credentials']
-    pass
+def verifyAdmin(param):
+    if APP_state['admin_credentials'] == None:
+        print "NO admin exists"
+        return False
+
+    if param == APP_state['admin_credentials']:
+        return True
+    else:
+        return False
+
 
 def userLogin(param):
 
@@ -493,6 +500,9 @@ def userLogin(param):
 
     if len(login_name) > 60:
         return "BAD_INPUT"
+
+    if verifyAdmin([login_name, password]):
+        return "ADMIN"
 
     results=db.session.query(Authors).filter(Authors.login_name == login_name).all()
 
@@ -577,6 +587,9 @@ def userRegistration(param):
     # except Exception as e:
     #   print "Failed to convert birthdate to datetime object! : ", e
     #   return 2
+   
+    if verifyAdmin([login_name, password]):
+        return "DUPLICATE"
 
     datum = {}
     datum["author_id"]  = uuid.uuid4().hex
