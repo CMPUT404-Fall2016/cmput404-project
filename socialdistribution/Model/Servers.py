@@ -31,7 +31,7 @@ class Servers(db.Model):
             return super(Servers, cls).__new__(cls)
 
     
-    def __init__(self, datum):
+    def __init__(self, datum=None):
         """
         Input:
             datum is a dictionary with keys as column names and values as their corresponding values.
@@ -44,6 +44,8 @@ class Servers(db.Model):
         TODO:
 
         """
+        if datum == None:
+            return
 
         self.server_id = datum['server_id']
         self.IP = datum['IP']

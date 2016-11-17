@@ -8,7 +8,7 @@ class Author_Relationships(db.Model):
     __tablename__ = 'author_relationships'
 
     # AuthorRelationship_id = db.Column(db.Integer, primary_key=True)
-    AuthorRelationship_id = db.Column(db.String(33))
+    AuthorRelationship_id = db.Column(db.String(33), primary_key=True)
     
     authorServer1_id = db.Column(db.Integer)
     
@@ -24,8 +24,8 @@ class Author_Relationships(db.Model):
     
     relationship_type = db.Column(db.Integer) # if 1, author1 is following author 2, if 2 then author2 is following author1, if 3 then both are friends
 
-    db.PrimaryKeyConstraint(authorServer1_id, author1_id)
-    db.PrimaryKeyConstraint(authorServer2_id, author2_id)
+    # db.PrimaryKeyConstraint(authorServer1_id, author1_id)
+    # db.PrimaryKeyConstraint(authorServer2_id, author2_id)
 
 
     def __new__(cls, datum=None):
@@ -49,7 +49,7 @@ class Author_Relationships(db.Model):
 
 
 
-    def __init__(self, datum):
+    def __init__(self, datum=None):
         """
         Input:
             datum is a dictionary with keys as column names and values as their corresponding values.
@@ -62,6 +62,8 @@ class Author_Relationships(db.Model):
         TODO:
 
         """
+        if datum == None:
+            return
 
         self.AuthorRelationship_id = datum['AuthorRelationship_id']
         self.author1_id = datum['author1_id']
@@ -189,6 +191,8 @@ class Author_Relationships(db.Model):
                                                                   Author_Relationships.authorServer2_id == server2_id,
                                                                   ).all()
 
+            print "printing all!"
+            print db.session.query(Author_Relationships).all()
             return results
 
 

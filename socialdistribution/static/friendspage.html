@@ -79,7 +79,7 @@
 <!---->
 <!--          </div>-->
 
-        
+
           <!-- follower tab-->
           <div id="frequest" class="tab-pane fade">
 <!--            <div class="well">-->
@@ -108,19 +108,19 @@
             <div id="friendtemplate">
               <li class="list-group-item post-container media">
                 <!--<div class="col-sm-12">-->
-                
+
                 <div class="media-left">
-                  
+
                   <h4></h4>
                   <a href="#" class="post-author-dp">
                     <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
                       </a>
                   <h4></h4>
-                  
+
                 </div>
-                
+
                 <div class="media-body">
-                  
+
                   <h4>
                     <a href="#" id="profilepagelink">
                       <span id="thisusername">Profile</span>
@@ -129,27 +129,48 @@
                   <p id="author2id" style="display:none;">Author 2</p>
                   <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p>
                     </a>
-                  
+
                 </div>
-                
+
               </li>
             </div>
-            
+
           </div>
-        
-        
+
+
           <!-- friend tab -->
           <div id="friendstab" class="tab-pane fade in active">
-
+            <div class="well">
+              <div class="row">
+                <div class="col-sm-6">
+                  <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+                    <p style="display:none;" id="friendid"></p>
+                    <p style="display:none;" id="friendhost"></p>
+                    <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>
+                </div>
+                <div class="col-sm-6">
+                  <div class="dropdown">
+                    <div class="well2">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" id="unfriendauthor">Unfriend</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           </div>
-        
+
         <!--Tabs-->
       </div>
     </div>
   </div>
-  
-  
+
+
   <template id="post-container">
     <li class="list-group-item post-container media">
       <div class="media-left">
@@ -161,7 +182,7 @@
         <h4 class="media-heading">Post Title: a sample post</h4>
         <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
         <p class="post-content">
-        
+
         </p>
         <ul class="list-inline list-unstyled">
           <li class="like-button">
@@ -174,34 +195,30 @@
       </div>
     </li>
   </template>
-  
+
   <template id="friends-container">
     <div class="well">
       <div class="row">
         <div class="col-sm-6">
           <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-            
+
+            <p style="display:none;" id="friendid"></p>
+            <p style="display:none;" id="friendhost"></p>
+            <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>
+            </div>
+
+
             <a href="#" id="friendnamelink" class="list-group-item"><p id="friendname">friends</p></a>
         </div>
+
         <div class="col-sm-6">
           <div class="dropdown">
             <div class="well2">
-              <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-               Dropdown
-               <span class="caret"></span>
-               </button>-->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#">Profile</a></li>
-                <!--                          <li class="divider"></li>-->
-                <li class="dropdown-header"></li>
-                <!--                          <li><a href="#">Follow</a></li>-->
-                <!--                          <li><a href="#">Add Friend</a></li>-->
                 <li class="divider"></li>
-                <li><a href="#">Unfollow</a></li>
-                <li><a href="#">Unfriend</a></li>
-                <!--                          <li class="divider"></li>-->
-                <!--                          <li><a href="#">Block</a></li>-->
+                <li><a href="#" id="unfriendauthor">Unfriend</a></li>
               </ul>
             </div>
           </div>
@@ -209,13 +226,13 @@
       </div>
     </div>
   </template>
-  
+
   <template id="following-container">
     <div class="well">
       <div class="row">
         <div class="col-sm-6">
           <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-            
+
             <a href="#" id="friendnamelink" class="list-group-item"><p id="friendname">friends</p></a>
         </div>
         <div class="col-sm-6">
@@ -244,13 +261,13 @@
       </div>
     </div>
   </template>
-  
+
   <template id="follower-container">
     <div class="well">
       <div class="row">
         <div class="col-sm-6">
           <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-            
+
             <a href="#" id="friendnamelink" class="list-group-item"><p id="friendname">friends</p></a>
         </div>
         <div class="col-sm-6">
@@ -278,24 +295,28 @@
       </div>
     </div>
   </template>
-  
+
+
+
+
   <template id="friend-container">
+
     <div id="friendtemplate">
       <li class="list-group-item post-container media">
         <!--<div class="col-sm-12">-->
-        
+
         <div class="media-left">
-          
+
           <h4></h4>
           <a href="#" class="post-author-dp">
             <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
               </a>
           <h4></h4>
-          
+
         </div>
-        
+
         <div class="media-body">
-          
+
           <h4>
             <a href="#" id="profilepagelink">
               <span id="thisusername">Profile</span>
@@ -304,14 +325,14 @@
           <p id="author2id" style="display:none;">Author 2</p>
           <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
             </a>
-          
+
         </div>
-        
+
       </li>
     </div>
   </template>
-  
-  <script src="js/navbar-load.js"></script>
+
+  <script src="js/utilities.js"></script>
 <!--  <script src="js/authorpost.js"></script>-->
   <script src="js/friendsdata.js"></script>
   <script src="js/friendrequest.js"></script>

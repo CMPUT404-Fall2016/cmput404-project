@@ -55,7 +55,7 @@ class Authors(db.Model):
             return super(Authors, cls).__new__(cls)
 
     
-    def __init__(self, datum):
+    def __init__(self, datum=None):
         """
         Input:
             datum is a dictionary with keys as column names and values as their corresponding values.
@@ -68,6 +68,10 @@ class Authors(db.Model):
         TODO:
             * What to do about default birthdate??
         """
+
+        if datum == None:
+            return
+
 
         empty_string=""
 

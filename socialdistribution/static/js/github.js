@@ -9,7 +9,7 @@ $(document).ready(function() {
     for(var i=0; i < cookies.length; i++) {
       var gname = cookies[i].split("=");
       if(gname[0] == "github_name") {
-        return = gname[1];
+        return gname[1];
       }
     }
     return "";
@@ -21,29 +21,6 @@ $(document).ready(function() {
       sidebar = document.getElementById("github"),
       githubTemplate = document.getElementById("github-container");
 
-  // standard AJAX request
-  function sendAJAX(method, url, message, session_id, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.onreadystatechange = function(){
-      if (xhr.readyState==4) {
-        try {
-          if (xhr.status==200) {
-            if(callback) {
-              callback(JSON.parse(xhr.responseText));
-            }
-          }
-        }
-        catch(e) {
-          alert('Error: ' + e.name);
-        }
-      }
-    }
-    if(message) {
-      xhr.setHeader("Content-Type", "application/json");
-    }
-    xhr.send(JSON.stringify(message));
-  }
 
   // get the events and process them to be displayed in github-containers
   if(github_name) {
