@@ -51,35 +51,32 @@
         <div class="tab-content">
           <!-- profile tab-->
           <div id="profile" class="tab-pane fade in active">
-<!--            <h4 id="profilehname">Display Name</h4>-->
-<!---->
-<!--            <div class=" col-md-9 col-lg-9 ">-->
+<!--            <h4 id="profilehname" class=="profilehname">Profile</h4>-->
+<!--            -->
+<!--            <div class="" id="profileinfo">-->
 <!--              <table class="table table-user-information">-->
 <!--                <tbody>-->
 <!--                  <tr>-->
-<!--                    <td>Username</td>-->
-<!--                    <td id="profileusername">Temp username</td>-->
+<!--                    <td>ID</td>-->
+<!--                    <td id="profileid" class="profileid">userid</td>-->
 <!--                  </tr>-->
 <!--                  <tr>-->
 <!--                    <td>Name:</td>-->
-<!--                    <td id="profilename">Temp name</td>-->
+<!--                    <td id="profiledname" class="profiledname">name</td>-->
 <!--                  </tr>-->
 <!--                  <tr>-->
-<!--                    <td>Github_id:</td>-->
-<!--                    <td id="profilegithubid">Temp github id</td>-->
+<!--                    <td>Host:</td>-->
+<!--                    <td id="profilehost" class="profilehost"> TT Host</td>-->
 <!--                  </tr>-->
 <!--                  <tr>-->
-<!--                    <td>Bio:</td>-->
-<!--                    <td id="profilebio">Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>Date of Birth (Might not need this)</td>-->
-<!--                    <td id="profilebirthday">2000-01-01</td>-->
+<!--                    <td>URL:</td>-->
+<!--                    <td id="profileurl" class="profileurl">TT URL</td>-->
 <!--                  </tr>-->
 <!--                  -->
 <!--                </tbody>-->
 <!--              </table>-->
-<!--              <a data-toggle="pill" href="#profilechange" type="button" class="btn btn-info">Edit</a>-->
+<!--              <a data-toggle="pill" id="addfriendbtn" href="" type="button" class="btn btn-info" style="">Add Friend</a>-->
+<!--              <a data-toggle="pill" id="editprofilebtn" href="#profilechange" type="button" class="btn btn-info" style="display:none">Edit</a>-->
 <!--            </div>-->
 
 
@@ -88,31 +85,42 @@
           <!-- TEMP -->
           <div id="profilechange" class="tab-pane fade">
             <h4 id="profilename">Profile Edit</h4>
+<<<<<<< HEAD
+            
+<!--            <div class=" col-md-9 col-lg-9 ">-->
+              <form role="form" id="editprofileform">
+=======
 
             <div class=" col-md-9 col-lg-9 ">
               <form role="form" id="login-form">
+>>>>>>> dd3fa2e2bef0feec409ea202bd8d45013e0253d5
                 <fieldset>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username" disabled="disabled">
+                    <input id="pid" type="text" class="form-control" name="pid" placeholder="Id" disabled="disabled">
                       </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="displayName" placeholder="Display Name">
+                    <input id="pdn" type="text" class="form-control" name="pdisplayName" placeholder="Display Name">
                       </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="githubid" placeholder="Github Id" required>
+                    <input id="phost" type="text" class="form-control" name="phost" placeholder="host" disabled="disabled">
                       </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="bio" placeholder="Bio">
+                    <input id="purl" type="text" class="form-control" name="purl" placeholder="url" disabled="disabled">
                       </div>
                   <!--            <div class="form-group">-->
                   <!--              <input type="date" class="form-control">-->
                   <!--            </div>-->
+<<<<<<< HEAD
+                  
+                  <a onclick="editauthorpage(); return false;"data-toggle="pill" href="#profile" type="button" class="btn btn-info">Save</a>
+=======
 
                   <a data-toggle="pill" href="#profile" type="button" class="btn btn-info">Save</a>
+>>>>>>> dd3fa2e2bef0feec409ea202bd8d45013e0253d5
                   <a data-toggle="pill" href="#profile" type="button" class="btn btn-warning">Cancel</a>
                 </fieldset>
               </form>
-            </div>
+<!--            </div>-->
           </div>
 
           <!-- posts -->
@@ -181,25 +189,35 @@
       <h4 id="profilehname" class=="profilehname">Profile</h4>
 <!--    </h4>-->
 
-    <div class=" col-md-9 col-lg-9 ">
+    <div class="" id="profileinfo">
       <table class="table table-user-information">
         <tbody>
           <tr>
-            <td>Username</td>
-            <td id="profileusername" class="profileusername">Temp username</td>
+            <td>ID</td>
+            <td id="profileid" class="profileid">userid</td>
           </tr>
           <tr>
             <td>Name:</td>
-            <td id="profilename" class="profilename">Temp name</td>
+            <td id="profiledname" class="profiledname">name</td>
           </tr>
           <tr>
-            <td>Github_id:</td>
-            <td id="profilegithubid" class="profilegithubid">Temp github id</td>
+            <td>Host:</td>
+            <td id="profilehost" class="profilehost"> TT Host</td>
           </tr>
           <tr>
-            <td>Bio:</td>
-            <td id="profilebio" class="profilebio">Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. Temp bio. </td>
+            <td>URL:</td>
+            <td id="profileurl" class="profileurl">TT URL</td>
           </tr>
+<<<<<<< HEAD
+
+        </tbody>
+      </table>
+      <a id="addfriendbtn" href="#" type="button" class="btn btn-info" style="">Add Friend</a>
+      <a data-toggle="pill" id="editprofilebtn" href="#profilechange" type="button" class="btn btn-info" style="display:none">Edit</a>
+    </div>
+  </template>
+  
+=======
           <tr>
             <td>Date of Birth (Might not need this)</td>
             <td id="profilebirthday">2000-01-01</td>
@@ -244,6 +262,7 @@
   
 
 
+>>>>>>> dd3fa2e2bef0feec409ea202bd8d45013e0253d5
 <!--  <script src="js/tabs.js"></script>-->
   <script src="js/utilities.js"></script>
   <script src="js/authorpost.js"></script>
