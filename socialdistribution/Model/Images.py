@@ -16,6 +16,7 @@ class Images(db.Model):
     # Default Constructor
     def __init__(self, datum=None):
         if datum == None:
+            self.image_id = uuid.uuid4().hex
             return
 
         self.image_id = datum["image_id"]   

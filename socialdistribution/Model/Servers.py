@@ -45,6 +45,7 @@ class Servers(db.Model):
 
         """
         if datum == None:
+            self.server_id = uuid.uuid4().hex
             return
 
         self.server_id = datum['server_id']
