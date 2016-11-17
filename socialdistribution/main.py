@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, request, Response
+from flask import Flask, request, Response, session
 from flask_restful import reqparse, abort, Api, Resource
 # from Server.REST_handlers import REST_handlers
 import json
@@ -10,10 +10,12 @@ from Server.author_endpointHandlers import *
 
 
 # admin stuff -----------------------------------
-from flask_admin import Admin
+from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_basicauth import BasicAuth
 from werkzeug.exceptions import HTTPException
+from datetime import timedelta
+
 
 import os
 import os.path as op
@@ -58,10 +60,12 @@ basic_auth = BasicAuth(app)
 app.config['SECRET_KEY'] = '123456790'
 
 
-
+# quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
+        session.permanent = True
+        app.permanent_session_lifetime = timedelta(seconds=10)
         if not auth or (auth.username, auth.password) != app.config['ADMIN_CREDENTIALS']:
             raise HTTPException('', Response(
                 "Please log in.", 401,
@@ -72,30 +76,35 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
 
 
 class UserView(ModelView):
-    can_create = False
+    can_create = True
 
 class PostView(ModelView):
-    can_create = False
+    can_create = True
 
 class ImageView(ModelView):
-    can_create = False
+    can_create = True
 
 class URLView(ModelView):
-    can_create = False
+    can_create = True
+
+class Back(BaseView):
+    @expose('/')
+    def index(self):
+        return app.send_static_file('./admin/index.html')
 
 
 #@app.route('/admin/')
 #@basic_auth.required
 # Create admin
 
-admin = Admin(app, name='Example: Admin')
+admin = Admin(app, name='Example: Admin', template_mode='bootstrap3')
 
 # Add views
 admin.add_view(UserView(Authors, db.session))
 admin.add_view(PostView(Posts, db.session))
 admin.add_view(ImageView(Images, db.session))
 admin.add_view(URLView(URL, db.session))
-
+admin.add_view(Back(name='Back', endpoint='back'))
 
 
 
