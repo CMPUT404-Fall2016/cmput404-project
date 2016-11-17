@@ -666,7 +666,6 @@ def FollowUser():
 @app.route("/friends/<AUTHOR_ID>", methods=['GET'])
 def GetFriendList(AUTHOR_ID):
     """
-    NOT TESTED
     """
 
     param = {}
@@ -684,7 +683,6 @@ def GetFriendList(AUTHOR_ID):
 @app.route("/friends/<AUTHOR_ID>", methods=['POST'])
 def checkIfFriendsList(AUTHOR_ID):
     """
-    NOT TESTED
     """
     try:
         data=flask_post_json()
@@ -711,7 +709,6 @@ def checkIfFriendsList(AUTHOR_ID):
 @app.route("/friends/<AUTHOR_ID_1>/<AUTHOR_ID_2>", methods=['GET'])
 def checkIfFriends(AUTHOR_ID_1, AUTHOR_ID_2):
     """
-    NOT TESTED
     """
     param={}
     param["author1"] = AUTHOR_ID_1

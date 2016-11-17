@@ -3,6 +3,7 @@ from Model.Authors import Authors
 from Model.Servers import Servers
 from model import *
 from sqlalchemy import and_
+import uuid
 
 class Author_Relationships(db.Model):
     __tablename__ = 'author_relationships'
@@ -49,7 +50,7 @@ class Author_Relationships(db.Model):
 
 
 
-    def __init__(self, datum):
+    def __init__(self, datum=None):
         """
         Input:
             datum is a dictionary with keys as column names and values as their corresponding values.
@@ -62,6 +63,9 @@ class Author_Relationships(db.Model):
         TODO:
 
         """
+        if datum == None:
+            self.AuthorRelationship_id = uuid.uuid4().hex
+            return
 
         self.AuthorRelationship_id = datum['AuthorRelationship_id']
         self.author1_id = datum['author1_id']

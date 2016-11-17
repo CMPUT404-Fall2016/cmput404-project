@@ -455,6 +455,9 @@ def getAuthor(param):
 
 
 
+def verifyAdmin():
+    # APP_state['admin_credentials']
+    pass
 
 def userLogin(param):
 

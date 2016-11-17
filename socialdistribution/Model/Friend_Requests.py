@@ -60,6 +60,10 @@ class Friend_Requests(db.Model):
         TODO:
 
         """
+        if datum == None:
+            self.friendrequests_id = uuid.uuid4().hex
+            return
+
 
         self.friendrequests_id = datum['friendrequests_id']
         self.fromAuthor_id = datum['fromAuthor_id']
