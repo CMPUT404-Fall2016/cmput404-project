@@ -49,7 +49,7 @@ class Author_Relationships(db.Model):
 
 
 
-    def __init__(self, datum):
+    def __init__(self, datum=None):
         """
         Input:
             datum is a dictionary with keys as column names and values as their corresponding values.
@@ -62,6 +62,8 @@ class Author_Relationships(db.Model):
         TODO:
 
         """
+        if datum == None:
+            return
 
         self.AuthorRelationship_id = datum['AuthorRelationship_id']
         self.author1_id = datum['author1_id']
