@@ -10,35 +10,37 @@ THINGS TO DO:
 """
 
 
-# def isFriend(param):
-#   """
-#   This will be called in response to :
-#   GET http://service/friends/<authorid1>/<authorid2>  Checks whether the author1 is friends with author 2. 
+def isFriend(param):
+  """
+  This will be called in response to :
+  GET http://service/friends/<authorid1>/<authorid2>  Checks whether the author1 is friends with author 2. 
 
-#   Refer to line : 156-169     
+  Refer to line : 156-169     
 
-#   param["author1"] = authorid1
-#   param["author2"] = authorid2
-#   """
+  param["author1"] = authorid1
+  param["author2"] = authorid2
+  """
 
-#   author_id1 = param["author1"]
-#   author_id2 = param["author2"]
-#   query_param={}
-#   query_param['author_ids'] = [author_id1, author_id2]
-#   results=Author_Relationships.query(query_param)
-#   if len(results) > 0 :
-#       assert(len(results) == 1), "Duplicate author_relationships entry found!"
-#       if results[0].relationship_type == 3 :
-#           return True
+  author_id1 = param["author1"]
+  author_id2 = param["author2"]
+  query_param={}
+  query_param['author_ids'] = [author_id1, author_id2]
+  results=Author_Relationships.query(query_param)
+  if len(results) > 0 :
+      # print results[0].relationship_type  
+      assert(len(results) == 1), "Duplicate author_relationships entry found!"
+      if results[0].relationship_type == 3 :
+          return True
 
-#   query_param['author_ids'] = [author_id2, author_id1] # Search with reverse query
-#   results=Author_Relationships.query(query_param)
-#   if len(results) > 0 :
-#       assert(len(results) == 1), "Duplicate author_relationships entry found!"
-#       if results[0].relationship_type == 3 :
-#           return True
+  query_param['author_ids'] = [author_id2, author_id1] # Search with reverse query
+  results=Author_Relationships.query(query_param)
+  if len(results) > 0 :
+      # print results[0].relationship_type  
+      assert(len(results) == 1), "Duplicate author_relationships entry found!"
+      if results[0].relationship_type == 3 :
+          return True
 
-#   return False
+  return False
 
 
 
@@ -64,20 +66,22 @@ def getFriendList(param):
     query_param={}
     query_param["server_author_id1"] = [server_index, author_id, 3] 
     results1 = Author_Relationships.query(query_param)
+    # print results1
     friendList = serializeFriendList(results1, 2)
 
     query_param={}   
-    query_param["server_author_id2"] = [server_index, author_id, 3] 
+    query_param["server_author_id2"] = [server_index, author_id, 3] #Reverse query, posing the author as the second user in the table
     results2 = Author_Relationships.query(query_param)
+    # print results2
     friendList = serializeFriendList(results2, 1) + friendList
 
     return friendList
 
 
-def serializeFriendList(friendList, number):
+def serializeFriendList(FriendList, number):
 
     friendlist = []
-    for friendship in friendlist:
+    for friendship in FriendList:
         temp={}
         if number == 1:
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer1_id).all()[0].IP
@@ -95,219 +99,312 @@ def serializeFriendList(friendList, number):
 
         friendlist.append(temp)
 
+    # print friendlist
     return friendlist
 
-# def areFriends_LIST(param):
-#   """
-#   This will be called in response to :
-#   POST http://service/friends/<authorid>  POSTS a JSON containing lists of authorids and returns with a list containing those IDs 
-#   who are friend with authorid author
 
-#   Refer to line : 171-196
+def areFriends_LIST(param):
+  """
+  This will be called in response to :
+  POST http://service/friends/<authorid>  POSTS a JSON containing lists of authorids and returns with a list containing those IDs 
+  who are friend with authorid author
 
-#   param["query_author"] = authorid in query
-#   param["authors"] = [author_id1, author_id2 ,...., author_idn]
-#   """
+  Refer to line : 171-196
 
-#   author_id_List = param["authors"]
-#   my_author_id = param["query_author"]
-#   my_friends=[]
+  param["author"] = authorid in query
+  param["authorsForQuery"] = [author_id1, author_id2 ,...., author_idn]
+  """
 
-#   for other_author_id in author_id_List :
+  author_id_List = param["authorsForQuery"]
+  my_author_id = param["author"]
+  my_friends=[]
 
-#       query_param = {}
-#       query_param["author1"] = my_author_id
-#       query_param["author2"] = other_author_id
-#       if isFriend(query_param) is True:
-#           my_friends.append(other_author_id)
+  for other_author_id in author_id_List :
 
-#   return my_friends
+      query_param = {}
+      query_param["author1"] = my_author_id
+      query_param["author2"] = other_author_id
+      if isFriend(query_param) is True:
+          my_friends.append(other_author_id)
+
+  return my_friends
 
 
-# def processFriendRequest(param):
+def addNewServer():
+    pass
 
-#   """
-#   This will be called in response to :
-#   POST http://service/friendrequest  POSTS a JSON containing author info and the to be friended author's info and this sends a friendrequest
+def processFriendRequest(param):
+
+    """
+    This will be called in response to :
+    POST http://service/friendrequest  POSTS a JSON containing author info and the to be friended author's info and this sends a friendrequest
+
+    refer to line 227-244
+
+    param["from_author"] = author id who send the request
+    param["from_author_name"] = from author name
+    param["to_author"] = the author to whom the request is sent to
+    param["to_author_name"] = to author name
+    param["from_serverIP"] = server IP hosting the from_author
+    param["to_serverIP"] = obj of our local server 
+    """
+
+    # result = db.session.query(Authors).filter(Authors.author_id == param["to_author"]).all()
+    # if len(result) == 0:
+    #     return False
+
+    to_serverIP = param["to_serverIP"]
+    to_server_index=db.session.query(Servers).filter(Servers.IP == to_serverIP).all()[0].server_index
+
+    from_serverIP = param["from_serverIP"]
+    from_server_index=db.session.query(Servers).filter(Servers.IP == from_serverIP).all()[0].server_index
+  
+    if APP_state['local_server_Obj'].IP == from_serverIP:
+        print "process 1"
+        datum={}
+        datum = {
+                'AuthorRelationship_id' : uuid.uuid4().hex,
+                'authorServer1_id' : from_server_index,
+                'author1_id': param["from_author"],
+                'author1_name': param["from_author_name"],
+                'authorServer2_id' : to_server_index,
+                "author2_id" : param["to_author"],
+                'author2_name' : param["to_author_name"],
+                'relationship_type' : 1
+                }
+
+        new_relationship = Author_Relationships(datum)
+        db.session.add(new_relationship)
+        db.session.commit()
+
+    datum={}
+    datum = {
+            'friendrequests_id' : uuid.uuid4().hex, 
+            'fromAuthor_id' : param['from_author'], 
+            'fromAuthorServer_id' : from_server_index,
+            'toAuthor_id' : param["to_author"],
+            'toAuthorServer_id' : to_server_index,
+            'isChecked' : False
+             }
+
+    new_friendRequest = Friend_Requests(datum)
+    try :
+        db.session.add(new_friendRequest)
+        db.session.commit()
+
+    except Exception as e:
+        print "Error occured while saving new friend request: ", e
+        return False
+
+    return True
+
+
+def serializeFriendRequestList(requestList):
+
+  results = []
+  for request in requestList:
+      result = {}
+      result["friendRequest_id"] = request.friendrequests_id
+      result["fromAuthor_id"] = request.fromAuthor_id
+      result["fromAuthorDisplayName"] = request.fromAuthorDisplayName
+      result["fromServerIP"] = db.session.query(Servers).filter(Servers.server_index == request.fromAuthorServer_id).all()[0].IP
+      result["isChecked"] = request.isChecked
+      result["url"] = result["fromServerIP"] +'/author/' + request.fromAuthor_id   
+      results.append(result)
+
+  return {"friendRequestList" : results}
+
+
+def getFriendRequestList(param):
+
+  """
+  CLIENT-SERVER API
+  This will be called in response to :
+  GET http://service/getFriendRequests  
     
-#   refer to line 227-244
+  This is an API that is not in the assigned specifications but we created this for fetching friend requests.
 
-#   param["from_author"] = author id who send the request
-#   param["to_author"] = the author to whom the request is sent to
-#   param["from_serverIP"] = server IP hosting the from_author
-#   param["to_server_obj"] = obj of our local server 
-#   """
+  param["author"] = author1 id 
+  param["server_Obj"] = Server object for the author being queried.
+  """
 
-#   if len(db.session.query(Authors).filter(Authors.author_id == param["to_author"]).all()) == 0:
-#       return False
+  query_param = {}
 
-#   local_server_Obj = param["to_server_obj"]
-#   from_serverIP = param["from_serverIP"]
-#     from_server_index=db.session.query(Servers).filter(Servers.IP == from_serverIP).all()[0].server_index
-#     to_server_index = local_server_Obj.server_index
-#     datum={}
-#     APP_state['no_friend_Requests'] += 1
+  if "server_Obj" and "author" in param.keys():
+
+      query_param['sendTo'] = [param["server_Obj"].server_index, param["author"]]
+      results = Friend_Requests.query(query_param)
+      return serializeFriendRequestList(results)
     
-#     datum = {
-#           'friendrequests_id' : APP_state['no_friend_Requests'], 
-#           'fromAuthor_id' : param['from_author'], 
-#           'fromAuthorServer_id' : from_server_index,
-#           'toAuthor_id' : param["to_author"],
-#           'toAuthorServer_id' : to_server_index,
-#           'isChecked' : False
-#           }
-
-#   new_friendRequest = Friend_Requests(datum)
-#   try :
-#       db.session.add(new_friendRequest)
-#       db.session.commit()
-#   except Exception as e:
-#       print "Error occured while saving new friend request: ", e
-#       return False
-
-#   return True
+  else:
+      print(' ERROR! ,"server_Obj" and "author" keys not found! please check GetFriendRequests function thats invoked for API : GET /getFriendRequests ')
+      return None
 
 
-# def serializeFriendRequestList(requestList):
+def unFriend(param):
 
-#   results = []
-#   for request in requestList:
-#       result = {}
-#       result["friendRequest_id"] = request.friendRequest_id
-#       result["fromAuthor_id"] = request.fromAuthor_id
-#       result["fromServerIP"] = db.session.query(Servers).filter(Servers.server_index == request.fromAuthorServer_index).all()[0].IP
-#       result["isChecked"] = request.isChecked    
-#       results.append(result)
+    """
+    CLIENT-SERVER API
+    This will be called in response to :
+    POST http://service/unfriend  POSTS a JSON containing author info and to be unfriended author's info and this unfriends.
 
-#   return {"friendRequestList" : results}
+    This is an API that is not in the assigned specifications but we created this for unfriending.
 
+    param["author1"] = author1 id 
+    param["author2"] = author2 id
+    param["server_1_address"] = server1 IP  
+    param["server_2_address"] = server2 IP 
 
-# def getFriendRequestList(param):
+    """
 
-#   """
-#   CLIENT-SERVER API
-#   This will be called in response to :
-#   POST http://service/unfriend  POSTS a JSON containing author info and to be unfriended author's info and this unfriends.
-    
-#   This is an API that is not in the assigned specifications but we created this for fetching friend requests.
+    # if ("author1" and "author2" and "server_1_address" and "server_2_address") not in param.keys():
+    #   return "CLIENT_FAILURE"
 
-#   param["author"] = author1 id 
-#   param["server_Obj"] = Server object for the author being queried.
-#   """
-
-#   query_param = {}
-
-#   if "server_Obj" and "author" in param.keys():
-
-#       query_param['sendTo'] = [param["server_Obj"].server_index, param["author"]]
-#       results = Friend_Requests.query(query_param)
-#       return serializeFriendRequestList(results)
-    
-#   else:
-#       print(' "ERROR,server_Obj" and "author" keys not found! please check GetFriendRequests function thats invoked for API : GET /getFriendRequests ')
-#       return None
+    author1_id = param["author1"]
+    author2_id = param["author2"]
+    server1_IP = param["server_1_address"] 
+    server2_IP = param["server_2_address"]
+    server1_index = db.session.query(Servers).filter(Servers.IP == server1_IP).all()[0].server_index
+    server2_index = db.session.query(Servers).filter(Servers.IP == server2_IP).all()[0].server_index
 
 
-# def unFriend(param):
+    query_param={}
+    query_param["server_author_id1"]=[server1_index, author1_id]
+    query_param["server_author_id2"]=[server2_index, author2_id]  
+    results1 = Author_Relationships.query(query_param)
 
-#   """
-#   CLIENT-SERVER API
-#   This will be called in response to :
-#   POST http://service/unfriend  POSTS a JSON containing author info and to be unfriended author's info and this unfriends.
-    
-#   This is an API that is not in the assigned specifications but we created this for unfriending.
+    query_param={}
+    query_param["server_author_id1"]=[server2_index, author2_id] #In reversed order   
+    query_param["server_author_id2"]=[server1_index, author1_id]
+    results2 = Author_Relationships.query(query_param)
 
-#   param["author1"] = author1 id 
-#   param["author2"] = author2 id
-#   param["server_1_address"] = server1 IP  
-#   param["server_2_address"] = server2 IP 
+    results = results1 + results2
+    assert(len(results) == 1), "there should 1 row for each relationships"
 
-#   """
+    if server1_index == APP_state["local_server_Obj"].server_index and server2_index == APP_state["local_server_Obj"].server_index:
+        
+        if results1 != []:
+            friend_obj = results1[0]
+            friend_obj.relationship_type = 2
+            
+            try:
+                db.session.commit()
+            except Exception as e:
+                print("Error while unfriending! :", e)
+                return False
 
-#   if ("author1" and "author2" and "server_1_address" and "server_2_address") not in param:
-#       return "CLIENT_FAILURE"
+        elif results2 != []:
+            friend_obj = results2[0]
+            friend_obj.relationship_type = 1
 
-#   author1_id = param["author1"]
-#   author2_id = param["author2"]
-#   server1_IP = param["server_1_address"] 
-#   server2_IP = param["server_2_address"]
-#   server1_index = db.session.query(Servers).filter(Servers.IP == server1_IP).all()[0].server_index
-#   server2_index = db.session.query(Servers).filter(Servers.IP == server2_IP).all()[0].server_index
+            try:
+                db.session.commit()
+            except Exception as e:
+                print("Error while unfriending! :", e)
+                return False
 
+    try:
+        db.session.delete(results[0])
+        db.session.commit()
 
-#   query_param={}
-#   query_param["server_author_id1"]=[server1_index, author1_id]
-#     query_param["server_author_id2"]=[server2_index, author2_id]  
-#     results1 = Author_Relationships.query(query_param)
+    except Exception as e:
+        print("Error while unfriending! :", e)
+        return False
 
-#   query_param={}
-#     query_param["server_author_id1"]=[server2_index, author2_id] #In reversed order   
-#   query_param["server_author_id2"]=[server1_index, author1_id]
-#     results2 = Author_Relationships.query(query_param)
-
-#       results = results1 + results2
-#       assert(len(results) == 1), "there should 1 row for each relationships"
-    
-#       try:
-#       db.session.delete(results[0])
-#       db.session.commit()
-#       except Exception as e:
-#           print("Error while unfriending! :", e)
-#           return False
-
-#   return True
+    return True
 
 
-# def beFriend(param):
+def beFriend(param):
 
-#   """
-#   CLIENT-SERVER API
-#   This will be called in response to :
-#   POST http://service/accept_friendship  POSTS a JSON containing author info and to be friended(accepting a request) author's info and this unfriends.
-    
-#   This is an API that is not in the assigned specifications but we created this for friending.
+    """
+    CLIENT-SERVER API
+    This will be called in response to :
+    POST http://service/acceptFriendshipRequest  POSTS a JSON containing author info and to be friended(accepting a request) author's info and this unfriends.
 
-#   param["author1"] = author1 id 
-#   param["author2"] = author2 id
-#   param["server_1_address"] = server1 IP  
-#   param["server_2_address"] = server2 IP 
+    This is an API that is not in the assigned specifications but we created this for friending.
 
-#   """
+    param["author1"] = author1 id 
+    param["author2"] = author2 id
+    param["server_1_address"] = server1 IP  
+    param["server_2_address"] = server2 IP 
 
-#   if isFriend(param) is True:
-#       return "DUPLICATE"
+    """
 
-#   author1_id = param["author1"]
-#   author2_id = param["author2"]
-#   server1_IP = param["server_1_address"] 
-#   server2_IP = param["server_2_address"]
-#   server1_index = db.session.query(Servers).filter(Servers.IP == server1_IP).all()[0].server_index
-#   server2_index = db.session.query(Servers).filter(Servers.IP == server2_IP).all()[0].server_index
+    if isFriend(param) is True:
+        return "DUPLICATE"
+
+    author1_id = param["author1"]
+    author2_id = param["author2"]
+    server1_IP = param["server_1_address"] 
+    server2_IP = param["server_2_address"]
+    server1_index = db.session.query(Servers).filter(Servers.IP == server1_IP).all()[0].server_index
+    server2_index = db.session.query(Servers).filter(Servers.IP == server2_IP).all()[0].server_index
+
+    query_param={}
+    query_param['server_author_id1'] = [server1_index, author1_id]
+    query_param['server_author_id2'] = [server2_index, author2_id]
+    results1=Author_Relationships.query(query_param)
+    # print query_param
+
+    query_param={}
+    query_param['server_author_id1'] = [server2_index, author2_id]
+    query_param['server_author_id2'] = [server1_index, author1_id]
+    results2=Author_Relationships.query(query_param)
+    # print query_param
+
+    results = results1 + results2
+    if len(results) == 0:
+        print "GOT 1"
+        datum={}
+        datum["AuthorRelationship_id"] = uuid.uuid4().hex
+        datum["authorServer1_id"] = server1_index
+        datum["authorServer2_id"] = server2_index
+        datum["author1_id"] = author1_id
+        datum["author2_id"] = author2_id
+        datum["relationship_type"] = 3 # Mutual friendship
+
+        new_relationship = Author_Relationships(datum)
+
+        try:
+
+            db.session.add(new_relationship)
+            db.session.commit()
+
+        except Exception as e:
+            print("Error while saving a relationship entry! : ", e)
+            return False
+
+    else:
+
+        print "GOT 2"
+        relationship = results[0]
+        relationship.relationship_type = 3
+
+        try:
+            # db.session.add(relationship)
+            db.session.commit()
+
+        except Exception as e:
+            print("Error while saving a relationship entry! : ", e)
+            return False
+
+    try :
+        query_param={}
+        query_param['sendTo'] = [server1_index, author1_id]
+        query_param['sendFrom'] = [server2_index, author2_id]
+        Friend_Requests.deleteRowsByQuery(query_param)
+
+        query_param={}
+        query_param['sendTo'] = [server2_index, author2_id]
+        query_param['sendFrom'] = [server1_index, author1_id]
+        Friend_Requests.deleteRowsByQuery(query_param)
+
+    except Exception as e:
+        print("Error while saving a relationship entry! : ", e)
+        return False
 
 
-
-#   datum={}
-#     APP_state['no_author_relationships'] += 1
-
-#   datum["AuthorRelationship_id"] = APP_state['no_author_relationships']
-#   datum["authorServer1_id"] = server1_index
-#   datum["authorServer2_id"] = server2_index
-#   datum["author1_id"] = author1_id
-#   datum["author2_id"] = author2_id
-#   datum["relationship_type"] = 3 # Mutual friendship
-
-#   new_relationship = Author_Relationships(datum)
-    
-#   try:
-
-#       db.session.add(AR)
-#       db.session.commit(AR)
-
-#   except Exception as e:
-#       print("Error while saving a relationship entry! : ", e)
-#       return False
-
-#   return True
+    return True
 
 
 
@@ -324,23 +421,37 @@ def getAuthor(param):
     """
 
     query_results = {}
-    author_id = param["author"]
-    results=db.session.query(Authors).filter(Authors.author_id == author_id).all()
+    final_results = []
+    if "author" in param.keys():
+        author_id = param["author"]
+        results=db.session.query(Authors).filter(Authors.author_id == author_id).all()
+    
+    if "author_name" in param.keys():
+        name = param["author_name"]
+        results=db.session.query(Authors).filter(Authors.name == name).all()
+
+    
     if len(results) == 0:
         return query_results
     
     else:
-        author = results[0]
-        param["local_server_Obj"] = APP_state['local_server_Obj']
-        query_results["id"] = author.author_id
-        query_results["host"] = APP_state['local_server_Obj'].IP
-        query_results["url"] = APP_state['local_server_Obj'].IP + '/author/' + author.author_id
-        query_results["displayName"] = author.name
-        query_results["bio"] = author.bio
-        query_results["friends"] = getFriendList(param)
-        query_results["github_username"] = author.github_id
+        for author in results:
+            param["local_server_Obj"] = APP_state['local_server_Obj']
+            param['author'] = author.author_id
+            query_results["id"] = author.author_id
+            query_results["host"] = APP_state['local_server_Obj'].IP
+            query_results["url"] = APP_state['local_server_Obj'].IP + '/author/' + author.author_id
+            query_results["displayName"] = author.name
+            query_results["bio"] = author.bio
+            query_results["friends"] = getFriendList(param)
+            query_results["github_username"] = author.github_id
+            final_results.append(query_results)
 
-        return query_results
+    if "author_name" in param.keys():
+        return {"authors":final_results}
+  
+    elif "author" in param.keys():
+        return final_results[0]
 
 
 

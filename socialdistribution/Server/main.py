@@ -5,7 +5,7 @@ from flask_restful import reqparse, abort, Api, Resource
 import json
 import uuid
 from model import *
-from author_endpointHandlers import *
+from Server.author_endpointHandlers import *
 
 handler = None # This will be the global REST_handlers object
 COOKIE_NAME = "cookie_cmput404_"
