@@ -18,6 +18,7 @@ class URL(db.Model):
     def __init__(self, datum=None):
                 
         if datum == None:
+            self.URL_id = uuid.uuid4().hex
             return
 
         self.URL_id = datum["URL_id"]

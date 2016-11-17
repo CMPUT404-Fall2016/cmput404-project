@@ -1,7 +1,7 @@
 from db import db
 # from Model.Author_Relationships import Author_Relationships
 from model import *
-
+import uuid
 
 
 class Authors(db.Model):
@@ -70,6 +70,7 @@ class Authors(db.Model):
         """
 
         if datum == None:
+            self.author_id = uuid.uuid4().hex
             return
 
 

@@ -65,6 +65,7 @@ class Posts(db.Model):
 
         """
         if datum == None:
+            self.post_id = uuid.uuid4().hex
             return
 
         empty_string=""

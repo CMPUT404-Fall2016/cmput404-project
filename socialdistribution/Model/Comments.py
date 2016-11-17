@@ -50,6 +50,7 @@ class Comments(db.Model):
             """
                 
         if datum == None:
+            self.comment_id = uuid.uuid4().hex
             return
 
         empty_string=""

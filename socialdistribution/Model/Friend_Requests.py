@@ -61,6 +61,7 @@ class Friend_Requests(db.Model):
 
         """
         if datum == None:
+            self.friendrequests_id = uuid.uuid4().hex
             return
 
 

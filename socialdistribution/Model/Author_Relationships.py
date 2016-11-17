@@ -3,6 +3,7 @@ from Model.Authors import Authors
 from Model.Servers import Servers
 from model import *
 from sqlalchemy import and_
+import uuid
 
 class Author_Relationships(db.Model):
     __tablename__ = 'author_relationships'
@@ -63,6 +64,7 @@ class Author_Relationships(db.Model):
 
         """
         if datum == None:
+            self.AuthorRelationship_id = uuid.uuid4().hex
             return
 
         self.AuthorRelationship_id = datum['AuthorRelationship_id']
