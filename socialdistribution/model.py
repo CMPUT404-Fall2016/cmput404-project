@@ -9,6 +9,7 @@ from Model.Images import Images
 from Model.Posts import Posts
 from Model.Servers import Servers
 from Model.URL import URL
+from sample_data.data1 import *
 
 
 """
@@ -68,9 +69,15 @@ def initServerObj():
 	db.session.add(myServer)
 	db.session.commit()
 
+def createDefaultAuthor():
+	defaultAuthor=Authors(author1)
+	db.session.add(defaultAuthor)
+	db.session.commit()
+
 db.create_all()
 initServerObj()
 initAdmin()
+createDefaultAuthor()
 
 
 
