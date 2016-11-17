@@ -189,6 +189,6 @@ $("#unfriendauthor").click(function(e) {
                            sendAJAX("POST", "/unfriend", "", function(events) {
                    
                    });
-                           });
+  });
 
 

@@ -27,7 +27,7 @@ function getCookieid() {
   var cookies = document.cookie.split(";");
   for(var i=0; i < cookies.length; i++) {
     var gname = cookies[i].split("=");
-    if(gname[0] == "cookie_cmput404_author_id") {
+    if(gname[0].trim() == "cookie_cmput404_author_id") {
       return gname[1];
     }
   }
@@ -46,29 +46,17 @@ function getCookiehost() {
   return "";
 }
 
-$("#addfriendbtn").click(function(e) {
-                         e.preventDefault();
-                         
-                         //                              var friendrequestdata = {};
-                         //                              friendrequestdata["author"].id = getCookieid();
-                         //                              friendrequestdata["authod"].host = getCookiehost();
-                         //                              friendrequestdata["friend"].id = "thisauthorid";
-                         //                              friendrequestdata["friend"].host = "thisauthorhost";
-                         
-                         var friendrequestdata = {};
-                         friendrequestdata["author"] = myauthorid;
-                         
-                         sendAJAX("POST", "http://127.0.0.1:5000/friendrequest", friendrequestdata, function(response) {
-                                  console.log(response);
-                                  //window.location.href="friendspage.html";
-                                  });
-                         
-                         
-                         
-                         });
-
-
-
+function getFriendcookieid() {
+  // look for the github_name in cookies
+  var cookies = document.cookie.split(";");
+  for(var i=0; i < cookies.length; i++) {
+    var gname = cookies[i].split("=");
+    if(gname[0] == "request_author_id") {
+      return gname[1];
+    }
+  }
+  return "";
+}
 
 
 function editauthorpage() {
@@ -110,16 +98,20 @@ $(document).ready(function() {
                   var mypTemplate = document.getElementById('profiledatas');
                   
                   var myprofilelink = "/author/" + myauthorid;
+                  var thisauthorlink = "/author/" + getFriendcookieid();
                   //sendAJAX("GET",)
                   
-                  if (myauthorid = getCookieid()) {
+                  if (myauthorid == getCookieid()) {
                   
-                          sendAJAX("GET", myprofilelink, "", function(response) {
+                          sendAJAX("GET", myprofilelink, "", function(result) {
                                    
+                                   console.log(result);
                                    var td = mypTemplate.content.querySelector("#profilehname");
                                    profileusernametext = result.displayName;
                                    td.textContent = profileusernametext;
                   
+                                    mypTemplate.content.querySelector("#profileid").textContent = result.id;
+                                   
                                    mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
                                    
                                    mypTemplate.content.querySelector("#profilehost").textContent = result.host;
@@ -148,7 +140,42 @@ $(document).ready(function() {
                   
                   }
                   else {
-                      document.getElementById("editprofilebtn").style.display="none";
+                  
+                  sendAJAX("GET", thisauthorlink, "", function(result) {
+                           
+                           console.log(result);
+                           var td = mypTemplate.content.querySelector("#profilehname");
+                           profileusernametext = result.displayName;
+                           td.textContent = profileusernametext;
+                           
+                           mypTemplate.content.querySelector("#profileid").textContent = result.id;
+                           
+                           mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
+                           
+                           mypTemplate.content.querySelector("#profilehost").textContent = result.host;
+                           
+                           mypTemplate.content.querySelector("#profileurl").textContent = result.url;
+                           
+                           var normalContent = document.getElementById('profile');
+                           
+                           var clonedTemplate = mypTemplate.content.cloneNode(true);
+                           normalContent.appendChild(clonedTemplate)
+                           
+                           document.getElementById("editprofilebtn").style.display="";
+                           
+                           
+                           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
+                           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+                           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+                           
+                           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
+                           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
+                           
+                           document.getElementById("editprofilebtn").style.display="none";
+                           document.getElementById("addfriendbtn").style.display="";
+                           });
+                  
+                  
                   }
                   
 
@@ -228,9 +255,40 @@ $("#addfriendbtn").click(function(e) {
 //                              friendrequestdata["authod"].host = getCookiehost();
 //                              friendrequestdata["friend"].id = "thisauthorid";
 //                              friendrequestdata["friend"].host = "thisauthorhost";
+                         var myuserid = getCookieid();
                          
-                              var friendrequestdata = {};
-                              friendrequestdata["author"] = "123";
+                         var myinfostuff = "/author" + myuserid;
+                         
+                         sendAJAX("GET", myinfostuff, "", function(result) {
+                                  
+                                  //var myid = result.id;
+                                  var myhost = result.host;
+                                  var mydisplayname = result.displayName;
+
+                                  });
+                         
+                                  var friendid = document.getElementById("pid");
+                                  
+                         var getfriendinfo = "/author/" + friendid;
+                         
+                         sendAJAX("GET", getfriendinfo, "", function(result) {
+                                  
+                                  var friendid = result.id;
+                                  var friendhost = result.host;
+                                  var frienddisplayname = result.displayName;
+                                  var friendurl = result.url;
+                                  });
+                         
+                         var friendrequestdata = {};
+                         friendrequestdata.author["id"] = myuserid;
+                         friendrequestdata.author["host"] = myhost;
+                         friendrequestdata.author["displayName"] = mydisplayname;
+                         
+                         friendrequestdata.friend["id"] = friendid;
+                         friendrequestdata.friend["host"] = friendhost;
+                         friendrequestdata.friend["displayName"] = frienddisplayname;
+                         friendrequestdata.friend["url"] = friendurl;
+                         
                          
                               sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
                                        console.log(response);
