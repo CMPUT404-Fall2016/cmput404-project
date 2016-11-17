@@ -21,19 +21,21 @@
 //  xhr.send(JSON.stringify(message));
 //}
 
+function getCookieid() {
+  // look for the github_name in cookies
+  var cookies = document.cookie.split(";");
+  for(var i=0; i < cookies.length; i++) {
+    var gname = cookies[i].split("=");
+    if(gname[0] == "cookie_cmput404_author_id") {
+      return gname[1];
+    }
+  }
+  return "";
+}
+
 $(document).ready(function() {
                   
-                  function getCookieid() {
-                    // look for the github_name in cookies
-                    var cookies = document.cookie.split(";");
-                    for(var i=0; i < cookies.length; i++) {
-                      var gname = cookies[i].split("=");
-                      if(gname[0] == "cookie_cmput404_author_id") {
-                         return gname[1];
-                      }
-                    }
-                    return "";
-                  }
+                  
                   
                   var myauthorid = getCookieid();
                   
@@ -62,7 +64,8 @@ $(document).ready(function() {
                            
                            var normalContent = document.getElementById('friendstab');
                            
-
+                           }
+                  });
                   
 //                  var friendsTemplate = document.getElementById('friends-container');
 //                  
@@ -150,21 +153,26 @@ $("#fertab").click(function(e) {
 $("#fdtab").click(function(e) {
                   e.preventDefault();
                    var friendsTemplate = document.getElementById('friends-container');
-
-                   sendAJAX("GET", "/getFriends", "", function(events) {
-                            for(var i=0; i < events.length; ++i) {
-                            var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
-                            friendsTemplate.content.querySelector("#friendname").textContent = result[i].authorname;
-                            friendsTemplate.content.querySelector("#friendnamelink").href = friendlink;
-                            
+                  var myauthorlink = "/author/" + getCookieid();
+                  
+                  sendAJAX("GET", myauthorlink, "", function(events) {
+                           for(var i=0; i < events.length; ++i) {
+                         
+                                                      //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+                           
+                            friendsTemplate.content.querySelector("#friendid").href = result[i].friends[i].id;
+                            friendsTemplate.content.querySelector("#friendhost").href = result[i].friends[i].host;
+                            friendsTemplate.content.querySelector("#frienddisplayName").textContent = result[i].friends[i].displayName;
+                           friendsTemplate.content.querySelector("#friendurl").href = result[i].friends[i].url;
+                           
                             var normalContent = document.getElementById('friendstab');
-                            
-                            var clonedTemplate = friendsTemplate.content.cloneNode(true);
-                            normalContent.appendChild(clonedTemplate)
-                            }
-
-                            });
-                   });
+                           
+                           var clonedTemplate = friendsTemplate.content.cloneNode(true);
+                           normalContent.appendChild(clonedTemplate)
+                           }
+                           
+                  });
+  });
 
 
 
