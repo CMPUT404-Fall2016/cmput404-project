@@ -76,16 +76,16 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
 
 
 class UserView(ModelView):
-    can_create = False
+    can_create = True
 
 class PostView(ModelView):
-    can_create = False
+    can_create = True
 
 class ImageView(ModelView):
-    can_create = False
+    can_create = True
 
 class URLView(ModelView):
-    can_create = False
+    can_create = True
 
 
 #@app.route('/admin/')
