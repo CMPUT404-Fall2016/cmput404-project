@@ -123,6 +123,7 @@ $("#fertab").click(function(e) {
                     var friendsTemplate = document.getElementById('follower-container');
 
                     sendAJAX("GET", "/getFriendRequests", "", function(events) {
+                             console.log(events);
                              for(var i=0; i < events.length; ++i) {
                              var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
                              friendsTemplate.content.querySelector("#friendname").textContent = result[i].authorname;

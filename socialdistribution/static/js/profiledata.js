@@ -68,128 +68,56 @@ function editauthorpage() {
 $(document).ready(function() {
 
                   
-                  var myauthorid = getCookieid();
-                  
-                  
-                  
-                  
-//
-//  var myTemplate = document.getElementById('profiledatas');
-//                  
-//  var phname = myTemplate.content.querySelector("#profilehname");
-//  phname.textContent = "Author";
-//                
-//                  
-//  var td = myTemplate.content.querySelector(".profileid");
-//  td.textContent = myauthorid;
-//
-//                  myTemplate.content.querySelector("#profiledname").textContent = "test1";
-//                  
-//                  myTemplate.content.querySelector("#profilehost").textContent = "test2";
-//                  
-//                  myTemplate.content.querySelector("#profileurl").textContent = "test3";
+  var myauthorid = getCookieid();
+  
+  
+  
+  
+  
+  var mypTemplate = document.getElementById('profiledatas');
+  
+  var friendauthorid = getFriendcookieid();
+  
+  var myprofilelink = "/author/" + myauthorid;
+  var thisauthorlink = "/author/" + getFriendcookieid();
+  //sendAJAX("GET",)
+  
+ 
+  
+  sendAJAX("GET", myprofilelink, "", function(result) {
+           
+           console.log(result);
+           var td = mypTemplate.content.querySelector("#profilehname");
+           profileusernametext = result.displayName;
+           td.textContent = profileusernametext;
 
-                  
-        
-
-
-                  
-                  
-                  var mypTemplate = document.getElementById('profiledatas');
-                  
-                  var friendauthorid = getFriendcookieid();
-                  
-                  var myprofilelink = "/author/" + myauthorid;
-                  var thisauthorlink = "/author/" + getFriendcookieid();
-                  //sendAJAX("GET",)
-                  
-                  if (myauthorid == getFriendcookieid()) {
-                  
-                          sendAJAX("GET", myprofilelink, "", function(result) {
-                                   
-                                   console.log(result);
-                                   var td = mypTemplate.content.querySelector("#profilehname");
-                                   profileusernametext = result.displayName;
-                                   td.textContent = profileusernametext;
-                  
-                                    mypTemplate.content.querySelector("#profileid").textContent = result.id;
-                                   
-                                   mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
-                                   
-                                   mypTemplate.content.querySelector("#profilehost").textContent = result.host;
-                                   
-                                   mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-                                   
-                                   var normalContent = document.getElementById('profile');
-                                   
-                                   var clonedTemplate = mypTemplate.content.cloneNode(true);
-                                   normalContent.appendChild(clonedTemplate)
-                                   
-                                   document.getElementById("editprofilebtn").style.display="";
-                                  
-                                   
-                                   document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-                                   //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-                                   document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-                                   
-                                   document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-                                   document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-                                   
-                                   
-                          });
-                  
-                      //document.getElementById("editprofilebtn").style.display="";
-                  
-                  }
-                  else if (friendauthorid == getFriendcookieid()){
-                  
-                      sendAJAX("GET", thisauthorlink, "", function(result) {
-                           
-                           console.log(result);
-                           var td = mypTemplate.content.querySelector("#profilehname");
-                           profileusernametext = result.displayName;
-                           td.textContent = profileusernametext;
-                           
-                           mypTemplate.content.querySelector("#profileid").textContent = result.id;
-                           
-                           mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
-                           
-                           mypTemplate.content.querySelector("#profilehost").textContent = result.host;
-                           
-                           mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-                           
-                           var normalContent = document.getElementById('profile');
-                           
-                           var clonedTemplate = mypTemplate.content.cloneNode(true);
-                           normalContent.appendChild(clonedTemplate)
-                           
-                           document.getElementById("editprofilebtn").style.display="";
-                           
-                           
-                           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-                           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-                           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-                           
-                           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-                           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-                           
-                           document.getElementById("editprofilebtn").style.display="none";
-                           document.getElementById("addfriendbtn").style.display="";
-                      });
+            mypTemplate.content.querySelector("#profileid").textContent = result.id;
+           
+           mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
+           
+           mypTemplate.content.querySelector("#profilehost").textContent = result.host;
+           
+           mypTemplate.content.querySelector("#profileurl").textContent = result.url;
+           
+           var normalContent = document.getElementById('profile');
+           
+           var clonedTemplate = mypTemplate.content.cloneNode(true);
+           normalContent.appendChild(clonedTemplate)
+           
+           document.getElementById("editprofilebtn").style.display="";
+          
+           
+           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
+           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+           
+           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
+           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
+           
+           
+  });
                   
                   
-                  }
-                  
-
-                  
-//                  document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-//                  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-//                  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-//                  
-//                  document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-//                   document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-
-
 });
 
 
