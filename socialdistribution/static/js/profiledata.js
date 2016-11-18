@@ -137,9 +137,11 @@ $("#editprofilebtn").click(function (e) {
                            });
 
 
-$("#saveprofilechange").click(function (e) {
+//$("#saveprofilechange").click(function (e) {
 
-                              e.preventDefault();
+                              //e.preventDefault();
+
+function saveprofilechange() {
                               //                              var editprofiledata = {}
                               //                              editprofiledata["name"] = profileeditmode.elements["displayName"].value;
                               //                              editprofiledata["github_id"] = profileeditmode.elements["githubid"].value;
@@ -155,20 +157,22 @@ $("#saveprofilechange").click(function (e) {
                               
                               //document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
                               var editprofiledata = {}
-                              editprofiledata["name"] = editprofiledata.elements["displayName"].value;
-                              editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
-                              editprofiledata["bio"] = editprofiledata.elements["bio"].value;
+                              editprofiledata["name"] = document.getElementById("pdn").value;
+                              
                               
                               sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
+                                       console.log(response);
+                                       console.log("edited?");
+                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
                                        
-                                       
-                                       
-                                       });
-                              
-                              
-                              
-                              
                               });
+                              
+                              
+                              
+                              
+                              }
 
 
 

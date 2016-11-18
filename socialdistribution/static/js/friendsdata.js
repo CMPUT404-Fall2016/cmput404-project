@@ -36,9 +36,20 @@ function getCookieid() {
 $(document).ready(function() {
                   
                   
+                  function getCookieid() {
+                  var cookies = document.cookie.split(";");
+                  for(var i=0; i < cookies.length; i++) {
+                  var gname = cookies[i].split("=");
+                  if(gname[0].trim() == "cookie_cmput404_author_id") {
+                  return gname[1];
+                  
+                  }
+                  }
+                  return "";
+                  }
                   
                   var myauthorid = getCookieid();
-                  console.log(getCookieid());
+                  //console.log(getCookieid());
                   
                   
 //                  if (getCookieid() == myauthorid) {
@@ -57,12 +68,14 @@ $(document).ready(function() {
                   
                   sendAJAX("GET", myauthorlink, "", function(events) {
                            console.log("this?");
-                           console.log(events);
+                           console.log(events.friends.length);
+                           console.log(events.friends[0]);
+                           console.log(">>>");
                     for(var i=0; i < events.length; ++i) {
                            //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
                            var friendsTemplate = document.getElementById('friends-container');
-                           friendsTemplate.content.querySelector("#friendid").href = events.friends[i].id;
-                           friendsTemplate.content.querySelector("#friendhost").href = events.friends[i].host;
+                           friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
+                           friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
                            friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
                            friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
                            
@@ -84,6 +97,7 @@ $(document).ready(function() {
                            //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
                            requestTemplate.content.querySelector("#thisusername").textContent = events.friendRequestList[i].fromAuthor_id;
                            requestTemplate.content.querySelector("#profilepagelink").href = events.friendRequestList[i].url;
+                           requestTemplate.content.querySelector("#requesthost").href = events.friendRequestList[i].fromServerIP;
                            requestTemplate.content.querySelector("#author2id").textContent = events.friendRequestList[i].fromAuthor_id;
                            
                            var normalContent = document.getElementById('frequest');
@@ -194,32 +208,59 @@ $("#fertab").click(function(e) {
 
 $("#fdtab").click(function(e) {
                   e.preventDefault();
-                   var friendsTemplate = document.getElementById('friends-container');
-                  var myauthorlink = "/author/" + getCookieid();
+                  function getCookieid() {
+                  var cookies = document.cookie.split(";");
+                  for(var i=0; i < cookies.length; i++) {
+                  var gname = cookies[i].split("=");
+                  if(gname[0].trim() == "cookie_cmput404_author_id") {
+                  return gname[1];
+                  
+                  }
+                  }
+                  return "";
+                  }
+                  
+                  var myauthorid = getCookieid();
+                  var myauthorlink = "/author/" + myauthorid;
+                  //console.log(myauthorlink);
                   
                   sendAJAX("GET", myauthorlink, "", function(events) {
+                           console.log("this?");
+                           console.log(events.friends.length);
+                           console.log(events.friends[0]);
+                           console.log(">>>");
                            for(var i=0; i < events.length; ++i) {
-                         
-                                                      //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+                           //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+                           var friendsTemplate = document.getElementById('friends-container');
+                           friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
+                           friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
+                           friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
+                           friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
                            
-                            friendsTemplate.content.querySelector("#friendid").href = result[i].friends[i].id;
-                            friendsTemplate.content.querySelector("#friendhost").href = result[i].friends[i].host;
-                            friendsTemplate.content.querySelector("#frienddisplayName").textContent = result[i].friends[i].displayName;
-                           friendsTemplate.content.querySelector("#friendurl").href = result[i].friends[i].url;
-                           
-                            var normalContent = document.getElementById('friendstab');
+                           var normalContent = document.getElementById('friendstab');
                            
                            var clonedTemplate = friendsTemplate.content.cloneNode(true);
-                           normalContent.appendChild(clonedTemplate)
-                           }
+                           normalContent.appendChild(clonedTemplate);
                            
-                  });
+                           }
+                           });
   });
 
 
 
 $("#unfriendauthor").click(function(e) {
                    e.preventDefault();
+                           function getCookieid() {
+                           var cookies = document.cookie.split(";");
+                           for(var i=0; i < cookies.length; i++) {
+                           var gname = cookies[i].split("=");
+                           if(gname[0].trim() == "cookie_cmput404_author_id") {
+                           return gname[1];
+                           
+                           }
+                           }
+                           return "";
+                           }
                    
 //                           var friendsTemplate = document.getElementById('friends-container');
 //
@@ -227,10 +268,20 @@ $("#unfriendauthor").click(function(e) {
 //                           
 //                           var clonedTemplate = friendsTemplate.content.cloneNode(true);
 //                           normalContent.appendChild(clonedTemplate)
+                           console.log(document.getElementById("friendhost").href);
                    
-                           sendAJAX("POST", "/unfriend", "", function(events) {
-                   
-                   });
-  });
+                           var unfrienddata = {};
+                           unfrienddata["author"] = document.getElementById("friendid").textContent;
+                           unfrienddata["server_address"] = document.getElementById("friendhost").textContent;
+                           
+                           console.log(unfrienddata);
+                           
+                           sendAJAX("POST", "/unfriend", unfrienddata, function(response) {
+                                    console.log(response);
+                                    window.location.href="friendspage.html";
+                                    
+                                    });
+                           
+                           });
 
 
