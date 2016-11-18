@@ -16,7 +16,7 @@
 <div class="container" id="page-container">
   <div class="row">
 
-    <!-- profile sidebar -->
+    <!-- sidebar -->
     <div class="col-sm-4 col-lg-3 text-center">
     </div>
 
@@ -28,29 +28,24 @@
           <h3>Hi! These are the public posts on server soiree.</h3>
         </div>
       </div>
-      <ol id="posts" class="list-group">
-        <!-- placeholder post -->
-        <li class="list-group-item post-container media">
-
-          <div class="post-body media-body">
-            <h4 class="media-heading">Post Title: a sample post</h4>
-            <a href="#">
-              <p class="post-author">By Author</p>
-            </a>
-            <p class="post-content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
-            </p>
-            <ul class="list-inline list-unstyled">
-              <li class="like-button">
-                <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
-              </li>
-              <li class="comments-button">
+      <!-- list group for holding posts -->
+      <ol id="posts" class="list-group text-center">
+            <!-- placeholder post -->
+            <li class="list-group-item post-container media">
+              <div class="post-body media-body">
+                <h4 class="media-heading post-title">Post Title: a sample post</h4>
+                <a href="#" class="post-author-url">
+                  <p class="post-author">Author</p>
+                </a>
+                <p class="post-description">description<span>
+                <p class="post-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
                 <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-              </li>
-            </ul>
-          </div>
-        </li>
+              </div>
+            </li>
       </ol>
+    </div>
     </div>
   </div>
 </div>
@@ -59,28 +54,21 @@
 <template id="post-container">
   <li class="list-group-item post-container media">
     <div class="post-body media-body">
-      <h4 class="media-heading">Post Title: a sample post</h4>
-      <a href="#">
-        <p class="post-author">By Author</p>
+      <h4 class="media-heading post-title">Post Title: a sample post</h4>
+      <a href="#" class="post-author-url">
+        <p class="post-author">Author</p>
       </a>
+      <p class="post-description">description<span>
       <p class="post-content">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
-      <ul class="list-inline list-unstyled">
-        <li class="like-button">
-          <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
-        </li>
-        <li class="comments-button">
-          <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-        </li>
-      </ul>
+      <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
     </div>
   </li>
 </template>
 
 <script src="/js/utilities.js"></script>
-<script src="/js/github.js"></script>
+<script src="/js/explore.js"></script>
 <script src="/js/setmycookie.js"></script>
-<script src="js/post.js"></script>
 </body>
 </html>
