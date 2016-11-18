@@ -15,25 +15,30 @@ COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","cookie
 
 class Test_CS_API(unittest.TestCase):
     
+    s=requests.Session()
     def setUp(self):
         global firstTime
-        if firstTime:
-            self.serverURL = URL
-            self.s = requests.Session()
+        self.serverURL = URL
+        # if firstTime:
+        #     self.s = requests.Session()
+        #     firstTime = False
 
-            firstTime = False
 
-    # def test_login(self):
-        # self.sample_Registration(author1_reg)
-        # author1_log["author_id"] = self.cookies[COOKIE_NAMES[0]]
-        # self.sample_Logout()
-        # self.sample_Login(author1_log)
-    #   self.sample_Logout()
-    #   self.sample_Login(author1_log)
-    #   self.sample_EditProfile()
-    #   self.sample_Logout()
-    #   self.sample_FetchAuthor()
-    #   self.sample_FetchAuthorByName()
+    def test(self):
+        self.login_()
+        self.friend_()
+
+    def login_(self):
+        self.sample_Registration(author1_reg)
+        author1_log["author_id"] = self.cookies[COOKIE_NAMES[0]]
+        self.sample_Logout()
+        self.sample_Login(author1_log)
+        self.sample_Logout()
+        self.sample_Login(author1_log)
+        self.sample_EditProfile()
+        self.sample_Logout()
+        self.sample_FetchAuthor()
+        self.sample_FetchAuthorByName()
 
 
 
@@ -78,6 +83,7 @@ class Test_CS_API(unittest.TestCase):
         resp = self.s.send(prepp1)
         # print(resp.text)
         body = json.loads(resp.text)
+        print body["status"]
         assert(body["status"] == "SUCCESS"), "Should be a success!"
         assert(body["name"] != None), "A display name should be there"
         self.cookie_assert(resp.cookies, author=author)
@@ -175,8 +181,10 @@ class Test_CS_API(unittest.TestCase):
         assert(body['bio'] == author1_edit['bio'])
 
 
-    def test_friend(self):
-        self.sample_Registration(author1_reg)
+    def friend_(self):
+        # self.sample_Registration(author1_reg)
+        # author1_log["author_id"] = self.cookies[COOKIE_NAMES[0]]
+        self.sample_Login(author1_log)
         author1_log["author_id"] = self.cookies[COOKIE_NAMES[0]]
         self.sample_Logout()
         self.sample_Registration(author2_reg)
