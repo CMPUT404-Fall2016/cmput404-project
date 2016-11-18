@@ -11,10 +11,10 @@
   var authenticated = false;
   for(var i=0; i < cookies.length; i++) {
     var cname = cookies[i].split("=");
-    console.log(cname[0].trim());
+    // console.log(cname[0].trim());
     if(cname[0].trim() == "cookie_cmput404_session_id") {
       authenticated = true;
-      console.log("authenticated!");
+      // console.log("authenticated!");
     }
   }
   if (authenticated == false) {
