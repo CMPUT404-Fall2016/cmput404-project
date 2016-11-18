@@ -102,11 +102,11 @@ $(document).ready(function() {
 });
 
 
-$("#fertab").click(function(e) {
+$("#reqtab").click(function(e) {
                    e.preventDefault();
                    sendAJAX("GET", "/getFriendRequests", "", function(events) {
                             console.log(events);
-                            console.log(events.friendRequestList[0].fromAuthor_id);
+                            //console.log(events.friendRequestList[0].fromAuthor_id);
                             console.log(events.friendRequestList.length);
                             for(var i=0; i < events.friendRequestList.length; ++i) {
                             var requestTemplate = document.getElementById('request-container');
