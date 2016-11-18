@@ -52,13 +52,13 @@
                   <option value ="FOAF">Friends of Friends</option>
                   <option value ="FRIENDS">Friends</option>
                   <option value ="PRIVATE">Private</option>
-                  <option value="SERVERONLY">Server Only</option>
+                  <!-- <option value="SERVERONLY">Server Only</option> -->
                 </select>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="exampleInputFile">Add Image</label>
                 <input type="file" name="image">
-              </div>
+              </div> -->
               <button id="post-submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Post</button>
             </fieldset>
           </form>
@@ -66,22 +66,20 @@
       </div>
       <!-- list group for holding posts -->
       <ol id="posts" class="list-group text-center">
-        <!-- placeholder post -->
-        <li class="list-group-item post-container media">
-          <div class="post-body media-body">
-            <h4 class="media-heading">Post Title: a sample post</h4>
-            <a href="#" class="post-author">Author</a></span>
-            <p class="post-description">description<span>
-            <p class="post-content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <ul class="list-inline list-unstyled">
-              <li class="comments-button">
+            <!-- placeholder post -->
+            <li class="list-group-item post-container media">
+              <div class="post-body media-body">
+                <h4 class="media-heading post-title">Post Title: a sample post</h4>
+                <a href="#" class="post-author-url">
+                  <p class="post-author">Author</p>
+                </a>
+                <p class="post-description">description<span>
+                <p class="post-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
                 <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-              </li>
-            </ul>
-          </div>
-        </li>
+              </div>
+            </li>
       </ol>
     </div>
 
@@ -100,17 +98,15 @@
 <template id="post-container">
   <li class="list-group-item post-container media">
     <div class="post-body media-body">
-      <h4 class="media-heading">Post Title: a sample post</h4>
-      <a href="#" class="post-author">Author</a></span>
+      <h4 class="media-heading post-title">Post Title: a sample post</h4>
+      <a href="#" class="post-author-url">
+        <p class="post-author">Author</p>
+      </a>
       <p class="post-description">description<span>
       <p class="post-content">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
-      <ul class="list-inline list-unstyled">
-        <li class="comments-button">
-          <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-        </li>
-      </ul>
+      <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
     </div>
   </li>
 </template>
