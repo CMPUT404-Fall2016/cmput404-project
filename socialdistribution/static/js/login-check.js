@@ -8,11 +8,16 @@
 (function() {
   // check cookies for an author_id, if not found then redirect user
   var cookies = document.cookie.split(";");
+  var authenticated = false;
   for(var i=0; i < cookies.length; i++) {
     var cname = cookies[i].split("=");
-    if(cname[0] == "cookie_cmput404_session_id") {
-      return;
+    console.log(cname[0].trim());
+    if(cname[0].trim() == "cookie_cmput404_session_id") {
+      authenticated = true;
+      console.log("authenticated!");
     }
   }
-  window.location.href = "login.html";
+  if (authenticated == false) {
+    window.location.href = "login.html";
+  }
 })();

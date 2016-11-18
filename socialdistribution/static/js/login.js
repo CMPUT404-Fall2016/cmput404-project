@@ -65,7 +65,7 @@ $("#login-btn").click(function(e) {
   // console.log(message);
   // return false;
   sendAJAX("POST", "/login", loginData, function(response) {
-    console.log(response);
+    // console.log(response);
     // login is successful so log the user in
     if(response["status"] == "SUCCESS") {
       login(response);
