@@ -331,6 +331,7 @@ def Login():
         cookie={}
         cookie["session_id"] = sessionID
         result["status"] = "SUCCESS"
+        s=result["github_id"]
         cookie["github_id"] = result["github_id"]
         cookie["author_id"] = result["author_id"]
         return getResponse(body=result, cookie=cookie, status_code=200)
