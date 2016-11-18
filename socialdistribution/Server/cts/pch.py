@@ -3,6 +3,7 @@ from sqlalchemy import exc
 from model import *
 from datetime import datetime
 import time
+import uuid
 
 random.seed(time.time())
 
@@ -27,7 +28,7 @@ class RestHandlers():
 		"""	
 		# I assume for now view_permission = 1 -> public
 		rtl = []
-		posts = db.session.query(Posts).filter(Posts.view_permission == 1).all()	
+		posts = self.sort_posts( db.session.query(Posts).filter(Posts.view_permission == 1).all() )	
 		for post in posts:
 			rtl.append([post, self.getImages(post.post_id), self.getComments(post.post_id)])
 		return rtl
@@ -183,35 +184,40 @@ class RestHandlers():
 
 
 	def make_post(self, data):
-		#If the post comes with images, make them
-		if data["images"]:
-			self.make_Image(data)
 		#Make the post 
 		currentTime = datetime.now()
 		post =	{
-							"post_id" :	data["post_id"], #Need to change to self generated uuid
+							"post_id" : uuid.uuid4().hex, #Need to change to self generated uuid
 							"title"	:	data["title"],
 							"text"	:	data["text"],
 							"creation_time" :	currentTime,
 							"view_permission" : data["view_permission"],
 							"author_id"	:	data["author_id"]
 						}		
+
+
+		#If the post comes with images, make them
+		data["post_id"] = post["post_id"]
+		if data["images"]:
+			self.make_images(data)
+
+
 		try:
 			db.session.add(Posts(post))
 			db.session.commit()
 			return True
 		except exc.SQLAlchemyError:
 			return False
-			
+
 
 
 	def make_comment(self, data):
 		currentTime = datetime.now()	
 		comment = {
-								"comment_id"	:	data["comment_id"],
+								"comment_id"	:	uuid.uuid4().hex,
 								"post_id"	:	data["post_id"],
 								"comment_text"	:	data["comment_text"],
-								"creation_time"	:	data["creation_time"]
+								"creation_time"	:	currentTime
 							}
 		try:
 			db.session.add(Comments(comment))
@@ -228,9 +234,9 @@ class RestHandlers():
 		try:
 			for image in data["images"]: 
 				img =	{	
-								"image_id"	:	data["image_id"], #Need to change to self generated uuid
+								"image_id"	:	uuid.uuid4().hex, #Need to change to self generated uuid
 								"post_id"	:	data["post_id"],
-								"images"	:	image	#Do I need to decode to BLOB?
+								"image"	:	image	#Do I need to decode to BLOB?
 							}
 				db.session.add(Images(img))
 				db.session.commit()
