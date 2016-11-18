@@ -59,153 +59,64 @@ function getFriendcookieid() {
 }
 
 
-function editauthorpage() {
-  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-}
+//function editauthorpage() {
+//  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+//  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+//  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+//}
 
 $(document).ready(function() {
 
                   
-                  var myauthorid = getCookieid();
-                  
-                  
-                  
-                  
-//
-//  var myTemplate = document.getElementById('profiledatas');
-//                  
-//  var phname = myTemplate.content.querySelector("#profilehname");
-//  phname.textContent = "Author";
-//                
-//                  
-//  var td = myTemplate.content.querySelector(".profileid");
-//  td.textContent = myauthorid;
-//
-//                  myTemplate.content.querySelector("#profiledname").textContent = "test1";
-//                  
-//                  myTemplate.content.querySelector("#profilehost").textContent = "test2";
-//                  
-//                  myTemplate.content.querySelector("#profileurl").textContent = "test3";
+  var myauthorid = getCookieid();
+  var mypTemplate = document.getElementById('profiledatas');
+  
+  //var friendauthorid = getFriendcookieid();
+  
+  var myprofilelink = "/author/" + myauthorid;
+  //var thisauthorlink = "/author/" + getFriendcookieid();
+  //sendAJAX("GET",)
+  
+ 
+  
+  sendAJAX("GET", myprofilelink, "", function(result) {
+           
+           console.log(result);
+           var td = mypTemplate.content.querySelector("#profilehname");
+           profileusernametext = result.displayName;
+           td.textContent = profileusernametext;
 
-                  
-        
-
-
-                  
-                  
-                  var mypTemplate = document.getElementById('profiledatas');
-                  
-                  var friendauthorid = getFriendcookieid();
-                  
-                  var myprofilelink = "/author/" + myauthorid;
-                  var thisauthorlink = "/author/" + getFriendcookieid();
-                  //sendAJAX("GET",)
-                  
-                  if (myauthorid == getFriendcookieid()) {
-                  
-                          sendAJAX("GET", myprofilelink, "", function(result) {
-                                   
-                                   console.log(result);
-                                   var td = mypTemplate.content.querySelector("#profilehname");
-                                   profileusernametext = result.displayName;
-                                   td.textContent = profileusernametext;
-                  
-                                    mypTemplate.content.querySelector("#profileid").textContent = result.id;
-                                   
-                                   mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
-                                   
-                                   mypTemplate.content.querySelector("#profilehost").textContent = result.host;
-                                   
-                                   mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-                                   
-                                   var normalContent = document.getElementById('profile');
-                                   
-                                   var clonedTemplate = mypTemplate.content.cloneNode(true);
-                                   normalContent.appendChild(clonedTemplate)
-                                   
-                                   document.getElementById("editprofilebtn").style.display="";
-                                  
-                                   
-                                   document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-                                   //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-                                   document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-                                   
-                                   document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-                                   document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-                                   
-                                   
-                          });
-                  
-                      //document.getElementById("editprofilebtn").style.display="";
-                  
-                  }
-                  else if (friendauthorid == getFriendcookieid()){
-                  
-                      sendAJAX("GET", thisauthorlink, "", function(result) {
-                           
-                           console.log(result);
-                           var td = mypTemplate.content.querySelector("#profilehname");
-                           profileusernametext = result.displayName;
-                           td.textContent = profileusernametext;
-                           
-                           mypTemplate.content.querySelector("#profileid").textContent = result.id;
-                           
-                           mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
-                           
-                           mypTemplate.content.querySelector("#profilehost").textContent = result.host;
-                           
-                           mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-                           
-                           var normalContent = document.getElementById('profile');
-                           
-                           var clonedTemplate = mypTemplate.content.cloneNode(true);
-                           normalContent.appendChild(clonedTemplate)
-                           
-                           document.getElementById("editprofilebtn").style.display="";
-                           
-                           
-                           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-                           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-                           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-                           
-                           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-                           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-                           
-                           document.getElementById("editprofilebtn").style.display="none";
-                           document.getElementById("addfriendbtn").style.display="";
-                      });
+           mypTemplate.content.querySelector("#profileid").textContent = result.id;
+           
+           mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
+           
+           mypTemplate.content.querySelector("#profilehost").textContent = result.host;
+           
+           mypTemplate.content.querySelector("#profileurl").textContent = result.url;
+           
+           var normalContent = document.getElementById('profile');
+           
+           var clonedTemplate = mypTemplate.content.cloneNode(true);
+           normalContent.appendChild(clonedTemplate)
+           
+           document.getElementById("editprofilebtn").style.display="";
+          
+           
+           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
+           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+           
+           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
+           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
+  });
+                
                   
                   
-                  }
-                  
-
-                  
-//                  document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-//                  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-//                  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-//                  
-//                  document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-//                   document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-
-
 });
 
 
 $("#editprofilebtn").click(function (e) {
                            e.preventDefault();
-                           
-                           //var text1 = document.getElementById("profileid").textContent;
-                           //      var text2 = profileeditmode.elements["profilename"].value;
-                           //      var text3 = profileeditmode.elements["profilehost"].value;
-                           //      var text4 = profileeditmode.elements["profileurl"].value;
-                           
-                           
-                           //document.getElementById("testid").placeholder= "123";
-                           //      document.getElementsByName('pdisplayName')[0].placeholder=text2;
-                           //      document.getElementsByName('phost')[0].placeholder=text3;
-                           //      document.getElementsByName('purl')[0].placeholder=text4;
                            
                            document.getElementById("testid").placeholder = document.getElementById("profileid").textContent;
                            document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
@@ -214,9 +125,11 @@ $("#editprofilebtn").click(function (e) {
                            });
 
 
-$("#saveprofilechange").click(function (e) {
+//$("#saveprofilechange").click(function (e) {
 
-                              e.preventDefault();
+                              //e.preventDefault();
+
+function saveprofilechange() {
                               //                              var editprofiledata = {}
                               //                              editprofiledata["name"] = profileeditmode.elements["displayName"].value;
                               //                              editprofiledata["github_id"] = profileeditmode.elements["githubid"].value;
@@ -232,108 +145,127 @@ $("#saveprofilechange").click(function (e) {
                               
                               //document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
                               var editprofiledata = {}
-                              editprofiledata["name"] = editprofiledata.elements["displayName"].value;
-                              editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
-                              editprofiledata["bio"] = editprofiledata.elements["bio"].value;
+                              editprofiledata["name"] = document.getElementById("pdn").value;
+                              
                               
                               sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
+                                       console.log(response);
+                                       console.log("edited?");
+                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
                                        
-                                       
-                                       
-                                       });
-                              
-                              
-                              
-                              
                               });
+                              
+                              
+                              
+                              
+                              }
 
 
 
 //$("#addfriendbtn").click(function(e) {
-function addFriend() {
-//                        e.preventDefault();
-                         console.log("button works");
-//                              var friendrequestdata = {};
-//                              friendrequestdata["author"].id = getCookieid();
-//                              friendrequestdata["authod"].host = getCookiehost();
-//                              friendrequestdata["friend"].id = "thisauthorid";
-//                              friendrequestdata["friend"].host = "thisauthorhost";
-                         var myuserid = getCookieid();
-                         
-                         var myinfostuff = "/author" + myuserid;
-                         
-                         sendAJAX("GET", myinfostuff, "", function(result) {
-                                  console.log(result);
-                                  //var myid = result.id;
-                                  var myhost = result.host;
-                                  var mydisplayname = result.displayName;
+function afriendone(fn) {
+  var myuserid = getCookieid();
+  
+  var myinfostuff = "/author/" + myuserid;
+  sendAJAX("GET", myinfostuff, "", function(result) {
+           //console.log(result);
+           //var myid = result.id;
+           var myhost = result.host;
+           //console.log(result.host)
+           //console.log(myhost);
+           var mydisplayname = result.displayName;
+           fn(result);
+           //return myhost, mydisplayname;
+    });
+}
 
-                                  });
-                         
-                                  var friendid = document.getElementById("pid").placeholder;
-                                  
-                         var getfriendinfo = "/author/" + friendid;
-                         
-                         sendAJAX("GET", getfriendinfo, "", function(result) {
-                                  console.log(result);
-                                  var friendid = result.id;
-                                  var friendhost = result.host;
-                                  var frienddisplayname = result.displayName;
-                                  var friendurl = result.url;
-                                  });
-                         
-                         var friendrequestdata = {};
-  friendrequestdata["author"]={"id":myuserid, "host":myhost, "displayName":mydisplayname};
-//                         friendrequestdata["author"]["host"] = myhost;
-//                         friendrequestdata["author"]["displayName"] = mydisplayname;
+afriendone(function(result) {
+           console.log("hello");
+           console.log(result);
+           var myhost = result.host;
+           //console.log(result.host)
+           //console.log(myhost);
+           var mydisplayname = result.displayName;
+  });
+
+
+
+//function afriendtwo() {
+//  var friendid = getFriendcookieid();
+//  var getfriendinfo = "/author/" + friendid;
+//  //  var friendid="";
+//  //  var friendhost="";
+//  //  var frienddisplayname ="";
+//  //  var friendurl="";
+//  
+//  sendAJAX("GET", getfriendinfo, "", function(result2) {
+//           //console.log(result);
+//           var friendid = result2.id;
+//           var friendhost = result2.host;
+//           var frienddisplayname = result2.displayName;
+//           var friendurl = result2.url;
+//           //return friendid, friendhost, frienddisplayname, friendurl;
+//           fn(result2);
+//           });
+//}
+//
+//afriendtwo(function(result2) {
+//           console.log("hello2");
+//           console.log(result2);
+//           var friendid = result2.id;
+//           var friendhost = result2.host;
+//           var frienddisplayname = result2.displayName;
+//           var friendurl = result2.url;
+//           });
+
+
+
+
+//var result = foo();
+//foo(function(result) {
+//    // Code that depends on 'result'
+//    });
+
+function addFrienddata(resultone, resulttwo) {
   
-  friendrequestdata["friend"]={"id":friendid, "host":friendhost, "displayName":frienddisplayname, "url":friendurl};
-  console.log(friendrequestdata);
-//                         friendrequestdata["friend"]["id"] = friendid;
-//                         friendrequestdata["friend"]["host"] = friendhost;
-//                         friendrequestdata["friend"]["displayName"] = frienddisplayname;
-//                         friendrequestdata["friend"]["url"] = friendurl;
-  
-                         
-                              sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
-                                       console.log(response);
-                                       //window.location.href="friendspage.html";
-                                  });
-                         
+  //return myhost, mydisplayname, friendid, friendhost, frienddisplayname, friendurl;
               
                               
 }
 
+//function myCallback(result) {
+//  // Code that depends on 'result'
+//}
+//
+//foo(myCallback);
 
+var resultuser = addFrienddata();
 
+function addFriend() {
+  console.log(myhost);
+  
+//  var friendrequestdata = {};
+//  friendrequestdata["author"] = {}
+//  friendrequestdata["author"]["id"]= myuserid;
+//  friendrequestdata["author"]["host"] = myhost;
+//  friendrequestdata["author"]["displayName"] = mydisplayname;
+//  
+//  //  friendrequestdata["friend"]={"id":friendid, "host":friendhost, "displayName":frienddisplayname, "url":friendurl};
+//  //console.log(friendrequestdata);
+//  friendrequestdata["friend"] = {};
+//  friendrequestdata["friend"]["id"] = friendid;
+//  friendrequestdata["friend"]["host"] = friendhost;
+//  friendrequestdata["friend"]["displayName"] = frienddisplayname;
+//  friendrequestdata["friend"]["url"] = friendurl;
+//  
+//  
+//  sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
+//           //console.log(response);
+//           //window.location.href="friendspage.html";
+//           });
 
-//$(document).ready(function() {
-//
-//                  var myTemplate = document.getElementById('profiledatas');
-//
-////                  var displaynameh = document.getElementById('profilehname');
-////                  var displaynameb = document.getElementById('profileusername');
-////                  var pname = document.getElementById('profilename');
-////                  var githubid = document.getElementById('profilegethubid');
-////                  var pbio = document.getElementById('profilebio');
-//
-//                  var pu = myTemplate.content.querySelector(".profilehname");
-//                  pu.textContent = "This is the changed pname";
-//
-//                  var pu = myTemplate.content.querySelector(".profileusername");
-//                  pu.textContent = "This is the changed username";
-//
-//                  var pn = myTemplate.content.querySelector(".profilename");
-//                  pn.textContent = "This is the changed name";
-//
-//                  var pg = myTemplate.content.querySelector(".profilegithubid");
-//                  pg.textContent = "This is the changed github id";
-//
-//                  var pb = myTemplate.content.querySelector(".profilebio");
-//                  pb.textContent = "This is the changed bio";
-//
-//                  var normalContent = document.getElementById('profile');
-//
-//                  var clonedTemplate = myTemplate.content.cloneNode(true);
-//                  normalContent.appendChild(clonedTemplate)
-//});
+  
+}
+

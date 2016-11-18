@@ -22,6 +22,11 @@ APP_state = {}
 APP_state["session_ids"]={}
 APP_state["no_servers"] = 0
 APP_state["admin_credentials"] = None
+APP_state["shared_nodes"] = []
+APP_state["shared_nodes_images"] = []
+APP_state["shared_nodes_posts"] = []
+APP_state["pending_authors"] = []
+APP_state["nodes_with_authentication"] = True
 
 def initAdmin():
 	try :

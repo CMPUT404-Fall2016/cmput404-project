@@ -1,83 +1,48 @@
-$("#post-image").
+// get the posts with the post-id in localStorage
+$(document).ready(function() {
 
-$("form").submit(function(event) {
-  event.preventDefault();
+  var host = localStorage.getItem("fetch-post-host");
+  var postID = localStorage.getItem("fetch-post-id");
+  var commentTemplate = $("#comment-template");
+  var commentsList = $("#comment-list");
 
-  // encode form data as a JSON object
-  var postForm = document.getElementById("post-form"),
-  postData = {};
-  postData["title"] = postForm.elements["title"].value;
-  postData["description"] = postForm.elements["desc"].value;
-  postData["contentType"] = postForm.elements["text-type"].value;
-  postData["content"] = postForm.elements["post-text"].value;
+  // are we even supposed to be here
+  if (host && postID) {
 
-  // encode the current time in ISO 8601
-  var timestamp = new Date();
-  postData["published"] = timestamp.toISOString();
-  sendAJAX("POST", )
+    // request the post from whatever the host is
+    sendAJAX("GET", host+"/posts/"+postID, "", function(post) {
+      // fill the container with details
+      ("$post-title").textContent = post.title;
+      ("$post-author").textContent = post.author.displayName;
+      ("$post-description").textContent = post.description;
+      ("$post-content").textContent = post.content;
+    });
 
+    // now fetch all the comments
+    sendAJAX("GET", host+"/posts/"+postID+"/comments", "", function(comments) {
+      for (var i=0; i<comments.length; ++i) {
+        commentTemplate.content.querySelector(".comment-author").textContent = comments[i].author.displayName;
+        commentTemplate.content.querySelector(".comment-content").textContent = comments[i].comment;
 
+        // bind the author's ID to the author link
+        var authorBtn = commentTemplate.content.querySelector(".comment-author-url");
+        $(authorBtn).data("author-id", comments[i].author.id);
+
+        var clone = document.importNode(commentTemplate.content, true);
+        commentsList.append(clone);
+      }
+    });
+  }
+  else {
+    // redirect to error page
+    window.location.href = "error.html";
+  }
 });
 
-// http://stackoverflow.com/questions/34972072/how-to-send-image-to-server-with-http-post-in-javascript-and-store-base64-in-mon
-// 11/01/2016
-
-// converts an image to Base64 encoding for sending in http request
-function convertToBase64(url, imagetype, callback) {
-
-    var img = document.createElement('IMG'),
-        canvas = document.createElement('CANVAS'),
-        ctx = canvas.getContext('2d'),
-        data = "";
-
-    img.crossOrigin = 'Anonymous'
-
-    // Because image loading is asynchronous, we define an event listening function that will be called when the image has been loaded
-    img.onLoad = function() {
-        // When the image is loaded, this function is called with the image object as its context or 'this' value
-        canvas.height = this.height;
-        canvas.width = this.width;
-        ctx.drawImage(this, 0, 0);
-        data = canvas.toDataURL(imagetype);
-        callback(data);
-    };
-
-    // We set the source of the image tag to start loading its data. We define
-    // the event listener first, so that if the image has already been loaded
-    // on the page or is cached the event listener will still fire
-
-    img.src = url;
-}
-
-// Here we define the function that will send the request to the server.
-// It will accept the image name, and the base64 data as arguments
-var sendBase64ToServer = function(name, base64){
-    var httpPost = new XMLHttpRequest(),
-        path = "http://127.0.0.1:8000/uploadImage/" + name,
-        data = JSON.stringify({image: base64});
-    httpPost.onreadystatechange = function(err) {
-            if (httpPost.readyState == 4 && httpPost.status == 200){
-                console.log(httpPost.responseText);
-            } else {
-                console.log(err);
-            }
-        };
-    // Set the content type of the request to json since that's what's being sent
-    httpPost.setHeader('Content-Type', 'application/json');
-    httpPost.open("POST", path, true);
-    httpPost.send(data);
-};
-
-// This wrapper function will accept the name of the image, the url, and the
-// image type and perform the request
-
-var uploadImage = function(src, name, type){
-    convertToBase64(src, type, function(data){
-        sendBase64ToServer(name, data);
-    });
-};
-
-uploadImage(imgsrc, name, 'image/jpeg');
-
-
-}
+// bind the onclick to set author id in localStorage
+// and link the user to the author's profile
+$(".comment-author-url").click(function (e) {
+  e.preventDefault();
+  localStorage.setItem("fetch-author-id", $(this).data("author-id"));
+  window.location.href = "authorpage.html";
+});

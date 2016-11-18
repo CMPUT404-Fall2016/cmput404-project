@@ -39,7 +39,7 @@
                 <ul class="nav nav-pills nav-justified">
                   <li class="active"><a data-toggle="pill" id="fdtab" href="#friendstab">Friends</a></li>
 <!--                  <li><a data-toggle="pill" id="fingtab" href="#following">Following</a></li>-->
-                  <li><a data-toggle="pill" id="fertab" href="#frequest">Request</a></li>
+                  <li><a data-toggle="pill" id="reqtab" href="#frequest">Request</a></li>
                 </ul>
 
               </div>
@@ -50,118 +50,65 @@
         <!--</div>-->
         <div class="tab-content">
 
-          <!-- following tab-->
-<!--          <div id="following" class="tab-pane fade">-->
-<!---->
-<!--              <div class="well">-->
-<!--                <div class="row">-->
-<!--                  <div class="col-sm-6">-->
-<!--                    <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">-->
-<!--                      -->
-<!--                      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"><p>following</p></a>-->
-<!--                  </div>-->
-<!--                  <div class="col-sm-6">-->
-<!--                    <div class="dropdown">-->
-<!--                      <div class="well2">-->
-<!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>-->
-<!--                        <ul class="dropdown-menu">-->
-<!--                          <li><a href="#">Profile</a></li>-->
-<!--                          <li class="divider"></li>-->
-<!---->
-<!--                          <li><a href="#">Add Friend</a></li>-->
-<!---->
-<!--                        </ul>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!---->
-<!--          </div>-->
 
-
-          <!-- follower tab-->
+          <!-- request tab-->
           <div id="frequest" class="tab-pane fade">
-<!--            <div class="well">-->
-<!--              <div class="row">-->
-<!--                <div class="col-sm-6">-->
-<!--                  <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">-->
-<!--                    -->
-<!--                    <a href="#" id="friendnamelink" class="list-group-item"><p id="friendname">Author Name</p></a>-->
-<!--                    </div>-->
-<!--                <div class="col-sm-6">-->
-<!--                  <div class="dropdown">-->
-<!--                    <div class="well2">-->
-<!--                      -->
-<!--                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>-->
-<!--                      <ul class="dropdown-menu">-->
-<!--                        <li><a href="#">Profile</a></li>-->
-<!--                        <li class="divider"></li>-->
-<!--                        <li><a id="acceptrequest" href="#">Accept</a></li>-->
-<!--                      -->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
+<!--            <div id="friendtemplate">-->
+<!--              <li class="list-group-item post-container media">-->
+<!---->
+<!--                <div class="media-left">-->
+<!---->
+<!--                  <h4></h4>-->
+<!--                  <a href="#" class="post-author-dp">-->
+<!--                    <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">-->
+<!--                      </a>-->
+<!--                  <h4></h4>-->
+<!---->
 <!--                </div>-->
-<!--              </div>-->
+<!---->
+<!--                <div class="media-body">-->
+<!---->
+<!--                  <h4>-->
+<!--                    <a href="#" id="profilepagelink">-->
+<!--                      <span id="thisusername">Profile</span>-->
+<!--                    </a>-->
+<!--                  </h4>-->
+<!--                  <p id="author2id" style="display:none;">Author 2</p>-->
+<!--                  <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p>-->
+<!--                    </a>-->
+<!---->
+<!--                </div>-->
+<!---->
+<!--              </li>-->
 <!--            </div>-->
-            <div id="friendtemplate">
-              <li class="list-group-item post-container media">
-                <!--<div class="col-sm-12">-->
-
-                <div class="media-left">
-
-                  <h4></h4>
-                  <a href="#" class="post-author-dp">
-                    <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
-                      </a>
-                  <h4></h4>
-
-                </div>
-
-                <div class="media-body">
-
-                  <h4>
-                    <a href="#" id="profilepagelink">
-                      <span id="thisusername">Profile</span>
-                    </a>
-                  </h4>
-                  <p id="author2id" style="display:none;">Author 2</p>
-                  <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept</p>
-                    </a>
-
-                </div>
-
-              </li>
-            </div>
 
           </div>
 
 
           <!-- friend tab -->
           <div id="friendstab" class="tab-pane fade in active">
-            <div class="well">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    <p style="display:none;" id="friendid"></p>
-                    <p style="display:none;" id="friendhost"></p>
-                    <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>
-                </div>
-                <div class="col-sm-6">
-                  <div class="dropdown">
-                    <div class="well2">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Profile</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" id="unfriendauthor">Unfriend</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<!--            <div class="well">-->
+<!--              <div class="row">-->
+<!--                <div class="col-sm-6">-->
+<!--                  <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">-->
+<!--                    <p style="display:none;" id="friendid">test id</p>-->
+<!--                    <p style="display:none;" id="friendhost">test host</p>-->
+<!--                    <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>-->
+<!--                </div>-->
+<!--                <div class="col-sm-6">-->
+<!--                  <div class="dropdown">-->
+<!--                    <div class="well2">-->
+<!--                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>-->
+<!--                      <ul class="dropdown-menu">-->
+<!--                        <li><a href="#">Profile</a></li>-->
+<!--                        <li class="divider"></li>-->
+<!--                        <li><a href="#" id="unfriendauthor">Unfriend</a></li>-->
+<!--                      </ul>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
 
           </div>
 
@@ -198,32 +145,29 @@
 
   <template id="friends-container">
     <div class="well">
-      <div class="row">
-        <div class="col-sm-6">
-          <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-
-            <p style="display:none;" id="friendid"></p>
-            <p style="display:none;" id="friendhost"></p>
-            <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>
-            </div>
-
-
-            <a href="#" id="friendnamelink" class="list-group-item"><p id="friendname">friends</p></a>
-        </div>
-
-        <div class="col-sm-6">
-          <div class="dropdown">
-            <div class="well2">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Profile</a></li>
-                <li class="divider"></li>
-                <li><a href="#" id="unfriendauthor">Unfriend</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+          <p style="display:none;" id="friendid"></p>
+          <p style="display:none;" id="friendhost"></p>
+          <p style="display:none;" id="friendurl"></p>
+          <a href="#" id="friendp1link" class="list-group-item"><p id="frienddisplayName"> friends</p></a>
+          
       </div>
+      <div class="col-sm-6">
+        <input onclick="unfriendauthor();" id="unfriendauthor" value="UnFriend" name="unfriend" type="button" class="btn btn-info"/>
+<!--        <div class="dropdown">-->
+<!--          <div class="well2">-->
+<!--            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>-->
+<!--            <ul class="dropdown-menu">-->
+<!--              <li><a href="#" id="friendp2link">Profile</a></li>-->
+<!--              <li class="divider"></li>-->
+<!--              <li><a href="#" id="unfriendauthor" onclick="unfriendauthor();" type="button">Unfriend</a></li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+    </div>
     </div>
   </template>
 
@@ -299,7 +243,7 @@
 
 
 
-  <template id="friend-container">
+  <template id="request-container">
 
     <div id="friendtemplate">
       <li class="list-group-item post-container media">
@@ -318,14 +262,15 @@
         <div class="media-body">
 
           <h4>
+            <p style="display:none;" id="requesthost"></p>
             <a href="#" id="profilepagelink">
               <span id="thisusername">Profile</span>
             </a>
           </h4>
-          <p id="author2id" style="display:none;">Author 2</p>
-          <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
-            </a>
-
+          <p id="author2id" style="display:none;">Author 2 Id</p>
+<!--          <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Accept-->
+<!--            </a>-->
+          <input onclick="acceptfriend();" id="friend-accept" value="Accept" name="friend-accept" type="button" class="btn btn-info"/>
         </div>
 
       </li>
@@ -333,9 +278,9 @@
   </template>
 
   <script src="js/utilities.js"></script>
-<!--  <script src="js/authorpost.js"></script>-->
+<!--  <script src="js/login-check.js"></script>-->
   <script src="js/friendsdata.js"></script>
-  <script src="js/friendrequest.js"></script>
+  <script src="js/friendaccept.js"></script>
 
   </script>
 </body>
