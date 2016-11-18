@@ -31,7 +31,7 @@ function acceptfriend() {
 
                     var acceptfrienddata = {};
                     acceptfrienddata["author"] = document.getElementById("author2id").textContent;
-                acceptfrienddata["server_address"] = document.getElementById("requesthost").href;
+                acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
 
   console.log(acceptfrienddata);
 

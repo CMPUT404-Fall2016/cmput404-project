@@ -87,28 +87,28 @@
 
           <!-- friend tab -->
           <div id="friendstab" class="tab-pane fade in active">
-            <div class="well">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                    <p style="display:none;" id="friendid">test id</p>
-                    <p style="display:none;" id="friendhost">test host</p>
-                    <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>
-                </div>
-                <div class="col-sm-6">
-                  <div class="dropdown">
-                    <div class="well2">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Profile</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" id="unfriendauthor">Unfriend</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<!--            <div class="well">-->
+<!--              <div class="row">-->
+<!--                <div class="col-sm-6">-->
+<!--                  <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">-->
+<!--                    <p style="display:none;" id="friendid">test id</p>-->
+<!--                    <p style="display:none;" id="friendhost">test host</p>-->
+<!--                    <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>-->
+<!--                </div>-->
+<!--                <div class="col-sm-6">-->
+<!--                  <div class="dropdown">-->
+<!--                    <div class="well2">-->
+<!--                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>-->
+<!--                      <ul class="dropdown-menu">-->
+<!--                        <li><a href="#">Profile</a></li>-->
+<!--                        <li class="divider"></li>-->
+<!--                        <li><a href="#" id="unfriendauthor">Unfriend</a></li>-->
+<!--                      </ul>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
 
           </div>
 
@@ -148,8 +148,8 @@
     <div class="row">
       <div class="col-sm-6">
         <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-          <p style="display:none;" id="friendid">test id</p>
-          <a style="display:none;" id="friendhost">test host</p>
+          <p style="display:none;" id="friendid"></p>
+          <a style="display:none;" id="friendhost"></p>
           <a href="#" id="friendurl" class="list-group-item"><p id="frienddisplayName"> friends</p></a>
           </div>
       <div class="col-sm-6">
@@ -159,7 +159,7 @@
             <ul class="dropdown-menu">
               <li><a href="#">Profile</a></li>
               <li class="divider"></li>
-              <li><a href="#" id="unfriendauthor">Unfriend</a></li>
+              <li><a href="#" id="unfriendauthor" onclick="unfriendauthor();">Unfriend</a></li>
             </ul>
           </div>
         </div>
@@ -259,7 +259,7 @@
         <div class="media-body">
 
           <h4>
-            <a style="display:none;" href="#" id="requesthost"></p>
+            <p style="display:none;" id="requesthost"></p>
             <a href="#" id="profilepagelink">
               <span id="thisusername">Profile</span>
             </a>

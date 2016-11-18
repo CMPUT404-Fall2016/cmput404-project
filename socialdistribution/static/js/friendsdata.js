@@ -58,15 +58,17 @@ $(document).ready(function() {
                   
                   sendAJAX("GET", myauthorlink, "", function(events) {
 //                           console.log("this?");
-                           console.log(events.friends.length);
+//                           console.log(events);
+//                           console.log(events.friends.length);
 //                           console.log(events.friends[0]);
 //                           console.log(">>>");
-                    for(var i=0; i < events.length; ++i) {
+                    for(var i=0; i < events.friends.length; ++i) {
                            //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
                            var friendsTemplate = document.getElementById('friends-container');
                            friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
                            friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
                            friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
+                           //console.log(events.friends[i].displayName);
                            friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
                            
                            var normalContent = document.getElementById('friendstab');
@@ -114,7 +116,8 @@ $("#reqtab").click(function(e) {
                             //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
                             requestTemplate.content.querySelector("#thisusername").textContent = events.friendRequestList[i].fromAuthor_id;
                             requestTemplate.content.querySelector("#profilepagelink").href = events.friendRequestList[i].url;
-                            requestTemplate.content.querySelector("#requesthost").href = events.friendRequestList[i].fromServerIP;
+                            requestTemplate.content.querySelector("#requesthost").textContent = events.friendRequestList[i].fromServerIP;
+                            //console.log(events.friendRequestList[i].fromServerIP);
                             requestTemplate.content.querySelector("#author2id").textContent = events.friendRequestList[i].fromAuthor_id;
                             
                             var normalContent = document.getElementById('frequest');
@@ -173,27 +176,17 @@ $("#fdtab").click(function(e) {
 
 
 
-$("#unfriendauthor").click(function(e) {
-                   e.preventDefault();
-                           function getCookieid() {
-                           var cookies = document.cookie.split(";");
-                           for(var i=0; i < cookies.length; i++) {
-                           var gname = cookies[i].split("=");
-                           if(gname[0].trim() == "cookie_cmput404_author_id") {
-                           return gname[1];
-                           
-                           }
-                           }
-                           return "";
-                           }
-                   
+//$("#unfriendauthor").click(function(e) {
+//                           
+//                   e.preventDefault();
+function unfriendauthor() {
 //                           var friendsTemplate = document.getElementById('friends-container');
 //
 //                           var normalContent = document.getElementById('friendstab');
 //                           
 //                           var clonedTemplate = friendsTemplate.content.cloneNode(true);
 //                           normalContent.appendChild(clonedTemplate)
-                           console.log(document.getElementById("friendhost").href);
+                           //console.log(document.getElementById("friendhost").href);
                    
                            var unfrienddata = {};
                            unfrienddata["author"] = document.getElementById("friendid").textContent;
@@ -207,6 +200,6 @@ $("#unfriendauthor").click(function(e) {
                                     
                                     });
                            
-                           });
+                           }
 
 
