@@ -18,17 +18,12 @@
 
     <!-- profile sidebar -->
     <div class="col-sm-4 col-lg-3 text-center">
-      <div class="panel">
-        <a href="profilepage.html" class="thumbnail" id="author-dp-cookie">
-          <img src="../sample_data/kitten.jpg" alt="profile pic">
-        </a>
-        <h4>Display Name</h4>
+      <!-- <div class="panel">
+        <h4 id="display-name">Display Name</h4>
         <ul class="nav nav-pills nav-justified">
           <li><a href="friendspage.html">Friends</a></li>
-          <li><a href="friendspage.html">Following</a></li>
-          <li><a href="friendspage.html">Followers</a></li>
         </ul>
-      </div>
+      </div> -->
     </div>
 
     <!-- middle content -->
@@ -39,48 +34,48 @@
           <form method="post" action="" id="post-form">
             <fieldset>
               <div class="form-group">
-                <input type="text" class="form-control" name="title" placeholder="Post title">
+                <input type="text" class="form-control" name="title" placeholder="Post title" required>
               </div>
               <div class="form-group">
                 <input type="text" class="form-control" name="desc" placeholder="Description (optional)">
               </div>
               <div class="form-group">
-                <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?"></textarea>
+                <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
               <div class="form-group">
-                <label class="radio-inline"><input type="radio" name="text-type">Plain Text</label>
+                <label class="radio-inline"><input type="radio" checked="checked" name="text-type">Plain Text</label>
                 <label class="radio-inline"><input type="radio" name="text-type">Markdown</label>
+              </div>
+              <div class="form-group">
+                <select name="visibility">
+                  <option selected="selected" value ="PUBLIC">Public</option>
+                  <option value ="FOAF">Friends of Friends</option>
+                  <option value ="FRIENDS">Friends</option>
+                  <option value ="PRIVATE">Private</option>
+                  <option value="SERVERONLY">Server Only</option>
+                </select>
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">Add Image</label>
                 <input type="file" name="image">
               </div>
-              <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Post</button>
+              <button id="post-submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Post</button>
             </fieldset>
           </form>
         </div>
       </div>
       <!-- list group for holding posts -->
-      <ol id="posts" class="list-group">
+      <ol id="posts" class="list-group text-center">
         <!-- placeholder post -->
         <li class="list-group-item post-container media">
-          <div class="media-left">
-            <a href="#" class="post-author-dp">
-              <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
-            </a>
-          </div>
           <div class="post-body media-body">
             <h4 class="media-heading">Post Title: a sample post</h4>
-            <a href="#">
-              <p class="post-author">By Author</p>
-            </a>
+            <a href="#" class="post-author">Author</a></span>
+            <p class="post-description">description<span>
             <p class="post-content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
             <ul class="list-inline list-unstyled">
-              <li class="like-button">
-                <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
-              </li>
               <li class="comments-button">
                 <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
               </li>
@@ -104,23 +99,14 @@
 <!-- post container template -->
 <template id="post-container">
   <li class="list-group-item post-container media">
-    <div class="media-left">
-      <a href="#" class="post-author-dp">
-        <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
-      </a>
-    </div>
     <div class="post-body media-body">
       <h4 class="media-heading">Post Title: a sample post</h4>
-      <a href="#">
-        <p class="post-author">By Author</p>
-      </a>
+      <a href="#" class="post-author">Author</a></span>
+      <p class="post-description">description<span>
       <p class="post-content">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
       <ul class="list-inline list-unstyled">
-        <li class="like-button">
-          <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
-        </li>
         <li class="comments-button">
           <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
         </li>
@@ -146,18 +132,11 @@
   </li>
 </template>
 
-<!-- no more posts template -->
-<template class="posts-stream-end">
-  <li class="list-group-item media">
-  <span>No More Posts ):</span>
-</li>
-</template>
-
 <!-- <footer class="container-fluid text-center">
 </footer> -->
 <script src="/js/utilities.js"></script>
 <script src="/js/github.js"></script>
 <script src="/js/setmycookie.js"></script>
-<!-- <script src="js/post.js"></script> -->
+<script src="js/post.js"></script>
 </body>
 </html>

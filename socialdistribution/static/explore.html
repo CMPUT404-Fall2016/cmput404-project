@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Rad Site</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <script src="/js/login-check.js"></script> -->
+</head>
+<body>
+<div id="navbar" style="padding-bottom: 70px"></div>
+<!-- main page content -->
+<div class="container" id="page-container">
+  <div class="row">
+
+    <!-- profile sidebar -->
+    <div class="col-sm-4 col-lg-3 text-center">
+    </div>
+
+    <!-- middle content -->
+    <div class="col-sm-8 col-lg-6 content-main">
+      <!-- list group for holding posts -->
+      <div class="panel panel-default text-center">
+        <div class="panel-body">
+          <h3>Hi! These are the public posts on server soiree.</h3>
+        </div>
+      </div>
+      <ol id="posts" class="list-group">
+        <!-- placeholder post -->
+        <li class="list-group-item post-container media">
+
+          <div class="post-body media-body">
+            <h4 class="media-heading">Post Title: a sample post</h4>
+            <a href="#">
+              <p class="post-author">By Author</p>
+            </a>
+            <p class="post-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+            </p>
+            <ul class="list-inline list-unstyled">
+              <li class="like-button">
+                <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+              </li>
+              <li class="comments-button">
+                <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- post container template -->
+<template id="post-container">
+  <li class="list-group-item post-container media">
+    <div class="post-body media-body">
+      <h4 class="media-heading">Post Title: a sample post</h4>
+      <a href="#">
+        <p class="post-author">By Author</p>
+      </a>
+      <p class="post-content">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+      </p>
+      <ul class="list-inline list-unstyled">
+        <li class="like-button">
+          <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
+        </li>
+        <li class="comments-button">
+          <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</template>
+
+<script src="/js/utilities.js"></script>
+<script src="/js/github.js"></script>
+<script src="/js/setmycookie.js"></script>
+<script src="js/post.js"></script>
+</body>
+</html>
