@@ -69,17 +69,12 @@ $(document).ready(function() {
 
                   
   var myauthorid = getCookieid();
-  
-  
-  
-  
-  
   var mypTemplate = document.getElementById('profiledatas');
   
-  var friendauthorid = getFriendcookieid();
+  //var friendauthorid = getFriendcookieid();
   
   var myprofilelink = "/author/" + myauthorid;
-  var thisauthorlink = "/author/" + getFriendcookieid();
+  //var thisauthorlink = "/author/" + getFriendcookieid();
   //sendAJAX("GET",)
   
  
@@ -91,7 +86,7 @@ $(document).ready(function() {
            profileusernametext = result.displayName;
            td.textContent = profileusernametext;
 
-            mypTemplate.content.querySelector("#profileid").textContent = result.id;
+           mypTemplate.content.querySelector("#profileid").textContent = result.id;
            
            mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
            
