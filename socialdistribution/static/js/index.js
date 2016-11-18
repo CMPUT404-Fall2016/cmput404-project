@@ -68,6 +68,7 @@ $(document).ready(function() {
 
   // get the events and process them to be displayed in github-containers
   if(github_name) {
+    $("#git-alert").addClass("hidden");
     sendAJAX("GET", github_url, "", function(events) {
       for(var i=0; i < events.length; ++i) {
         var repo_url = "https://github.com/" + events[i].repo.name;
