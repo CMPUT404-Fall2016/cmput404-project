@@ -532,6 +532,8 @@ def serializeAuthors(authors):
         # datum["bio"]        = author.bio
         if author.github_id == None:
             datum["github_id"]  = ""
+        else:
+            datum["github_id"] = author.github_id
         # datum["numberOf_friends"] = author.numberOf_friends  
         # datum["numberOf_followers"] = author.numberOf_followers  
         # datum["numberOf_followees"] = author.numberOf_followees  

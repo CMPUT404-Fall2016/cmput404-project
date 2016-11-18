@@ -250,61 +250,109 @@ $("#saveprofilechange").click(function (e) {
 
 
 //$("#addfriendbtn").click(function(e) {
-function addFriend() {
-//                        e.preventDefault();
-                         console.log("button works");
-//                              var friendrequestdata = {};
-//                              friendrequestdata["author"].id = getCookieid();
-//                              friendrequestdata["authod"].host = getCookiehost();
-//                              friendrequestdata["friend"].id = "thisauthorid";
-//                              friendrequestdata["friend"].host = "thisauthorhost";
-                         var myuserid = getCookieid();
-                         
-                         var myinfostuff = "/author" + myuserid;
-                         
-                         sendAJAX("GET", myinfostuff, "", function(result) {
-                                  console.log(result);
-                                  //var myid = result.id;
-                                  var myhost = result.host;
-                                  var mydisplayname = result.displayName;
+function afriendone(fn) {
+  var myuserid = getCookieid();
+  
+  var myinfostuff = "/author/" + myuserid;
+  sendAJAX("GET", myinfostuff, "", function(result) {
+           //console.log(result);
+           //var myid = result.id;
+           var myhost = result.host;
+           //console.log(result.host)
+           //console.log(myhost);
+           var mydisplayname = result.displayName;
+           fn(result);
+           //return myhost, mydisplayname;
+    });
+}
 
-                                  });
-                         
-                                  var friendid = document.getElementById("pid").placeholder;
-                                  
-                         var getfriendinfo = "/author/" + friendid;
-                         
-                         sendAJAX("GET", getfriendinfo, "", function(result) {
-                                  console.log(result);
-                                  var friendid = result.id;
-                                  var friendhost = result.host;
-                                  var frienddisplayname = result.displayName;
-                                  var friendurl = result.url;
-                                  });
-                         
-                         var friendrequestdata = {};
-  friendrequestdata["author"]={"id":myuserid, "host":myhost, "displayName":mydisplayname};
-//                         friendrequestdata["author"]["host"] = myhost;
-//                         friendrequestdata["author"]["displayName"] = mydisplayname;
+afriendone(function(result) {
+           console.log("hello");
+           console.log(result);
+           var myhost = result.host;
+           //console.log(result.host)
+           //console.log(myhost);
+           var mydisplayname = result.displayName;
+  });
+
+
+
+//function afriendtwo() {
+//  var friendid = getFriendcookieid();
+//  var getfriendinfo = "/author/" + friendid;
+//  //  var friendid="";
+//  //  var friendhost="";
+//  //  var frienddisplayname ="";
+//  //  var friendurl="";
+//  
+//  sendAJAX("GET", getfriendinfo, "", function(result2) {
+//           //console.log(result);
+//           var friendid = result2.id;
+//           var friendhost = result2.host;
+//           var frienddisplayname = result2.displayName;
+//           var friendurl = result2.url;
+//           //return friendid, friendhost, frienddisplayname, friendurl;
+//           fn(result2);
+//           });
+//}
+//
+//afriendtwo(function(result2) {
+//           console.log("hello2");
+//           console.log(result2);
+//           var friendid = result2.id;
+//           var friendhost = result2.host;
+//           var frienddisplayname = result2.displayName;
+//           var friendurl = result2.url;
+//           });
+
+
+
+
+//var result = foo();
+//foo(function(result) {
+//    // Code that depends on 'result'
+//    });
+
+function addFrienddata(resultone, resulttwo) {
   
-  friendrequestdata["friend"]={"id":friendid, "host":friendhost, "displayName":frienddisplayname, "url":friendurl};
-  console.log(friendrequestdata);
-//                         friendrequestdata["friend"]["id"] = friendid;
-//                         friendrequestdata["friend"]["host"] = friendhost;
-//                         friendrequestdata["friend"]["displayName"] = frienddisplayname;
-//                         friendrequestdata["friend"]["url"] = friendurl;
-  
-                         
-                              sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
-                                       console.log(response);
-                                       //window.location.href="friendspage.html";
-                                  });
-                         
+  //return myhost, mydisplayname, friendid, friendhost, frienddisplayname, friendurl;
               
                               
 }
 
+//function myCallback(result) {
+//  // Code that depends on 'result'
+//}
+//
+//foo(myCallback);
 
+var resultuser = addFrienddata();
+
+function addFriend() {
+  console.log(myhost);
+  
+//  var friendrequestdata = {};
+//  friendrequestdata["author"] = {}
+//  friendrequestdata["author"]["id"]= myuserid;
+//  friendrequestdata["author"]["host"] = myhost;
+//  friendrequestdata["author"]["displayName"] = mydisplayname;
+//  
+//  //  friendrequestdata["friend"]={"id":friendid, "host":friendhost, "displayName":frienddisplayname, "url":friendurl};
+//  //console.log(friendrequestdata);
+//  friendrequestdata["friend"] = {};
+//  friendrequestdata["friend"]["id"] = friendid;
+//  friendrequestdata["friend"]["host"] = friendhost;
+//  friendrequestdata["friend"]["displayName"] = frienddisplayname;
+//  friendrequestdata["friend"]["url"] = friendurl;
+//  
+//  
+//  sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
+//           //console.log(response);
+//           //window.location.href="friendspage.html";
+//           });
+
+  
+}
 
 
 //$(document).ready(function() {
