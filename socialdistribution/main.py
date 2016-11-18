@@ -1,11 +1,12 @@
 import flask
-from flask import Flask, request, Response, session
+from flask import Flask, request, Response, session, render_template, redirect
 from flask_restful import reqparse, abort, Api, Resource
 # from Server.REST_handlers import REST_handlers
 import json
 import uuid
 from model import *
 from Server.author_endpointHandlers import *
+import urlparse
 
 
 
@@ -753,12 +754,148 @@ def start():
 def profile():
     return app.send_static_file('profile.html')
 
+def admin_settings_helper():
+    shared_nodes = ""
+    shared_nodes_posts = ""
+    shared_nodes_images = ""
+    pending_authors = []
+
+    for node in APP_state["shared_nodes"]:
+        shared_nodes = shared_nodes + '[' + node + ']'
+
+    for node in APP_state["shared_nodes_posts"]:
+        shared_nodes_posts = shared_nodes_posts + '[' + node + ']'
+
+    for node in APP_state["shared_nodes_images"]:
+        shared_nodes_images = shared_nodes_images + '[' + node + ']'
+
+    index = 0
+    for author in APP_state['pending_authors']:
+        author['webID'] = "element_3_" + str(index)
+        author['value'] = str(index)
+        pending_authors.append(author)
+        index += 1
+
+    return [pending_authors, shared_nodes, shared_nodes_posts, shared_nodes_images]
+
+
+def init_admin():
+    user1={"login_name":"Amaral", "name":"amaral Dcosta"}
+    user2={"login_name":"Tully", "name":"Tully Dcosta"}
+    user3={"login_name":"Eddy", "name":"Eddy Dcosta"}
+    APP_state["pending_authors"] = [user1, user2, user3]
+    APP_state["pending_authors"] += APP_state["pending_authors"] + APP_state["pending_authors"] + APP_state["pending_authors"] + APP_state["pending_authors"] 
+    APP_state["shared_nodes"] = ["http://1", "http://2"]
+    APP_state["shared_nodes_images"] = ["http://3", "http://4"]
+    APP_state["shared_nodes_posts"] = ["http://5", "http://6"]
+
+@app.route('/restart.html')
+def restart():
+    init_admin()
+    return ""
+
+@app.route('/admin_settings.html')
+def admin_settings():
+    """
+        This leads to the admin settings form page
+    """
+    method_action = APP_state["local_server_Obj"].IP + '/settings'
+    [pending_authors, shared_nodes, shared_nodes_posts, shared_nodes_images]=admin_settings_helper()
+    checked = None
+    if APP_state["nodes_with_authentication"]:
+        checked = "checked"
+
+
+    # print shared_nodes
+    return render_template("admin_form.html",
+                            users=pending_authors,
+                            action_endpoint = method_action,
+                            shared_nodes = shared_nodes,
+                            shared_nodes_images = shared_nodes_images,
+                            shared_nodes_posts = shared_nodes_posts,
+                            isChecked = checked
+                            )
+
+
+@app.route('/settings', methods=['POST'])
+def settings():
+    updateSettings(request.form)
+    redirectURL = APP_state["local_server_Obj"].IP + '/admin_settings.html'
+    return redirect(redirectURL, code=302)
+
+
+def updateSettings(dict):
+
+    print dict
+    if 'element_6' in dict:
+        if dict['element_6'].strip() == "":
+            APP_state["shared_nodes"] = []
+        else:
+            APP_state["shared_nodes"] = parseHosts(dict['element_6'])
+    else:
+        APP_state["shared_nodes"] = []
+
+    if "element_7_1" in dict:
+        APP_state["nodes_with_authentication"] = True
+    else:
+        APP_state["nodes_with_authentication"] = False
+
+    if "element_1" in dict:
+        if dict['element_1'].strip() == "":
+            APP_state["shared_nodes_posts"] = []
+        else:
+            APP_state["shared_nodes_posts"] = parseHosts(dict['element_1'])
+    else:
+        APP_state["shared_nodes_posts"] = []
+
+    if "element_2" in dict:
+        if dict['element_2'].strip() == "":
+            APP_state["shared_nodes_images"] = []
+        else:
+            APP_state["shared_nodes_images"] = parseHosts(dict['element_2'])
+    else:
+        APP_state["shared_nodes_images"] = []
+
+    parseAuthors(dict)
+
+
+def parseAuthors(dict):
+
+    new = []
+    indices = []
+    for k in dict.keys():
+        if k[:10] == "element_3_":
+            APP_state["pending_authors"][int(k[10:])] = None
+
+    for i in APP_state["pending_authors"]:
+        if i != None:
+            new.append(i)
+
+    APP_state["pending_authors"] = new
+
+
+def parseHosts(host_text):
+
+    result=[]
+    splitted = host_text.split('][')
+    if len(splitted) > 1:
+        splitted[0] = splitted[0].strip()[1:]
+        for split in splitted:
+            result.append(split)
+
+        result[-1] = splitted[-1].strip()[0:-1]
+
+    if len(splitted) == 1:
+        result.append(splitted[0].strip()[1:-1])
+
+    return result
 
 
 def run():
     app.run(debug=True)
 
 if __name__ == "__main__":
+    init_admin()
     app.run(debug=True)
     # print "HOST IS: ", request.host
 

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Admin</title>
+<link rel="stylesheet" type="text/css" href="/templates/view.css" media="all">
+<script type="text/javascript" src="/templates/view.js"></script>
+
+</head>
+<body id="main_body" >
+    
+    <img id="top" src="/templates/top.png" alt="">
+    <div id="form_container">
+    
+        <h1><a>Admin Page</a></h1>
+        <form id="form_5013" class="appnitro"  method="post" action={{action_endpoint}}>
+                    <div class="form_description">
+            <h2>Welcome to Admin Page</h2>
+            <p>Here you can change the server settings!</p>
+        </div>                      
+        
+        <ul >   
+        <li id="li_6" >
+            <label class="description" for="element_6">Sharing with the following nodes/servers </label>
+            <div>
+                <textarea id="element_6" name="element_6" class="element textarea medium"> {{shared_nodes}} </textarea> 
+            </div> 
+        </li>
+
+        <li id="li_7" >
+            <label class="description" for="element_7">Enable sharing with servers that are only: </label>
+            <span>
+                <input id="element_7_1" name="element_7_1" class="element checkbox" type="checkbox" value="1" {{isChecked}} />
+                <label class="choice" for="element_7_1">Authenticated</label>
+            </span> 
+        </li>
+
+        <li id="li_1" >
+            <label class="description" for="element_1">Share Posts with the following Servers:  </label>
+            <div>
+                <textarea id="element_1" name="element_1" class="element textarea medium">{{shared_nodes_posts}}</textarea> 
+            </div> 
+        </li>       
+
+        <li id="li_2" >
+            <label class="description" for="element_2">Share Images with the following Servers: </label>
+            <div>
+                <textarea id="element_2" name="element_2" class="element textarea medium">{{shared_nodes_images}}</textarea> 
+            </div> 
+        </li>
+
+
+        <li id="li_3" >
+            <label class="description" for="element_3">Permit the following users to host on my server: </label>
+            {% for user in users %}
+            <span>
+                <input id={{user.webID}} name={{user.webID}} class="element checkbox" type="checkbox" value={{user.value}} />
+                <label class="choice" for={{user.webID}}>{{user.name}}</label>
+            </span> 
+            {% endfor %}
+        </li>
+            
+        <li class="buttons">
+            <input type="hidden"/>          
+            <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+        </li>
+        </ul>
+        
+        </form> 
+    
+    </div>
+    <img id="bottom" src="/templates/bottom.png" alt="">
+    </body>
+</html>
