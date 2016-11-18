@@ -74,7 +74,7 @@ $(document).ready(function() {
                            document.cookie = "request_author_id="+events.friends[i].id;
                            
                            friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
-                           friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
+                           //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
                            
                            var normalContent = document.getElementById('friendstab');
                            
@@ -170,7 +170,7 @@ $("#fdtab").click(function(e) {
                            document.cookie = "request_author_id="+events.friends[i].id;
                            
                            friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
-                           friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
+                           //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
                            
                            var normalContent = document.getElementById('friendstab');
                            
@@ -190,6 +190,9 @@ $("#fdtab").click(function(e) {
 //                           
 //                   e.preventDefault();
 function unfriendauthor() {
+                           //alert("hello");
+                           console.log("btnwork");
+
 //                           var friendsTemplate = document.getElementById('friends-container');
 //
 //                           var normalContent = document.getElementById('friendstab');
@@ -204,7 +207,7 @@ function unfriendauthor() {
                            
                            console.log(unfrienddata);
                            
-                           sendAJAX("POST", "/unfriend", unfrienddata, function(response) {
+                           sendAJAX("POST", "/unFriend", unfrienddata, function(response) {
                                     console.log("hello");
                                     console.log(response);
                                     window.location.href="friendspage.html";
