@@ -1,8 +1,5 @@
 // functionality of index.html
 
-var postList = document.getElementById("posts"),
-    postTemplate = document.getElementById("post-container");
-
 $("#post-submit").click(function(e) {
   e.preventDefault();
 
@@ -24,6 +21,14 @@ $("#post-submit").click(function(e) {
   window.location.reload();
 });
 
+$(".comments-btn").click(function(e) {
+  e.preventDefault();
+  // set this for later
+  localStorage("fetch-post-host", this.data("post-host"));
+  localStorage("fetch-post-id", this.data("post-id"));
+  window.location.href("post.html")
+});
+
 // searches cookies for a github_username
 function getGithubUsername() {
   // look for the github_name in cookies
@@ -39,16 +44,20 @@ function getGithubUsername() {
 
 // get the posts from authors I follow
 $(document).ready(function() {
+  var postList = document.getElementById("posts");
+  var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
   sendAJAX("GET", "/allPosts", "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
-         // fill the container with details
+      // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
       postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
-      postTemplate.content.querySelector(".post-author-url").href = posts[i].author.url;
       postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
 
-      // clone the template to render and append to the dom
+      // attach data to the button so it can be referenced when clicked
+      postTemplate.content.querySelector(".comments").data("post-host", posts[i].author.host);
+      postTemplate.content.querySelector(".comments").data("post-id", posts[i].id);
+
       var clone = document.importNode(postTemplate.content, true);
       postList.appendChild(clone);
     }
