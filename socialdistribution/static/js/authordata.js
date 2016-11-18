@@ -73,6 +73,7 @@ $(document).ready(function() {
                   //var friendauthorid = getFriendcookieid();
                   
                   var myprofilelink = "/author/" + myauthorid;
+                  
                   //var thisauthorlink = "/author/" + getFriendcookieid();
                   //sendAJAX("GET",)
                   
@@ -110,7 +111,18 @@ $(document).ready(function() {
                            
                            
                            });
+                  
+                  var author2sid = getCookieid();
                 
+                  var isfriend = "/friends/" + myauthorid + "/" + author2sid;
+                  console.log(isfriend);
+                  
+                  sendAJAX("GET", isfriend, "", function(response) {
+                           console.log(response.friends);
+                           if(response.friends == true) {
+                           document.getElementById("addfriendbtn").style.display="none";
+                           }
+                           });
 });
 
 $("#saveprofilechange").click(function (e) {

@@ -108,9 +108,8 @@ $(document).ready(function() {
            
            document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
            document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-           
-           
   });
+                
                   
                   
 });

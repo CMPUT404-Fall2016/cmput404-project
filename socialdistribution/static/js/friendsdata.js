@@ -71,6 +71,11 @@ $(document).ready(function() {
                            //console.log(events.friends[i].displayName);
                            friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
                            
+                           document.cookie = "request_author_id="+events.friends[i].id;
+                           
+                           friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
+                           friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
+                           
                            var normalContent = document.getElementById('friendstab');
                            
                            var clonedTemplate = friendsTemplate.content.cloneNode(true);
@@ -160,7 +165,12 @@ $("#fdtab").click(function(e) {
                            friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
                            friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
                            friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
-                           friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
+                           friendsTemplate.content.querySelector("#friendurl").textContent = events.friends[i].url;
+                           
+                           document.cookie = "request_author_id="+events.friends[i].id;
+                           
+                           friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
+                           friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
                            
                            var normalContent = document.getElementById('friendstab');
                            
@@ -195,6 +205,7 @@ function unfriendauthor() {
                            console.log(unfrienddata);
                            
                            sendAJAX("POST", "/unfriend", unfrienddata, function(response) {
+                                    console.log("hello");
                                     console.log(response);
                                     window.location.href="friendspage.html";
                                     
