@@ -59,11 +59,11 @@ function getFriendcookieid() {
 }
 
 
-function editauthorpage() {
-  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-}
+//function editauthorpage() {
+//  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+//  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+//  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+//}
 
 $(document).ready(function() {
 
@@ -118,17 +118,6 @@ $(document).ready(function() {
 
 $("#editprofilebtn").click(function (e) {
                            e.preventDefault();
-                           
-                           //var text1 = document.getElementById("profileid").textContent;
-                           //      var text2 = profileeditmode.elements["profilename"].value;
-                           //      var text3 = profileeditmode.elements["profilehost"].value;
-                           //      var text4 = profileeditmode.elements["profileurl"].value;
-                           
-                           
-                           //document.getElementById("testid").placeholder= "123";
-                           //      document.getElementsByName('pdisplayName')[0].placeholder=text2;
-                           //      document.getElementsByName('phost')[0].placeholder=text3;
-                           //      document.getElementsByName('purl')[0].placeholder=text4;
                            
                            document.getElementById("testid").placeholder = document.getElementById("profileid").textContent;
                            document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
@@ -281,34 +270,3 @@ function addFriend() {
   
 }
 
-
-//$(document).ready(function() {
-//
-//                  var myTemplate = document.getElementById('profiledatas');
-//
-////                  var displaynameh = document.getElementById('profilehname');
-////                  var displaynameb = document.getElementById('profileusername');
-////                  var pname = document.getElementById('profilename');
-////                  var githubid = document.getElementById('profilegethubid');
-////                  var pbio = document.getElementById('profilebio');
-//
-//                  var pu = myTemplate.content.querySelector(".profilehname");
-//                  pu.textContent = "This is the changed pname";
-//
-//                  var pu = myTemplate.content.querySelector(".profileusername");
-//                  pu.textContent = "This is the changed username";
-//
-//                  var pn = myTemplate.content.querySelector(".profilename");
-//                  pn.textContent = "This is the changed name";
-//
-//                  var pg = myTemplate.content.querySelector(".profilegithubid");
-//                  pg.textContent = "This is the changed github id";
-//
-//                  var pb = myTemplate.content.querySelector(".profilebio");
-//                  pb.textContent = "This is the changed bio";
-//
-//                  var normalContent = document.getElementById('profile');
-//
-//                  var clonedTemplate = myTemplate.content.cloneNode(true);
-//                  normalContent.appendChild(clonedTemplate)
-//});
