@@ -49,7 +49,7 @@ $("#create-btn").click(function (e) {
 // stores commonly used data in local storage and redirects to index.html
 function login(data) {
   // localStorage.setItem(author_id, data["author_id"]);
-  // localStorage.setItem(display_name, data["display_name"]);
+  localStorage.setItem("display_name", data["name"]);
   // localStorage.setItem(github_username, data["github_username"]);
   window.location.href = "index.html";
 }
@@ -65,7 +65,7 @@ $("#login-btn").click(function(e) {
   // console.log(message);
   // return false;
   sendAJAX("POST", "/login", loginData, function(response) {
-    console.log(response);
+    // console.log(response);
     // login is successful so log the user in
     if(response["status"] == "SUCCESS") {
       login(response);
