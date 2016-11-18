@@ -82,7 +82,7 @@ $(document).ready(function() {
          
          mypTemplate.content.querySelector("#profileid").textContent = result.id;
          
-         mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
+         mypTemplate.content.querySelector("#dprofiledname").textContent = result.displayName;
          
          mypTemplate.content.querySelector("#profilehost").textContent = result.host;
          
@@ -104,7 +104,7 @@ $(document).ready(function() {
          document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
          
          document.getElementById("editprofilebtn").style.display="none";
-         document.getElementById("addfriendbtn").style.display="";
+         //document.getElementById("addfriendbtn").style.display="";
     });
                   
                 
@@ -197,7 +197,11 @@ function afriendtwo(result) {
   
              sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
                       console.log(response);
+                      if(response["status"] == "SUCCESS") {
+                      
+
                       document.getElementById("addfriendbtn").style.display="none";
+                      }
                       //window.location.href="friendspage.html";
             });
 }
