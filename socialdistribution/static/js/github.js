@@ -22,7 +22,6 @@ $(document).ready(function() {
       sidebar = document.getElementById("github"),
       githubTemplate = document.getElementById("github-container");
 
-  console.log(github_name);
   // get the events and process them to be displayed in github-containers
   if(github_name) {
     sendAJAX("GET", github_url, "", function(events) {
