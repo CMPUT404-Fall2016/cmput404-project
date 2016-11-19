@@ -7,8 +7,8 @@ import uuid
 from model import *
 from Server.author_endpointHandlers import *
 import urlparse
-from Server.cts.pch import * 
-from Server.cts.c2sM import *
+from Server.pch import * 
+from Server.c2sM import *
 
 
 # admin stuff -----------------------------------
@@ -54,7 +54,7 @@ def getHandler():
 # def main(self, app):
 
 app = Flask(__name__, static_url_path='')
-
+api = Api(app)
 
 app.config['SECRET_KEY'] = 'hi_this_is_cmput404'
 
@@ -891,6 +891,11 @@ def parseHosts(host_text):
 
 def run():
     app.run(debug=True)
+
+
+api.add_resource(Post, '/<string:post_id>')
+api.add_resource(Comment, '/api/comment')
+api.add_resource(All_Post, '/service/posts')
 
 if __name__ == "__main__":
     init_admin()
