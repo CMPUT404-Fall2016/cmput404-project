@@ -6,8 +6,6 @@ from model import *
 from pch import *
 import random, os
 
-app = Flask(__name__)
-api = Api(app)
 
 handler = RestHandlers()
 COOKIE_NAME = "cookie_cmput404_"
@@ -222,6 +220,7 @@ api.add_resource(Post, '/<string:post_id>')
 api.add_resource(Comment, '/api/comment')
 api.add_resource(All_Post, '/service/posts')
 
+'''
 if __name__ == '__main__':
 	for i in range(1, 55):
 		currentTime = datetime.now()
@@ -239,6 +238,6 @@ if __name__ == '__main__':
 		handler.make_post(post)
 
 	app.run(debug=True)
-
+'''
 
 
