@@ -20,6 +20,7 @@ APP_state['no_friend_Requests'] : Number of friend requests send to this server.
 """
 APP_state = {}
 APP_state["session_ids"]={}
+APP_state["session_ids"]["123"] = "Randy"
 APP_state["no_servers"] = 0
 APP_state["admin_credentials"] = None
 APP_state["shared_nodes"] = []

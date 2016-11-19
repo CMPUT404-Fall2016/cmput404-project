@@ -7,7 +7,8 @@ import uuid
 from model import *
 from Server.author_endpointHandlers import *
 import urlparse
-
+from Server.cts.pch import * 
+from Server.cts.c2sM import *
 
 
 # admin stuff -----------------------------------

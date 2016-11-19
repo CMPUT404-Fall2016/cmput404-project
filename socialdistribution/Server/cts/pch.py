@@ -169,7 +169,7 @@ class RestHandlers():
 
 
 
-	def delete_Image(self, image_id):
+	def delete_image(self, image_id):
 		#Fetch Image that needs to be deleted
 		d = db.session.query(Images).filter(Images.image_id == image_id).first()	
 		#Delete the post from DB
@@ -198,7 +198,7 @@ class RestHandlers():
 
 		#If the post comes with images, make them
 		data["post_id"] = post["post_id"]
-		if data["images"]:
+		if "images" in data:
 			self.make_images(data)
 
 
@@ -268,48 +268,37 @@ class RestHandlers():
 		result += z[j:]
 		return result
 
-    def updatePost(self, param):
-        """
-            CUSTOM client-server API
-            
-            POST http://service/editPost
-            
-            param["post"]       = post id
-            param["title"]      = post title
-            param["text"]       = text
-            param["image"]      = image id
-            
-            """
+	def updatePost(self, param):
 
-        if len(param.keys()) <= 1:
-            return True
+		if len(param.keys()) <= 1:
+			return True
 
-        results = db.session.query(Posts).filter(Posts.post_id == param["post_id"]).all()
-        results_image = db.session.query(Images).filter(Images.post_id == param["image_id"]).all()
+		results = db.session.query(Posts).filter(Posts.post_id == param["post_id"]).all()
+		results_image = db.session.query(Images).filter(Images.post_id == param["image_id"]).all()
         
-        if len(results) == 0:
-            return "NO_MATCH"
+		if len(results) == 0:
+			return "NO_MATCH"
+		
+		post = results[0]
+		image = results_image[0]
 
-        post = results[0]
-        image = results_image[0]
+		if "title" in param.keys():
+			post.title = param["title"]
 
-        if "title" in param.keys():
-            post.title = param["title"]
+		if "text" in param.keys():
+			post.text = param["text"]
 
-        if "text" in param.keys():
-            post.text = param["text"]
+		if "image" in param.keys():
+			image.image = param["image"]
 
-        if "image" in param.keys():
-            image.image = param["image"]
+		try:
+			db.session.commit()
 
-        try:
-            db.session.commit()
+		except Exception as e:
+			print "ERROR! Failed to update post information! : ", e
+			return "DB_FAILURE"
 
-        except Exception as e:
-            print "ERROR! Failed to update post information! : ", e
-            return "DB_FAILURE"
-
-        return True
+		return True
 
 
 
