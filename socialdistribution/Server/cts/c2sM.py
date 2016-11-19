@@ -111,6 +111,38 @@ class All_Post(Resource):
                 return handler.make_post(data), 201	
 
 
+# gets all post made by AUTHOR_ID for current author to view.
+class AuthorToAuthorPost(Resource):
+
+    def get(self, AUTHOR_ID):
+        
+        output = getCookie("view_author_id_post")
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+            return output
+
+        cookie = output
+        if "session_id" in cookie.keys[]:
+            sessionID = cookie["session_ids"]:
+            if sessionID in APP_state["session_ids"]:
+
+
+            data = handler.getVisiblePostsByAuthor(AUTHOR_ID)
+            
+            if selected_post == []:
+                return "status : NO_MATCH", 200
+            else:
+                for entry in data:
+                    rtl.append({
+                               "post_id" :	entry[0].post_id,
+                               "title" :	entry[0].title,
+                               "text"	:	entry[0].text,
+                               "creation_time" : entry[0].creation_time,
+                               "author_id"	: entry[0].author_id
+                               })	
+                               
+                return jsonify(rtl)
+
+
 
 class Comment(Resource):
 	def post(self):
@@ -120,13 +152,13 @@ class Comment(Resource):
                 return output
 
         cookie = output
-            if "session_id" in cookie.keys[]:
-                sessionID = cookie["session_ids"]:
-                if sessionID in APP_state["session_ids"]:
-            
-            
-                    data = request.form
-                    return handler.make_comment(data), 201
+        if "session_id" in cookie.keys[]:
+            sessionID = cookie["session_ids"]:
+            if sessionID in APP_state["session_ids"]:
+        
+        
+                data = request.form
+                return handler.make_comment(data), 201
 
 class Edit_Post(Resource):
     
