@@ -22,13 +22,6 @@ def getCookie(Operation_str):
                 COOKIE['session_id'] = request.cookies[name]
             elif name == COOKIE_NAMES[2]:
                 COOKIE['github_id'] = request.cookies[name]
-'''            elif name == COOKIE_NAMES[3]:
-                COOKIE['post_id'] = request.cookies[name]
-            elif name == COOKIE_NAMES[4]:
-                COOKIE['comment_id'] = request.cookies[name]
-            elif name == COOKIE_NAMES[5]:
-                COOKIE['image_id'] = request.cookies[name]
- '''
 
     if COOKIE == {}:
         print "WARNING! Cookie not found during %s!"%(Operation_str)
@@ -39,10 +32,8 @@ def getCookie(Operation_str):
 
 class Post(Resource):
 	def get(self, post_id):
-        
-        
-        output = getCookie("get_post")
-        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+        output = getCookie("get_one_post")
+        if type(output) == flask.wrappers.Response:
             return output
         
         cookie = output
@@ -58,7 +49,10 @@ class Post(Resource):
                                     "text"	:	data[0].text,	
                                     "creation_time" : data[0].post.creation_time
                             }
-                return jsonify(rt)
+                return jsonify(rt), 200
+
+        else:
+            return "SESSION_ERROR", 403
 
 
 	def delete(self, post_id):
@@ -74,7 +68,8 @@ class Post(Resource):
                 
                 if handler.delete_post(post_id):
                     return '', 201
-
+        else:
+            return "SESSION_ERROR", 403
 
 
 class All_Post(Resource):
@@ -110,6 +105,8 @@ class All_Post(Resource):
                 data = request.form
                 return handler.make_post(data), 201	
 
+        else:
+            return "SESSION_ERROR", 403
 
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
@@ -141,7 +138,8 @@ class AuthorToAuthorPost(Resource):
                                })	
                                
                 return jsonify(rtl)
-
+        else:
+            return "SESSION_ERROR", 403
 
 
 class Comment(Resource):
@@ -159,6 +157,9 @@ class Comment(Resource):
         
                 data = request.form
                 return handler.make_comment(data), 201
+
+        else:
+            return "SESSION_ERROR", 403
 
 class Edit_Post(Resource):
     
