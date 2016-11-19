@@ -48,7 +48,7 @@ $("#create-btn").click(function (e) {
 
 // stores commonly used data in local storage and redirects to index.html
 function login(data) {
-  // localStorage.setItem(author_id, data["author_id"]);
+  localStorage.setItem("author_id", data["author_id"]);
   localStorage.setItem("display_name", data["name"]);
   // localStorage.setItem(github_username, data["github_username"]);
   window.location.href = "index.html";
@@ -63,11 +63,11 @@ function login_admin() {
 }
 
 $("#admin-btn").click(function(e) {
-                      
+
   e.preventDefault();
   login_admin();
 });
-  
+
 
 
 $("#login-btn").click(function(e) {
@@ -85,11 +85,11 @@ $("#login-btn").click(function(e) {
     // login is successful so log the user in
     if(response["status"] == "SUCCESS") {
       login(response);
-           
+
     // login is Admin
     } else if (response["status"] == "ADMIN") {
       login_admin();
-           
+
     // username or password is incorrect
     } else if (response["status"] == "NO_MATCH") {
       $("#incorrect-alert").prop("disabled", true);

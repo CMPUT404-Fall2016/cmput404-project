@@ -5,7 +5,8 @@ $("#post-submit").click(function(e) {
 
   // encode form data as a JSON object
   var postForm = document.getElementById("post-form"),
-  postData = {};
+      postData = {};
+  postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
   postData["description"] = postForm.elements["desc"].value;
   postData["contentType"] = postForm.elements["text-type"].value;
