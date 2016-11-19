@@ -216,9 +216,6 @@ class Edit_Post(Resource):
 
 
 
-api.add_resource(Post, '/<string:post_id>')
-api.add_resource(Comment, '/api/comment')
-api.add_resource(All_Post, '/service/posts')
 
 '''
 if __name__ == '__main__':

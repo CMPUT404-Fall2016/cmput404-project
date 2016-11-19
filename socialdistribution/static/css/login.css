@@ -58,3 +58,11 @@ hr {
   font-size: 10px;
   color: white;
 }
+
+#admin {
+    position: absolute;
+    bottom: 0;
+    padding: 30px;
+    font-size: 20px;
+    color: white;
+}

@@ -46,3 +46,17 @@ $(".comment-author-url").click(function (e) {
   localStorage.setItem("fetch-author-id", $(this).data("author-id"));
   window.location.href = "authorpage.html";
 });
+
+// send the comment to our server, who sends it to their server
+$("#comment-submit").click(function (e) {
+  e.preventDefault();
+
+  var commentData = {};
+  commentData["post"] = host+"/posts/"+postID;
+  commentData["author-id"] = localStorage.getItem("author_id");
+  commentData["comment"] = $("#comment-content").val();
+
+  // don't really care if it worked or not, that's the server's job
+  sendAJAX("POST", "/makePost", postData, null);
+  window.location.reload();
+});
