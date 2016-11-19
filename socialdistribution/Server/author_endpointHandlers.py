@@ -182,6 +182,7 @@ def processFriendRequest(param):
             'friendrequests_id' : uuid.uuid4().hex, 
             'fromAuthor_id' : param['from_author'], 
             'fromAuthorServer_id' : from_server_index,
+            'fromAuthorDisplayName' : param['from_author_name'],
             'toAuthor_id' : param["to_author"],
             'toAuthorServer_id' : to_server_index,
             'isChecked' : False

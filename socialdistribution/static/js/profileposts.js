@@ -79,6 +79,7 @@ $("#posttab").click(function(e) {
   //var thisauthorlink = "/author/" + getFriendcookieid();
   //sendAJAX("GET",)
   
+                    
  
   
   sendAJAX("GET", myprofileposts, "", function(result) {

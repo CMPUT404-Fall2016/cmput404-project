@@ -150,10 +150,12 @@ function saveprofilechange() {
                               
                               sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
                                        console.log(response);
-                                       console.log("edited?");
-                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+//                                       console.log("edited?");
+//                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+//                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+//                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+                                       localStorage.setItem("display_name", document.getElementById("pdn").value)
+                                       window.location.reload();
                                        
                               });
                               

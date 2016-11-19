@@ -67,6 +67,9 @@ function editauthorpage() {
 
 $(document).ready(function() {
     //var myauthorid = getCookieid();
+                  
+                  
+                  
                   var myauthorid = getFriendcookieid();
                   var mypTemplate = document.getElementById('profiledatas');
                   
@@ -108,6 +111,10 @@ $(document).ready(function() {
                            
                            document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
                            document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
+                           
+                           if(getCookieid() == getFriendcookieid()) {
+                           document.getElementById("addfriendbtn").style.display="none";
+                           }
                            
                            
                            });
