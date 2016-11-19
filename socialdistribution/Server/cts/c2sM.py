@@ -9,23 +9,71 @@ api = Api(app)
 
 handler = RestHandlers()
 
+def getCookie(Operation_str):
+    
+    COOKIE ={}
+    # print request.cookies.keys()
+    for name in COOKIE_NAMES:
+        if name in request.cookies.keys():
+            
+            if name == COOKIE_NAMES[0]:
+                COOKIE['author_id'] = request.cookies[name]
+            elif name == COOKIE_NAMES[1]:
+                COOKIE['session_id'] = request.cookies[name]
+            elif name == COOKIE_NAMES[2]:
+                COOKIE['github_id'] = request.cookies[name]
+'''            elif name == COOKIE_NAMES[3]:
+                COOKIE['post_id'] = request.cookies[name]
+            elif name == COOKIE_NAMES[4]:
+                COOKIE['comment_id'] = request.cookies[name]
+            elif name == COOKIE_NAMES[5]:
+                COOKIE['image_id'] = request.cookies[name]
+ '''
+
+    if COOKIE == {}:
+        print "WARNING! Cookie not found during %s!"%(Operation_str)
+        return "status : CLIENT_FAILURE", 200
+
+    return COOKIE
+
+
 class Post(Resource):
 	def get(self, post_id):
-		data = handler.getPost(post_id)
-		rt =	{
-							"post_id"	: data[0].post_id,
-							"title" :	data[0].title,
-							"text"	:	data[0].text,	
-							"creation_time" : data[0].post.creation_time
-					}
-
-		return jsonify(rt)
-
+        
+        
+        output = getCookie("get_post")
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+            return output
+        
+        cookie = output
+        if "session_id" in cookie.keys[]:
+            sessionID = cookie["session_ids"]:
+            if sessionID in APP_state["session_ids"]:
+    
+    
+                data = handler.getPost(post_id)
+                rt =	{
+                                    "post_id"	: data[0].post_id,
+                                    "title" :	data[0].title,
+                                    "text"	:	data[0].text,	
+                                    "creation_time" : data[0].post.creation_time
+                            }
+                return jsonify(rt)
 
 
 	def delete(self, post_id):
-		if handler.delete_post(post_id):
-			return '', 201
+
+        output = getCookie("delete_post")
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+            return output
+            
+        cookie = output
+        if "session_id" in cookie.keys[]:
+            sessionID = cookie["session_ids"]:
+            if sessionID in APP_state["session_ids"]:
+                
+                if handler.delete_post(post_id):
+                    return '', 201
 
 
 
@@ -46,16 +94,74 @@ class All_Post(Resource):
 
 
 
-	def post(self):	
-		data = request.form
-		return handler.make_post(data), 201	
+	def post(self):
+        
+        
+        
+        output = getCookie("edit_post")
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+            return output
+        
+        cookie = output
+        if "session_id" in cookie.keys[]:
+            sessionID = cookie["session_ids"]:
+            if sessionID in APP_state["session_ids"]:
+                
+                data = request.form
+                return handler.make_post(data), 201	
 
 
 
 class Comment(Resource):
 	def post(self):
-		data = request.form
-		return handler.make_comment(data), 201
+    
+        output = getCookie("edit_post")
+            if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+                return output
+
+        cookie = output
+            if "session_id" in cookie.keys[]:
+                sessionID = cookie["session_ids"]:
+                if sessionID in APP_state["session_ids"]:
+            
+            
+                    data = request.form
+                    return handler.make_comment(data), 201
+
+class Edit_Post(Resource):
+    
+    def post(self, post_id):
+        
+        output = getCookie("edit_post")
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+            return output
+    
+        cookie = output
+        if "session_id" in cookie.keys[]:
+            sessionID = cookie["session_ids"]:
+            if sessionID in APP_state["session_ids"]:
+                userID = APP_state["session_ids"][sessionID]
+                data = request.form
+                result = handler.updateProfile(data)
+                if result == True:
+                    return "status : SUCCESS", 200
+                elif result == "NO_MATCH":
+                    return "status : NO_MATCH", 200
+                elif result == "DB_FAILURE":
+                    return "status : DB_FAILURE", 200
+        
+            else:
+                print "WARNING! Session id not inside server!"
+                return "status : INVALID_SESSION_ID", 200
+
+        else :
+            
+            print 'WARNING! "session_id" field is not found inside cookie!'
+            return "status : CLIENT_FAILURE", 200
+
+
+
+
 
 
 api.add_resource(Post, '/<string:post_id>')

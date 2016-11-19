@@ -268,4 +268,49 @@ class RestHandlers():
 		result += z[j:]
 		return result
 
+    def updatePost(self, param):
+        """
+            CUSTOM client-server API
+            
+            POST http://service/editPost
+            
+            param["post"]       = post id
+            param["title"]      = post title
+            param["text"]       = text
+            param["image"]      = image id
+            
+            """
+
+        if len(param.keys()) <= 1:
+            return True
+
+        results = db.session.query(Posts).filter(Posts.post_id == param["post_id"]).all()
+        results_image = db.session.query(Images).filter(Images.post_id == param["image_id"]).all()
+        
+        if len(results) == 0:
+            return "NO_MATCH"
+
+        post = results[0]
+        image = results_image[0]
+
+        if "title" in param.keys():
+            post.title = param["title"]
+
+        if "text" in param.keys():
+            post.text = param["text"]
+
+        if "image" in param.keys():
+            image.image = param["image"]
+
+        try:
+            db.session.commit()
+
+        except Exception as e:
+            print "ERROR! Failed to update post information! : ", e
+            return "DB_FAILURE"
+
+        return True
+
+
+
 
