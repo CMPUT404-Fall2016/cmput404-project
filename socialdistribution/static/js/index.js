@@ -13,9 +13,9 @@ $("#post-submit").click(function(e) {
   postData["content"] = postForm.elements["post-text"].value;
   postData["visibility"] = postForm.elements["visibility"].value;
 
-  // console.log(postData);
-  sendAJAX("POST", "/service/posts", postData, null);
-  window.location.reload();
+  console.log(JSON.stringify(postData));
+  // sendAJAX("POST", "/service/posts", postData, null);
+  // window.location.reload();
 });
 
 // bind the onclick to set post host and id in localStorage
