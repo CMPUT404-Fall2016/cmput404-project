@@ -62,7 +62,7 @@ class Post(Resource):
 
     def delete(self, post_id):
         output = getCookie("delete_post")
-        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
             return output
 
         cookie = output
@@ -102,11 +102,12 @@ class All_Post(Resource):
 
             if sessionID in APP_state["session_ids"]:
 
+                data = request.json
                 post = {}
-                post["author_id"] = request.form["author_id"]
-                post["title"] = request.form["title"]
-                post["text"] = request.form["content"]
-                perm = request.form["view_permission"]
+                post["author_id"] = data["author_id"]
+                post["title"] = data["title"]
+                post["text"] = data["content"]
+                perm = data["visibility"]
                 if perm =="Public":
                     perm = 1
                 elif perm =="Private":
@@ -122,7 +123,7 @@ class All_Post(Resource):
                 if handler.make_post(post):
                     return {"query" : "post a post", "success" : "true", "message" : "Post created"}
                 else:
-                    return {"success" : "failure"}
+                    return {"query"	: "post a post", "success" : "failure", "message" : "Fail to create post"}
 
             else:
                 return "SESSION_ERROR_Inner", 403
@@ -173,7 +174,7 @@ class Comment(Resource):
             #print sessionID
             if sessionID in APP_state["session_ids"]:
                 rt = [] 
-                data = handler.getComment(post_id)
+                data = handler.getComments(post_id)
                 for entry in data:
                     rt.append({
 					                "comment_id" : entry.comment_id,
@@ -200,13 +201,13 @@ class Comment(Resource):
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
         
-                data = {}
-                data["post_id"] = request.form["post_id"]
-                data["author_id"] = request.form["author_id"]
-                data["comment_text"] = request.form["comment_text"]
+                data = request.json
+                comment["post_id"] = data["post_id"]
+                comment["author_id"] = data["author_id"]
+                comment["comment_text"] = data["comment_text"]
 
 
-                return handler.make_comment(data), 201
+                return handler.make_comment(comment), 201
 
         else:
             return "SESSION_ERROR", 403
