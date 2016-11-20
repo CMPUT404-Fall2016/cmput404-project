@@ -69,6 +69,7 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
                 "Please log in.", 401,
                 {'WWW-Authenticate': 'Basic realm="Login Required"'}
             ))
+    
         return True
 
 
@@ -90,6 +91,19 @@ class Back(BaseView):
     def index(self):
         return app.send_static_file('./admin/index.html')
 
+class SettingView(BaseView):
+    @expose('/')
+    def index(self):
+        auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
+        
+        if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
+            raise HTTPException('', Response(
+                                             "Please log in.", 401,
+                                             {'WWW-Authenticate': 'Basic realm="Login Required"'}
+                                             ))
+        return redirect('/admin_settings.html')
+
+
 
 #@app.route('/admin/')
 #@basic_auth.required
@@ -101,7 +115,7 @@ admin = Admin(app, name='Example: Admin', template_mode='bootstrap3')
 admin.add_view(UserView(Authors, db.session))
 admin.add_view(PostView(Posts, db.session))
 admin.add_view(ImageView(Images, db.session))
-admin.add_view(URLView(URL, db.session))
+admin.add_view(SettingView(name='Settings', endpoint='/admin_settings.html'))
 
 admin.add_view(Back(name='Back', endpoint='back'))
 
@@ -792,8 +806,18 @@ def restart():
     init_admin()
     return ""
 
+
+
 @app.route('/admin_settings.html')
 def admin_settings():
+    auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
+        
+    if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
+        raise HTTPException('', Response(
+                                         "Please log in.", 401,
+                                         {'WWW-Authenticate': 'Basic realm="Login Required"'}
+                                         ))
+    
     """
         This leads to the admin settings form page
     """
