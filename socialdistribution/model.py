@@ -27,7 +27,6 @@ APP_state["shared_nodes_images"] = []
 APP_state["shared_nodes_posts"] = []
 APP_state["pending_authors"] = []
 APP_state["nodes_with_authentication"] = True
-APP_state["Admin_session_id"] = None
 
 def initAdmin():
 	try :

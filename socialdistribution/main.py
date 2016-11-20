@@ -39,7 +39,7 @@ from flask_admin.form import rules
 
 handler = None # This will be the global REST_handlers object
 COOKIE_NAME = "cookie_cmput404_"
-COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","cookie_cmput404_github_id", "cookie_cmput404_ADMIN_session"] 
+COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","cookie_cmput404_github_id"] 
 
 def getHandler():
     """
