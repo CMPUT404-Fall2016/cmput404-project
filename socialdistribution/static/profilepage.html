@@ -136,6 +136,7 @@
       <div class="post-body media-body">
         <h4 class="media-heading">Post Title: a sample post</h4>
         <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
+        <p id="postid" style="display:none;">POST ID</p>
         <p class="post-content">
           This is the existing content.
         </p>
@@ -146,6 +147,25 @@
           <li class="comments-button">
             <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
           </li>
+          <li>
+          <div class="dropdown">
+            <div class="well2">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">Post</li>
+                <li><a href="deletepost">Delete Post</a></li>
+                <li><a href="#">Edit Post? maybe not needed</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Post Privacy</li>
+                <li><a href="#" id="postpublic">Public</a></li>
+                <li><a href="#" id="postonlyme">Only me</a></li>
+                <li><a href="#" id="postmyfriends">My friends</a></li>
+                <li><a href="#" id="postfoaf">FoAF</a></li>
+                <li><a href="#" id="postfsamehost">Friends in My Host</a></li>
+              </ul>
+            </div>
+          </li>
+
         </ul>
       </div>
     </li>
@@ -192,7 +212,7 @@
   <!-- <script src="js/login-check.js"></script> -->
   <script src="js/authorpost.js"></script>
   <script src="js/profiledata.js"></script>
-  <script src="js/profileposts.js"></script>
+<!--  <script src="js/profileposts.js"></script>-->
 
 
 </body>
