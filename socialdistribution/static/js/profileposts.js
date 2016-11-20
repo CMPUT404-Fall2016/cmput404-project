@@ -79,15 +79,39 @@ $("#posttab").click(function(e) {
   //var thisauthorlink = "/author/" + getFriendcookieid();
   //sendAJAX("GET",)
   
-                    
+      
+  //var postList = document.getElementById("posts");
+  var postTemplate = document.getElementById("post-container");
+  // page=<Page_No>&size=<Page_Zize>
+  sendAJAX("GET", myprofileposts, "", function(posts) {
+           console.log(posts);
+      for(var i=0; i < posts.length; ++i) {
+           // fill the container with details
+           postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
+           postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
+           postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
+           postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+           
+           // attach data to the links so it can be referenced when clicked
+           var authorBtn = postTemplate.content.querySelector(".post-author-url");
+           $(authorBtn).data("post-author-id", posts[i].author.id);
+           
+//           var commentsBtn = postTemplate.content.querySelector(".comments");
+//           $(commentsBtn).data("post-host", posts[i].author.host);
+//           $(commentsBtn).data("post-id", posts[i].id);
+           
+           var clone = document.importNode(postTemplate.content, true);
+           postList.appendChild(clone);
+           }
+           });
  
   
-  sendAJAX("GET", myprofileposts, "", function(result) {
-           
-           console.log(result);
-           
-  });
-                
+//  sendAJAX("GET", myprofileposts, "", function(result) {
+//           
+//           console.log(result);
+//           
+//  });
+//                
                   
                   
 });

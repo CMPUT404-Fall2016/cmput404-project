@@ -11,7 +11,8 @@ function getCookieid() {
                     }
 
 $("#friend-accept").click(function() {
-                          alert( $(this).val() );
+                          alert( "Clicked" );
+                          console.log("clicked");
                           });
 
 function acceptfriend() {
