@@ -94,8 +94,9 @@ $("#posttab").click(function(e) {
            postTemplate.content.querySelector("#postid").textContent = posts[i].id;
            
            // attach data to the links so it can be referenced when clicked
-           var authorBtn = postTemplate.content.querySelector(".deletepost");
-           $(authorBtn).data("this-post-id", posts[i].id);
+           var deletepostBtn = postTemplate.content.querySelector("#deletepost");
+           $(deletepostBtn).data("this-post-id", posts[i].id);
+           console.log(deletepostBtn);
            
 //           var commentsBtn = postTemplate.content.querySelector(".comments");
 //           $(commentsBtn).data("post-host", posts[i].author.host);
@@ -109,7 +110,9 @@ $("#posttab").click(function(e) {
                                   
                                   e.preventDefault();
                                   
-                                  var thispostid = localStorage.setItem("delete-post-id", $(this).data("this-post-id"));
+                                  localStorage.setItem("delete-post-id", $(this).data("this-post-id"))
+                                  
+                                  var thispostid = localStorage.getItem("delete-post-id");
                                   var deletepostlink = "/deleteposts/" + thispostid;
                                   
                                   sendAJAX("POST", deletepostlink, "", function(result) {
