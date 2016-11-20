@@ -79,17 +79,160 @@ $("#posttab").click(function(e) {
   //var thisauthorlink = "/author/" + getFriendcookieid();
   //sendAJAX("GET",)
   
-                    
+      
+  //var postList = document.getElementById("posts");
+  var postTemplate = document.getElementById("post-container");
+  // page=<Page_No>&size=<Page_Zize>
+  sendAJAX("GET", myprofileposts, "", function(posts) {
+           console.log(posts);
+      for(var i=0; i < posts.length; ++i) {
+           // fill the container with details
+           postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
+           postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
+           postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
+           postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+           postTemplate.content.querySelector("#postid").textContent = posts[i].id;
+           
+           // attach data to the links so it can be referenced when clicked
+           var authorBtn = postTemplate.content.querySelector(".post-author-url");
+           $(authorBtn).data("post-author-id", posts[i].author.id);
+           
+//           var commentsBtn = postTemplate.content.querySelector(".comments");
+//           $(commentsBtn).data("post-host", posts[i].author.host);
+//           $(commentsBtn).data("post-id", posts[i].id);
+           
+           var clone = document.importNode(postTemplate.content, true);
+           postList.appendChild(clone);
+           }
+           });
  
   
-  sendAJAX("GET", myprofileposts, "", function(result) {
-           
-           console.log(result);
-           
-  });
-                
+//  sendAJAX("GET", myprofileposts, "", function(result) {
+//           
+//           console.log(result);
+//           
+//  });
+//                
                   
                   
 });
+
+
+$("#deletepost").click(function(e) {
+                    
+                  e.preventDefault();
+                       
+                       var thispostid = document.getElementById("postid").textContent
+                       var deletepostlink = "/deleteposts/" + thispostid;
+                       
+                  sendAJAX("POST", deletepostlink, "", function(result) {
+                       console.log(result);
+                  });
+});
+
+$("#postpublic").click(function(e) {
+                       
+                       e.preventDefault();
+                       
+                       
+                       var thispostid = document.getElementById("postid").textContent
+                       var postlink = "/posts/" + thispostid;
+                       
+                       var postvisibility = {}
+                       postvisibility["posts"]["visiibility"] = "PUBLIC";
+                       
+                       
+                       sendAJAX("POST", postlink, postvisibility, function(result) {
+                                console.log(result);
+                                });
+                       
+                       });
+
+
+$("#postonlyme").click(function(e) {
+                    
+                    e.preventDefault();
+                       
+                       var thispostid = document.getElementById("postid").textContent
+                       var postlink = "/posts/" + thispostid;
+                       
+                       var postvisibility = {}
+                       postvisibility["posts"]["visiibility"] = "PRIVATE";
+                       
+                       sendAJAX("POST", postlink, postvisibility, function(result) {
+                                console.log(result);
+                                });
+                    
+                    });
+
+$("#postmyfriend").click(function(e) {
+                    
+                    e.preventDefault();
+                         
+                         var thispostid = document.getElementById("postid").textContent
+                         var postlink = "/posts/" + thispostid;
+                         
+                         var postvisibility = {}
+                         postvisibility["posts"]["visiibility"] = "FRIENDS";
+                         sendAJAX("POST", postlink, postvisibility, function(result) {
+                                  console.log(result);
+                                  });
+                    
+                         });
+
+$("#postfoaf").click(function(e) {
+                    
+                    e.preventDefault();
+                     
+                     var thispostid = document.getElementById("postid").textContent
+                     var postlink = "/posts/" + thispostid;
+                     var postvisibility = {}
+                     postvisibility["posts"]["visiibility"] = "FOAF";
+                     
+                     sendAJAX("POST", postlink, postvisibility, function(result) {
+                              console.log(result);
+                              });
+                    
+                     });
+
+$("#postfsamehost").click(function(e) {
+                    
+                    e.preventDefault();
+                          
+                          var thispostid = document.getElementById("postid").textContent
+                          var postlink = "/posts/" + thispostid;
+                          var postvisibility = {}
+                          postvisibility["posts"]["visiibility"] = "SERVERONLY";
+                          sendAJAX("POST", postlink, postvisibility, function(result) {
+                                   console.log(result);
+                                   });
+                    
+                          });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -97,7 +97,7 @@ $("#reqtab").click(function(e) {
                             console.log(events.friendRequestList.length);
                             for(var i=0; i < events.friendRequestList.length; ++i) {
                             var requestTemplate = document.getElementById('request-container');
-                            requestTemplate.content.querySelector("#thisusername").textContent = events.friendRequestList[i].fromAuthor_id;
+                            requestTemplate.content.querySelector("#thisusername").textContent = events.friendRequestList[i].fromAuthorDisplayName;
                             requestTemplate.content.querySelector("#profilepagelink").href = events.friendRequestList[i].url;
                             requestTemplate.content.querySelector("#requesthost").textContent = events.friendRequestList[i].fromServerIP;
                             //console.log(events.friendRequestList[i].fromServerIP);
