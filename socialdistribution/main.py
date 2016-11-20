@@ -39,7 +39,7 @@ from flask_admin.form import rules
 
 handler = None # This will be the global REST_handlers object
 COOKIE_NAME = "cookie_cmput404_"
-COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","cookie_cmput404_github_id"] 
+COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","cookie_cmput404_github_id", "cookie_cmput404_ADMIN_session"] 
 
 def getHandler():
     """
@@ -658,9 +658,9 @@ def FollowUser():
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
         if sessionID in APP_state["session_ids"]:
-            userID = APP_state["session_ids"][sessionID]
+            # userID = APP_state["session_ids"][sessionID]
             param={}
-            param["from_author"] = userID
+            param["from_author"] = data["author"]["id"]
             param["from_author_name"] = data["author"]["displayName"]
             param["from_serverIP"] = data["author"]["host"]
             param["to_author"] = data["friend"]["id"]
@@ -920,6 +920,7 @@ def run():
 api.add_resource(Post, '/service/posts/<string:post_id>')
 api.add_resource(Comment, '/service/posts/<string:post_id>/comments')
 api.add_resource(All_Post, '/service/posts')
+api.add_resource(AuthorToAuthorPost, '/service/author/<string:author_id>/posts')
 
 if __name__ == "__main__":
     init_admin()
