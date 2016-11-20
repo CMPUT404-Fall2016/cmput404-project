@@ -103,11 +103,29 @@ $("#reqtab").click(function(e) {
                             //console.log(events.friendRequestList[i].fromServerIP);
                             requestTemplate.content.querySelector("#author2id").textContent = events.friendRequestList[i].fromAuthor_id;
                             
+                            
+                            var addingfriendbtn = requestTemplate.content.querySelector("#friend-accept");
+                            addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
+                            
+                            console.log("<<<");
+                            console.log(addingfriendbtn);
+                            console.log(">>>");
+                            
                             var normalContent = document.getElementById('frequest');
                             
                             var clonedTemplate = requestTemplate.content.cloneNode(true);
                             normalContent.appendChild(clonedTemplate);
                             }
+                            
+                            
+                            $("#friend-accept").click(function (e) {
+                                                      
+                                                      e.preventDefault();
+                                                      
+                                                      localStorage.setItem("fetch-addfriend-id", $(this).attr("name"));
+                                                      acceptfriend();
+                                                      
+                                                      });
                             
                             
                             });
@@ -150,6 +168,10 @@ $("#fdtab").click(function(e) {
                            friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
                            //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
                            
+                           var unfriendbtn = requestTemplate.content.querySelector("#unfriendauthor");
+                           unfriendbtn.name = events.friends[i].id;
+
+                           
                            var normalContent = document.getElementById('friendstab');
                            
                            var clonedTemplate = friendsTemplate.content.cloneNode(true);
@@ -158,9 +180,30 @@ $("#fdtab").click(function(e) {
                            
                            
                            }
+                           
+                           $("#unfriendauthor").click(function (e) {
+                                                     
+                                                     e.preventDefault();
+                                                     
+                                                     localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
+                                                     unfriendauthor();
+                                                     
+                                                     });
+                           
                            });
                   document.getElementById("frequest").innerHTML = "";
   });
+
+
+$("#friend-accept").click(function (e) {
+                        
+                        e.preventDefault();
+                        
+                        locatStorage.setItem("fetch-addfriend-id", $(this).attr("name"));
+                        
+                        });
+
+
 
 
 
