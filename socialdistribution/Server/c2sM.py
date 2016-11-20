@@ -92,7 +92,7 @@ class All_Post(Resource):
 
 	def post(self):
 		#'''
-		output = getCookie("edit_post")
+		output = getCookie("post_post")
 		if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
 			return output
         
@@ -109,7 +109,7 @@ class All_Post(Resource):
 				post = {}
 				post["author_id"] = request.form["author_id"]
 				post["title"] = request.form["title"]
-				post["text"] = request.form["text"]
+				post["text"] = request.form["content"]
 				perm = request.form["view_permission"]
 				if perm =="Public":
 					perm = 1
@@ -120,6 +120,8 @@ class All_Post(Resource):
 					perm = 3
 				elif perm == "FOAF":
 					perm = 4
+				else:
+					perm = 5
 				post["view_permission"]= perm
 				
 				return handler.make_post(post), 201	
