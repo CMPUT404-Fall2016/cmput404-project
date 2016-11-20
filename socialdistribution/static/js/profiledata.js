@@ -94,7 +94,7 @@ $(document).ready(function() {
            
            mypTemplate.content.querySelector("#profileurl").textContent = result.url;
            
-           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_id;
+           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_username;
            
            var normalContent = document.getElementById('profile');
            
@@ -110,7 +110,7 @@ $(document).ready(function() {
            
            document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
            document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-           document.getElementById("pgitid").placeholder = document.getElementById("profilegithub_id").textContent;
+           document.getElementById("pgitid").value = document.getElementById("profilegithub_id").textContent;
   });
                 
                   
@@ -122,7 +122,8 @@ $("#editprofilebtn").click(function (e) {
                            e.preventDefault();
                            
                            document.getElementById("testid").placeholder = document.getElementById("profileid").textContent;
-                           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+                           document.getElementById("pdn").value = document.getElementById("profiledname").value;
+                           document.getElementById("pgitid").value = document.getElementById("profilegithub_id").value;
                            
                            
                            });
@@ -136,8 +137,10 @@ function saveprofilechange() {
 
                               var editprofiledata = {}
                               editprofiledata["name"] = document.getElementById("pdn").value;
+                              editprofiledata["github_id"] = document.getElementById("pgitid").value;
                               
-                              
+  console.log(JSON.stringify(editprofiledata));
+  localStorage.setItem("github_username", document.getElementById("pgitid").value);
                               sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
                                        console.log(response);
 //                                       console.log("edited?");
