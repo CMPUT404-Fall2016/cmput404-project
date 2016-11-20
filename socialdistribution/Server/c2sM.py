@@ -144,8 +144,8 @@ class AuthorPost(Resource):
             #print sessionID
             if sessionID in APP_state["session_ids"]:
                	rt = [] 
-                print APP_state["session_id"][session_id]
-                data = handler.getVisiblePosts(APP_state["session_id"][session_id])
+                print APP_state["session_id"][sessionID]
+                data = handler.getVisiblePosts(APP_state["session_id"][sessionID])
                 for entry in data:
                     rt.append({
 					                "comment_id" : entry[0].comment_id,
