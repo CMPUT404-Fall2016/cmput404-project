@@ -215,6 +215,7 @@ class RestHandlers():
 		currentTime = datetime.now()	
 		comment = {
 								"comment_id"	:	uuid.uuid4().hex,
+								"author_id"	:	data["author_id"],
 								"post_id"	:	data["post_id"],
 								"comment_text"	:	data["comment_text"],
 								"creation_time"	:	currentTime

@@ -6,6 +6,8 @@ class Comments(db.Model):
     __tablename__ = 'comments'
     
     comment_id = db.Column(db.String(33), primary_key=True, unique=True)
+
+    author_id = db.Column(db.String(33), db.ForeignKey('authors.author_id'))
     
     post_id = db.Column(db.String(33), db.ForeignKey('posts.post_id'))
     
@@ -65,7 +67,8 @@ class Comments(db.Model):
         if "creation_time" in datum.keys():
             self.creation_time = datum["creation_time"]
 
-        self.post_id = datum["post_id"]
+       	self.post_id = datum["post_id"]
+        self.author_id = datum["author_id"]
 
 
 

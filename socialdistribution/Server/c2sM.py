@@ -124,7 +124,7 @@ class All_Post(Resource):
 					perm = 5
 				post["view_permission"]= perm
 				
-				return handler.make_post(post), 201	
+				return handler.make_post(post), 200	
 		#'''
 			else:
 				return "SESSION_ERROR_Inner", 403
@@ -165,8 +165,36 @@ class AuthorToAuthorPost(Resource):
 
 
 class Comment(Resource):
+    def get(self):
+        output = getCookie("get_comments")
+        if type(output) == flask.wrappers.Response:
+            return output
+        
+        cookie = output
+        if "session_id" in cookie:
+            sessionID = cookie["session_id"]
+            #print sessionID
+            if sessionID in APP_state["session_ids"]:
+                rt = [] 
+                data = handler.getComment(post_id)
+                for entry in data:
+                    rt.append({
+					                "comment_id" : entry.comment_id,
+	                                "author_id" : entry.author_id,
+                                    "post_id"	: entry.post_id,
+                                    "comment_text" :	entry.comment_text,
+                                    "creation_time" : entry.creation_time
+                              })
+                return jsonify(rt) #, 200
+                #return json.dumps(rt), 200
+            return "nothing"
+
+        else:
+            return "SESSION_ERROR", 403
+
+
     def post(self):
-        output = getCookie("edit_post")
+        output = getCookie("comment_post")
         if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         	return output
 
@@ -175,12 +203,15 @@ class Comment(Resource):
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
         
-        
-                data = request.form
+                data = {}
+                data["post_id"] = request.form["post_id"]
+                data["author_id"] = request.form["author_id"]
+                data["comment_text"] = request.form["comment_text"]
                 return handler.make_comment(data), 201
 
         else:
             return "SESSION_ERROR", 403
+
 '''
 class Edit_Post(Resource):
     
