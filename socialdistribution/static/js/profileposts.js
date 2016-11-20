@@ -130,84 +130,84 @@ $("#deletepost").click(function(e) {
                   });
 });
 
-$("#postpublic").click(function(e) {
-                       
-                       e.preventDefault();
-                       
-                       
-                       var thispostid = document.getElementById("postid").textContent
-                       var postlink = "/posts/" + thispostid;
-                       
-                       var postvisibility = {}
-                       postvisibility["posts"]["visiibility"] = "PUBLIC";
-                       
-                       
-                       sendAJAX("POST", postlink, postvisibility, function(result) {
-                                console.log(result);
-                                });
-                       
-                       });
-
-
-$("#postonlyme").click(function(e) {
-                    
-                    e.preventDefault();
-                       
-                       var thispostid = document.getElementById("postid").textContent
-                       var postlink = "/posts/" + thispostid;
-                       
-                       var postvisibility = {}
-                       postvisibility["posts"]["visiibility"] = "PRIVATE";
-                       
-                       sendAJAX("POST", postlink, postvisibility, function(result) {
-                                console.log(result);
-                                });
-                    
-                    });
-
-$("#postmyfriend").click(function(e) {
-                    
-                    e.preventDefault();
-                         
-                         var thispostid = document.getElementById("postid").textContent
-                         var postlink = "/posts/" + thispostid;
-                         
-                         var postvisibility = {}
-                         postvisibility["posts"]["visiibility"] = "FRIENDS";
-                         sendAJAX("POST", postlink, postvisibility, function(result) {
-                                  console.log(result);
-                                  });
-                    
-                         });
-
-$("#postfoaf").click(function(e) {
-                    
-                    e.preventDefault();
-                     
-                     var thispostid = document.getElementById("postid").textContent
-                     var postlink = "/posts/" + thispostid;
-                     var postvisibility = {}
-                     postvisibility["posts"]["visiibility"] = "FOAF";
-                     
-                     sendAJAX("POST", postlink, postvisibility, function(result) {
-                              console.log(result);
-                              });
-                    
-                     });
-
-$("#postfsamehost").click(function(e) {
-                    
-                    e.preventDefault();
-                          
-                          var thispostid = document.getElementById("postid").textContent
-                          var postlink = "/posts/" + thispostid;
-                          var postvisibility = {}
-                          postvisibility["posts"]["visiibility"] = "SERVERONLY";
-                          sendAJAX("POST", postlink, postvisibility, function(result) {
-                                   console.log(result);
-                                   });
-                    
-                          });
+//$("#postpublic").click(function(e) {
+//                       
+//                       e.preventDefault();
+//                       
+//                       
+//                       var thispostid = document.getElementById("postid").textContent
+//                       var postlink = "/posts/" + thispostid;
+//                       
+//                       var postvisibility = {}
+//                       postvisibility["posts"]["visiibility"] = "PUBLIC";
+//                       
+//                       
+//                       sendAJAX("POST", postlink, postvisibility, function(result) {
+//                                console.log(result);
+//                                });
+//                       
+//                       });
+//
+//
+//$("#postonlyme").click(function(e) {
+//                    
+//                    e.preventDefault();
+//                       
+//                       var thispostid = document.getElementById("postid").textContent
+//                       var postlink = "/posts/" + thispostid;
+//                       
+//                       var postvisibility = {}
+//                       postvisibility["posts"]["visiibility"] = "PRIVATE";
+//                       
+//                       sendAJAX("POST", postlink, postvisibility, function(result) {
+//                                console.log(result);
+//                                });
+//                    
+//                    });
+//
+//$("#postmyfriend").click(function(e) {
+//                    
+//                    e.preventDefault();
+//                         
+//                         var thispostid = document.getElementById("postid").textContent
+//                         var postlink = "/posts/" + thispostid;
+//                         
+//                         var postvisibility = {}
+//                         postvisibility["posts"]["visiibility"] = "FRIENDS";
+//                         sendAJAX("POST", postlink, postvisibility, function(result) {
+//                                  console.log(result);
+//                                  });
+//                    
+//                         });
+//
+//$("#postfoaf").click(function(e) {
+//                    
+//                    e.preventDefault();
+//                     
+//                     var thispostid = document.getElementById("postid").textContent
+//                     var postlink = "/posts/" + thispostid;
+//                     var postvisibility = {}
+//                     postvisibility["posts"]["visiibility"] = "FOAF";
+//                     
+//                     sendAJAX("POST", postlink, postvisibility, function(result) {
+//                              console.log(result);
+//                              });
+//                    
+//                     });
+//
+//$("#postfsamehost").click(function(e) {
+//                    
+//                    e.preventDefault();
+//                          
+//                          var thispostid = document.getElementById("postid").textContent
+//                          var postlink = "/posts/" + thispostid;
+//                          var postvisibility = {}
+//                          postvisibility["posts"]["visiibility"] = "SERVERONLY";
+//                          sendAJAX("POST", postlink, postvisibility, function(result) {
+//                                   console.log(result);
+//                                   });
+//                    
+//                          });
 
 
 

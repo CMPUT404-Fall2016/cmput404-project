@@ -55,8 +55,12 @@ $("#comment-submit").click(function (e) {
   commentData["post"] = host+"/posts/"+postID;
   commentData["author-id"] = localStorage.getItem("author_id");
   commentData["comment"] = $("#comment-content").val();
+                           
+                           console.log(JSON.stringify(commentData));
 
   // don't really care if it worked or not, that's the server's job
-  sendAJAX("POST", "/makePost", postData, null);
+                           sendAJAX("POST", "/makePost", postData, function(response) {
+                                    console.log(response);
+                                    });
   window.location.reload();
 });
