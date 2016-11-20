@@ -194,6 +194,25 @@ class Edit_Post(Resource):
             if sessionID in APP_state["session_ids"]:
                 userID = APP_state["session_ids"][sessionID]
                 data = request.form
+
+				post = {}
+				post["author_id"] = request.form["author_id"]
+				post["title"] = request.form["title"]
+				post["text"] = request.form["text"]
+				perm = request.form["view_permission"]
+				if perm =="Public":
+					perm = 1
+					print "yeah"
+				elif perm =="Private":
+					perm = 2
+				elif perm == "Friends":
+					perm = 3
+				elif perm == "FOAF":
+					perm = 4
+				post["view_permission"]= perm
+				
+				return handler.make_post(post), 201	
+
                 result = handler.updateProfile(data)
                 if result == True:
                     return "status : SUCCESS", 200

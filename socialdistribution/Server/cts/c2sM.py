@@ -11,6 +11,10 @@ handler = RestHandlers()
 COOKIE_NAME = "cookie_cmput404_"
 COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","    cookie_cmput404_github_id"] 
 
+
+app = Flask(__name__)
+api = Api(app)
+
 def getCookie(Operation_str):
     
     COOKIE ={}
@@ -45,6 +49,13 @@ class Post(Resource):
             if sessionID in APP_state["session_ids"]:
     
                 rt = [] 
+				data = handler.getVisiblePosts(cookie["author_id"])
+				''' Search if post_id is inside the data
+					if yes, we can return the post 
+					otherwise, we don't have permission
+				'''
+				for entry in data:
+					
                 data = handler.getPost(post_id)
                 rt.append({
                                     "post_id"	: data[0].post_id,
@@ -109,8 +120,8 @@ class All_Post(Resource):
 				post = {}
 				post["author_id"] = request.form["author_id"]
 				post["title"] = request.form["title"]
-				post["text"] = request.form["text"]
-				perm = request.form["view_permission"]
+				post["text"] = request.form["content"]
+				perm = request.form["visibility"]
 				if perm =="Public":
 					perm = 1
 					print "yeah"
@@ -120,7 +131,15 @@ class All_Post(Resource):
 					perm = 3
 				elif perm == "FOAF":
 					perm = 4
+				elif perm == "ServerFriends":
+					perm = 5
 				post["view_permission"]= perm
+				
+				if request.form["images"]:
+					post["images"] = request.form["images"]
+
+				if request.form["urls"]:
+					post["urls"] = request.form["urls"]
 				
 				return handler.make_post(post), 201	
 		#'''
@@ -215,12 +234,13 @@ class Edit_Post(Resource):
 
 
 
-
-api.add_resource(Post, '/<string:post_id>')
+api.add_resource()
+api.add_resource(Post, '/service/posts/<string:post_id>')
 api.add_resource(Comment, '/api/comment')
 api.add_resource(All_Post, '/service/posts')
 
-'''
+
+
 if __name__ == '__main__':
 	for i in range(1, 55):
 		currentTime = datetime.now()
@@ -238,6 +258,6 @@ if __name__ == '__main__':
 		handler.make_post(post)
 
 	app.run(debug=True)
-'''
+
 
 
