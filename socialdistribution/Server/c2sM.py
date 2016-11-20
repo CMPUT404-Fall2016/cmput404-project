@@ -9,15 +9,15 @@ import random, os
 
 handler = RestHandlers()
 COOKIE_NAME = "cookie_cmput404_"
-COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","    cookie_cmput404_github_id"] 
+COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","    cookie_cmput404_github_id"]
 
 def getCookie(Operation_str):
-    
+
     COOKIE ={}
     # print request.cookies.keys()
     for name in COOKIE_NAMES:
         if name in request.cookies:
-            
+
             if name == COOKIE_NAMES[0]:
                 COOKIE['author_id'] = request.cookies[name]
             elif name == COOKIE_NAMES[1]:
@@ -37,19 +37,19 @@ class Post(Resource):
         output = getCookie("get_one_post")
         if type(output) == flask.wrappers.Response:
             return output
-        
+
         cookie = output
         if "session_id" in cookie:
             sessionID = cookie["session_id"]
             #print sessionID
             if sessionID in APP_state["session_ids"]:
-    
-                rt = [] 
+
+                rt = []
                 data = handler.getPost(post_id)
                 rt.append({
                                     "post_id"	: data[0].post_id,
                                     "title" :	data[0].title,
-                                    "text"	:	data[0].text,	
+                                    "text"	:	data[0].text,
                                     "creation_time" : data[0].creation_time
                             })
                 return jsonify(rt) #, 200
@@ -64,12 +64,12 @@ class Post(Resource):
         output = getCookie("delete_post")
         if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
             return output
-            
+
         cookie = output
         if "session_id" in cookie:
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
-                
+
                 if handler.delete_post(post_id):
                     return '', 201
         else:
@@ -78,7 +78,7 @@ class Post(Resource):
 
 class All_Post(Resource):
 	def get(self):
-		rtl = [] 
+		rtl = []
 		data = handler.getAllPosts()
 		for entry in data:
 			rtl.append({
@@ -87,15 +87,15 @@ class All_Post(Resource):
 									"text"	:	entry[0].text,
 									"creation_time" : entry[0].creation_time,
 									"author_id"	: entry[0].author_id
-								})	
-		return jsonify(rtl)	
+								})
+		return jsonify(rtl)
 
 	def post(self):
 		#'''
 		output = getCookie("post_post")
 		if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
 			return output
-        
+
 		cookie = output
 		if "session_id" in cookie:
 			sessionID = cookie["session_id"]
@@ -105,7 +105,7 @@ class All_Post(Resource):
 				print ele + "fuck"
 			'''
 			if sessionID in APP_state["session_ids"]:
-        
+
 				post = {}
 				post["author_id"] = request.form["author_id"]
 				post["title"] = request.form["title"]
@@ -123,8 +123,9 @@ class All_Post(Resource):
 				else:
 					perm = 5
 				post["view_permission"]= perm
-				
-				return handler.make_post(post), 201	
+
+				handler.make_post(post)
+
 		#'''
 			else:
 				return "SESSION_ERROR_Inner", 403
@@ -135,7 +136,7 @@ class All_Post(Resource):
 class AuthorToAuthorPost(Resource):
 
     def get(self, AUTHOR_ID):
-        
+
         output = getCookie("view_author_id_post")
         if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
             return output
@@ -146,7 +147,7 @@ class AuthorToAuthorPost(Resource):
             if sessionID in APP_state["session_ids"]:
 
             	data = handler.getVisiblePostsByAuthor(AUTHOR_ID)
-            
+
             if selected_post == []:
                 return "status : NO_MATCH", 200
             else:
@@ -157,8 +158,8 @@ class AuthorToAuthorPost(Resource):
                                "text"	:	entry[0].text,
                                "creation_time" : entry[0].creation_time,
                                "author_id"	: entry[0].author_id
-                               })	
-                               
+                               })
+
                 return jsonify(rtl)
         else:
             return "SESSION_ERROR", 403
@@ -174,8 +175,8 @@ class Comment(Resource):
         if "session_id" in cookie:
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
-        
-        
+
+
                 data = request.form
                 return handler.make_comment(data), 201
 
@@ -183,20 +184,20 @@ class Comment(Resource):
             return "SESSION_ERROR", 403
 '''
 class Edit_Post(Resource):
-    
+
     def post(self, post_id):
-        
+
         output = getCookie("edit_post")
         if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
             return output
-    
+
         cookie = output
         if "session_id" in cookie:
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
                 userID = APP_state["session_ids"][sessionID]
                 data = request.form
-				
+
 				post = {}
 				post["author_id"] = request.form["author_id"]
 				post["title"] = request.form["title"]
@@ -212,8 +213,8 @@ class Edit_Post(Resource):
 				elif perm == "FOAF":
 					perm = 4
 				post["view_permission"]= perm
-				
-				return handler.make_post(post), 201	
+
+				return handler.make_post(post), 201
 
                 result = handler.updateProfile(data)
                 if result == True:
@@ -222,13 +223,13 @@ class Edit_Post(Resource):
                     return "status : NO_MATCH", 200
                 elif result == "DB_FAILURE":
                     return "status : DB_FAILURE", 200
-        
+
             else:
                 print "WARNING! Session id not inside server!"
                 return "status : INVALID_SESSION_ID", 200
 
         else :
-            
+
             print 'WARNING! "session_id" field is not found inside cookie!'
             return "status : CLIENT_FAILURE", 200
 '''
@@ -257,5 +258,3 @@ if __name__ == '__main__':
 
 	app.run(debug=True)
 '''
-
-
