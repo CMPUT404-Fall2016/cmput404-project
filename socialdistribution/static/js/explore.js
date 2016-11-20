@@ -9,16 +9,16 @@ $(document).ready(function() {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-      postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-      postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
-      postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+      // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
+      postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
+      postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author-url");
-      $(authorBtn).data("post-author-id", posts[i].author.id);
+      $(authorBtn).data("post-author-id", posts[i].author_id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      $(commentsBtn).data("post-host", posts[i].author.host);
+      // $(commentsBtn).data("post-host", posts[i].author.host);
       $(commentsBtn).data("post-id", posts[i].id);
 
       // clone the template to render and append to the dom
@@ -33,8 +33,8 @@ $(document).ready(function() {
 $(".comments").click(function(e) {
   e.preventDefault();
   // set this for later
-  localStorage("fetch-post-host", $(this).data("post-host"));
-  localStorage("fetch-post-id", $(this).data("post-id"));
+  // localStorage.getItem("fetch-post-host", $(this).data("post-host"));
+  localStorage.getItem("fetch-post-id", $(this).data("post-id"));
   window.location.href("post.html")
 });
 
