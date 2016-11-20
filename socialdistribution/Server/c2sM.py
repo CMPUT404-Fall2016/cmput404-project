@@ -77,62 +77,57 @@ class Post(Resource):
 
 
 class All_Post(Resource):
-	def get(self):
-		rtl = []
-		data = handler.getAllPosts()
-		for entry in data:
-			rtl.append({
+    def get(self):
+        rtl = []
+        data = handler.getAllPosts()
+        for entry in data:
+            rtl.append({
 									"post_id" :	entry[0].post_id,
 									"title" :	entry[0].title,
 									"text"	:	entry[0].text,
 									"creation_time" : entry[0].creation_time,
 									"author_id"	: entry[0].author_id
 								})
-		return jsonify(rtl)
+        return jsonify(rtl)
 
-	def post(self):
+    def post(self):
 		#'''
-		output = getCookie("post_post")
-		if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
-			return output
+        output = getCookie("post_post")
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+            return output
 
-		cookie = output
-		if "session_id" in cookie:
-			sessionID = cookie["session_id"]
-			'''
-			print sessionID
-			for ele in APP_state["session_ids"]:
-				print ele + "fuck"
-			'''
-			if sessionID in APP_state["session_ids"]:
+        cookie = output
+        if "session_id" in cookie:
+            sessionID = cookie["session_id"]
 
-				post = {}
-				post["author_id"] = request.form["author_id"]
-				post["title"] = request.form["title"]
-				post["text"] = request.form["content"]
-				perm = request.form["view_permission"]
-				if perm =="Public":
-					perm = 1
-					print "yeah"
-				elif perm =="Private":
-					perm = 2
-				elif perm == "Friends":
-					perm = 3
-				elif perm == "FOAF":
-					perm = 4
-				else:
-					perm = 5
-				post["view_permission"]= perm
+            if sessionID in APP_state["session_ids"]:
+
+                post = {}
+                post["author_id"] = request.form["author_id"]
+                post["title"] = request.form["title"]
+                post["text"] = request.form["content"]
+                perm = request.form["view_permission"]
+                if perm =="Public":
+                    perm = 1
+                elif perm =="Private":
+                    perm = 2
+                elif perm == "Friends":
+                    perm = 3 
+                elif perm == "FOAF":
+                    perm = 4
+                else:
+                    perm = 5
+                post["view_permission"]= perm
 				
-				return handler.make_post(post), 200	
+                if handler.make_post(post):
+                    return {"query" : "post a post", "success" : "true", "message" : "Post created"}
+                else:
+                    return {"success" : "failure"}
 
-
-		#'''
-			else:
-				return "SESSION_ERROR_Inner", 403
-		else:
-			return "SESSION_ERROR", 403
-		#'''
+            else:
+                return "SESSION_ERROR_Inner", 403
+        else:
+            return "SESSION_ERROR", 403
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
 
