@@ -54,7 +54,7 @@ class Post(Resource):
                             })
                 return jsonify(rt) #, 200
                 #return json.dumps(rt), 200
-            return "nothing"
+            return []
 
         else:
             return "SESSION_ERROR", 403
@@ -143,7 +143,8 @@ class AuthorPost(Resource):
             sessionID = cookie["session_id"]
             #print sessionID
             if sessionID in APP_state["session_ids"]:
-                rt = [] 
+               	rt = [] 
+                print APP_state["session_id"][session_id]
                 data = handler.getVisiblePosts(APP_state["session_id"][session_id])
                 for entry in data:
                     rt.append({
@@ -155,7 +156,7 @@ class AuthorPost(Resource):
                               })
                 return jsonify(rt) #, 200
                 #return json.dumps(rt), 200
-            return "nothing"
+            return []
 
         else:
             return "SESSION_ERROR", 403
