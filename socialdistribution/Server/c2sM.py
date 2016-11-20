@@ -179,7 +179,7 @@ class Comment(Resource):
 
         else:
             return "SESSION_ERROR", 403
-
+'''
 class Edit_Post(Resource):
     
     def post(self, post_id):
@@ -194,7 +194,7 @@ class Edit_Post(Resource):
             if sessionID in APP_state["session_ids"]:
                 userID = APP_state["session_ids"][sessionID]
                 data = request.form
-
+				
 				post = {}
 				post["author_id"] = request.form["author_id"]
 				post["title"] = request.form["title"]
@@ -229,7 +229,7 @@ class Edit_Post(Resource):
             
             print 'WARNING! "session_id" field is not found inside cookie!'
             return "status : CLIENT_FAILURE", 200
-
+'''
 
 
 
