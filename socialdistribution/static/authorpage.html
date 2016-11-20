@@ -15,23 +15,10 @@
     <div class="row">
 
       <!-- profile sidebar -->
-      <div class="col-sm-4 col-lg-3 text-center">
-        <div class="panel">
-          <a href="profilepage.html" class="thumbnail" id="author-dp">
-            <img src="../sample_data/kitten.jpg" alt="profile pic">
-          </a>
-          <h4 id="profilename">Display Name</h4>
-          <ul class="nav nav-pills nav-justified">
-            <li><a href="friendspage.html">Following</a></li>
-            <li><a href="friendspage.html">Followers</a></li>
-            <li><a href="friendspage.html">Friends</a></li>
-          </ul>
-          
-        </div>
+      <div class="col-sm-3 col-lg-3 text-center">
       </div>
 
-      <div class="col-sm-7">
-
+      <div class="col-sm-6">
         <div class="row">
           <div class="col-sm-12">
             <div class="panel panel-default text-left">
@@ -47,137 +34,50 @@
           </div>
         </div>
 
-        <!--</div>-->
         <div class="tab-content">
           <!-- profile tab-->
           <div id="profile" class="tab-pane fade in active">
-<!--            <h4 id="profilehname" class=="profilehname">Profile</h4>-->
-<!--            -->
-<!--            <div class="" id="profileinfo">-->
-<!--              <table class="table table-user-information">-->
-<!--                <tbody>-->
-<!--                  <tr>-->
-<!--                    <td>ID</td>-->
-<!--                    <td id="profileid" class="profileid">userid</td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>Name:</td>-->
-<!--                    <td id="profiledname" class="profiledname">name</td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>Host:</td>-->
-<!--                    <td id="profilehost" class="profilehost"> TT Host</td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>URL:</td>-->
-<!--                    <td id="profileurl" class="profileurl">TT URL</td>-->
-<!--                  </tr>-->
-<!--                  -->
-<!--                </tbody>-->
-<!--              </table>-->
-<!--              <a data-toggle="pill" id="addfriendbtn" href="" type="button" class="btn btn-info" style="">Add Friend</a>-->
-<!--              <a data-toggle="pill" id="editprofilebtn" href="#profilechange" type="button" class="btn btn-info" style="display:none">Edit</a>-->
-<!--            </div>-->
+          </div>
 
-          
-          </div>
-          
-          <!-- TEMP -->
-          <div id="profilechange" class="tab-pane fade">
-            <h4 id="profilename">Profile Edit</h4>
-            
-<!--            <div class=" col-md-9 col-lg-9 ">-->
-              <form role="form" id="editprofileform">
-                <fieldset>
-                  <div class="form-group">
-                    <input id="pid" type="text" class="form-control" name="pid" placeholder="Id" disabled="disabled">
-                      </div>
-                  <div class="form-group">
-                    <input id="pdn" type="text" class="form-control" name="pdisplayName" placeholder="Display Name">
-                      </div>
-                  <div class="form-group">
-                    <input id="phost" type="text" class="form-control" name="phost" placeholder="host" disabled="disabled">
-                      </div>
-                  <div class="form-group">
-                    <input id="purl" type="text" class="form-control" name="purl" placeholder="url" disabled="disabled">
-                      </div>
-                  <!--            <div class="form-group">-->
-                  <!--              <input type="date" class="form-control">-->
-                  <!--            </div>-->
-                  
-                  <a onclick="editauthorpage(); return false;"data-toggle="pill" href="#profile" type="button" class="btn btn-info">Save</a>
-                  <a data-toggle="pill" href="#profile" type="button" class="btn btn-warning">Cancel</a>
-                </fieldset>
-              </form>
-<!--            </div>-->
-          </div>
-          
           <!-- posts -->
           <div id="posts" class="tab-pane fade">
             <li class="list-group-item post-container media">
-              <div class="media-left">
-                <a href="#" class="post-author-dp">
-                  <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
-                    </a>
-              </div>
               <div class="post-body media-body">
-                <h4 class="media-heading">Post Title: a sample post</h4>
-                <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a></span>
-                <!--<a href="#">
-                  <p><span class="post-author">By Author</span><span class</p>
-                </a>-->
+                <h4 class="media-heading post-title">Post Title: a sample post</h4>
+                <a href="" class="post-author">Author</a>
+                <!-- <p class="post-description">description</p> -->
                 <p class="post-content">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui nisi, aperiam commodi reprehenderit dolores esse quisquam praesentium similique blanditiis magni atque neque, amet. Voluptate pariatur, repudiandae velit assumenda delectus est.
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </p>
-                <ul class="list-inline list-unstyled">
-                  <li class="like-button">
-                    <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
-                  </li>
-                  <li class="comments-button">
-                    <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-                  </li>
-                </ul>
+                <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
               </div>
             </li>
           </div>
-          
-          
+
+
         </div>
         <!--Tabs-->
       </div>
     </div>
   </div>
-  
+
+  <!-- post container template -->
   <template id="post-container">
     <li class="list-group-item post-container media">
-      <div class="media-left">
-        <a href="#" class="post-author-dp">
-          <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
-            </a>
-      </div>
       <div class="post-body media-body">
-        <h4 class="media-heading">Post Title: a sample post</h4>
-        <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
+        <h4 class="media-heading post-title">Post Title: a sample post</h4>
+        <a href="" class="post-author">Author</a>
+        <!-- <p class="post-description">description</p> -->
         <p class="post-content">
-          This is the existing content.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <ul class="list-inline list-unstyled">
-          <li class="like-button">
-            <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>
-          </li>
-          <li class="comments-button">
-            <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-          </li>
-        </ul>
+        <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
       </div>
     </li>
   </template>
-  
-  <template id="profiledatas">
-<!--    <h4>-->
-      <h4 id="profilehname" class=="profilehname">Profile</h4>
-<!--    </h4>-->
 
+  <template id="profiledatas">
+    <h4 id="profilehname" class=="profilehname">Profile</h4>
     <div class="" id="profileinfo">
       <table class="table table-user-information">
         <tbody>
@@ -201,19 +101,17 @@
             <td>Github ID:</td>
             <td id="profilegithub_id" class="profilegithub_id">TT github id</td>
           </tr>
-
         </tbody>
       </table>
       <a id="addfriendbtn" onclick="afriendone();" href="#" type="button" class="btn btn-info" style="">Add Friend</a>
       <a data-toggle="pill" id="editprofilebtn" href="#profilechange" type="button" class="btn btn-info" style="display:none">Edit</a>
     </div>
   </template>
-  
+
 <!--  <script src="js/tabs.js"></script>-->
   <script src="js/utilities.js"></script>
   <script src="js/authorpost.js"></script>
   <script src="js/authordata.js"></script>
-
 
 </body>
 </html>
