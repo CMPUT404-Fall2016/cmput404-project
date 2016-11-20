@@ -101,7 +101,7 @@ $(document).ready(function() {
                            var normalContent = document.getElementById('profile');
                            
                            var clonedTemplate = mypTemplate.content.cloneNode(true);
-                           normalContent.appendChild(clonedTemplate)
+                           normalContent.appendChild(clonedTemplate);
                            
                            //document.getElementById("editprofilebtn").style.display="";
                            
@@ -229,6 +229,15 @@ function afriendtwo(result) {
                       //window.location.href="friendspage.html";
             });
 }
+
+
+
+
+
+
+
+
+
 
 
 
