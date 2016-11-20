@@ -12,12 +12,9 @@ $("#post-submit").click(function(e) {
   postData["contentType"] = postForm.elements["text-type"].value;
   postData["content"] = postForm.elements["post-text"].value;
   postData["visibility"] = postForm.elements["visibility"].value;
-  // encode the current time in ISO 8601
-  var timestamp = new Date();
-  postData["published"] = timestamp.toISOString();
 
   // console.log(postData);
-  sendAJAX("POST", "/makePost", postData, null)
+  sendAJAX("POST", "/service/posts", postData, null);
   window.location.reload();
 });
 
