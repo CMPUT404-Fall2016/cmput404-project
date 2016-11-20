@@ -94,6 +94,8 @@ $(document).ready(function() {
            
            mypTemplate.content.querySelector("#profileurl").textContent = result.url;
            
+           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_username;
+           
            var normalContent = document.getElementById('profile');
            
            var clonedTemplate = mypTemplate.content.cloneNode(true);
@@ -108,6 +110,7 @@ $(document).ready(function() {
            
            document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
            document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
+           document.getElementById("pgitid").value = document.getElementById("profilegithub_id").textContent;
   });
                 
                   
@@ -119,7 +122,8 @@ $("#editprofilebtn").click(function (e) {
                            e.preventDefault();
                            
                            document.getElementById("testid").placeholder = document.getElementById("profileid").textContent;
-                           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+                           document.getElementById("pdn").value = document.getElementById("profiledname").value;
+                           document.getElementById("pgitid").value = document.getElementById("profilegithub_id").value;
                            
                            
                            });
@@ -130,30 +134,21 @@ $("#editprofilebtn").click(function (e) {
                               //e.preventDefault();
 
 function saveprofilechange() {
-                              //                              var editprofiledata = {}
-                              //                              editprofiledata["name"] = profileeditmode.elements["displayName"].value;
-                              //                              editprofiledata["github_id"] = profileeditmode.elements["githubid"].value;
-                              //                              editprofiledata["bio"] = editprofiledata.elements["bio"].value;
-                              //
-                              //                              sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
-                              //
-                              //
-                              //
-                              //                                       });
-                              
-                              //var editprofileform = document.getElementById("editprofileform");
-                              
-                              //document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+
                               var editprofiledata = {}
                               editprofiledata["name"] = document.getElementById("pdn").value;
+                              editprofiledata["github_id"] = document.getElementById("pgitid").value;
                               
-                              
+  console.log(JSON.stringify(editprofiledata));
+  localStorage.setItem("github_username", document.getElementById("pgitid").value);
                               sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
                                        console.log(response);
-                                       console.log("edited?");
-                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+//                                       console.log("edited?");
+//                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+//                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+//                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+                                       localStorage.setItem("display_name", document.getElementById("pdn").value)
+                                       window.location.reload();
                                        
                               });
                               
@@ -192,80 +187,4 @@ afriendone(function(result) {
 
 
 
-//function afriendtwo() {
-//  var friendid = getFriendcookieid();
-//  var getfriendinfo = "/author/" + friendid;
-//  //  var friendid="";
-//  //  var friendhost="";
-//  //  var frienddisplayname ="";
-//  //  var friendurl="";
-//  
-//  sendAJAX("GET", getfriendinfo, "", function(result2) {
-//           //console.log(result);
-//           var friendid = result2.id;
-//           var friendhost = result2.host;
-//           var frienddisplayname = result2.displayName;
-//           var friendurl = result2.url;
-//           //return friendid, friendhost, frienddisplayname, friendurl;
-//           fn(result2);
-//           });
-//}
-//
-//afriendtwo(function(result2) {
-//           console.log("hello2");
-//           console.log(result2);
-//           var friendid = result2.id;
-//           var friendhost = result2.host;
-//           var frienddisplayname = result2.displayName;
-//           var friendurl = result2.url;
-//           });
-
-
-
-
-//var result = foo();
-//foo(function(result) {
-//    // Code that depends on 'result'
-//    });
-
-function addFrienddata(resultone, resulttwo) {
-  
-  //return myhost, mydisplayname, friendid, friendhost, frienddisplayname, friendurl;
-              
-                              
-}
-
-//function myCallback(result) {
-//  // Code that depends on 'result'
-//}
-//
-//foo(myCallback);
-
-var resultuser = addFrienddata();
-
-function addFriend() {
-  console.log(myhost);
-  
-//  var friendrequestdata = {};
-//  friendrequestdata["author"] = {}
-//  friendrequestdata["author"]["id"]= myuserid;
-//  friendrequestdata["author"]["host"] = myhost;
-//  friendrequestdata["author"]["displayName"] = mydisplayname;
-//  
-//  //  friendrequestdata["friend"]={"id":friendid, "host":friendhost, "displayName":frienddisplayname, "url":friendurl};
-//  //console.log(friendrequestdata);
-//  friendrequestdata["friend"] = {};
-//  friendrequestdata["friend"]["id"] = friendid;
-//  friendrequestdata["friend"]["host"] = friendhost;
-//  friendrequestdata["friend"]["displayName"] = frienddisplayname;
-//  friendrequestdata["friend"]["url"] = friendurl;
-//  
-//  
-//  sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
-//           //console.log(response);
-//           //window.location.href="friendspage.html";
-//           });
-
-  
-}
 

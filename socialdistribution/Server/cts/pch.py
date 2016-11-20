@@ -42,8 +42,8 @@ class RestHandlers():
 		Refer to top - 113
 		"""
 		#Firstly fetch all friends of the currently authenticated user
-		friends = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == self.authenticatedUser, Author_Relationships.relationship_type == 1).all()
-		friends2 = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == self.authenticatedUser, Author_Relationships.relationship_type == 1).all()
+		friends = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == self.authenticatedUser, Author_Relationships.relationship_type == 3).all()
+		friends2 = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == self.authenticatedUser, Author_Relationships.relationship_type == 3).all()
 
 		#firend AND/OR public 
 		rtl = []
@@ -60,6 +60,7 @@ class RestHandlers():
 
 		#Todos
 			#friend of friend
+			#friend server
 			#restrict to one user
 		
 
@@ -169,7 +170,7 @@ class RestHandlers():
 
 
 
-	def delete_Image(self, image_id):
+	def delete_image(self, image_id):
 		#Fetch Image that needs to be deleted
 		d = db.session.query(Images).filter(Images.image_id == image_id).first()	
 		#Delete the post from DB
@@ -198,9 +199,11 @@ class RestHandlers():
 
 		#If the post comes with images, make them
 		data["post_id"] = post["post_id"]
-		if data["images"]:
+		if "images" in data:
 			self.make_images(data)
 
+		if	"urls" in data:
+			self.make_urls(data)
 
 		try:
 			db.session.add(Posts(post))
@@ -244,7 +247,23 @@ class RestHandlers():
 		except exc.SQLAlchemyError:
 			return False
 
-	
+
+	#Add the urls linked of the post to database
+	def make_urls(self, data):
+		try:
+			for url in data["urls"]: 
+				ur =	{	
+								"URL_id"	:	uuid.uuid4().hex, #Need to change to self generated uuid
+								"post_id"	:	data["post_id"],
+								"URL_link"	:	url
+							}
+				db.session.add(URL(ur))
+				db.session.commit()
+			return True
+		except exc.SQLAlchemyError:
+			return False
+
+
 
 	#This merge sort function sorts the posts based on creation time
 	#Complexity:	O(n*log(n))
@@ -267,5 +286,39 @@ class RestHandlers():
 		result += y[i:]
 		result += z[j:]
 		return result
+
+	def updatePost(self, param):
+
+		if len(param.keys()) <= 1:
+			return True
+
+		results = db.session.query(Posts).filter(Posts.post_id == param["post_id"]).all()
+		results_image = db.session.query(Images).filter(Images.post_id == param["image_id"]).all()
+        
+		if len(results) == 0:
+			return "NO_MATCH"
+		
+		post = results[0]
+		image = results_image
+
+		if "title" in param:
+			post.title = param["title"]
+
+		if "text" in param:
+			post.text = param["text"]
+
+		if "image" in param:
+			image.image = param["image"]
+
+		try:
+			db.session.commit()
+
+		except Exception as e:
+			print "ERROR! Failed to update post information! : ", e
+			return "DB_FAILURE"
+
+		return True
+
+
 
 

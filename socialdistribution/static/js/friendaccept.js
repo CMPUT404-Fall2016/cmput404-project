@@ -11,7 +11,9 @@ function getCookieid() {
                     }
 
 $("#friend-accept").click(function() {
-                          alert( $(this).val() );
+                          alert( "Clicked" );
+                          console.log("clicked");
+                          
                           });
 
 function acceptfriend() {
@@ -28,9 +30,11 @@ function acceptfriend() {
 //
 //                          var clonedTemplate = friendsTemplate.content.cloneNode(true);
 //                          normalContent.appendChild(clonedTemplate)
+  
 
                     var acceptfrienddata = {};
-                    acceptfrienddata["author"] = document.getElementById("author2id").textContent;
+//                    acceptfrienddata["author"] = document.getElementById("author2id").textContent;
+  acceptfrienddata["author"] = localStorage.getItem("fetch-addfriend-id");
                 acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
 
   console.log(acceptfrienddata);

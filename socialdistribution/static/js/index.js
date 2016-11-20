@@ -5,19 +5,17 @@ $("#post-submit").click(function(e) {
 
   // encode form data as a JSON object
   var postForm = document.getElementById("post-form"),
-  postData = {};
+      postData = {};
+  postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
   postData["description"] = postForm.elements["desc"].value;
   postData["contentType"] = postForm.elements["text-type"].value;
   postData["content"] = postForm.elements["post-text"].value;
   postData["visibility"] = postForm.elements["visibility"].value;
-  // encode the current time in ISO 8601
-  var timestamp = new Date();
-  postData["published"] = timestamp.toISOString();
 
-  // console.log(postData);
-  sendAJAX("POST", "/makePost", postData, null)
-  window.location.reload();
+  console.log(JSON.stringify(postData));
+  // sendAJAX("POST", "/service/posts", postData, null);
+  // window.location.reload();
 });
 
 // bind the onclick to set post host and id in localStorage

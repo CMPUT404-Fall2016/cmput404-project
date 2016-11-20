@@ -67,6 +67,9 @@ function editauthorpage() {
 
 $(document).ready(function() {
     //var myauthorid = getCookieid();
+                  
+                  
+                  
                   var myauthorid = getFriendcookieid();
                   var mypTemplate = document.getElementById('profiledatas');
                   
@@ -93,21 +96,26 @@ $(document).ready(function() {
                            mypTemplate.content.querySelector("#profilehost").textContent = result.host;
                            
                            mypTemplate.content.querySelector("#profileurl").textContent = result.url;
+                           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_id;
                            
                            var normalContent = document.getElementById('profile');
                            
                            var clonedTemplate = mypTemplate.content.cloneNode(true);
-                           normalContent.appendChild(clonedTemplate)
+                           normalContent.appendChild(clonedTemplate);
                            
                            //document.getElementById("editprofilebtn").style.display="";
                            
                            
-                           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-                           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-                           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+//                           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
+//                           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+//                           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+//                           
+//                           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
+//                           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
                            
-                           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-                           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
+                           if(getCookieid() == getFriendcookieid()) {
+                           document.getElementById("addfriendbtn").style.display="none";
+                           }
                            
                            
                            });
@@ -221,6 +229,15 @@ function afriendtwo(result) {
                       //window.location.href="friendspage.html";
             });
 }
+
+
+
+
+
+
+
+
+
 
 
 

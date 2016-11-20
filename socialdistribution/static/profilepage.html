@@ -51,33 +51,7 @@
         <div class="tab-content">
           <!-- profile tab-->
           <div id="profile" class="tab-pane fade in active">
-<!--            <h4 id="profilehname" class=="profilehname">Profile</h4>-->
-<!--            -->
-<!--            <div class="" id="profileinfo">-->
-<!--              <table class="table table-user-information">-->
-<!--                <tbody>-->
-<!--                  <tr>-->
-<!--                    <td>ID</td>-->
-<!--                    <td id="profileid" class="profileid">userid</td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>Name:</td>-->
-<!--                    <td id="profiledname" class="profiledname">name</td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>Host:</td>-->
-<!--                    <td id="profilehost" class="profilehost"> TT Host</td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>URL:</td>-->
-<!--                    <td id="profileurl" class="profileurl">TT URL</td>-->
-<!--                  </tr>-->
-<!--                  -->
-<!--                </tbody>-->
-<!--              </table>-->
-<!--              <a data-toggle="pill" id="addfriendbtn" href="" type="button" class="btn btn-info" style="">Add Friend</a>-->
-<!--              <a data-toggle="pill" id="editprofilebtn" href="#profilechange" type="button" class="btn btn-info" style="display:none">Edit</a>-->
-<!--            </div>-->
+
 
 
           </div>
@@ -100,7 +74,10 @@
                       </div>
                   <div class="form-group">
                     <input id="purl" type="text" class="form-control" name="purl" placeholder="url" disabled="disabled">
-                      </div>
+                    </div>
+                  <div class="form-group">
+                    <input id="pgitid" type="text" class="form-control" name="pgitid" placeholder="GitHub id">
+                  </div>
                   <!--            <div class="form-group">-->
                   <!--              <input type="date" class="form-control">-->
                   <!--            </div>-->
@@ -159,6 +136,7 @@
       <div class="post-body media-body">
         <h4 class="media-heading">Post Title: a sample post</h4>
         <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
+        <p id="postid" style="display:none;">POST ID</p>
         <p class="post-content">
           This is the existing content.
         </p>
@@ -169,6 +147,25 @@
           <li class="comments-button">
             <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
           </li>
+          <li>
+          <div class="dropdown">
+            <div class="well2">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">Post</li>
+                <li><a href="deletepost">Delete Post</a></li>
+                <li><a href="#">Edit Post? maybe not needed</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Post Privacy</li>
+                <li><a href="#" id="postpublic">Public</a></li>
+                <li><a href="#" id="postonlyme">Only me</a></li>
+                <li><a href="#" id="postmyfriends">My friends</a></li>
+                <li><a href="#" id="postfoaf">FoAF</a></li>
+                <li><a href="#" id="postfsamehost">Friends in My Host</a></li>
+              </ul>
+            </div>
+          </li>
+
         </ul>
       </div>
     </li>
@@ -198,6 +195,10 @@
           <tr>
             <td>URL:</td>
             <td id="profileurl" class="profileurl">TT URL</td>
+          </tr>
+          <tr>
+            <td>Github ID:</td>
+            <td id="profilegithub_id" class="profilegithub_id">TT github id</td>
           </tr>
 
         </tbody>

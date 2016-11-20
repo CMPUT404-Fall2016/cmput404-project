@@ -20,6 +20,18 @@
     </div>
     <!-- middle content -->
     <div class="col-sm-8 col-lg-6 content-main">
+      <div class="panel panel-default text-left">
+        <div class="panel-body">
+          <form>
+            <fieldset>
+              <div class="form-group">
+                <textarea class="form-control" name="post-text" rows="2" id="comment-content" placeholder="Reply to this post" required></textarea>
+              </div>
+              <button id="comment-submit" class="btn btn-primary"> Add Comment</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
       <ol id="posts" class="list-group text-center">
         <!-- THE ACTUAL POST -->
         <li class="list-group-item media" id="post-container">

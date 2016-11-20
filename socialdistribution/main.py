@@ -7,13 +7,15 @@ import uuid
 from model import *
 from Server.author_endpointHandlers import *
 import urlparse
-
+from Server.pch import * 
+from Server.c2sM import *
 
 
 # admin stuff -----------------------------------
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
-from flask_basicauth import BasicAuth
+from flask.ext.login import current_user
+
 from werkzeug.exceptions import HTTPException
 from datetime import timedelta
 
@@ -52,22 +54,17 @@ def getHandler():
 # def main(self, app):
 
 app = Flask(__name__, static_url_path='')
+api = Api(app)
 
-
-
-app.config['ADMIN_CREDENTIALS'] = ('admin', 'pa$$word')
-basic_auth = BasicAuth(app)
-
-app.config['SECRET_KEY'] = '123456790'
+app.config['SECRET_KEY'] = 'hi_this_is_cmput404'
 
 
 # quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
-        session.permanent = True
-        app.permanent_session_lifetime = timedelta(seconds=10)
-        if not auth or (auth.username, auth.password) != app.config['ADMIN_CREDENTIALS']:
+        
+        if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
             raise HTTPException('', Response(
                 "Please log in.", 401,
                 {'WWW-Authenticate': 'Basic realm="Login Required"'}
@@ -105,6 +102,7 @@ admin.add_view(UserView(Authors, db.session))
 admin.add_view(PostView(Posts, db.session))
 admin.add_view(ImageView(Images, db.session))
 admin.add_view(URLView(URL, db.session))
+
 admin.add_view(Back(name='Back', endpoint='back'))
 
 
@@ -893,6 +891,12 @@ def parseHosts(host_text):
 
 def run():
     app.run(debug=True)
+
+
+api.add_resource(Post, '/service/posts/<string:post_id>')
+api.add_resource(Comment, '/service/posts/<string:post_id>/comments')
+api.add_resource(All_Post, '/service/posts')
+api.add_resource(AuthorToAuthorPost, '/service/author/<string:author_id>/posts')
 
 if __name__ == "__main__":
     init_admin()
