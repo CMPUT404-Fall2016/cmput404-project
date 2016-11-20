@@ -130,10 +130,43 @@ class All_Post(Resource):
         else:
             return "SESSION_ERROR", 403
 
+
+class AuthorPost(Resource):
+    
+    def get(self):
+        output = getCookie("get_available_posts")
+        if type(output) == flask.wrappers.Response:
+            return output
+        
+        cookie = output
+        if "session_id" in cookie:
+            sessionID = cookie["session_id"]
+            #print sessionID
+            if sessionID in APP_state["session_ids"]:
+                rt = [] 
+                data = handler.getVisiblePosts(APP_state["session_id"][session_id])
+                for entry in data:
+                    rt.append({
+					                "comment_id" : entry[0].comment_id,
+	                                "author_id" : entry[0].author_id,
+                                    "post_id"	: entry[0].post_id,
+                                    "comment_text" :	entry[0].comment_text,
+                                    "creation_time" : entry[0].creation_time
+                              })
+                return jsonify(rt) #, 200
+                #return json.dumps(rt), 200
+            return "nothing"
+
+        else:
+            return "SESSION_ERROR", 403
+
+
+        
+
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
 
-    def get(self, AUTHOR_ID):
+    def get(self, author_id):
 
         output = getCookie("view_author_id_post")
         if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
@@ -144,7 +177,7 @@ class AuthorToAuthorPost(Resource):
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
 
-            	data = handler.getVisiblePostsByAuthor(AUTHOR_ID)
+            	data = handler.getVisiblePostsByAuthor(author_id)
 
             if selected_post == []:
                 return "status : NO_MATCH", 200
@@ -164,7 +197,7 @@ class AuthorToAuthorPost(Resource):
 
 
 class Comment(Resource):
-    def get(self):
+    def get(self, post_id):
         output = getCookie("get_comments")
         if type(output) == flask.wrappers.Response:
             return output
