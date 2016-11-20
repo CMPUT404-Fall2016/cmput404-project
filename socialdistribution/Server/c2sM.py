@@ -129,6 +129,7 @@ class All_Post(Resource):
                 return "SESSION_ERROR_Inner", 403
         else:
             return "SESSION_ERROR", 403
+
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
 
