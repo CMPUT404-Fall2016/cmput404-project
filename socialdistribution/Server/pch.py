@@ -15,8 +15,7 @@ class RestHandlers():
 	https://github.com/abramhindle/CMPUT404-project-socialdistribution/blob/master/example-article.json
 	"""
 	def __init__(self):
-		self.authenticatedUser = 'admin' #get it from session
-
+		pass
 
 
 	def getAllPosts(self, param=None):
@@ -34,7 +33,7 @@ class RestHandlers():
 		return rtl
 
 
-	def getVisiblePosts(self, param=None):
+	def getVisiblePosts(self, authenticatedUser):
 		"""
 		This will be called in response to :
 		GET http://service/author/posts  (posts that are visible to the currently authenticated user)
@@ -42,18 +41,18 @@ class RestHandlers():
 		Refer to top - 113
 		"""
 		#Firstly fetch all friends of the currently authenticated user
-		friends = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == self.authenticatedUser, Author_Relationships.relationship_type == 1).all()
-		friends2 = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == self.authenticatedUser, Author_Relationships.relationship_type == 1).all()
+		friends = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == authenticatedUser, Author_Relationships.relationship_type == 3).all()
+		friends2 = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == authenticatedUser, Author_Relationships.relationship_type == 3).all()
 
 		#firend AND/OR public 
 		rtl = []
 		for friend in friends:
-			rtl = db.session.query(Posts).filter(Posts.author_id == friend.author2_id, Posts.view_permission == 2).all()	
+			rtl = db.session.query(Posts).filter(Posts.author_id == friend.author2_id, Posts.view_permission == 3).all()	
 		for friend in friends2:
-			rtl += db.session.query(Posts).filter(Posts.author_id == friend.author1_id, Posts.view_permission == 2).all()	
+			rtl += db.session.query(Posts).filter(Posts.author_id == friend.author1_id, Posts.view_permission == 3).all()	
 		
 		#self posts exclude public ones
-		rtl += db.session.query(Posts).filter(Posts.author_id == self.authenticatedUser, Posts.view_permission != 1).all()	
+		rtl += db.session.query(Posts).filter(Posts.author_id == authenticatedUser, Posts.view_permission != 1).all()	
 
 		#all public ones
 		rtl += db.session.query(Posts).filter(Posts.view_permission == 1).all()	
@@ -72,7 +71,7 @@ class RestHandlers():
 
 
 
-	def getVisiblePostsByAuthor(self, user_id):
+	def getVisiblePostsByAuthor(self, authenticatedUser, user_id):
 		"""
 		This will be called in response to :
 		GET http://service/author/{AUTHOR_ID}/posts  (all posts made by {AUTHOR_ID} visible to the currently authenticated user)		
@@ -82,17 +81,16 @@ class RestHandlers():
 		rtl = []
 
 		#First step is determine the relationship of the two authors
-		friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == self.authenticatedUser, Author_Relationships.author2_id == user_id).all()
+		friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == authenticatedUser, Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
 
 		if not friendship:
-			friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == self.authenticatedUser, Author_Relationships.author1_id == user_id).all()
+			friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == authenticatedUser, Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
 
-		if not friendship:
-			#they are strangers
-			rtl = db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 1).all()	
-		else:
+		#Get the user's public post
+		rtl = db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 1).all()	
+		if friendship:
 			#they are friends
-			rtl = db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission <= 2).all()	
+			rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 3).all()	
 	
 		#Todo:
 		#Friend of Friend
