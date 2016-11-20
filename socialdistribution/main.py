@@ -894,7 +894,7 @@ def run():
 
 
 api.add_resource(Post, '/service/posts/<string:post_id>')
-api.add_resource(Comment, '/api/comment')
+api.add_resource(Comment, '/service/posts/<string:post_id>/comments')
 api.add_resource(All_Post, '/service/posts')
 
 if __name__ == "__main__":
