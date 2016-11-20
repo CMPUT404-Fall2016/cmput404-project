@@ -1,5 +1,6 @@
 import uuid
 from model import *
+import requests
 
 """
 THINGS TO DO:
@@ -177,27 +178,64 @@ def processFriendRequest(param):
         db.session.add(new_relationship)
         db.session.commit()
 
-    datum={}
-    datum = {
-            'friendrequests_id' : uuid.uuid4().hex, 
-            'fromAuthor_id' : param['from_author'], 
-            'fromAuthorServer_id' : from_server_index,
-            'fromAuthorDisplayName' : param['from_author_name'],
-            'toAuthor_id' : param["to_author"],
-            'toAuthorServer_id' : to_server_index,
-            'isChecked' : False
-             }
+    if to_serverIP == APP_state['local_server_Obj'] :
+        datum={}
+        datum = {
+                'friendrequests_id' : uuid.uuid4().hex, 
+                'fromAuthor_id' : param['from_author'], 
+                'fromAuthorServer_id' : from_server_index,
+                'fromAuthorDisplayName' : param['from_author_name'],
+                'toAuthor_id' : param["to_author"],
+                'toAuthorServer_id' : to_server_index,
+                'isChecked' : False
+                 }
 
-    new_friendRequest = Friend_Requests(datum)
-    try :
-        db.session.add(new_friendRequest)
-        db.session.commit()
+        new_friendRequest = Friend_Requests(datum)
+        try :
+            db.session.add(new_friendRequest)
+            db.session.commit()
 
-    except Exception as e:
-        print "Error occured while saving new friend request: ", e
-        return False
+        except Exception as e:
+            print "Error occured while saving new friend request: ", e
+            return False
+    
+    else:
+        # to_server is a remote server not the local one
+        sendFriendRequest(param)
 
     return True
+
+
+def sendFriendRequest(param):
+    """
+    Sends FR on behalf of client to another host
+
+    param["from_author"] = author id who send the request
+    param["from_author_name"] = from author name
+    param["to_author"] = the author to whom the request is sent to
+    param["to_author_name"] = to author name
+    param["from_serverIP"] = server IP hosting the from_author
+    param["to_serverIP"] = obj of our local server 
+
+    """
+
+    body = {}
+    body['query'] = 'friendrequest'
+    body["author"] = {}
+    body["author"]['id'] = param['from_author']
+    body["author"]["host"] = param['from_serverIP']
+    body['author']['displayName'] = param['from_author_name'] 
+    body['friend'] = {}
+    body['friend']['id'] = param['to_author']
+    body['friend']['host'] = param['to_serverIP']
+    body['friend']['displayName'] = param['to_author_name']
+    body['friend']['url'] = param['to_serverIP'] + '/author/' + param['to_author']
+
+    headers = {'Content-type': 'application/json'}
+    url = param['to_serverIP'] + '/friendrequest'
+    r = requests.post(url, data=json.dumps(body), headers=headers)
+    print "Send a friend request to %s. Status code %d: "%(url, r.status_code) 
+    return 
 
 
 def serializeFriendRequestList(requestList):
