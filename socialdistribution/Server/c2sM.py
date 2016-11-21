@@ -183,6 +183,7 @@ class AuthorToAuthorPost(Resource):
             if data == []:
                 return "status : NO_MATCH", 200
             else:
+				rtl = []
                 for entry in data:
                     rtl.append({
                                "post_id" :	entry[0].post_id,
