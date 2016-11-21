@@ -1,0 +1,68 @@
+body,
+html {
+    background: url(../img/splash.jpeg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+a {
+  color: white;
+  font-weight: 600;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+
+.lead {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.header {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    color: white;
+}
+
+.login-body {
+  width: 30%;
+  margin: auto;
+}
+
+.intro-message {
+    position: relative;
+    padding-top: 10%;
+}
+
+.intro-message > h1 {
+    margin: 0;
+    font-size: 5em;
+}
+
+.nav {
+  padding-bottom: 20px;
+}
+
+hr {
+    width: 400px;
+    border-top: 1px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+#credit {
+  position: absolute;
+  bottom: 0;
+  padding: 10px;
+  font-size: 10px;
+  color: white;
+}
+
+#admin {
+    position: absolute;
+    bottom: 0;
+    padding: 30px;
+    font-size: 20px;
+    color: white;
+}

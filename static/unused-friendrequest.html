@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Rad Site</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="css/profile.css" rel="stylesheet">
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="container text-center" id="toppadding">
+    <div class="row">
+
+      <!-- profile sidebar -->
+      <div class="col-sm-4 col-lg-3 text-center">
+        <div class="panel">
+          <a href="#" class="thumbnail" id="author-dp">
+            <img src="../sample_data/kitten.jpg" alt="profile pic">
+          </a>
+          <h4>Display Name</h4>
+          <ul class="nav nav-pills nav-justified">
+            <li><a href="friendspage.html">Following</a></li>
+            <li><a href="friendspage.html">Followers</a></li>
+            <li><a href="friendspage.html">Friends</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-sm-7">
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default text-left">
+              <div class="panel-body">
+
+                <ul class="nav nav-tabs nav-justified">
+                  <li class="active"><a href="#frequest" data-toggle="pill"> Friends Request</a></li>
+                  <li><a href="#temp" data-toggle="pill"> Temp</a></li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--</div>-->
+        <div class="tab-content">
+          <!-- friends -->
+          <div id="frequest" class="tab-pane fade in active">
+            <div id="friendtemplate">
+            <li class="list-group-item post-container media">
+              <!--<div class="col-sm-12">-->
+
+              <div class="media-left">
+
+                <h4></h4>
+                <a href="#" class="post-author-dp">
+                  <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+                    </a>
+                <h4></h4>
+
+              </div>
+
+              <div class="media-body">
+
+                <h4>
+                  <a href="#" id="profilepagelink">
+                    <span id="thisusername">Profile</span>
+                  </a>
+                </h4>
+                <div id="author2id-1" style="display:none;">Author 2 id 1</div>
+                <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
+                  </a>
+
+              </div>
+
+            </li>
+            </div>
+
+            <div id="friendtemplate">
+            <li class="list-group-item post-container media">
+              <!--<div class="col-sm-12">-->
+
+              <div class="media-left">
+
+                <h4></h4>
+                <a href="#" class="post-author-dp">
+                  <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+                    </a>
+                <h4></h4>
+
+              </div>
+
+              <div class="media-body">
+
+                <h4>
+                  <a href="#" id="profilepagelink">
+                    <span id="thisusername">Profile</span>
+                  </a>
+                </h4>
+                <div id="author2id-2" style="display:none;">Author 2 id 2</div>
+                <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
+                  </a>
+
+              </div>
+
+            </li>
+          </div>
+
+          </div>
+
+          <!--  tab-->
+          <div id="temp" class="tab-pane fade">
+          </div>
+
+
+        <!--Tabs-->
+      </div>
+    </div>
+  </div>
+
+  <template id="friend-container">
+    <div id="friendtemplate">
+      <li class="list-group-item post-container media">
+        <!--<div class="col-sm-12">-->
+
+        <div class="media-left">
+
+          <h4></h4>
+          <a href="#" class="post-author-dp">
+            <img id="profileid" src="../sample_data/kitten.jpg" class="media-object" height="100" width="100" alt="Avatar">
+              </a>
+          <h4></h4>
+
+        </div>
+
+        <div class="media-body">
+
+          <h4>
+            <a href="#" id="profilepagelink">
+              <span id="thisusername">Profile</span>
+            </a>
+          </h4>
+          <p id="author2id" style="display:none;">Author 2</p>
+          <a href="#" id="friend-accept" class="list-group-item"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Friend</p>
+            </a>
+
+        </div>
+
+      </li>
+    </div>
+  </template>
+
+<!--  <script src="tabs.js"></script>-->
+  <script src="js/utilities.js"></script>
+<!--  <script src="js/loaditem.js"></script>-->
+  <script src="js/friendrequest.js"></script>
+
+
+</body>
+</html>
