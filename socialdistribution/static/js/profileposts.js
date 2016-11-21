@@ -135,16 +135,25 @@ $("#posttab").click(function(e) {
                                                     
                                                     localStorage.setItem("delete-post-id", $(this).data("this-post-id"))
                                                     
-                                                    var thispostid = localStorage.getItem("delete-post-id");
-                                                    var deletepostlink = "service/posts/ " + thispostid;
-                                                    
-                                                    sendAJAX("DELETE", deletepostlink, "", function(result) {
-                                                             console.log(result);
-                                                    });
+//                                                    var thispostid = localStorage.getItem("delete-post-id");
+//                                                    var deletepostlink = "service/posts/ " + thispostid;
+//                                                    
+//                                                    sendAJAX("DELETE", deletepostlink, "", function(result) {
+//                                                             console.log(result);
+//                                                    });
                               });
                         });
 });
-      
+
+function deletepost() {
+  var thispostid = localStorage.getItem("delete-post-id");
+  var deletepostlink = "service/posts/ " + thispostid;
+  
+  sendAJAX("DELETE", deletepostlink, "", function(result) {
+           console.log(result);
+           });
+}
+
 //  //var postList = document.getElementById("posts");
 //  var postTemplate = document.getElementById("post-container");
 //  // page=<Page_No>&size=<Page_Zize>

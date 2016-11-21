@@ -65,6 +65,32 @@ function getFriendcookieid() {
 //  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
 //}
 
+function sendAJAX2(headers, method, url, message, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open(method, url);
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState==4) {
+      try {
+        if (xhr.status==200) {
+          if(callback) {
+            // console.log(xhr.responseText);
+            callback(JSON.parse(xhr.responseText));
+          }
+        }
+      }
+      catch(e) {
+        alert('Error: ' + e.name);
+      }
+    }
+  }
+  console.log(headers.length);
+  for (int i=0; i<headers.length; ++i) {
+    xhr.setRequestHeader(headers[i][0], headers[i][1]);
+    console.log(headers[i][0] + headers[i][1]);
+  }
+  xhr.send(JSON.stringify(message));
+}
+
 $(document).ready(function() {
 
                   
@@ -78,8 +104,11 @@ $(document).ready(function() {
   //sendAJAX("GET",)
   
  
-  
+                  var headers = [["Foreign_host", "false"]];
+ // sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
   sendAJAX("GET", myprofilelink, "", function(result) {
+
+            console.log("called");
            
            console.log(result);
            var td = mypTemplate.content.querySelector("#profilehname");
