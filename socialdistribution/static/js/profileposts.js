@@ -87,7 +87,7 @@ $("#posttab").click(function(e) {
                              // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
                              // postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
                              postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
-                             postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
+                             postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
                              
                              // attach data to the links so it can be referenced when clicked
                              var authorBtn = postTemplate.content.querySelector(".post-author");
@@ -132,7 +132,7 @@ $("#posttab").click(function(e) {
                                                     var thispostid = localStorage.getItem("delete-post-id");
                                                     var deletepostlink = "/deleteposts/" + thispostid;
                                                     
-                                                    sendAJAX("POST", deletepostlink, "", function(result) {
+                                                    sendAJAX("GET", deletepostlink, "", function(result) {
                                                              console.log(result);
                                                     });
                               });
