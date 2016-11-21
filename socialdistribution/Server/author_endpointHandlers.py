@@ -529,9 +529,9 @@ def getAuthor(param, foreign_host):
     param["local_server_Obj"] = local server obj
     """
 
-    # if foreign_host == True:
-    #   print "looking for foreign host"
-    #   return searchForeignAuthor(param["author"])
+    if foreign_host == True:
+      print "looking for foreign host"
+      return searchForeignAuthor(param["author"])
 
     query_results = {}
     final_results = []
