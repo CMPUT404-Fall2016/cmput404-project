@@ -309,8 +309,28 @@ def getFriendRequestList(param):
   if "server_Obj" and "author" in param.keys():
 
       query_param['sendTo'] = [param["server_Obj"].server_index, param["author"]]
-      results = Friend_Requests.query(query_param)
-      return serializeFriendRequestList(results)
+      results_FR = Friend_Requests.query(query_param)
+
+      for FR in results_FR:
+        if FR.fromAuthorServer_id == APP_state["local_server_Obj"].server_index:            
+            results = db.session.query(Authors).filter(Authors.author_id == FR.fromAuthor_id).all()
+            if len(results) != 0:
+                FR.fromAuthorDisplayName = results[0].name
+            else:
+                FR.fromAuthorDisplayName = "User not found locally"
+        else:
+            host_name = db.session.query(Servers).filter(Servers.server_index == FR.fromAuthorServer_id).all()[0]
+            friend = {}
+            friend['id'] = FR.fromAuthor_id
+            friend['host'] = host_name
+            friend['url'] = friend['host'] + '/author/' + friend['id'] 
+            author = fetchRemoteAuthor(friend)
+            if author != None :
+                FR.fromAuthorDisplayName = author['displayName']
+            else:
+                FR.fromAuthorDisplayName = "User Not found in host : " + host_name
+
+      return serializeFriendRequestList(results_FR)
     
   else:
       print(' ERROR! ,"server_Obj" and "author" keys not found! please check GetFriendRequests function thats invoked for API : GET /getFriendRequests ')
