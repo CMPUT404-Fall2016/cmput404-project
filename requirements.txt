@@ -30,6 +30,7 @@ Flask-WTF==0.12
 funcsigs==0.4
 functools32==3.2.3.post2
 fysom==2.1.2
+gevent
 html5lib==0.999
 idna==2.0
 imageio==1.6
