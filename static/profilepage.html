@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Rad Site</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="css/profile.css" rel="stylesheet">
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="container text-center" id="toppadding">
+    <div class="row">
+
+      <!-- profile sidebar -->
+      <div class="col-sm-3 col-lg-3 text-center">
+      </div>
+
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="panel panel-default text-left">
+              <div class="panel-body">
+                <ul class="nav nav-pills nav-justified">
+                  <li class="active"><a data-toggle="pill" href="#profile" id="profiletab">Profile</a></li>
+                  <li><a data-toggle="pill" href="#posts" id="posttab">Posts</a></li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--</div>-->
+        <div class="tab-content">
+          <!-- profile tab-->
+          <div id="profile" class="tab-pane fade in active">
+
+
+
+          </div>
+
+          <!-- TEMP -->
+          <div id="profilechange" class="tab-pane fade">
+            <h4 id="profilename">Profile Edit</h4>
+            <form role="form" id="editprofileform">
+              <fieldset>
+                <div class="form-group">
+                  <input id="pid" type="text" class="form-control" name="pid" placeholder="Id" disabled="disabled">
+                </div>
+                <div class="form-group">
+                  <input id="pdn" type="text" class="form-control" name="pdisplayName" placeholder="Display Name">
+                </div>
+                <div class="form-group">
+                  <input id="phost" type="text" class="form-control" name="phost" placeholder="host" disabled="disabled">
+                </div>
+                <div class="form-group">
+                  <input id="purl" type="text" class="form-control" name="purl" placeholder="url" disabled="disabled">
+                </div>
+                <div class="form-group">
+                  <input id="pgitid" type="text" class="form-control" name="pgitid" placeholder="GitHub id">
+                </div>
+                <a onclick="saveprofilechange(); return false;"data-toggle="pill" href="#profile" type="button" class="btn btn-info">Save</a>
+                <a data-toggle="pill" href="#profile" type="button" class="btn btn-warning">Cancel</a>
+              </fieldset>
+            </form>
+          </div>
+
+          <!-- posts -->
+          <div id="posts" class="tab-pane fade">
+
+
+
+          </div>
+
+
+        </div>
+        <!--Tabs-->
+      </div>
+    </div>
+  </div>
+
+  <template id="post-container">
+    <div class="post-datas">
+    <li class="list-group-item post-container media">
+      <div class="post-body media-body">
+        <h4 class="media-heading post-title">Post Title: a sample post</h4>
+        <a href="" class="post-author">Author</a>
+        <!-- <p class="post-description">description</p> -->
+        <p class="post-content">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <ul class="list-inline list-unstyled">
+          <li><a href="#" class="comments">Comments</span></a></li>
+          <li>
+            <div class="dropdown">
+              <div class="well2">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-ok" aria-hidden="true"><b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-header">Post</li>
+                  <li><a id="deletepost">Delete Post</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <p id="postid" style="display:none;">SECRET POST ID</p>
+    </li>
+  </div>
+  </template>
+
+<!--  <template id="post-container">-->
+<!--    <div class="post-datas">-->
+<!--    <li class="list-group-item post-container media">-->
+<!--      <div class="media-left">-->
+<!--        <a href="#" class="post-author-dp">-->
+<!--          <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">-->
+<!--            </a>-->
+<!--      </div>-->
+<!--      <div class="post-body media-body">-->
+<!--        <h4 class="media-heading">Post Title</h4>-->
+<!--        <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>-->
+<!--        <p class="post-content">-->
+<!--          This is the existing content.-->
+<!--        </p>-->
+<!--        <ul class="list-inline list-unstyled">-->
+<!--          <li class="like-button">-->
+<!--            <a href="#" class="unliked"><span><i class="glyphicon glyphicon-thumbs-up"></i> Like</span></a>-->
+<!--          </li>-->
+<!--          <li class="comments-button">-->
+<!--            <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>-->
+<!--          </li>-->
+<!---->
+<!---->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    </div>-->
+<!--  </template>-->
+
+  <template id="profiledatas">
+<!--    <h4>-->
+      <h4 id="profilehname" class=="profilehname">Profile</h4>
+<!--    </h4>-->
+
+    <div class="" id="profileinfo">
+      <table class="table table-user-information">
+        <tbody>
+          <tr>
+            <td>ID</td>
+            <td id="profileid" class="profileid">userid</td>
+          </tr>
+          <tr>
+            <td>Name:</td>
+            <td id="profiledname" class="profiledname">name</td>
+          </tr>
+          <tr>
+            <td>Host:</td>
+            <td id="profilehost" class="profilehost"> TT Host</td>
+          </tr>
+          <tr>
+            <td>URL:</td>
+            <td id="profileurl" class="profileurl">TT URL</td>
+          </tr>
+          <tr>
+            <td>Github ID:</td>
+            <td id="profilegithub_id" class="profilegithub_id">TT github id</td>
+          </tr>
+
+        </tbody>
+      </table>
+      <a data-toggle="pill" id="editprofilebtn" href="#profilechange" type="button" class="btn btn-info" style="display:none">Edit</a>
+    </div>
+  </template>
+
+<!--  <script src="js/tabs.js"></script>-->
+  <script src="js/utilities.js"></script>
+  <!-- <script src="js/login-check.js"></script> -->
+  <script src="js/authorpost.js"></script>
+  <script src="js/profiledata.js"></script>
+  <script src="js/profileposts.js"></script>
+
+
+</body>
+</html>
