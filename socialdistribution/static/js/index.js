@@ -26,7 +26,7 @@ $("#post-submit").click(function(e) {
   }
   sendAJAX("POST", "/service/posts", postData, null);
   // done with request, reload
-  // window.location.reload();
+  window.location.reload();
 });
 
 // searches cookies for a github_username

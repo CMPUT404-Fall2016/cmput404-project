@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Rad Site</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <script src="/js/login-check.js"></script> -->
+</head>
+<body>
+<div id="navbar" style="padding-bottom: 70px"></div>
+<!-- main page content -->
+<div class="container" id="page-container">
+  <div class="row">
+    <!-- sidebar -->
+    <div class="col-sm-4 col-lg-3 text-center">
+    </div>
+    <!-- middle content -->
+    <div class="col-sm-8 col-lg-6 content-main">
+      <div class="panel panel-default text-left">
+        <div class="panel-body">
+          <form>
+            <fieldset>
+              <div class="form-group">
+                <textarea class="form-control" name="post-text" rows="2" id="comment-content" placeholder="Reply to this post" required></textarea>
+              </div>
+              <button id="comment-submit" class="btn btn-primary"> Add Comment</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <ol id="posts" class="list-group text-center">
+        <!-- THE ACTUAL POST -->
+        <li class="list-group-item media" id="post-container">
+          <div class="media-body">
+            <h4 class="media-heading" id="post-title">Post Title</h4>
+            <a href="" id="post-author">Author</a>
+            <p id="post-description">description<span>
+            <p id="post-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <!-- THE COMMENTS -->
+      <ol id="comment-list" class="list-group">
+        <li class="list-group-item media">
+          <div class="media-heading">
+            <a href="#" class="comment-author-url">
+              <p class="comment-author">Author</p>
+            </a>
+          </div>
+          <div class="media-body">
+            <p class="comment-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+  </div>
+</div>
+
+<template id="comment-template">
+  <li class="list-group-item media">
+    <div class="media-heading">
+      <a href="#" class="comment-author">Author</a>
+    </div>
+    <div class="media-body">
+      <p class="comment-content">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </div>
+  </li>
+</template>
+
+<script src="/js/utilities.js"></script>
+<script src="/js/post.js"></script>
+<!-- <script src="/js/setmycookie.js"></script> -->
+</body>
+</html>

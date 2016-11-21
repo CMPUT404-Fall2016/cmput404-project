@@ -11,6 +11,9 @@ from Server.pch import *
 from Server.c2sM import *
 from gevent.wsgi import WSGIServer
 
+#http basic auth
+from functools import wraps
+
 # admin stuff -----------------------------------
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
@@ -25,6 +28,7 @@ import os.path as op
 from db import db
 
 from wtforms import validators
+
 
 
 
@@ -58,6 +62,32 @@ api = Api(app)
 
 app.config['SECRET_KEY'] = 'hi_this_is_cmput404'
 
+
+
+#the is for server to server basic auth
+def check_auth(username, password):
+    """This function is called to check if a username /
+    password combination is valid.
+    """
+    return username == 'project_flask' and password == '123456'
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+#the is for server to server basic auth
+#-----------------------------------------need @requires_auth
 
 # quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):

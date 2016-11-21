@@ -33,6 +33,33 @@ function getCookieid() {
   return "";
 }
 
+
+function sendAJAX2(headers, method, url, message, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open(method, url);
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState==4) {
+      try {
+        if (xhr.status==200) {
+          if(callback) {
+            // console.log(xhr.responseText);
+            callback(JSON.parse(xhr.responseText));
+          }
+        }
+      }
+      catch(e) {
+        alert('Error: ' + e.name);
+      }
+    }
+  }
+  console.log(headers.length);
+  for (var i=0; i<headers.length; ++i) {
+    xhr.setRequestHeader(headers[i][0], headers[i][1]);
+    //    console.log(headers[i][0] + headers[i][1]);
+  }
+  xhr.send(JSON.stringify(message));
+}
+
 $(document).ready(function() {
                   
                   
@@ -55,8 +82,9 @@ $(document).ready(function() {
                   //var myauthorlink = "/author/52ec225c39b24d6896ffba3176e71a37";// + myauthorid;
                   var myauthorlink = "/author/" + myauthorid;
                    //console.log(myauthorlink);
-                  
-                  sendAJAX("GET", myauthorlink, "", function(events) {
+                  var headers = [["Foreign_host", "false"]];
+                  //sendAJAX("GET", myauthorlink, "", function(events) {
+                  sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
 //                           console.log("this?");
                            console.log(events.friends);
 //                           console.log(events.friends.length);
@@ -108,7 +136,12 @@ $(document).ready(function() {
 
 $("#reqtab").click(function(e) {
                    e.preventDefault();
-                   sendAJAX("GET", "/getFriendRequests", "", function(events) {
+                   
+                   var headers = [["Foreign_host", "false"]];
+                   //sendAJAX("GET", myauthorlink, "", function(events) {
+                   
+                 //  sendAJAX("GET", "/getFriendRequests", "", function(events) {
+                  sendAJAX2(headers, "GET", "/getFriendRequests", "", function(events) {
                             console.log(events);
                             //console.log(events.friendRequestList[0].fromAuthor_id);
                             console.log(events.friendRequestList.length);
@@ -165,9 +198,13 @@ $("#fdtab").click(function(e) {
                   
                   var myauthorid = getCookieid();
                   var myauthorlink = "/author/" + myauthorid;
-                  //console.log(myauthorlink);
+                  console.log(myauthorlink);
                   
-                  sendAJAX("GET", myauthorlink, "", function(events) {
+                  var headers = [["Foreign_host", "false"]];
+                  //sendAJAX("GET", myauthorlink, "", function(events) {
+                  sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
+                  
+                  //sendAJAX("GET", myauthorlink, "", function(events) {
                            //                           console.log("this?");
                            console.log(events.friends);
                            //                           console.log(events.friends.length);
@@ -191,7 +228,7 @@ $("#fdtab").click(function(e) {
                            var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
                            unfriendbtn.name = events.friends[i].id;
                            
-                           console.log(unfriendbtn);
+                           //console.log(unfriendbtn);
                            
                            
                            var normalContent = document.getElementById('friendstab');
@@ -250,8 +287,10 @@ function unfriendauthor() {
                            unfrienddata["server_address"] = document.getElementById("friendhost").textContent;
                            
                            console.log(unfrienddata);
+   var headers = [["Foreign_host", "false"]];
+  sendAJAX2(headers, "POST", "/unFriend", unfrienddata, function(response) {
                            
-                           sendAJAX("POST", "/unFriend", unfrienddata, function(response) {
+                           //sendAJAX("POST", "/unFriend", unfrienddata, function(response) {
                                     console.log("hello");
                                     console.log(response);
                                     window.location.href="friendspage.html";
