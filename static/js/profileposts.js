@@ -86,7 +86,7 @@ $("#posttab").click(function(e) {
                     var postList = document.getElementById("posts");
                     var postTemplate = document.getElementById("post-container");
                     // page=<Page_No>&size=<Page_Zize>
-                    sendAJAX("GET", "service/author/posts", "", function(posts) {
+                    sendAJAX("GET", myprofileposts, "", function(posts) {
                              for(var i=0; i < posts.length; ++i) {
                              // fill the container with details
                              postTemplate.content.querySelector(".post-title").textContent = posts[i].title;

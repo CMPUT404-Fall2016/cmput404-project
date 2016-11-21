@@ -84,9 +84,9 @@ function sendAJAX2(headers, method, url, message, callback) {
     }
   }
   console.log(headers.length);
-  for (int i=0; i<headers.length; ++i) {
+  for (var i=0; i<headers.length; ++i) {
     xhr.setRequestHeader(headers[i][0], headers[i][1]);
-    console.log(headers[i][0] + headers[i][1]);
+//    console.log(headers[i][0] + headers[i][1]);
   }
   xhr.send(JSON.stringify(message));
 }
@@ -94,7 +94,8 @@ function sendAJAX2(headers, method, url, message, callback) {
 $(document).ready(function() {
 
                   
-  var myauthorid = getCookieid();
+  //var myauthorid = getCookieid();
+  var myauthorid =localStorage.getItem("author_id");
   var mypTemplate = document.getElementById('profiledatas');
   
   //var friendauthorid = getFriendcookieid();
@@ -105,8 +106,8 @@ $(document).ready(function() {
   
  
                   var headers = [["Foreign_host", "false"]];
- // sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
-  sendAJAX("GET", myprofilelink, "", function(result) {
+  sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
+  //sendAJAX("GET", myprofilelink, "", function(result) {
 
             console.log("called");
            
@@ -123,7 +124,7 @@ $(document).ready(function() {
            
            mypTemplate.content.querySelector("#profileurl").textContent = result.url;
            
-           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_username;
+           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.githubUsername;
            
            var normalContent = document.getElementById('profile');
            
@@ -188,32 +189,32 @@ function saveprofilechange() {
 
 
 
-//$("#addfriendbtn").click(function(e) {
-function afriendone(fn) {
-  var myuserid = getCookieid();
-  
-  var myinfostuff = "/author/" + myuserid;
-  sendAJAX("GET", myinfostuff, "", function(result) {
-           //console.log(result);
-           //var myid = result.id;
-           var myhost = result.host;
-           //console.log(result.host)
-           //console.log(myhost);
-           var mydisplayname = result.displayName;
-           fn(result);
-           //return myhost, mydisplayname;
-    });
-}
-
-afriendone(function(result) {
-           console.log("hello");
-           console.log(result);
-           var myhost = result.host;
-           //console.log(result.host)
-           //console.log(myhost);
-           var mydisplayname = result.displayName;
-  });
-
-
+////$("#addfriendbtn").click(function(e) {
+//function afriendone(fn) {
+//  var myuserid = getCookieid();
+//  
+//  var myinfostuff = "/author/" + myuserid;
+//  sendAJAX("GET", myinfostuff, "", function(result) {
+//           //console.log(result);
+//           //var myid = result.id;
+//           var myhost = result.host;
+//           //console.log(result.host)
+//           //console.log(myhost);
+//           var mydisplayname = result.displayName;
+//           fn(result);
+//           //return myhost, mydisplayname;
+//    });
+//}
+//
+//afriendone(function(result) {
+//           console.log("hello");
+//           console.log(result);
+//           var myhost = result.host;
+//           //console.log(result.host)
+//           //console.log(myhost);
+//           var mydisplayname = result.displayName;
+//  });
+//
+//
 
 

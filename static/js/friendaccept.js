@@ -38,8 +38,11 @@ function acceptfriend() {
                 acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
 
   console.log(acceptfrienddata);
-
-                    sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
+  
+  var headers = [["Foreign_host", "false"]];
+  
+  sendAJAX2(headers, "POST", "acceptFriendRequest", acceptfrienddata, function(response) {
+                    //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
                              console.log(response);
                              window.location.href="friendspage.html";
 
