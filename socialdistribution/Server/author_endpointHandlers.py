@@ -44,6 +44,26 @@ def isFriend(param):
   return False
 
 
+def fetchRemoteAuthor(param):
+
+    """
+    param['id'] = author_id
+    param['url'] = url for getting the author
+    param['host'] = host name for the author
+    """
+
+    r = requests.get(param['url'])
+    if r.text == "":
+        return None
+    try:
+        body = r.json()
+        return body
+
+    except Exception as e:
+        print "Failed to parse JSON sent from url : " + param['url'] + "...Error: " + e
+        return None
+
+
 
 def getFriendList(param):
 
@@ -76,6 +96,21 @@ def getFriendList(param):
     # print results2
     friendList = serializeFriendList(results2, 1) + friendList
 
+    for friend in friendList:
+        if friend['host'] == APP_state["local_server_Obj"].IP:            
+            results = db.session.query(Authors).filter(Authors.author_id == friend['id']).all()
+            if len(results) != 0:
+                friend['displayName'] = results[0].name
+            else:
+                friend['displayName'] = "User Not found locally"
+
+        else:
+            author = fetchRemoteAuthor(friend)
+            if author != None :
+                friend['displayName'] = author['displayName']
+            else:
+                friend['displayName'] = "User Not found in host : " + friend['host']
+                
     return friendList
 
 
@@ -88,14 +123,14 @@ def serializeFriendList(FriendList, number):
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer1_id).all()[0].IP
             temp['host']=host
             temp['id']=friendship.author1_id
-            temp['displayName']=friendship.author1_name
+            # temp['displayName']=friendship.author1_name
             temp['url'] = host+'/author/'+temp['id']
 
         elif number == 2:
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer2_id).all()[0].IP
             temp['host']=host
             temp['id']=friendship.author2_id
-            temp['displayName']=friendship.author2_name
+            # temp['displayName']=friendship.author2_name
             temp['url'] = host+'/author/'+temp['id']
 
         friendlist.append(temp)
