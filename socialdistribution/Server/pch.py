@@ -81,21 +81,25 @@ class RestHandlers():
 		rtl = []
 
 		#First step is determine the relationship of the two authors
-		friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == authenticatedUser, Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
+		if(authenticatedUser == user_id):
+			posts = db.session.query(Posts).filter(Points.author_id == user_id).all()
+		else:
+			friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == authenticatedUser, Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
 
-		if not friendship:
-			friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == authenticatedUser, Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
+			if not friendship:
+				friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == authenticatedUser, Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
 
-		#Get the user's public post
-		rtl = db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 1).all()	
-		if friendship:
-			#they are friends
-			rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 3).all()	
-	
-		#Todo:
-		#Friend of Friend
-		#Private to specific user 
-		posts = rtl
+			#Get the user's public post
+			rtl = db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 1).all()	
+			if friendship:
+				#they are friends
+				rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 3).all()	
+			
+			#Todo:
+			#Friend of Friend
+			#Private to specific user 
+			posts = rtl
+
 		rtl = []
 		for post in posts:
 			rtl.append([post, self.getImages(post.post_id), self.getComments(post.post_id)])
