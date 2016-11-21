@@ -168,17 +168,20 @@ $("#fdtab").click(function(e) {
                   //console.log(myauthorlink);
                   
                   sendAJAX("GET", myauthorlink, "", function(events) {
-//                           console.log("this?");
-//                           console.log(events.friends.length);
-//                           console.log(events.friends[0]);
-//                           console.log(">>>");
-                           for(var i=0; i < events.length; ++i) {
+                           //                           console.log("this?");
+                           console.log(events.friends);
+                           //                           console.log(events.friends.length);
+                           //                           console.log(events.friends[0]);
+                           //                           console.log(">>>");
+                           for(var i=0; i < events.friends.length; ++i) {
                            //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
                            var friendsTemplate = document.getElementById('friends-container');
                            friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
                            friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
                            friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
-                           friendsTemplate.content.querySelector("#friendurl").textContent = events.friends[i].url;
+                           console.log(events.friends[i].displayName);
+                           //console.log(events.friends[i].displayName);
+                           friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
                            
                            document.cookie = "request_author_id="+events.friends[i].id;
                            
@@ -189,7 +192,7 @@ $("#fdtab").click(function(e) {
                            unfriendbtn.name = events.friends[i].id;
                            
                            console.log(unfriendbtn);
-
+                           
                            
                            var normalContent = document.getElementById('friendstab');
                            
@@ -201,15 +204,15 @@ $("#fdtab").click(function(e) {
                            }
                            
                            $("#unfriendauthor").click(function (e) {
-                                                     
-                                                     e.preventDefault();
-                                                     
-                                                     localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
-                                                     unfriendauthor();
-                                                     
-                                                     });
-                           
+                                                      
+                                                      e.preventDefault();
+                                                      
+                                                      localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
+                                                      unfriendauthor();
+                                                      
+                                                      });
                            });
+
                   document.getElementById("frequest").innerHTML = "";
   });
 
