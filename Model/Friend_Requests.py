@@ -23,8 +23,8 @@ class Friend_Requests(db.Model):
     isChecked = db.Column(db.Boolean)
 
 
-    db.PrimaryKeyConstraint(fromAuthorServer_id, fromAuthor_id)
-    db.PrimaryKeyConstraint(toAuthorServer_id, toAuthor_id)
+    # db.PrimaryKeyConstraint(fromAuthorServer_id, fromAuthor_id)
+    # db.PrimaryKeyConstraint(toAuthorServer_id, toAuthor_id)
 
 
     def __new__(cls, datum=None):
