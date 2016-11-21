@@ -132,7 +132,7 @@ $("#posttab").click(function(e) {
                                                     var thispostid = localStorage.getItem("delete-post-id");
                                                     var deletepostlink = "/deleteposts/" + thispostid;
                                                     
-                                                    sendAJAX("POST", deletepostlink, "", function(result) {
+                                                    sendAJAX("GET", deletepostlink, "", function(result) {
                                                              console.log(result);
                                                     });
                               });
