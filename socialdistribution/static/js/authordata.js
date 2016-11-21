@@ -34,89 +34,49 @@ function getFriendcookieid() {
   return "";
 }
 
+function sendAJAX2(headers, method, url, message, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open(method, url);
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState==4) {
+      try {
+        if (xhr.status==200) {
+          if(callback) {
+            // console.log(xhr.responseText);
+            callback(JSON.parse(xhr.responseText));
+          }
+        }
+      }
+      catch(e) {
+        alert('Error: ' + e.name);
+      }
+    }
+  }
+  console.log(headers.length);
+  for (var i=0; i<headers.length; ++i) {
+    xhr.setRequestHeader(headers[i][0], headers[i][1]);
+    console.log(headers[i][0] + headers[i][1]);
+  }
+  xhr.send(JSON.stringify(message));
+}
+
 
 function editauthorpage() {
   document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
   //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
   document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
 }
-
-$(document).ready(function() {
-    //var myauthorid = getCookieid();
-    var myauthorid = localStorage.getItem("fetch-author-id");
-
-
 $("#profile").click( function(e) {
                     e.preventDefault();
                     document.getElementById("posts").innerHTML = "";
                     });
 
+$(document).ready(function() {
+                  var myauthorid = getFriendcookieid();
+    //var myauthorid = localStorage.getItem("fetch-author-id");
 
-$("#posttabs").click(function(e) {
-                     e.preventDefault();
-                     var authorpid = getFriendcookieid();
-                     var authorpostlink = "service/author/" + authorpid + "/posts";
-                     
-                     var postList = document.getElementById("posts");
-                     var postTemplate = document.getElementById("post-container");
-                     // page=<Page_No>&size=<Page_Zize>
-                     sendAJAX("GET", authorpostlink, "", function(posts) {
-                              for(var i=0; i < posts.length; ++i) {
-                              // fill the container with details
-                              postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-                              // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-                              // postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
-                              postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
-                              postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
-                              
-                              // attach data to the links so it can be referenced when clicked
-                              var authorBtn = postTemplate.content.querySelector(".post-author");
-                              $(authorBtn).data("post-author", posts[i].author_id);
-                              
-                              var commentsBtn = postTemplate.content.querySelector(".comments");
-                              // $(commentsBtn).data("post-host", posts[i].author.host);
-                              $(commentsBtn).data("post-id", posts[i].id);
-                              
-                              var clone = document.importNode(postTemplate.content, true);
-                              postList.appendChild(clone);
-                              }
-                              
-                              // bind the onclick to set post host and id in localStorage
-                              // and link the user to the post's page
-                              $(".comments").click(function(e) {
-                                                   e.preventDefault();
-                                                   // set this for later
-                                                   // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
-                                                   localStorage.setItem("fetch-post-id", $(this).data("post-id"));
-                                                   window.location.href ="post.html";
-                                                   });
-                              
-                              // bind the onclick to set author id in localStorage
-                              // and link the user to the author's profile
-                              $(".post-author-url").click(function(e) {
-                                                          e.preventDefault();
-                                                          // set this for authorpage to use
-                                                          localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
-                                                          window.location.href = "authorpage.html";
-                                                          });
-                              });
-                     })
 
-//$("#saveprofilechange").click(function (e) {
-//
-//      e.preventDefault();
-//      var editprofiledata = {}
-//      editprofiledata["name"] = editprofiledata.elements["displayName"].value;
-//      editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
-//      editprofiledata["bio"] = editprofiledata.elements["bio"].value;
-//      
-//      sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
-//               
-//               
-//               
-//      });
-//                              
-//});
+
 
     var mypTemplate = document.getElementById('profiledatas');
 
@@ -125,8 +85,12 @@ $("#posttabs").click(function(e) {
 
     var myprofilelink = "/author/" + myauthorid;
 
-    sendAJAX("GET", myprofilelink, "", function(result) {
-
+                  console.log("here");
+                  
+                  var headers = [["Foreign_host", "false"]];
+                  sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
+    //sendAJAX("GET", myprofilelink, "", function(result) {
+             console.log("here");
       console.log(result);
       var td = mypTemplate.content.querySelector("#profilehname");
       profileusernametext = result.displayName;
@@ -289,3 +253,74 @@ function afriendtwo(result) {
   //window.location.href="friendspage.html";
   });
 }
+
+
+
+
+////$("#posttabs").click(function(e) {
+//                     e.preventDefault();
+//                     var authorpid = getFriendcookieid();
+//                     var authorpostlink = "service/author/" + authorpid + "/posts";
+//
+//                     var postList = document.getElementById("posts");
+//                     var postTemplate = document.getElementById("post-container");
+//                     // page=<Page_No>&size=<Page_Zize>
+//                     sendAJAX("GET", authorpostlink, "", function(posts) {
+//                              console.log("here");
+//                              for(var i=0; i < posts.length; ++i) {
+//                              // fill the container with details
+//                              postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
+//                              // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
+//                              // postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
+//                              postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
+//                              postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+//
+//                              // attach data to the links so it can be referenced when clicked
+//                              var authorBtn = postTemplate.content.querySelector(".post-author");
+//                              $(authorBtn).data("post-author", posts[i].author_id);
+//
+//                              var commentsBtn = postTemplate.content.querySelector(".comments");
+//                              // $(commentsBtn).data("post-host", posts[i].author.host);
+//                              $(commentsBtn).data("post-id", posts[i].id);
+//
+//                              var clone = document.importNode(postTemplate.content, true);
+//                              postList.appendChild(clone);
+//                              }
+//
+//                              // bind the onclick to set post host and id in localStorage
+//                              // and link the user to the post's page
+//                              $(".comments").click(function(e) {
+//                                                   e.preventDefault();
+//                                                   // set this for later
+//                                                   // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
+//                                                   localStorage.setItem("fetch-post-id", $(this).data("post-id"));
+//                                                   window.location.href ="post.html";
+//                                                   });
+//
+//                              // bind the onclick to set author id in localStorage
+//                              // and link the user to the author's profile
+//                              $(".post-author-url").click(function(e) {
+//                                                          e.preventDefault();
+//                                                          // set this for authorpage to use
+//                                                          localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
+//                                                          window.location.href = "authorpage.html";
+//                                                          });
+//                              });
+//                     })
+//
+//$("#saveprofilechange").click(function (e) {
+//
+//      e.preventDefault();
+//      var editprofiledata = {}
+//      editprofiledata["name"] = editprofiledata.elements["displayName"].value;
+//      editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
+//      editprofiledata["bio"] = editprofiledata.elements["bio"].value;
+//
+//      sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
+//
+//
+//
+//      });
+//
+//});
+

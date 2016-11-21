@@ -121,14 +121,14 @@ class All_Post(Resource):
                 post["view_permission"]= perm
 				
                 if handler.make_post(post):
-                    return {"query" : "post a post", "success" : "true", "message" : "Post created"}
+                    return {"query" : "addPost", "success" : "true", "message" : "Post created"}
                 else:
-                    return {"query"	: "post a post", "success" : "failure", "message" : "Fail to create post"}
+                    return {"query"	: "addPost", "success" : "false", "message" : "Fail to create post"}
 
             else:
-                return "SESSION_ERROR_Inner", 403
+                return "Invalid Session", 403
         else:
-            return "SESSION_ERROR", 403
+            return "No Session", 403
 
 
 class AuthorPost(Resource):
@@ -221,7 +221,7 @@ class Comment(Resource):
                               })
                 return jsonify(rt) #, 200
                 #return json.dumps(rt), 200
-            return "nothing"
+            return []
 
         else:
             return "SESSION_ERROR", 403
@@ -242,8 +242,10 @@ class Comment(Resource):
                 comment["author_id"] = data["author_id"]
                 comment["comment_text"] = data["comment_text"]
 
-
-                return handler.make_comment(comment), 201
+                if handler.make_comment(comment):
+                    return {"query" : "addComment", "success" : "true", "message" : "Comment created"}
+                else:
+                    return {"query"	: "addComment", "success" : "false", "message" : "Fail to create comment"}
 
         else:
             return "SESSION_ERROR", 403
@@ -299,29 +301,4 @@ class Edit_Post(Resource):
 
             print 'WARNING! "session_id" field is not found inside cookie!'
             return "status : CLIENT_FAILURE", 200
-'''
-
-
-
-
-
-
-'''
-if __name__ == '__main__':
-	for i in range(1, 55):
-		currentTime = datetime.now()
-		post = {}
-		post["author_id"] = i
-		post["title"] = "test" + str(i)
-		post["text"]="TEXT" + str(i)
-		post["view_permission"]=random.randint(1, 5)
-		post["post_type"]=1
-		post["numberOf_comments"]=0
-		post["numberOf_URL"]=0
-		post["numberOf_images"]=0
-		post["images"] = []
-		post["images"].append(os.urandom(100000))
-		handler.make_post(post)
-
-	app.run(debug=True)
 '''
