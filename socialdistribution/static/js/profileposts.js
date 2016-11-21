@@ -111,7 +111,7 @@ $("#posttab").click(function(e) {
                                                   // set this for later
                                                   // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
                                                   localStorage.setItem("fetch-post-id", $(this).data("post-id"));
-                                                  window.location.href("post.html")
+                                                  window.location.href= "post.html";
                                                   });
                              
                              // bind the onclick to set author id in localStorage
@@ -120,7 +120,7 @@ $("#posttab").click(function(e) {
                                                          e.preventDefault();
                                                          // set this for authorpage to use
                                                          localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
-                                                         window.location.href("authorpage.html")
+                                                         window.location.href= "authorpage.html";
                                                          });
                              
                              $("#deletepost").click(function(e) {
