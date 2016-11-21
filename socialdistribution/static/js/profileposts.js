@@ -72,9 +72,9 @@ $("#posttab").click(function(e) {
   e.preventDefault();
                     console.log("clicked");
   var myauthorid = getCookieid();
-  var mypTemplate = document.getElementById('post-container');
+  //var mypTemplate = document.getElementById('post-container');
   
-  var myprofileposts = "/service/author/" + myauthorid + "/posts";
+  var myprofileposts = "service/author/" + myauthorid + "/posts";
                     console.log(myprofileposts);
                     
                     var postList = document.getElementById("posts");
@@ -136,8 +136,8 @@ $("#posttab").click(function(e) {
                                                              console.log(result);
                                                     });
                               });
-                             });
-                    });
+                        });
+});
       
 //  //var postList = document.getElementById("posts");
 //  var postTemplate = document.getElementById("post-container");
@@ -178,7 +178,6 @@ $("#posttab").click(function(e) {
 //                                           console.log(result);
 //                                           });
 //                                  });
-           });
  
   
 //  sendAJAX("GET", myprofileposts, "", function(result) {
