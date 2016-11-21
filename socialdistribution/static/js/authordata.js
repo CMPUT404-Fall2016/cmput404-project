@@ -70,7 +70,10 @@ $(document).ready(function() {
                   
                   
                   
-                  var myauthorid = getFriendcookieid();
+                  //var myauthorid = getFriendcookieid();
+                  
+                  var myauthorid = localStorage.getItem("fetch-author-id");
+                  
                   var mypTemplate = document.getElementById('profiledatas');
                   
                   //var friendauthorid = getFriendcookieid();
