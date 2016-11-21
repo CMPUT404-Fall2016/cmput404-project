@@ -14,7 +14,7 @@ $(document).ready(function() {
       postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
 
       // attach data to the links so it can be referenced when clicked
-      var authorBtn = postTemplate.content.querySelector(".post-author-url");
+      var authorBtn = postTemplate.content.querySelector(".post-author");
       $(authorBtn).data("post-author-id", posts[i].author_id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
@@ -30,7 +30,6 @@ $(document).ready(function() {
     // and link the user to the author's profile
     $(".post-author").click(function(e) {
     	e.preventDefault();
-    	console.log("clicked author");
     	// set this for authorpage to use
     	localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
     	window.location.href = "authorpage.html";

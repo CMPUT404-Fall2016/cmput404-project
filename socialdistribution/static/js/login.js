@@ -35,6 +35,10 @@ $("#create-btn").click(function (e) {
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {
       login(response);
+           
+    } else if (response["status"] == "NOT_AUTHORIZED") {
+           alert("Awaiting admin authorization");
+           window.location.reload();
 
     // author already exists
   } else if (response["status"] == "DUPLICATE") {
@@ -90,10 +94,14 @@ $("#login-btn").click(function(e) {
     } else if (response["status"] == "ADMIN") {
       login_admin();
 
+    } else if (response["status"] == "NOT_AUTHORIZED") {
+           alert("Awaiting admin authorization");
+           window.location.reload();
+           
     // username or password is incorrect
     } else if (response["status"] == "NO_MATCH") {
       $("#incorrect-alert").prop("disabled", true);
-
+           
     // again, what the fUCK
     } else {
       $(".server-alert").prop("disabled", false);

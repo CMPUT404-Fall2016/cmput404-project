@@ -36,10 +36,10 @@
               <div class="form-group">
                 <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label class="radio-inline"><input type="radio" checked="checked" name="text-type">Plain Text</label>
                 <label class="radio-inline"><input type="radio" name="text-type">Markdown</label>
-              </div>
+              </div> -->
               <div class="form-group">
                 <select name="visibility">
                   <option selected="selected" value ="Public">Public</option>
@@ -49,10 +49,10 @@
                   <option value="SERVERONLY">Server Only</option>
                 </select>
               </div>
-              <!-- <div class="form-group">
-                <label for="exampleInputFile">Add Image</label>
-                <input type="file" name="image">
-              </div> -->
+              <div class="form-group">
+                <label>Add Image</label>
+                <input type="file" name="image" accept="image/*">
+              </div>
               <button id="post-submit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Post</button>
             </fieldset>
           </form>
