@@ -103,7 +103,7 @@ $(document).ready(function() {
       mypTemplate.content.querySelector("#profilehost").textContent = result.host;
 
       mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-      mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_username;
+      mypTemplate.content.querySelector("#profilegithub_id").textContent = result.githubUsername;
 
       var normalContent = document.getElementById('profile');
 
@@ -184,7 +184,10 @@ function afriendone() {
   var myuserid = getCookieid();
 
   var myinfostuff = "/author/" + myuserid;
-  sendAJAX("GET", myinfostuff, "", function(result) {
+  
+  var headers = [["Foreign_host", "false"]];
+  sendAJAX2(headers, "GET", myinfostuff, "", function(result) {
+  //sendAJAX("GET", myinfostuff, "", function(result) {
     //console.log(result);
     //var myid = result.id;
     var myinfodatacombine = {}
@@ -197,7 +200,9 @@ function afriendone() {
     var friendid = getFriendcookieid();
     var getfriendinfo = "/author/" + friendid;
 
-    sendAJAX("GET", getfriendinfo, "", function(result2) {
+    var headers = [["Foreign_host", "false"]];
+    sendAJAX2(headers, "GET", getfriendinfo, "", function(result2) {
+    //sendAJAX("GET", getfriendinfo, "", function(result2) {
       //console.log(result);
       var myinfodatacombine = {}
       console.log(result.displayName);
