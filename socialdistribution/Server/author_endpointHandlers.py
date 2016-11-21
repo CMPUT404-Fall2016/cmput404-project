@@ -1,6 +1,7 @@
 import uuid
 from model import *
 import requests
+import json
 
 """
 THINGS TO DO:
@@ -44,6 +45,26 @@ def isFriend(param):
   return False
 
 
+def fetchRemoteAuthor(param):
+
+    """
+    param['id'] = author_id
+    param['url'] = url for getting the author
+    param['host'] = host name for the author
+    """
+
+    r = requests.get(param['url'])
+    if r.text == "":
+        return None
+    try:
+        body = r.json()
+        return body
+
+    except Exception as e:
+        print "Failed to parse JSON sent from url : " + param['url'] + "...Error: " + e
+        return None
+
+
 
 def getFriendList(param):
 
@@ -76,6 +97,21 @@ def getFriendList(param):
     # print results2
     friendList = serializeFriendList(results2, 1) + friendList
 
+    for friend in friendList:
+        if friend['host'] == APP_state["local_server_Obj"].IP:            
+            results = db.session.query(Authors).filter(Authors.author_id == friend['id']).all()
+            if len(results) != 0:
+                friend['displayName'] = results[0].name
+            else:
+                friend['displayName'] = "User Not found locally"
+
+        else:
+            author = fetchRemoteAuthor(friend)
+            if author != None :
+                friend['displayName'] = author['displayName']
+            else:
+                friend['displayName'] = "User Not found in host : " + friend['host']
+
     return friendList
 
 
@@ -88,14 +124,14 @@ def serializeFriendList(FriendList, number):
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer1_id).all()[0].IP
             temp['host']=host
             temp['id']=friendship.author1_id
-            temp['displayName']=friendship.author1_name
+            # temp['displayName']=friendship.author1_name
             temp['url'] = host+'/author/'+temp['id']
 
         elif number == 2:
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer2_id).all()[0].IP
             temp['host']=host
             temp['id']=friendship.author2_id
-            temp['displayName']=friendship.author2_name
+            # temp['displayName']=friendship.author2_name
             temp['url'] = host+'/author/'+temp['id']
 
         friendlist.append(temp)
@@ -178,7 +214,7 @@ def processFriendRequest(param):
         db.session.add(new_relationship)
         db.session.commit()
 
-    if to_serverIP == APP_state['local_server_Obj'] :
+    if to_serverIP == APP_state['local_server_Obj'].IP :
         datum={}
         datum = {
                 'friendrequests_id' : uuid.uuid4().hex, 
@@ -201,6 +237,7 @@ def processFriendRequest(param):
     
     else:
         # to_server is a remote server not the local one
+        print "here"
         sendFriendRequest(param)
 
     return True
@@ -272,8 +309,28 @@ def getFriendRequestList(param):
   if "server_Obj" and "author" in param.keys():
 
       query_param['sendTo'] = [param["server_Obj"].server_index, param["author"]]
-      results = Friend_Requests.query(query_param)
-      return serializeFriendRequestList(results)
+      results_FR = Friend_Requests.query(query_param)
+
+      for FR in results_FR:
+        if FR.fromAuthorServer_id == APP_state["local_server_Obj"].server_index:            
+            results = db.session.query(Authors).filter(Authors.author_id == FR.fromAuthor_id).all()
+            if len(results) != 0:
+                FR.fromAuthorDisplayName = results[0].name
+            else:
+                FR.fromAuthorDisplayName = "User not found locally"
+        else:
+            host_name = db.session.query(Servers).filter(Servers.server_index == FR.fromAuthorServer_id).all()[0]
+            friend = {}
+            friend['id'] = FR.fromAuthor_id
+            friend['host'] = host_name
+            friend['url'] = friend['host'] + '/author/' + friend['id'] 
+            author = fetchRemoteAuthor(friend)
+            if author != None :
+                FR.fromAuthorDisplayName = author['displayName']
+            else:
+                FR.fromAuthorDisplayName = "User Not found in host : " + host_name
+
+      return serializeFriendRequestList(results_FR)
     
   else:
       print(' ERROR! ,"server_Obj" and "author" keys not found! please check GetFriendRequests function thats invoked for API : GET /getFriendRequests ')
@@ -551,7 +608,11 @@ def userLogin(param):
     else :
         author = results[0]
         if author.password == password:
-            return serializeAuthors([author])[0]
+            if author.authorized == True:
+                return serializeAuthors([author])[0]
+            else:
+                return "NOT_AUTHORIZED"
+
         else:
             return "NO_MATCH"
 

@@ -144,14 +144,14 @@ class AuthorPost(Resource):
             #print sessionID
             if sessionID in APP_state["session_ids"]:
                	rt = [] 
-                print APP_state["session_id"][sessionID]
-                data = handler.getVisiblePosts(APP_state["session_id"][sessionID])
+                print APP_state["session_ids"][sessionID]
+                data = handler.getVisiblePosts(APP_state["session_ids"][sessionID])
                 for entry in data:
                     rt.append({
-					                "comment_id" : entry[0].comment_id,
+					                "post_id" : entry[0].post_id,
 	                                "author_id" : entry[0].author_id,
-                                    "post_id"	: entry[0].post_id,
-                                    "comment_text" :	entry[0].comment_text,
+                                    "title"	: entry[0].title,
+                                    "content" :	entry[0].text,
                                     "creation_time" : entry[0].creation_time
                               })
                 return jsonify(rt) #, 200
@@ -178,7 +178,7 @@ class AuthorToAuthorPost(Resource):
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
 
-            	data = handler.getVisiblePostsByAuthor(author_id)
+            	data = handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id)
 
             if selected_post == []:
                 return "status : NO_MATCH", 200
@@ -187,7 +187,7 @@ class AuthorToAuthorPost(Resource):
                     rtl.append({
                                "post_id" :	entry[0].post_id,
                                "title" :	entry[0].title,
-                               "text"	:	entry[0].text,
+                               "content"	:	entry[0].text,
                                "creation_time" : entry[0].creation_time,
                                "author_id"	: entry[0].author_id
                                })

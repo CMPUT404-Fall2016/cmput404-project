@@ -29,9 +29,9 @@ class Test_CS_API(unittest.TestCase):
         self.friend_()
 
     def login_(self):
-        self.sample_Registration(author1_reg)
-        author1_log["author_id"] = self.cookies[COOKIE_NAMES[0]]
-        self.sample_Logout()
+        author1_log["author_id"] = self.sample_Registration(author1_reg)
+        # self.sample_Logout()
+        self.authorize(author1_log['author_id'])
         self.sample_Login(author1_log)
         self.sample_Logout()
         self.sample_Login(author1_log)
@@ -41,6 +41,9 @@ class Test_CS_API(unittest.TestCase):
         self.sample_FetchAuthorByName()
 
 
+    def authorize(self, ID):
+        url = URL + "/secretAuthorization/" + ID
+        requests.get(url)
 
     def parseCookie(self, cookies):
         new={}
@@ -98,9 +101,10 @@ class Test_CS_API(unittest.TestCase):
         prepp1 = req1.prepare()
         resp = self.s.send(prepp1)
         body = json.loads(resp.text)
-        assert(body["status"] == "SUCCESS"), "Should be a success!"
+        assert(body["status"] == "NOT_AUTHORIZED")
         assert(body["name"] != None), "A display name should be there"
-        self.cookie_assert(resp.cookies)
+        # self.cookie_assert(resp.cookies)
+        return body['author_id']
 
 
 
@@ -187,9 +191,8 @@ class Test_CS_API(unittest.TestCase):
         self.sample_Login(author1_log)
         author1_log["author_id"] = self.cookies[COOKIE_NAMES[0]]
         self.sample_Logout()
-        self.sample_Registration(author2_reg)
-        author2_log["author_id"] = self.cookies[COOKIE_NAMES[0]]
-        self.sample_Logout()
+        author2_log["author_id"] = self.sample_Registration(author2_reg)
+        self.authorize(author2_log["author_id"])
         FR1 = createFriendRequest()
         self.sample_Login(author1_log)
         self.sample_friendrequest(author1_log, author2_log, FR1)
