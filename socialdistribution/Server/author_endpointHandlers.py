@@ -505,6 +505,7 @@ def beFriend(param):
 
 def searchForeignAuthor(author_id):
     servers = db.session.query(Servers).filter(Servers.server_index > 0).all()
+    author = None
     for server in servers:
         if server.shareWith == True:        
             param = {}
@@ -529,6 +530,7 @@ def getAuthor(param, foreign_host):
     """
 
     if foreign_host == True:
+      print "looking for foreign host"
       return searchForeignAuthor(param["author"])
 
     query_results = {}
