@@ -136,6 +136,12 @@ $(document).ready(function() {
                            });
 });
 
+$("#profile").click( function(e) {
+                    e.preventDefault();
+                    document.getElementById("posts").innerHTML = "";
+                    });
+
+
 $("#posttabs").click(function(e) {
                      e.preventDefault();
                      var authorpid = getFriendcookieid();
