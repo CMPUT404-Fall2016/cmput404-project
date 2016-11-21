@@ -1,6 +1,7 @@
 import uuid
 from model import *
 import requests
+import json
 
 """
 THINGS TO DO:
@@ -110,7 +111,7 @@ def getFriendList(param):
                 friend['displayName'] = author['displayName']
             else:
                 friend['displayName'] = "User Not found in host : " + friend['host']
-                
+
     return friendList
 
 
@@ -213,7 +214,7 @@ def processFriendRequest(param):
         db.session.add(new_relationship)
         db.session.commit()
 
-    if to_serverIP == APP_state['local_server_Obj'] :
+    if to_serverIP == APP_state['local_server_Obj'].IP :
         datum={}
         datum = {
                 'friendrequests_id' : uuid.uuid4().hex, 
@@ -236,6 +237,7 @@ def processFriendRequest(param):
     
     else:
         # to_server is a remote server not the local one
+        print "here"
         sendFriendRequest(param)
 
     return True
