@@ -530,6 +530,7 @@ def getAuthor(param, foreign_host):
     """
 
     if foreign_host == True:
+      print "looking for foreign host"
       return searchForeignAuthor(param["author"])
 
     query_results = {}

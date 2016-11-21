@@ -349,15 +349,19 @@ def FetchAuthor(AUTHOR_ID):
     print AUTHOR_ID
     param["author"] = AUTHOR_ID
     foreign_host = True
-    if "Foreign_host" in request.headers.keys():
+    print request.headers
+    if "Foreign_host" in request.headers:
         foreign_host = request.headers.get("Foreign_host")
         if foreign_host == "false":
             foreign_host = False
 
     fetched_author=getAuthor(param, foreign_host)
+    if fetched_author == None:
+        return getResponse(status_code=200)
+
     if fetched_author == {}:
         return getResponse(body={"status" : "NO_MATCH"}, status_code=200)
-    else:
+    elif fetched_author != None:
         fetched_author["status"] = "SUCCESS"
         return getResponse(body=fetched_author, status_code=200)
 
