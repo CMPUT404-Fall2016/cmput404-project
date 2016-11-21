@@ -25,7 +25,7 @@ APP_state["admin_credentials"] = None
 APP_state["shared_nodes"] = []
 APP_state["shared_nodes_images"] = []
 APP_state["shared_nodes_posts"] = []
-APP_state["pending_authors"] = []
+# APP_state["pending_authors"] = []
 APP_state["nodes_with_authentication"] = True
 
 def initAdmin():
@@ -68,7 +68,7 @@ def initServerObj():
 	server["server_id"] = uuid.uuid4().hex
 	server["IP"] = "http://127.0.0.1:5000"  
 	APP_state["no_servers"] += 1
-	server["server_index"] = 1
+	server["server_index"] = 0
 	myServer=Servers(server)
 	APP_state['local_server_Obj'] = myServer
 	db.session.add(myServer)

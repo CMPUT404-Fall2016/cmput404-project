@@ -10,6 +10,11 @@ class Servers(db.Model):
     
     server_index = db.Column(db.Integer, unique=True)
 
+    shareWith = db.Column(db.Boolean)
+
+    shareWith_images = db.Column(db.Boolean)
+
+    shareWith_posts = db.Column(db.Boolean)
 
     def __new__(cls, datum=None):
 
@@ -51,5 +56,13 @@ class Servers(db.Model):
         self.server_id = datum['server_id']
         self.IP = datum['IP']
         self.server_index = datum['server_index']
+        if "shareWith" in datum:
+            self.shareWith = datum["shareWith"]
+
+        if "shareWith_images" in datum:
+            self.shareWith_images = datum["shareWith_images"]
+
+        if "shareWith_posts" in datum:
+            self.shareWith_posts = datum["shareWith_posts"]
 
 
