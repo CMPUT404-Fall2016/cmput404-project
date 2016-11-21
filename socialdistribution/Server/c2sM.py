@@ -180,7 +180,7 @@ class AuthorToAuthorPost(Resource):
 
             	data = handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id)
 
-            if selected_post == []:
+            if data == []:
                 return "status : NO_MATCH", 200
             else:
                 for entry in data:
