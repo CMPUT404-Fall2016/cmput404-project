@@ -74,6 +74,7 @@ $("#profile").click( function(e) {
 $(document).ready(function() {
                   //var myauthorid = getFriendcookieid();
                   var myauthorid = localStorage.getItem("fetch-author-id");
+                  console.log(localStorage.getItem("fetch-author-id"));
                   
                   
                   if (myauthorid == getCookieid()) {
