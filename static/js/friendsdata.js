@@ -91,7 +91,6 @@ $(document).ready(function() {
 //                           console.log(events.friends[0]);
 //                           console.log(">>>");
                     for(var i=0; i < events.friends.length; ++i) {
-                           //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
                            var friendsTemplate = document.getElementById('friends-container');
                            friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
                            friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;

@@ -72,7 +72,14 @@ $("#profile").click( function(e) {
                     });
 
 $(document).ready(function() {
-                  var myauthorid = getFriendcookieid();
+                  //var myauthorid = getFriendcookieid();
+                  var myauthorid = localStorage.getItem("fetch-author-id");
+                  
+                  
+                  if (myauthorid == getCookieid()) {
+                    window.location.href = "profilepage.html";
+                  }
+                  
     //var myauthorid = localStorage.getItem("fetch-author-id");
 
 
@@ -132,7 +139,7 @@ $(document).ready(function() {
 $("#posttabs").click(function(e) {
   e.preventDefault();
   var authorpid = getFriendcookieid();
-  var authorpostlink = "service/author/" + authorpid + "/posts";
+  var authorpostlink = "/author/" + authorpid + "/posts";
 
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");

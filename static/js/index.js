@@ -24,9 +24,12 @@ $("#post-submit").click(function(e) {
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
-  sendAJAX("POST", "/service/posts", postData, null);
+                        sendAJAX("POST", "/posts", postData, function(result) {
+                                 console.log(result);
+                                 location.reload();
+                                 });
   // done with request, reload
-  window.location.reload();
+//  window.location.reload();
 });
 
 // searches cookies for a github_username
@@ -46,7 +49,7 @@ function getGithubUsername() {
 $(document).ready(function() {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
-  sendAJAX("GET", "service/author/posts", "", function(posts) {
+  sendAJAX("GET", "/author/posts", "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
@@ -57,7 +60,9 @@ $(document).ready(function() {
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      $(authorBtn).data("post-author-id", posts[i].author_id);
+      //$(authorBtn).data("post-author-id", posts[i].author_id);
+           authorBtn.setAttribute("post-author-id", posts[i].author_id);
+           console.log(authorBtn);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
       // $(commentsBtn).data("post-host", posts[i].author.host);
@@ -83,7 +88,7 @@ $(document).ready(function() {
     $(".post-author").click(function(e) {
       e.preventDefault();
       // set this for authorpage to use
-      localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
+      localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
       window.location.href = "authorpage.html";
     });
   });

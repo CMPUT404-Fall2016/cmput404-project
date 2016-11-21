@@ -102,7 +102,7 @@ class RestHandlers():
 
 		#First step is determine the relationship of the two authors
 		if(authenticatedUser == user_id):
-			posts = db.session.query(Posts).filter(Points.author_id == user_id).all()
+			posts = db.session.query(Posts).filter(Posts.author_id == user_id).all()
 		else:
 			friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == authenticatedUser, Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
 

@@ -5,7 +5,7 @@ var postList = document.getElementById("posts"),
 
 // get all the public posts on the server
 $(document).ready(function() {
-  sendAJAX("GET", "/service/posts", "", function(posts) {
+  sendAJAX("GET", "/posts", "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
@@ -14,8 +14,9 @@ $(document).ready(function() {
       postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
 
       // attach data to the links so it can be referenced when clicked
-      var authorBtn = postTemplate.content.querySelector(".post-author");
-      $(authorBtn).data("post-author-id", posts[i].author_id);
+           var authorBtn = postTemplate.content.querySelector(".post-author");
+           //$(authorBtn).data("post-author-id", posts[i].author_id);
+           authorBtn.setAttribute("post-author-id", posts[i].author_id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
       // $(commentsBtn).data("post-host", posts[i].author.host);
@@ -31,7 +32,7 @@ $(document).ready(function() {
     $(".post-author").click(function(e) {
     	e.preventDefault();
     	// set this for authorpage to use
-    	localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
+    	localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
     	window.location.href = "authorpage.html";
     });
 
