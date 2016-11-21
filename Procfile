@@ -1,1 +1,1 @@
-web: gunicorn socialdistribution/main:app
+web: gunicorn socialdistribution.main:app
