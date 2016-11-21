@@ -2,6 +2,7 @@ from db import db
 from Model.Authors import Authors
 from Model.Servers import Servers
 from model import *
+import uuid
 
 class Friend_Requests(db.Model):
 

@@ -67,6 +67,12 @@ function getFriendcookieid() {
 
 //$(document).ready(function() {
 
+$("#profiletab").click(function(e) {
+                    e.preventDefault();
+                    document.getElementById("posts").innerHTML = "";
+                    
+                    });
+
 $("#posttab").click(function(e) {
 
   e.preventDefault();
@@ -80,7 +86,7 @@ $("#posttab").click(function(e) {
                     var postList = document.getElementById("posts");
                     var postTemplate = document.getElementById("post-container");
                     // page=<Page_No>&size=<Page_Zize>
-                    sendAJAX("GET", myprofileposts, "", function(posts) {
+                    sendAJAX("GET", "service/author/posts", "", function(posts) {
                              for(var i=0; i < posts.length; ++i) {
                              // fill the container with details
                              postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
@@ -130,9 +136,9 @@ $("#posttab").click(function(e) {
                                                     localStorage.setItem("delete-post-id", $(this).data("this-post-id"))
                                                     
                                                     var thispostid = localStorage.getItem("delete-post-id");
-                                                    var deletepostlink = "/deleteposts/" + thispostid;
+                                                    var deletepostlink = "service/posts/ " + thispostid;
                                                     
-                                                    sendAJAX("GET", deletepostlink, "", function(result) {
+                                                    sendAJAX("DELETE", deletepostlink, "", function(result) {
                                                              console.log(result);
                                                     });
                               });

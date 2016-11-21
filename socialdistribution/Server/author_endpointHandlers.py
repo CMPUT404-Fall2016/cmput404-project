@@ -45,7 +45,7 @@ def isFriend(param):
   return False
 
 
-def fetchRemoteAuthor(param):
+def fetchForeignAuthor(param):
 
     """
     param['id'] = author_id
@@ -106,7 +106,7 @@ def getFriendList(param):
                 friend['displayName'] = "User Not found locally"
 
         else:
-            author = fetchRemoteAuthor(friend)
+            author = fetchForeignAuthor(friend)
             if author != None :
                 friend['displayName'] = author['displayName']
             else:
@@ -324,7 +324,7 @@ def getFriendRequestList(param):
             friend['id'] = FR.fromAuthor_id
             friend['host'] = host_name
             friend['url'] = friend['host'] + '/author/' + friend['id'] 
-            author = fetchRemoteAuthor(friend)
+            author = fetchForeignAuthor(friend)
             if author != None :
                 FR.fromAuthorDisplayName = author['displayName']
             else:
@@ -503,8 +503,20 @@ def beFriend(param):
     return True
 
 
+def searchForeignAuthor(author_id):
+    servers = db.session.query(Servers).filter(Servers.server_index > 0).all()
+    for server in servers:
+        if server.shareWith == True:        
+            param = {}
+            param['id'] = author_id
+            param['url'] = server.IP + '/author/' + author_id
+            author = fetchForeignAuthor(param)
+            if author != None:
+                return author
 
-def getAuthor(param):
+    return author
+
+def getAuthor(param, foreign_host):
 
     """
     This will be called in response to :
@@ -515,6 +527,9 @@ def getAuthor(param):
     param["author"] = author_id
     param["local_server_Obj"] = local server obj
     """
+
+    if foreign_host == True:
+      return searchForeignAuthor(param["author"])
 
     query_results = {}
     final_results = []
@@ -540,7 +555,7 @@ def getAuthor(param):
             query_results["displayName"] = author.name
             query_results["bio"] = author.bio
             query_results["friends"] = getFriendList(param)
-            query_results["github_username"] = author.github_id
+            query_results["githubUsername"] = author.github_id
             final_results.append(query_results)
 
     if "author_name" in param.keys():

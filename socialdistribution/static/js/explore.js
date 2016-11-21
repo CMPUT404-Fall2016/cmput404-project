@@ -30,7 +30,6 @@ $(document).ready(function() {
     // and link the user to the author's profile
     $(".post-author").click(function(e) {
     	e.preventDefault();
-    	console.log("clicked author");
     	// set this for authorpage to use
     	localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
     	window.location.href = "authorpage.html";

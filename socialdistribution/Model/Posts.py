@@ -3,6 +3,7 @@
 from db import db
 from Authors import *
 from model import *
+import uuid
 
 class Posts(db.Model):
     

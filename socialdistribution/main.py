@@ -86,6 +86,9 @@ class ImageView(ModelView):
 class URLView(ModelView):
     can_create = True
 
+class ServerView(ModelView):
+    can_create = True
+
 class Back(BaseView):
     @expose('/')
     def index(self):
@@ -111,6 +114,7 @@ admin = Admin(app, name='Example: Admin', template_mode='bootstrap3')
 admin.add_view(UserView(Authors, db.session))
 admin.add_view(PostView(Posts, db.session))
 admin.add_view(ImageView(Images, db.session))
+admin.add_view(ServerView(Servers, db.session))
 admin.add_view(SettingView(name='Settings', endpoint='/admin_settings.html'))
 
 admin.add_view(Back(name='Back', endpoint='back'))
@@ -344,7 +348,11 @@ def FetchAuthor(AUTHOR_ID):
     param = {}
     print AUTHOR_ID
     param["author"] = AUTHOR_ID
-    fetched_author=getAuthor(param)
+    foreign_host = True
+    if "Foreign_host" in request.headers:
+        foreign_host = request.headers.get("Foreign_host")
+
+    fetched_author=getAuthor(param, foreign_host)
     if fetched_author == {}:
         return getResponse(body={"status" : "NO_MATCH"}, status_code=200)
     else:
@@ -648,14 +656,14 @@ def admin_settings_helper():
     for node in APP_state["shared_nodes_images"]:
         shared_nodes_images = shared_nodes_images + '[' + node + ']'
 
-    index = 0
-    for author in APP_state['pending_authors']:
-        author['webID'] = "element_3_" + str(index)
-        author['value'] = str(index)
-        pending_authors.append(author)
-        index += 1
+    # index = 0
+    # for author in APP_state['pending_authors']:
+    #     author['webID'] = "element_3_" + str(index)
+    #     author['value'] = str(index)
+    #     pending_authors.append(author)
+    #     index += 1
 
-    return [pending_authors, shared_nodes, shared_nodes_posts, shared_nodes_images]
+    return [shared_nodes, shared_nodes_posts, shared_nodes_images]
 
 
 def init_admin():
@@ -689,7 +697,7 @@ def admin_settings():
         This leads to the admin settings form page
     """
     method_action = APP_state["local_server_Obj"].IP + '/settings'
-    [pending_authors, shared_nodes, shared_nodes_posts, shared_nodes_images]=admin_settings_helper()
+    [shared_nodes, shared_nodes_posts, shared_nodes_images]=admin_settings_helper()
     checked = None
     if APP_state["nodes_with_authentication"]:
         checked = "checked"
@@ -697,7 +705,7 @@ def admin_settings():
 
     # print shared_nodes
     return render_template("admin_form.html",
-                            users=pending_authors,
+                            users=[],
                             action_endpoint = method_action,
                             shared_nodes = shared_nodes,
                             shared_nodes_images = shared_nodes_images,
@@ -745,8 +753,23 @@ def updateSettings(dict):
     else:
         APP_state["shared_nodes_images"] = []
 
-    parseAuthors(dict)
+    updateForeignHosts()
+    # parseAuthors(dict)
 
+
+def updateForeignHosts():
+    for host in APP_state["shared_nodes"]:
+        servers = db.session.query(Servers).filter(Servers.IP == host).all()
+        if len(servers) == 0:
+            param = {}
+            param["server_id"] = uuid.uuid4().hex
+            param["IP"] = host
+            param["server_index"] = APP_state["no_servers"]
+            APP_state["no_servers"] += 1
+            server = Servers(param)
+            db.session.add(server)
+
+    db.session.commit()
 
 def parseAuthors(dict):
 
@@ -801,7 +824,7 @@ api.add_resource(AuthorToAuthorPost, '/service/author/<string:author_id>/posts')
 api.add_resource(Comment, '/service/posts/<string:post_id>/comments')
 
 if __name__ == "__main__":
-    init_admin()
+    # init_admin()
     #app.run(debug=True)
     # print "HOST IS: ", request.host
     http_server = WSGIServer(('', 5000), app)

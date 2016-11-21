@@ -1,5 +1,6 @@
 from db import db
 from Posts import *
+import uuid
 
 class Comments(db.Model):
     
