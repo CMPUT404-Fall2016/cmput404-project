@@ -96,7 +96,7 @@ $(document).ready(function() {
                            mypTemplate.content.querySelector("#profilehost").textContent = result.host;
                            
                            mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-                           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_id;
+                           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.github_username;
                            
                            var normalContent = document.getElementById('profile');
                            
@@ -133,21 +133,21 @@ $(document).ready(function() {
                            });
 });
 
-$("#saveprofilechange").click(function (e) {
-
-      e.preventDefault();
-      var editprofiledata = {}
-      editprofiledata["name"] = editprofiledata.elements["displayName"].value;
-      editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
-      editprofiledata["bio"] = editprofiledata.elements["bio"].value;
-      
-      sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
-               
-               
-               
-      });
-                              
-});
+//$("#saveprofilechange").click(function (e) {
+//
+//      e.preventDefault();
+//      var editprofiledata = {}
+//      editprofiledata["name"] = editprofiledata.elements["displayName"].value;
+//      editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
+//      editprofiledata["bio"] = editprofiledata.elements["bio"].value;
+//      
+//      sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
+//               
+//               
+//               
+//      });
+//                              
+//});
 
 
 function afriendone() {

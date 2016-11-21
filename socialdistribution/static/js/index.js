@@ -36,17 +36,18 @@ $(document).ready(function() {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
-  sendAJAX("GET", "author/posts", "", function(posts) {
+  sendAJAX("GET", "service/author/posts", "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
       // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-      postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
-      postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+      // postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
+      postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
+      postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      $(authorBtn).data("post-author", posts[i].author.id);
+      $(authorBtn).data("post-author", posts[i].author_id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
       // $(commentsBtn).data("post-host", posts[i].author.host);

@@ -9,7 +9,7 @@ from Server.author_endpointHandlers import *
 import urlparse
 from Server.pch import * 
 from Server.c2sM import *
-
+from gevent.wsgi import WSGIServer
 
 # admin stuff -----------------------------------
 from flask_admin import Admin, BaseView, expose
@@ -793,9 +793,10 @@ api.add_resource(Comment, '/service/posts/<string:post_id>/comments')
 
 if __name__ == "__main__":
     init_admin()
-    app.run(debug=True)
+    #app.run(debug=True)
     # print "HOST IS: ", request.host
-
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
 
 
 
