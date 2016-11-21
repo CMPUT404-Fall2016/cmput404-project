@@ -63,6 +63,7 @@ $(document).ready(function() {
       // $(commentsBtn).data("post-host", posts[i].author.host);
       $(commentsBtn).data("post-id", posts[i].id);
 
+      // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
       postList.appendChild(clone);
     }
