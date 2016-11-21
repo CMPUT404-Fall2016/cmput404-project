@@ -50,7 +50,9 @@ $(document).ready(function() {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
   sendAJAX("GET", "/author/posts", "", function(posts) {
+           console.log(posts);
     for(var i=0; i < posts.length; ++i) {
+           //console.log(posts);
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
       // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
@@ -62,11 +64,13 @@ $(document).ready(function() {
       var authorBtn = postTemplate.content.querySelector(".post-author");
       //$(authorBtn).data("post-author-id", posts[i].author_id);
            authorBtn.setAttribute("post-author-id", posts[i].author_id);
-           console.log(authorBtn);
+           //console.log(authorBtn);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
       // $(commentsBtn).data("post-host", posts[i].author.host);
-      $(commentsBtn).data("post-id", posts[i].id);
+      //$(commentsBtn).data("post-id", posts[i].id);
+           commentsBtn.setAttribute("post-comment-id", posts[i].post_id);
+           console.log(commentsBtn);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
@@ -79,7 +83,7 @@ $(document).ready(function() {
       e.preventDefault();
       // set this for later
       // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
-      localStorage.setItem("fetch-post-id", $(this).data("post-id"));
+      localStorage.setItem("fetch-post-id", $(this).attr("post-comment-id"));
       window.location.href = "post.html";
     });
 
