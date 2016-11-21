@@ -1,6 +1,7 @@
 from db import db
 from Posts import Posts;
 from Comments import Comments
+import uuid
 
 class Images(db.Model):
 

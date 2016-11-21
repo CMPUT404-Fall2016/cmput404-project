@@ -1,4 +1,5 @@
 from db import db
+import uuid
 
 class Servers(db.Model):
 
