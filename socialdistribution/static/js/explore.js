@@ -14,7 +14,7 @@ $(document).ready(function() {
       postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
 
       // attach data to the links so it can be referenced when clicked
-      var authorBtn = postTemplate.content.querySelector(".post-author-url");
+      var authorBtn = postTemplate.content.querySelector(".post-author");
       $(authorBtn).data("post-author-id", posts[i].author_id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");

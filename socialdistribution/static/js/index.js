@@ -20,8 +20,11 @@ $("#post-submit").click(function(e) {
     postData["image"] = reader.result;
     console.log(JSON.stringify(postData));
   }, false);
-  reader.readAsDataURL(postForm.elements["image"].files[0]);
-  // sendAJAX("POST", "/service/posts", postData, null);
+
+  if (postForm.elements["image"].files[0]) {
+    reader.readAsDataURL(postForm.elements["image"].files[0]);
+  }
+  sendAJAX("POST", "/service/posts", postData, null);
   // done with request, reload
   // window.location.reload();
 });
@@ -54,7 +57,7 @@ $(document).ready(function() {
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      $(authorBtn).data("post-author", posts[i].author_id);
+      $(authorBtn).data("post-author-id", posts[i].author_id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
       // $(commentsBtn).data("post-host", posts[i].author.host);
@@ -71,16 +74,16 @@ $(document).ready(function() {
       // set this for later
       // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
       localStorage.setItem("fetch-post-id", $(this).data("post-id"));
-      window.location.href("post.html")
+      window.location.href = "post.html";
     });
 
     // bind the onclick to set author id in localStorage
     // and link the user to the author's profile
-    $(".post-author-url").click(function(e) {
+    $(".post-author").click(function(e) {
       e.preventDefault();
       // set this for authorpage to use
       localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
-      window.location.href("authorpage.html")
+      window.location.href = "authorpage.html";
     });
   });
 });
