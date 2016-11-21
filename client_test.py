@@ -133,9 +133,10 @@ class Test_CS_API(unittest.TestCase):
 
 
     def sample_FetchAuthor(self):
-        
+
+        headers = {'Foreign_host': 'false'}        
         url = self.serverURL + "/author/"+ author1_log["author_id"]
-        req1 = requests.Request('GET', url)
+        req1 = requests.Request('GET', url, headers)
         prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
         resp = self.s.send(prepp1)
@@ -181,7 +182,7 @@ class Test_CS_API(unittest.TestCase):
         assert(body['displayName'] == author1_reg['name'])
         assert(body['url'] == (URL+'/author/'+author1_log['author_id']))
         assert(len(body['friends']) == 0)
-        assert(body['github_username'] == author1_edit['github_id'])
+        assert(body['githubUsername'] == author1_edit['github_id'])
         assert(body['bio'] == author1_edit['bio'])
 
 
