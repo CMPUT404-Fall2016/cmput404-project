@@ -608,7 +608,11 @@ def userLogin(param):
     else :
         author = results[0]
         if author.password == password:
-            return serializeAuthors([author])[0]
+            if author.authorized == True:
+                return serializeAuthors([author])[0]
+            else:
+                return "NOT_AUTHORIZED"
+
         else:
             return "NO_MATCH"
 

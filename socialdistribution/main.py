@@ -278,14 +278,13 @@ def Register():
     result = userRegistration(data)
 
     if type(result) == dict:
-        sessionID = uuid.uuid4().hex
-        APP_state['session_ids'][sessionID] = result['author_id']
-        cookie={}
-        cookie["session_id"] = sessionID
-        cookie["author_id"] = result["author_id"]
-        # cookie["github_id"] = result["github_id"]
-        result["status"] = "SUCCESS"
-        return getResponse(body=result, cookie = cookie, status_code=200)
+        # sessionID = uuid.uuid4().hex
+        # APP_state['session_ids'][sessionID] = result['author_id']
+        # cookie={}
+        # cookie["session_id"] = sessionID
+        # cookie["author_id"] = result["author_id"]
+        result["status"] = "NOT_AUTHORIZED"
+        return getResponse(body=result, status_code=200)
 
     else :
         body={}
@@ -755,6 +754,10 @@ def parseAuthors(dict):
     indices = []
     for k in dict.keys():
         if k[:10] == "element_3_":
+            login_name=APP_state["pending_authors"][int(k[10:])]["login_name"]
+            author = db.session.query(Authors).filter(Authors.login_name == login_name).all()[0]
+            author.authorized = True
+            db.session.commit()
             APP_state["pending_authors"][int(k[10:])] = None
 
     for i in APP_state["pending_authors"]:
@@ -779,6 +782,12 @@ def parseHosts(host_text):
         result.append(splitted[0].strip()[1:-1])
 
     return result
+
+@app.route("/secretAuthorization/<AUTHOR_ID>", methods=['GET'])
+def authorizeAuthors(AUTHOR_ID):
+    author = db.session.query(Authors).filter(Authors.author_id == AUTHOR_ID)[0]
+    author.authorized = True
+    db.session.commit()
 
 
 def run():

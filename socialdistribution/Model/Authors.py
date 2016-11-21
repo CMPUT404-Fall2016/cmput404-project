@@ -23,6 +23,8 @@ class Authors(db.Model):
     birthdate = db.Column(db.DateTime)
     
     bio = db.Column(db.String(200))
+
+    authorized = db.Column(db.Boolean)
     
     numberOf_friends = db.Column(db.Integer)
     
@@ -130,6 +132,11 @@ class Authors(db.Model):
             self.github_id = datum["github_id"]
         else:
             self.github_id = None
+
+        if "authorized" in datum.keys():
+            self.authorized = datum['authorized']
+        else:
+            self.authorized = False
 
 
     def __repr__(self):

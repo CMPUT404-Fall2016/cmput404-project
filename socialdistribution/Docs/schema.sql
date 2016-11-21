@@ -76,6 +76,7 @@ CREATE TABLE Authors
     birthdate date,
     bio varchar(200),
     github_id varchar(200),
+    authorized boolean,
     numberOf_friends int,
     numberOf_followers int,
     numberOf_followees int,
