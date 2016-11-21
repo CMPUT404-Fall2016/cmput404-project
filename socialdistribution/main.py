@@ -349,8 +349,10 @@ def FetchAuthor(AUTHOR_ID):
     print AUTHOR_ID
     param["author"] = AUTHOR_ID
     foreign_host = True
-    if "Foreign_host" in request.headers:
+    if "Foreign_host" in request.headers.keys():
         foreign_host = request.headers.get("Foreign_host")
+        if foreign_host == "false":
+            foreign_host = False
 
     fetched_author=getAuthor(param, foreign_host)
     if fetched_author == {}:
