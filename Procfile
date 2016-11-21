@@ -1,1 +1,1 @@
-web: gunicorn —pythonpath socialdistribution main:app
+web: gunicorn socialdistribution/main:app
