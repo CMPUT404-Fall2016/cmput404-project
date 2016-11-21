@@ -121,14 +121,14 @@ class All_Post(Resource):
                 post["view_permission"]= perm
 				
                 if handler.make_post(post):
-                    return {"query" : "post a post", "success" : "true", "message" : "Post created"}
+                    return {"query" : "addPost", "success" : "true", "message" : "Post created"}
                 else:
-                    return {"query"	: "post a post", "success" : "failure", "message" : "Fail to create post"}
+                    return {"query"	: "addPost", "success" : "false", "message" : "Fail to create post"}
 
             else:
-                return "SESSION_ERROR_Inner", 403
+                return "Invalid Session", 403
         else:
-            return "SESSION_ERROR", 403
+            return "No Session", 403
 
 
 class AuthorPost(Resource):
@@ -242,14 +242,17 @@ class Comment(Resource):
                 comment["author_id"] = data["author_id"]
                 comment["comment_text"] = data["comment_text"]
 
-
-                return handler.make_comment(comment), 201
+                if handler.make_comment(comment):
+                    return {"query" : "addComment", "success" : "true", "message" : "Comment created"}
+                else:
+                    return {"query"	: "addComment", "success" : "false", "message" : "Fail to create comment"}
 
         else:
             return "SESSION_ERROR", 403
 
 
 '''
+
 class Edit_Post(Resource):
 
     def post(self, post_id):

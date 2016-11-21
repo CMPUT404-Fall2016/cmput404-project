@@ -823,11 +823,11 @@ def run():
     app.run(debug=True)
 
 
-api.add_resource(Post, '/service/posts/<string:post_id>')
-api.add_resource(All_Post, '/service/posts')
-api.add_resource(AuthorPost, '/service/author/posts')
-api.add_resource(AuthorToAuthorPost, '/service/author/<string:author_id>/posts')
-api.add_resource(Comment, '/service/posts/<string:post_id>/comments')
+api.add_resource(Post, '/posts/<string:post_id>')
+api.add_resource(All_Post, '/posts')
+api.add_resource(AuthorPost, '/author/posts')
+api.add_resource(AuthorToAuthorPost, '/author/<string:author_id>/posts')
+api.add_resource(Comment, '/posts/<string:post_id>/comments')
 
 if __name__ == "__main__":
     # init_admin()
