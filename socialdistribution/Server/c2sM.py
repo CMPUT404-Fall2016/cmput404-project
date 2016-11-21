@@ -221,7 +221,7 @@ class Comment(Resource):
                               })
                 return jsonify(rt) #, 200
                 #return json.dumps(rt), 200
-            return "nothing"
+            return []
 
         else:
             return "SESSION_ERROR", 403
@@ -252,7 +252,6 @@ class Comment(Resource):
 
 
 '''
-
 class Edit_Post(Resource):
 
     def post(self, post_id):
@@ -302,29 +301,4 @@ class Edit_Post(Resource):
 
             print 'WARNING! "session_id" field is not found inside cookie!'
             return "status : CLIENT_FAILURE", 200
-'''
-
-
-
-
-
-
-'''
-if __name__ == '__main__':
-	for i in range(1, 55):
-		currentTime = datetime.now()
-		post = {}
-		post["author_id"] = i
-		post["title"] = "test" + str(i)
-		post["text"]="TEXT" + str(i)
-		post["view_permission"]=random.randint(1, 5)
-		post["post_type"]=1
-		post["numberOf_comments"]=0
-		post["numberOf_URL"]=0
-		post["numberOf_images"]=0
-		post["images"] = []
-		post["images"].append(os.urandom(100000))
-		handler.make_post(post)
-
-	app.run(debug=True)
 '''

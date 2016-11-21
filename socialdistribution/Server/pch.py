@@ -44,25 +44,45 @@ class RestHandlers():
 		friends = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == authenticatedUser, Author_Relationships.relationship_type == 3).all()
 		friends2 = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == authenticatedUser, Author_Relationships.relationship_type == 3).all()
 
-		#firend AND/OR public 
+		#firends 
 		rtl = []
+		fofr = []
+		fof = set()
 		for friend in friends:
 			rtl = db.session.query(Posts).filter(Posts.author_id == friend.author2_id, Posts.view_permission == 3).all()	
+			fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == friend.author2_id, Author_Relationships.relationship_type== 3).all()
+
+			for ele in fofr:
+				fof.add(ele.author2_id)			
+
+			fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == friend.author2_id, Author_Relationships.relationship_type== 3).all()
+		
+			for ele in fofr:
+				fof.add(ele.author1_id)
+
 		for friend in friends2:
 			rtl += db.session.query(Posts).filter(Posts.author_id == friend.author1_id, Posts.view_permission == 3).all()	
-		
+			fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == friend.author1_id, Author_Relationships.relationship_type== 3).all()
+			for ele in fofr:
+				fof.add(ele.author2_id)			
+
+			fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == friend.author1_id, Author_Relationships.relationship_type== 3).all()
+			for ele in fofr:
+				fof.add(ele.author1_id)
+
+	
 		#self posts exclude public ones
 		rtl += db.session.query(Posts).filter(Posts.author_id == authenticatedUser, Posts.view_permission != 1).all()	
 
+		#friend of friend
+		for ele in fof:
+			if ele != authenticatedUser:
+				rtl += db.session.query(Posts).filter(Posts.author_id == ele, Posts.view_permission == 4).all()
+		
 		#all public ones
 		rtl += db.session.query(Posts).filter(Posts.view_permission == 1).all()	
 
-		#Todos
-			#friend of friend
-			#restrict to one user
-		
 
-		#public post exclude self's
 		posts = self.sort_posts(rtl)	
 		rtl = []
 		for post in posts:
@@ -91,13 +111,23 @@ class RestHandlers():
 
 			#Get the user's public post
 			rtl = db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 1).all()	
+			fof = set()
 			if friendship:
 				#they are friends
 				rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 3).all()	
-			
-			#Todo:
+				fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
+				for ele in fofr:
+					fof.add(ele.author2_id)											
+
+				fofr += db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
+				for ele in fofr:
+					fof.add(ele.author1_id)											
+
 			#Friend of Friend
-			#Private to specific user 
+			for ele in fof:
+				if ele != authenticatedUser:
+					rtl += db.session.query(Posts).filter(Posts.author_id == ele, Posts.view_permission == 4).all()
+
 			posts = rtl
 
 		rtl = []
@@ -239,7 +269,7 @@ class RestHandlers():
 				img =	{	
 								"image_id"	:	uuid.uuid4().hex, #Need to change to self generated uuid
 								"post_id"	:	data["post_id"],
-								"image"	:	image	#Do I need to decode to BLOB?
+								"image"	:	image	#Decode to BLOB from Base64 encoded string
 							}
 				db.session.add(Images(img))
 				db.session.commit()
