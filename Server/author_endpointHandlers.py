@@ -549,7 +549,8 @@ def getAuthor(param, foreign_host):
     
     else:
         for author in results:
-            param["local_server_Obj"] = APP_state['local_server_Obj']
+            # param["local_server_Obj"] = APP_state['local_server_Obj']
+            param["local_server_Obj"] = getLocalServer()
             param['author'] = author.author_id
             query_results["id"] = author.author_id
             query_results["host"] = APP_state['local_server_Obj'].IP
@@ -559,6 +560,7 @@ def getAuthor(param, foreign_host):
             query_results["friends"] = getFriendList(param)
             query_results["githubUsername"] = author.github_id
             final_results.append(query_results)
+            print "found author " + query_results["displayName"] + " id: " + query_results['id']
 
     if "author_name" in param.keys():
         return {"authors":final_results}
@@ -567,6 +569,8 @@ def getAuthor(param, foreign_host):
         return final_results[0]
 
 
+def getLocalServer():
+    return db.session.query(Servers).filter(Servers.server_index == 0).all()[0]
 
 def verifyAdmin(param):
     if APP_state['admin_credentials'] == None:
@@ -720,7 +724,9 @@ def userRegistration(param):
     # datum["bio"]        = bio
     # datum["github_id"]  = github_id
 
+    datum["authorized"] = True
     new_author = Authors(datum)
+    print "newly created ID : " + datum["author_id"]
 
     try:
         db.session.add(new_author)

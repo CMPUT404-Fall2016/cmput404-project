@@ -379,10 +379,10 @@ def FetchAuthor(AUTHOR_ID):
     print AUTHOR_ID
     param["author"] = AUTHOR_ID
     foreign_host = True
-    print request.headers
-    if "Foreign_host" in request.headers:
-        foreign_host = request.headers.get("Foreign_host")
-        if foreign_host == "false":
+    # print list(request.headers.keys())
+    if "Foreign-Host" in list(request.headers.keys()):
+        foreign_host = request.headers.get("Foreign-Host")
+        if foreign_host.strip() == "false":
             foreign_host = False
 
     fetched_author=getAuthor(param, foreign_host)
@@ -712,11 +712,26 @@ def init_admin():
     APP_state["shared_nodes_images"] = ["http://3", "http://4"]
     APP_state["shared_nodes_posts"] = ["http://5", "http://6"]
 
-@app.route('/restart.html')
+@app.route('/restart')
 def restart():
-    init_admin()
-    return ""
+    # init_admin()
+    init_server()
+    if init_server() == True:
+        return "SUCCESS"
+    else:
+        return "FAILURE"
 
+
+def init_server():
+    global APP_state
+    servers = db.session.query(Servers).filter(Servers.server_index == 0).all()
+    server = None
+    if len(servers) != 0:
+        server = servers[0]
+        APP_state['local_server_Obj'] = server
+        return True
+
+    return False
 
 
 @app.route('/admin_settings.html')

@@ -82,7 +82,7 @@ $(document).ready(function() {
                   //var myauthorlink = "/author/52ec225c39b24d6896ffba3176e71a37";// + myauthorid;
                   var myauthorlink = "/author/" + myauthorid;
                    //console.log(myauthorlink);
-                  var headers = [["Foreign_host", "false"]];
+                  var headers = [["Foreign-Host", "false"]];
                   //sendAJAX("GET", myauthorlink, "", function(events) {
                   sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
                             
@@ -143,7 +143,7 @@ $(document).ready(function() {
 $("#reqtab").click(function(e) {
                    e.preventDefault();
                    
-                   var headers = [["Foreign_host", "false"]];
+                   var headers = [["Foreign-Host", "false"]];
                    //sendAJAX("GET", myauthorlink, "", function(events) {
                    
                  //  sendAJAX("GET", "/getFriendRequests", "", function(events) {
@@ -197,7 +197,7 @@ function acceptfriend() {
   
   console.log(acceptfrienddata);
   
-  var headers = [["Foreign_host", "false"]];
+  var headers = [["Foreign-Host", "false"]];
   
   sendAJAX2(headers, "POST", "acceptFriendRequest", acceptfrienddata, function(response) {
             //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
@@ -227,7 +227,7 @@ $("#fdtab").click(function(e) {
                   var myauthorlink = "/author/" + myauthorid;
                   console.log(myauthorlink);
                   
-                  var headers = [["Foreign_host", "false"]];
+                  var headers = [["Foreign-Host", "false"]];
                   //sendAJAX("GET", myauthorlink, "", function(events) {
                   sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
                   
@@ -318,7 +318,7 @@ function unfriendauthor() {
   unfrienddata["server_address"] = localStorage.getItem("fetch-unfriend-host");
   
                            console.log(unfrienddata);
-   var headers = [["Foreign_host", "false"]];
+   var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "POST", "/unFriend", unfrienddata, function(response) {
                            
                            //sendAJAX("POST", "/unFriend", unfrienddata, function(response) {

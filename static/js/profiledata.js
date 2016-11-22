@@ -105,7 +105,7 @@ $(document).ready(function() {
   //sendAJAX("GET",)
   
  
-                  var headers = [["Foreign_host", "false"]];
+                  var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
   //sendAJAX("GET", myprofilelink, "", function(result) {
 

@@ -20,6 +20,7 @@ author1["numberOf_friends"] = 0
 author1["numberOf_followers"] = 0  
 author1["numberOf_followees"] = 0  
 author1["numberOf_friendRequests"] = 0  
+author1["authorized"] = True
 
 author_empty={}
 
@@ -32,6 +33,7 @@ author2["github_id"]  = "stat3kk"
 author2["password"]   = "123456"
 author2["birthdate"]  = currentTime
 author2["bio"]        = "The king demands a turkey"
+author2["authorized"] = True
 
 author3={}
 author3["author_id"]  = "3"

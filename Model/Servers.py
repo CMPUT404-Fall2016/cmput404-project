@@ -7,7 +7,7 @@ class Servers(db.Model):
 
     server_id = db.Column(db.BigInteger, primary_key=True)
 
-    IP = db.Column(db.String(40), unique=True)
+    IP = db.Column(db.String(500), unique=True)
     
     server_index = db.Column(db.Integer, unique=True)
 
