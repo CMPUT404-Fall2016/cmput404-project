@@ -7,8 +7,8 @@ import uuid
 from model import *
 from Server.author_endpointHandlers import *
 import urlparse
-from Server.pch import * 
-from Server.c2sM import *
+#from Server.pch import * 
+#from Server.c2sM import *
 from gevent.wsgi import WSGIServer
 
 #http basic auth
