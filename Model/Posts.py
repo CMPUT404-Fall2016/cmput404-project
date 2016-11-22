@@ -9,7 +9,7 @@ class Posts(db.Model):
     
     __tablename__ = 'posts'
 
-    post_id = db.Column(db.String(33), primary_key=True, unique=True)
+    post_id = db.Column(db.String(33), primary_key=True)
     
     title = db.Column(db.String(64))
     

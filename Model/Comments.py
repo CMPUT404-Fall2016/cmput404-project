@@ -6,7 +6,7 @@ class Comments(db.Model):
     
     __tablename__ = 'comments'
     
-    comment_id = db.Column(db.String(33), primary_key=True, unique=True)
+    comment_id = db.Column(db.String(33), primary_key=True)
 
     author_id = db.Column(db.String(33))
 
