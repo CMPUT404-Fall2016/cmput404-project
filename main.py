@@ -376,7 +376,7 @@ def EditProfile():
 def FetchAuthor(AUTHOR_ID):
     
     param = {}
-    print AUTHOR_ID
+    print "Author ID : " + AUTHOR_ID
     param["author"] = AUTHOR_ID
     foreign_host = True
     # print list(request.headers.keys())
