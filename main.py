@@ -868,11 +868,12 @@ def run():
     app.run(debug=True)
 
 
-api.add_resource(Post, '/posts/<string:post_id>')
-api.add_resource(All_Post, '/posts')
-api.add_resource(AuthorPost, '/author/posts')
-api.add_resource(AuthorToAuthorPost, '/author/<string:author_id>/posts')
-api.add_resource(Comment, '/posts/<string:post_id>/comments')
+#api.add_resource(Post, '/posts/<string:post_id>')
+#api.add_resource(All_Post, '/posts')
+#api.add_resource(AuthorPost, '/author/posts')
+#api.add_resource(AuthorToAuthorPost, '/author/<string:author_id>/posts')
+#api.add_resource(Comment, '/posts/<string:post_id>/comments')
+
 # for i in range(1, 100):
 #     currentTime = datetime.now()
 #     post1 = {}
