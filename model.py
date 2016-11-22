@@ -81,7 +81,7 @@ def createDefaultAuthor():
 	db.session.add(defaultAuthor2)
 	db.session.commit()
 
-db.create_all()
+# db.create_all()
 # initServerObj()
 initAdmin()
 # createDefaultAuthor()
