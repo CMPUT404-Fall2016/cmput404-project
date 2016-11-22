@@ -51,6 +51,7 @@ $(document).ready(function() {
   
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
+                  console.log(myauthorlink);
   var headers = [["Foreign-Host", "false"]];
   //sendAJAX("GET", myauthorlink, "", function(events) {
   sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
