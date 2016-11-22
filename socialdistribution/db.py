@@ -5,8 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 # from yourapplication.database import db_session
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://' # In memory DB
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://' # In memory DB
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DB/tables.db' # relative path
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite' # In memory DB
 db = SQLAlchemy(app)
 # db.create_all()
 
