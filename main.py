@@ -716,7 +716,10 @@ def init_admin():
 def restart():
     # init_admin()
     init_server()
-    return ""
+    if init_server() == True:
+        return "SUCCESS"
+    else:
+        return "FAILURE"
 
 
 def init_server():
@@ -725,6 +728,9 @@ def init_server():
     if len(servers) != 0:
         server = servers[0]
         APP_state['local_server_Obj'] = server
+        return True
+
+    return False
 
 
 @app.route('/admin_settings.html')
