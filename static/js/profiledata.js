@@ -58,13 +58,6 @@ function getFriendcookieid() {
   return "";
 }
 
-
-//function editauthorpage() {
-//  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-//  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-//  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-//}
-
 function sendAJAX2(headers, method, url, message, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open(method, url);
@@ -95,17 +88,12 @@ $(document).ready(function() {
 
                   
   //var myauthorid = getCookieid();
-  var myauthorid =localStorage.getItem("author_id");
+  var myauthorid = localStorage.getItem("author_id");
   var mypTemplate = document.getElementById('profiledatas');
   
-  //var friendauthorid = getFriendcookieid();
-  
   var myprofilelink = "/author/" + myauthorid;
-  //var thisauthorlink = "/author/" + getFriendcookieid();
-  //sendAJAX("GET",)
-  
  
-                  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
   //sendAJAX("GET", myprofilelink, "", function(result) {
 
@@ -135,7 +123,6 @@ $(document).ready(function() {
           
            
            document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-           //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
            document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
            
            document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
@@ -147,7 +134,7 @@ $(document).ready(function() {
                   
 });
 
-
+// Change the values in edit profile tab
 $("#editprofilebtn").click(function (e) {
                            e.preventDefault();
                            
@@ -159,10 +146,7 @@ $("#editprofilebtn").click(function (e) {
                            });
 
 
-//$("#saveprofilechange").click(function (e) {
-
-                              //e.preventDefault();
-
+// Save the change made by user
 function saveprofilechange() {
 
                               var editprofiledata = {}
@@ -173,10 +157,6 @@ function saveprofilechange() {
   localStorage.setItem("github_username", document.getElementById("pgitid").value);
                               sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
                                        console.log(response);
-//                                       console.log("edited?");
-//                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-//                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-//                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
                                        localStorage.setItem("display_name", document.getElementById("pdn").value)
                                        window.location.reload();
                                        
@@ -186,35 +166,5 @@ function saveprofilechange() {
                               
                               
                               }
-
-
-
-////$("#addfriendbtn").click(function(e) {
-//function afriendone(fn) {
-//  var myuserid = getCookieid();
-//  
-//  var myinfostuff = "/author/" + myuserid;
-//  sendAJAX("GET", myinfostuff, "", function(result) {
-//           //console.log(result);
-//           //var myid = result.id;
-//           var myhost = result.host;
-//           //console.log(result.host)
-//           //console.log(myhost);
-//           var mydisplayname = result.displayName;
-//           fn(result);
-//           //return myhost, mydisplayname;
-//    });
-//}
-//
-//afriendone(function(result) {
-//           console.log("hello");
-//           console.log(result);
-//           var myhost = result.host;
-//           //console.log(result.host)
-//           //console.log(myhost);
-//           var mydisplayname = result.displayName;
-//  });
-//
-//
 
 
