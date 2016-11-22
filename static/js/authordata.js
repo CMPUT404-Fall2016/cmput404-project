@@ -95,7 +95,7 @@ $(document).ready(function() {
 
                   console.log("here");
                   
-                  var headers = [["Foreign_host", "false"]];
+                  var headers = [["Foreign-Host", "false"]];
                   sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
     //sendAJAX("GET", myprofilelink, "", function(result) {
              console.log("here");
@@ -193,7 +193,7 @@ function afriendone() {
 
   var myinfostuff = "/author/" + myuserid;
   
-  var headers = [["Foreign_host", "false"]];
+  var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "GET", myinfostuff, "", function(result) {
   //sendAJAX("GET", myinfostuff, "", function(result) {
     //console.log(result);
@@ -208,7 +208,7 @@ function afriendone() {
     var friendid = getFriendcookieid();
     var getfriendinfo = "/author/" + friendid;
 
-    var headers = [["Foreign_host", "false"]];
+    var headers = [["Foreign-Host", "false"]];
     sendAJAX2(headers, "GET", getfriendinfo, "", function(result2) {
     //sendAJAX("GET", getfriendinfo, "", function(result2) {
       //console.log(result);
