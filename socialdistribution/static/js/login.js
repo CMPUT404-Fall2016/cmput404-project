@@ -35,7 +35,7 @@ $("#create-btn").click(function (e) {
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {
       login(response);
-           
+
     } else if (response["status"] == "NOT_AUTHORIZED") {
            alert("Awaiting admin authorization");
            window.location.reload();
@@ -54,7 +54,7 @@ $("#create-btn").click(function (e) {
 function login(data) {
   localStorage.setItem("author_id", data["author_id"]);
   localStorage.setItem("display_name", data["name"]);
-  // localStorage.setItem(github_username, data["github_username"]);
+  localStorage.setItem("github_username", data["github_username"]);
   window.location.href = "index.html";
 }
 
@@ -97,11 +97,11 @@ $("#login-btn").click(function(e) {
     } else if (response["status"] == "NOT_AUTHORIZED") {
            alert("Awaiting admin authorization");
            window.location.reload();
-           
+
     // username or password is incorrect
     } else if (response["status"] == "NO_MATCH") {
       $("#incorrect-alert").prop("disabled", true);
-           
+
     // again, what the fUCK
     } else {
       $(".server-alert").prop("disabled", false);

@@ -93,69 +93,69 @@ function sendAJAX2(headers, method, url, message, callback) {
 
 $(document).ready(function() {
 
-                  
+
   //var myauthorid = getCookieid();
   var myauthorid =localStorage.getItem("author_id");
   var mypTemplate = document.getElementById('profiledatas');
-  
+
   //var friendauthorid = getFriendcookieid();
-  
+
   var myprofilelink = "/author/" + myauthorid;
   //var thisauthorlink = "/author/" + getFriendcookieid();
   //sendAJAX("GET",)
-  
- 
+
+
                   var headers = [["Foreign_host", "false"]];
   sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
   //sendAJAX("GET", myprofilelink, "", function(result) {
 
             console.log("called");
-           
+
            console.log(result);
            var td = mypTemplate.content.querySelector("#profilehname");
            profileusernametext = result.displayName;
            td.textContent = profileusernametext;
 
            mypTemplate.content.querySelector("#profileid").textContent = result.id;
-           
+
            mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
-           
+
            mypTemplate.content.querySelector("#profilehost").textContent = result.host;
-           
+
            mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-           
+
            mypTemplate.content.querySelector("#profilegithub_id").textContent = result.githubUsername;
-           
+
            var normalContent = document.getElementById('profile');
-           
+
            var clonedTemplate = mypTemplate.content.cloneNode(true);
            normalContent.appendChild(clonedTemplate)
-           
+
            document.getElementById("editprofilebtn").style.display="";
-          
-           
+
+
            document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
            //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
            document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-           
+
            document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
            document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
            document.getElementById("pgitid").value = document.getElementById("profilegithub_id").textContent;
   });
-                
-                  
-                  
+
+
+
 });
 
 
 $("#editprofilebtn").click(function (e) {
                            e.preventDefault();
-                           
+
                            document.getElementById("testid").placeholder = document.getElementById("profileid").textContent;
                            document.getElementById("pdn").value = document.getElementById("profiledname").value;
                            document.getElementById("pgitid").value = document.getElementById("profilegithub_id").value;
-                           
-                           
+
+
                            });
 
 
@@ -168,23 +168,23 @@ function saveprofilechange() {
                               var editprofiledata = {}
                               editprofiledata["name"] = document.getElementById("pdn").value;
                               editprofiledata["github_id"] = document.getElementById("pgitid").value;
-                              
+
   console.log(JSON.stringify(editprofiledata));
-  localStorage.setItem("github_username", document.getElementById("pgitid").value);
+  localStorage.setItem("postTemplatename", document.getElementById("pgitid").value);
                               sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
                                        console.log(response);
-//                                       console.log("edited?");
-//                                       document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+                                      localStorage.setItem("github_username", document.getElementById("pdn").value)
+                                      document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
 //                                       //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
 //                                       document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-                                       localStorage.setItem("display_name", document.getElementById("pdn").value)
-                                       window.location.reload();
-                                       
+                                      localStorage.setItem("display_name", document.getElementById("pdn").value)
+                                      window.location.reload();
+
                               });
-                              
-                              
-                              
-                              
+
+
+
+
                               }
 
 
@@ -192,7 +192,7 @@ function saveprofilechange() {
 ////$("#addfriendbtn").click(function(e) {
 //function afriendone(fn) {
 //  var myuserid = getCookieid();
-//  
+//
 //  var myinfostuff = "/author/" + myuserid;
 //  sendAJAX("GET", myinfostuff, "", function(result) {
 //           //console.log(result);
@@ -216,5 +216,3 @@ function saveprofilechange() {
 //  });
 //
 //
-
-
