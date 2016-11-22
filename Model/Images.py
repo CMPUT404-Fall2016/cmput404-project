@@ -5,7 +5,7 @@ import uuid
 
 class Images(db.Model):
 
-    image_id = db.Column(db.String(33), unique=True, primary_key=True)
+    image_id = db.Column(db.String(33), primary_key=True)
     
     post_id = db.Column(db.String(33), db.ForeignKey('posts.post_id') )
     

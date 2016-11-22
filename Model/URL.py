@@ -4,7 +4,7 @@ from Comments import Comments
 
 class URL(db.Model):
     
-    URL_id = db.Column(db.String(33), unique=True, primary_key=True)
+    URL_id = db.Column(db.String(33), primary_key=True)
     
     post_id = db.Column(db.String(33),  db.ForeignKey('posts.post_id'))
     
