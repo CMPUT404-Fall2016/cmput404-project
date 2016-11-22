@@ -73,6 +73,7 @@ $("#profile").click( function(e) {
     document.getElementById("posts").innerHTML = "";
 });
 
+// Onready
 $(document).ready(function() {
     var myauthorid = localStorage.getItem("fetch-author-id");
     console.log(localStorage.getItem("fetch-author-id"));
@@ -108,7 +109,7 @@ $(document).ready(function() {
       var clonedTemplate = mypTemplate.content.cloneNode(true);
       normalContent.appendChild(clonedTemplate);
 
-
+      // This checks if the user is the same as the search user
       if(getCookieid() == getFriendcookieid()) {
         document.getElementById("addfriendbtn").style.display="none";
       }
@@ -175,8 +176,8 @@ $("#posttabs").click(function(e) {
     });
   });
 
+// Bind to the addfriendbtn. This gets the info of the two user to use in afriendtwo function
 function afriendone() {
-  console.log("in?");
   var myuserid = getCookieid();
 
   var myinfostuff = "/author/" + myuserid;
@@ -208,41 +209,26 @@ function afriendone() {
   });
 }
 
+// This sends the friend request to the user
 function afriendtwo(result) {
-  console.log("hello");
-  console.log(result);
-  console.log("result1done");
-  //var myhost = result.host;
-  //console.log(result.host)
-  //console.log(myhost);
-  //var mydisplayname = result.displayName;
+  
+  // This is the body for the POST request
   var friendrequestdata = {};
     friendrequestdata["author"] = {}
-  friendrequestdata["author"]["id"]= getCookieid();;
+    friendrequestdata["author"]["id"]= getCookieid();;
     friendrequestdata["author"]["host"] = result.myhost;
     friendrequestdata["author"]["displayName"] = result.mydisplayname;
-
-     //  friendrequestdata["friend"]={"id":friendid, "host":friendhost, "displayName":frienddisplayname, "url":friendurl};
-     //console.log(friendrequestdata);
     friendrequestdata["friend"] = {};
     friendrequestdata["friend"]["id"] = result.friendid;
     friendrequestdata["friend"]["host"] = result.friendhost;
     friendrequestdata["friend"]["displayName"] = result.frienddisplayname;
     friendrequestdata["friend"]["url"] = result.friendurl;
-  console.log("<<");
-  console.log(result.mydisplayName);
-
-  console.log(friendrequestdata);
-  console.log(">>");
 
   sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
-  console.log(response);
-  if(response["status"] == "SUCCESS") {
-
-
-    document.getElementById("addfriendbtn").style.display="none";
-  }
-  //window.location.href="friendspage.html";
+    if(response["status"] == "SUCCESS") {
+      document.getElementById("addfriendbtn").style.display="none";
+    }
+    //window.location.href="friendspage.html";
   });
 }
 
