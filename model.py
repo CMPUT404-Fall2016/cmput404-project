@@ -84,7 +84,7 @@ def createDefaultAuthor():
 db.create_all()
 # initServerObj()
 initAdmin()
-createDefaultAuthor()
+# createDefaultAuthor()
 
 
 
