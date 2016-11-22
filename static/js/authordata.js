@@ -66,40 +66,30 @@ function editauthorpage() {
   //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
   document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
 }
+
+// clear post tab when user on profile tab
 $("#profile").click( function(e) {
-                    e.preventDefault();
-                    document.getElementById("posts").innerHTML = "";
-                    });
+    e.preventDefault();
+    document.getElementById("posts").innerHTML = "";
+});
 
 $(document).ready(function() {
-                  //var myauthorid = getFriendcookieid();
-                  var myauthorid = localStorage.getItem("fetch-author-id");
-                  console.log(localStorage.getItem("fetch-author-id"));
+    var myauthorid = localStorage.getItem("fetch-author-id");
+    console.log(localStorage.getItem("fetch-author-id"));
                   
-                  
-                  if (myauthorid == getCookieid()) {
-                    window.location.href = "profilepage.html";
-                  }
-                  
-    //var myauthorid = localStorage.getItem("fetch-author-id");
-
-
-
+    // If author search there own id, it redirect them to the profile page
+    if (myauthorid == getCookieid()) {
+      window.location.href = "profilepage.html";
+    }
 
     var mypTemplate = document.getElementById('profiledatas');
 
-
-    //var friendauthorid = getFriendcookieid();
-
     var myprofilelink = "/author/" + myauthorid;
-
-                  console.log("here");
                   
-                  var headers = [["Foreign-Host", "false"]];
-                  sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
-    //sendAJAX("GET", myprofilelink, "", function(result) {
-             console.log("here");
-      console.log(result);
+    var headers = [["Foreign-Host", "false"]];
+    sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
+              
+      // fill the container with details
       var td = mypTemplate.content.querySelector("#profilehname");
       profileusernametext = result.displayName;
       td.textContent = profileusernametext;
@@ -149,8 +139,6 @@ $("#posttabs").click(function(e) {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-      // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-      // postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
       postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
       postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
 
@@ -196,14 +184,9 @@ function afriendone() {
   var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "GET", myinfostuff, "", function(result) {
   //sendAJAX("GET", myinfostuff, "", function(result) {
-    //console.log(result);
-    //var myid = result.id;
     var myinfodatacombine = {}
     myinfodatacombine.myhost = result.host;
     myinfodatacombine.mydisplayname = result.displayName;
-    //           var myhost = result.host;
-    //           var mydisplayname = result.displayName;
-    //fn(myinfodatacombine);
 
     var friendid = getFriendcookieid();
     var getfriendinfo = "/author/" + friendid;
@@ -211,14 +194,10 @@ function afriendone() {
     var headers = [["Foreign-Host", "false"]];
     sendAJAX2(headers, "GET", getfriendinfo, "", function(result2) {
     //sendAJAX("GET", getfriendinfo, "", function(result2) {
-      //console.log(result);
       var myinfodatacombine = {}
       console.log(result.displayName);
       myinfodatacombine.myhost = result.host;
       myinfodatacombine.mydisplayname = result.displayName;
-      console.log("<<");
-      console.log(result.displayName);
-      console.log(">>");
       myinfodatacombine.friendid = result2.id;
       myinfodatacombine.friendhost = result2.host;
       myinfodatacombine.frienddisplayname = result2.displayName
@@ -267,73 +246,4 @@ function afriendtwo(result) {
   });
 }
 
-
-
-
-////$("#posttabs").click(function(e) {
-//                     e.preventDefault();
-//                     var authorpid = getFriendcookieid();
-//                     var authorpostlink = "service/author/" + authorpid + "/posts";
-//
-//                     var postList = document.getElementById("posts");
-//                     var postTemplate = document.getElementById("post-container");
-//                     // page=<Page_No>&size=<Page_Zize>
-//                     sendAJAX("GET", authorpostlink, "", function(posts) {
-//                              console.log("here");
-//                              for(var i=0; i < posts.length; ++i) {
-//                              // fill the container with details
-//                              postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-//                              // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-//                              // postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
-//                              postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
-//                              postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
-//
-//                              // attach data to the links so it can be referenced when clicked
-//                              var authorBtn = postTemplate.content.querySelector(".post-author");
-//                              $(authorBtn).data("post-author", posts[i].author_id);
-//
-//                              var commentsBtn = postTemplate.content.querySelector(".comments");
-//                              // $(commentsBtn).data("post-host", posts[i].author.host);
-//                              $(commentsBtn).data("post-id", posts[i].id);
-//
-//                              var clone = document.importNode(postTemplate.content, true);
-//                              postList.appendChild(clone);
-//                              }
-//
-//                              // bind the onclick to set post host and id in localStorage
-//                              // and link the user to the post's page
-//                              $(".comments").click(function(e) {
-//                                                   e.preventDefault();
-//                                                   // set this for later
-//                                                   // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
-//                                                   localStorage.setItem("fetch-post-id", $(this).data("post-id"));
-//                                                   window.location.href ="post.html";
-//                                                   });
-//
-//                              // bind the onclick to set author id in localStorage
-//                              // and link the user to the author's profile
-//                              $(".post-author-url").click(function(e) {
-//                                                          e.preventDefault();
-//                                                          // set this for authorpage to use
-//                                                          localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
-//                                                          window.location.href = "authorpage.html";
-//                                                          });
-//                              });
-//                     })
-//
-//$("#saveprofilechange").click(function (e) {
-//
-//      e.preventDefault();
-//      var editprofiledata = {}
-//      editprofiledata["name"] = editprofiledata.elements["displayName"].value;
-//      editprofiledata["github_id"] = editprofiledata.elements["githubid"].value;
-//      editprofiledata["bio"] = editprofiledata.elements["bio"].value;
-//
-//      sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
-//
-//
-//
-//      });
-//
-//});
 
