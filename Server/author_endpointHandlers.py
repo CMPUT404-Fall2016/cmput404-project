@@ -57,7 +57,7 @@ def fetchForeignAuthor(param):
     if r.text == "":
         return None
     print "url : " + param['url']
-    # print r.text
+    print r.text
     try:
         body = r.json()
         return body
