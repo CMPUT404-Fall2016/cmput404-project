@@ -712,11 +712,19 @@ def init_admin():
     APP_state["shared_nodes_images"] = ["http://3", "http://4"]
     APP_state["shared_nodes_posts"] = ["http://5", "http://6"]
 
-@app.route('/restart.html')
+@app.route('/restart')
 def restart():
-    init_admin()
+    # init_admin()
+    init_server()
     return ""
 
+
+def init_server():
+    servers = db.session.query(Servers).filter(Servers.server_index == 0).all()
+    server = None
+    if len(servers) != 0:
+        server = servers[0]
+        APP_state['local_server_Obj'] = server
 
 
 @app.route('/admin_settings.html')

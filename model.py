@@ -82,7 +82,7 @@ def createDefaultAuthor():
 	db.session.commit()
 
 db.create_all()
-initServerObj()
+# initServerObj()
 initAdmin()
 createDefaultAuthor()
 
