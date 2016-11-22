@@ -549,7 +549,8 @@ def getAuthor(param, foreign_host):
     
     else:
         for author in results:
-            param["local_server_Obj"] = APP_state['local_server_Obj']
+            # param["local_server_Obj"] = APP_state['local_server_Obj']
+            param["local_server_Obj"] = getLocalServer()
             param['author'] = author.author_id
             query_results["id"] = author.author_id
             query_results["host"] = APP_state['local_server_Obj'].IP
@@ -568,6 +569,8 @@ def getAuthor(param, foreign_host):
         return final_results[0]
 
 
+def getLocalServer():
+    return db.session.query(Servers).filter(Servers.server_index == 0).all()[0]
 
 def verifyAdmin(param):
     if APP_state['admin_credentials'] == None:

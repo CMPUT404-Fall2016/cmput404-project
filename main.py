@@ -723,6 +723,7 @@ def restart():
 
 
 def init_server():
+    global APP_state
     servers = db.session.query(Servers).filter(Servers.server_index == 0).all()
     server = None
     if len(servers) != 0:
