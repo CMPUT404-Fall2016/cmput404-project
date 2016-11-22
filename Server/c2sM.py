@@ -11,7 +11,10 @@ handler = RestHandlers()
 COOKIE_NAME = "cookie_cmput404_"
 COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","    cookie_cmput404_github_id"]
 VIEW_PER = ["", "PUBLIC", "PRIVATE", "FRIENDS", "FOAF", "SERVERONLY"]
-myip = APP_state['local_server_Obj'].IP
+if 'local_server_Obj' in APP_state.keys():
+    myip = APP_state['local_server_Obj'].IP
+else:
+    myip = None
 
 
 
@@ -22,7 +25,7 @@ def makeAuthorJson(author):
         "displayName"	:	author.name,
         "url"	:	myip +"/author/" + author.author_id,
         "github"	:	author.github_id
-    }      
+    }
     return rt
 
 
@@ -30,7 +33,7 @@ def makeCommentJson(data, args):
    #Init
     rt = {
 			"query"	:	"comments",
-			"count"	:	len(data),	
+			"count"	:	len(data),
             "size"	:	5,
             "comments"	:	[]
          }
@@ -63,9 +66,9 @@ def makeCommentJson(data, args):
                 "published"	:	data[i].creation_time,
                 "id"	: data[i].comment_id
             })
-    
+
     return rt
-    
+
 
 
 
@@ -73,7 +76,7 @@ def makePostJson(data, args):
     #Init
     rt = {
 			"query"	:	"posts",
-			"count"	:	len(data),	
+			"count"	:	len(data),
             "size"	:	5,
             "posts"	:	[]
          }
@@ -110,9 +113,9 @@ def makePostJson(data, args):
                 "next"	:	myip + "/posts/"+data[i][0].post_id+"/comments",
                 "comments"	:	makeCommentJson(data[i][2], {"size":None, "page":None})["comments"]
             })
-    
+
     return rt
-    
+
 def getCookie(Operation_str):
 
     COOKIE ={}
@@ -148,10 +151,10 @@ class Post(Resource):
                 #print sessionID
                 if sessionID in APP_state["session_ids"]:
                     rst = []
-                    got = handler.getPost(post_id) 
-                    if len(got) != 0: 
+                    got = handler.getPost(post_id)
+                    if len(got) != 0:
                         if got[0] in handler.getVisiblePosts(APP_state["session_ids"][sessionID]):
-                            rst = got 
+                            rst = got
                     else:
                         nodes = handler.getConnectedNodes()
                         params = {}
@@ -176,17 +179,17 @@ class Post(Resource):
         else:
         #Assume we passed server to server auth
         #Assume this is the place we do remote get
-            pid = request.args.get("post_id")     
+            pid = request.args.get("post_id")
             got = handler.getPost(pid)
             if len(got) != 0:
                 localAuthor = got[0][1].author_id
                 if	got[0] in handler.getVisiblePosts(request.args.get(author_id)):
-                    return jsonify(makePostJson(got), {"page":None, "size":None})            
+                    return jsonify(makePostJson(got), {"page":None, "size":None})
                 else:
                     if got[0][0].view_permission == 4:
-                        pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]    
+                        pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]
                         if(handler.atlOneFriend(localAuthor, pfriends)):
-                    		return jsonify(makePostJson(got), {"page":None, "size":None})            
+                    		return jsonify(makePostJson(got), {"page":None, "size":None})
 
 
     def delete(self, post_id):
@@ -216,10 +219,10 @@ class All_Post(Resource):
             agre = []
             agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
             for node in nodes:
-                agre.append(requests.get(node + "/posts").json()) 
+                agre.append(requests.get(node + "/posts").json())
             # Each json object contains all public posts from a server
-            return agre					
-    
+            return agre
+
         #Remote
         else:
         #Assume we passed server to server auth
@@ -228,7 +231,7 @@ class All_Post(Resource):
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
             return jsonify(makePostJson(handler.getAllPosts(), paras))
-             
+
 
     def post(self):
 		#'''
@@ -255,13 +258,13 @@ class All_Post(Resource):
                 elif perm =="PRIVATE":
                     perm = 2
                 elif perm == "FRIEND":
-                    perm = 3 
+                    perm = 3
                 elif perm == "FOAF":
                     perm = 4
                 else:
                     perm = 5
                 post["view_permission"]= perm
-				
+
                 if handler.make_post(post):
                     return {"query" : "addPost", "success" : "true", "message" : "Post created"}
                 else:
@@ -280,11 +283,11 @@ class AuthorPost(Resource):
             output = getCookie("get_available_posts")
             if type(output) == flask.wrappers.Response:
                 return output
-        
+
             cookie = output
             if "session_id" in cookie:
                 sessionID = cookie["session_id"]
-            
+
                 if sessionID in APP_state["session_ids"]:
                     paras = {}
                     paras["page"] = request.args.get('page')
@@ -294,7 +297,7 @@ class AuthorPost(Resource):
 
                     params = {
                                  "author_id"	:	APP_state["session_ids"][sessionID]
-                             } 
+                             }
                     for node in nodes:
                         rt.append(requests.get(node + "/author/posts"), params = params).json()
 
@@ -305,13 +308,13 @@ class AuthorPost(Resource):
                 return "SESSION_ERROR", 403
         else:
             #Remote
-            allP = handler.getVisiblePosts(request.args.get("author_id"))            
-            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]    
+            allP = handler.getVisiblePosts(request.args.get("author_id"))
+            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]
             #Get all remaining foaf posts, check for each one, if the author is atlOneFriend of pfriends
 
-                   
 
-        
+
+
 
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
@@ -336,13 +339,13 @@ class AuthorToAuthorPost(Resource):
 
 
 class Comment(Resource):
-        
+
     def get(self, post_id):
         if	request.args.get("Foreign-Host") == "false":
             output = getCookie("get_comments")
             if type(output) == flask.wrappers.Response:
                 return output
-        
+
             cookie = output
             if "session_id" in cookie:
                 sessionID = cookie["session_id"]
@@ -357,8 +360,8 @@ class Comment(Resource):
 
             else:
                  return "SESSION_ERROR", 403
-       
-            
+
+
 
 
     def post(self):
@@ -370,7 +373,7 @@ class Comment(Resource):
         if "session_id" in cookie:
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
-        
+
                 data = request.json
                 comment["post_id"] = data["post_id"]
                 comment["author_id"] = data["author_id"]
