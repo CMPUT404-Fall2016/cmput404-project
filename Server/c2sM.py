@@ -1,6 +1,6 @@
 import flask
 import json
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, requests
 from flask_restful import Resource, Api, abort, reqparse
 from model import *
 from pch import *
