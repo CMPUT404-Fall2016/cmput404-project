@@ -547,7 +547,8 @@ def getAuthor(param, foreign_host):
 
     
     if len(results) == 0:
-        return query_results
+        print "looking for foreign host"
+        return searchForeignAuthor(param["author"])
     
     else:
         for author in results:
