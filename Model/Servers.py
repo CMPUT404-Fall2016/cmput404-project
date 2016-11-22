@@ -5,7 +5,7 @@ class Servers(db.Model):
 
     __tablename__ = 'servers'
 
-    server_id = db.Column(db.BigInteger, primary_key=True)
+    server_id = db.Column(db.String(33), primary_key=True)
 
     IP = db.Column(db.String(500), unique=True)
     
