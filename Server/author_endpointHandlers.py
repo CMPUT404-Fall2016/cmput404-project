@@ -720,6 +720,7 @@ def userRegistration(param):
     # datum["bio"]        = bio
     # datum["github_id"]  = github_id
 
+    datum["authorized"] = True
     new_author = Authors(datum)
 
     try:
