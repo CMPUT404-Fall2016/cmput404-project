@@ -85,49 +85,56 @@ $(document).ready(function() {
                   var headers = [["Foreign_host", "false"]];
                   //sendAJAX("GET", myauthorlink, "", function(events) {
                   sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
-//                           console.log("this?");
-                           console.log(events.friends);
-//                           console.log(events.friends.length);
-//                           console.log(events.friends[0]);
-//                           console.log(">>>");
-                    for(var i=0; i < events.friends.length; ++i) {
-                           var friendsTemplate = document.getElementById('friends-container');
-                           friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
-                           friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
-                           friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
-                           console.log(events.friends[i].displayName);
-                           //console.log(events.friends[i].displayName);
-                           friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
-                           
-                           document.cookie = "request_author_id="+events.friends[i].id;
-                           
-                           friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
-                           //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
-                           
-                           var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
-                           unfriendbtn.name = events.friends[i].id;
-                           
-                           console.log(unfriendbtn);
-                           
-                           
-                           var normalContent = document.getElementById('friendstab');
-                           
-                           var clonedTemplate = friendsTemplate.content.cloneNode(true);
-                           normalContent.appendChild(clonedTemplate);
-                           
-                           
-                           
-                           }
-                           
-                           $("#unfriendauthor").click(function (e) {
-                                                      
-                                                      e.preventDefault();
-                                                      
-                                                      localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
-                                                      unfriendauthor();
-                                                      
-                                                      });
-                  });
+                            
+                            //sendAJAX("GET", myauthorlink, "", function(events) {
+                            //                           console.log("this?");
+                            console.log(events.friends);
+                            //                           console.log(events.friends.length);
+                            //                           console.log(events.friends[0]);
+                            //                           console.log(">>>");
+                            for(var i=0; i < events.friends.length; ++i) {
+                            //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+                            var friendsTemplate = document.getElementById('friends-container');
+                            friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
+                            friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
+                            friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
+                            console.log(events.friends[i].displayName);
+                            //console.log(events.friends[i].displayName);
+                            friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
+                            
+                            document.cookie = "request_author_id="+events.friends[i].id;
+                            
+                            friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
+                            //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
+                            
+                            var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
+                            unfriendbtn.name = events.friends[i].id;
+                            unfriendbtn.setAttribute("friendhostname", events.friends[i].host);
+                            
+                            //console.log(">>>>");
+                            //console.log(events.friends[i].host);
+                            console.log(unfriendbtn);
+                            
+                            
+                            var normalContent = document.getElementById('friendstab');
+                            
+                            var clonedTemplate = friendsTemplate.content.cloneNode(true);
+                            normalContent.appendChild(clonedTemplate);
+                            
+                            
+                            
+                            }
+                            
+                            $(".unfriendauthor").click(function (e) {
+                                                       
+                                                       e.preventDefault();
+                                                       
+                                                       localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
+                                                       localStorage.setItem("fetch-unfriend-host", $(this).attr("friendhostname"));
+                                                       unfriendauthor();
+                                                       
+                                                       });
+                            });            
                   
 
 });
@@ -167,7 +174,7 @@ $("#reqtab").click(function(e) {
                             }
                             
                             
-                            $("#friend-accept").click(function (e) {
+                            $(".friend-accept").click(function (e) {
                                                       
                                                       e.preventDefault();
                                                       
@@ -180,6 +187,27 @@ $("#reqtab").click(function(e) {
                             });
                    document.getElementById("friendstab").innerHTML = "";
                     });
+
+function acceptfriend() {
+  
+  var acceptfrienddata = {};
+  //                    acceptfrienddata["author"] = document.getElementById("author2id").textContent;
+  acceptfrienddata["author"] = localStorage.getItem("fetch-addfriend-id");
+  acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
+  
+  console.log(acceptfrienddata);
+  
+  var headers = [["Foreign_host", "false"]];
+  
+  sendAJAX2(headers, "POST", "acceptFriendRequest", acceptfrienddata, function(response) {
+            //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
+            console.log(response);
+            window.location.href="friendspage.html";
+            
+            });
+}
+
+
 
 $("#fdtab").click(function(e) {
                   e.preventDefault();
@@ -226,8 +254,11 @@ $("#fdtab").click(function(e) {
                            
                            var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
                            unfriendbtn.name = events.friends[i].id;
+                            unfriendbtn.setAttribute("friendhostname", events.friends[i].host);
                            
-                           //console.log(unfriendbtn);
+                            //console.log(">>>>");
+                           //console.log(events.friends[i].host);
+                            console.log(unfriendbtn);
                            
                            
                            var normalContent = document.getElementById('friendstab');
@@ -239,11 +270,12 @@ $("#fdtab").click(function(e) {
                            
                            }
                            
-                           $("#unfriendauthor").click(function (e) {
+                           $(".unfriendauthor").click(function (e) {
                                                       
                                                       e.preventDefault();
                                                       
                                                       localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
+                                                      localStorage.setItem("fetch-unfriend-host", $(this).attr("friendhostname"));
                                                       unfriendauthor();
                                                       
                                                       });
@@ -283,8 +315,8 @@ function unfriendauthor() {
                            var unfrienddata = {};
                            //unfrienddata["author"] = document.getElementById("friendid").textContent;
   unfrienddata["author"] = localStorage.getItem("fetch-unfriend-id");
-                           unfrienddata["server_address"] = document.getElementById("friendhost").textContent;
-                           
+  unfrienddata["server_address"] = localStorage.getItem("fetch-unfriend-host");
+  
                            console.log(unfrienddata);
    var headers = [["Foreign_host", "false"]];
   sendAJAX2(headers, "POST", "/unFriend", unfrienddata, function(response) {
