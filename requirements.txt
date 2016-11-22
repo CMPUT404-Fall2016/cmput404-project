@@ -54,6 +54,7 @@ pyasn1==0.1.9
 pycparser==2.14
 pyOpenSSL==0.15.1
 Pyro4==4.23
+psycopg2==2.6.2
 python-dateutil==2.5.3
 pytz==2016.6.1
 PyYAML==3.11
