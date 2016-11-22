@@ -90,6 +90,7 @@ $(document).ready(function() {
   //var myauthorid = getCookieid();
   var myauthorid = localStorage.getItem("author_id");
   var mypTemplate = document.getElementById('profiledatas');
+                  console.log(myauthorid);
   
   var myprofilelink = "/author/" + myauthorid;
  

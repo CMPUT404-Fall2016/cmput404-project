@@ -89,7 +89,7 @@
     window.location.href = "authorpage.html"
                                 var linkauthor = "/author/" + document. getElementById("author-search").value;
     var headers = [["Foreign-Host", "false"]];
-                                sendAJAX2(headers, "GET", linkauthor, "", function() {
+                                sendAJAX2(headers, "GET", linkauthor, "", function(response) {
                                           
                                           });
   });
