@@ -722,6 +722,7 @@ def userRegistration(param):
 
     datum["authorized"] = True
     new_author = Authors(datum)
+    print "newly created ID : " + datum["author_id"]
 
     try:
         db.session.add(new_author)
