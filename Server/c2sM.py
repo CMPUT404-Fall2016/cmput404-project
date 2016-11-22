@@ -10,7 +10,109 @@ import random, os
 handler = RestHandlers()
 COOKIE_NAME = "cookie_cmput404_"
 COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","    cookie_cmput404_github_id"]
+VIEW_PER = ["", "PUBLIC", "PRIVATE", "FRIENDS", "FOAF", "SERVERONLY"]
+myip = APP_state['local_server_Obj'].IP
 
+
+
+def makeAuthorJson(author):
+    rt = {
+        "id"	:	author.author_id,
+        "host"	:	myip,
+        "displayName"	:	author.name,
+        "url"	:	myip +"/author/" + author.author_id,
+        "github"	:	author.github_id
+    }      
+    return rt
+
+
+def makeCommentJson(data, args):
+   #Init
+    rt = {
+			"query"	:	"comments",
+			"count"	:	len(data),	
+            "size"	:	5,
+            "comments"	:	[]
+         }
+
+    if(args["size"]):
+        rt["size"] = int(args["size"])
+    pg = 0
+    if args["page"]:
+        pg = int(args["page"])
+    if pg>0:
+        rt["previous"] = myip + "/posts/" + data[0].post_id + "comments?page=" + str(pg-1)
+    if (pg+1)*rt["size"] < rt["count"]:
+        rt["next"] = myip + "/posts/" + data[0].post_id + "/comments?page=" + str(pg+1)
+
+    #comments
+    if pg*rt["size"] < rt["count"]:
+        for i in range(pg*rt["size"], (pg+1)*rt["size"]):
+            if i == rt["count"]:
+                break
+            rt["comments"].append({
+                "author"	:	{
+                                    "id"	:	data[i].author_id,
+                                    "host"	:	data[i].author_host,
+                                    "displayName"	:	data[i].author_name,
+                                    "url"	:	data[i].author_url,
+                                    "github"	:	data[i].author_github
+                                },
+                "comment"	:	data[i].comment_text,
+                "contentType"	:	data[i].content_type,
+                "published"	:	data[i].creation_time,
+                "id"	: data[i].comment_id
+            })
+    
+    return rt
+    
+
+
+
+def makePostJson(data, args):
+    #Init
+    rt = {
+			"query"	:	"posts",
+			"count"	:	len(data),	
+            "size"	:	5,
+            "posts"	:	[]
+         }
+
+    if(args["size"]):
+        rt["size"] = int(args["size"])
+    pg = 0
+    if args["page"]:
+        pg = int(args["page"])
+    if pg>0:
+        rt["previous"] = myip + "/posts?page=" + str(pg-1)
+    if (pg+1)*rt["size"] < rt["count"]:
+        rt["next"] = myip + "/posts?page=" + str(pg+1)
+
+    #Posts
+    if pg*rt["size"] < rt["count"]:
+        for i in range(pg*rt["size"], (pg+1)*rt["size"]):
+            if i == rt["count"]:
+                break
+            rt["posts"].append({
+                "title"	:	data[i][0].title,
+                "source"	:	"",
+                "origin"	:	"",
+                "author"	:	makeAuthorJson(data[i][1]),
+                "description"	:	data[i][0].description,
+                "contentType"	:	data[i][0].content_type,
+                "content"	:	data[i][0].content,
+                "categories"	:	"abram bear",
+                "published"	:	data[i][0].creation_time,
+                "visibility"	:	VIEW_PER[data[i][0].view_permission],
+                "id"	:	data[i][0].post_id,
+                "count"	:	len(data[i][2]),
+                "size"	:	5,
+                "next"	:	myip + "/posts/"+data[i][0].post_id+"/comments",
+                "comments"	:	makeCommentJson(data[i][2], {"size":None, "page":None})["comments"]
+            })
+    
+    return rt
+    
 def getCookie(Operation_str):
 
     COOKIE ={}
@@ -34,30 +136,57 @@ def getCookie(Operation_str):
 
 class Post(Resource):
     def get(self, post_id):
-        output = getCookie("get_one_post")
-        if type(output) == flask.wrappers.Response:
-            return output
+        #Local Request
+        if(request.args.get("Foreign-Host") == "false"):
+            output = getCookie("get_one_post")
+            if type(output) == flask.wrappers.Response:
+                return output
 
-        cookie = output
-        if "session_id" in cookie:
-            sessionID = cookie["session_id"]
-            #print sessionID
-            if sessionID in APP_state["session_ids"]:
+            cookie = output
+            if "session_id" in cookie:
+                sessionID = cookie["session_id"]
+                #print sessionID
+                if sessionID in APP_state["session_ids"]:
+                    rst = []
+                    got = handler.getPost(post_id) 
+                    if len(got) != 0: 
+                        if got[0] in handler.getVisiblePosts(APP_state["session_ids"][sessionID]):
+                            rst = got 
+                    else:
+                        nodes = handler.getConnectedNodes()
+                        params = {}
+                        params["author_id"] = APP_state["session_ids"][sessionID]
+                        params["post_id"] = post_id
+                        for node in nodes:
+                            rst += requests.get(node + "/posts/" + post_id, params = params).json()
+                        if	len(rst) != 0:
+                            return rst[0]
 
-                rt = []
-                data = handler.getPost(post_id)
-                rt.append({
-                                    "post_id"	: data[0].post_id,
-                                    "title" :	data[0].title,
-                                    "text"	:	data[0].text,
-                                    "creation_time" : data[0].creation_time
-                            })
-                return jsonify(rt) #, 200
-                #return json.dumps(rt), 200
-            return []
+                    paras = {}
+                    paras["page"] = request.args.get('page')
+                    paras["size"] = request.args.get('size')
+                    return jsonify(makePostJson(rst, paras))
 
+                return {"Response" : "session error"}
+
+            else:
+                return {"Response" : "Session not found"}
+
+        #Remote Request
         else:
-            return "SESSION_ERROR", 403
+        #Assume we passed server to server auth
+        #Assume this is the place we do remote get
+            pid = request.args.get("post_id")     
+            got = handler.getPost(pid)
+            if len(got) != 0:
+                localAuthor = got[0][1].author_id
+                if	got[0] in handler.getVisiblePosts(request.args.get(author_id)):
+                    return jsonify(makePostJson(got), {"page":None, "size":None})            
+                else:
+                    if got[0][0].view_permission == 4:
+                        pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]    
+                        if(handler.atlOneFriend(localAuthor, pfriends)):
+                    		return jsonify(makePostJson(got), {"page":None, "size":None})            
 
 
     def delete(self, post_id):
@@ -78,17 +207,28 @@ class Post(Resource):
 
 class All_Post(Resource):
     def get(self):
-        rtl = []
-        data = handler.getAllPosts()
-        for entry in data:
-            rtl.append({
-									"post_id" :	entry[0].post_id,
-									"title" :	entry[0].title,
-									"text"	:	entry[0].text,
-									"creation_time" : entry[0].creation_time,
-									"author_id"	: entry[0].author_id
-								})
-        return jsonify(rtl)
+        #Local Request
+        if(request.args.get("Foreign-Host") == "false"):
+            paras = {}
+            paras["page"] = request.args.get('page')
+            paras["size"] = request.args.get('size')
+            nodes = handler.getConnectedNodes()
+            agre = []
+            agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
+            for node in nodes:
+                agre.append(requests.get(node + "/posts").json()) 
+            # Each json object contains all public posts from a server
+            return agre					
+    
+        #Remote
+        else:
+        #Assume we passed server to server auth
+        #Assume this is the place we do remote get
+            paras = {}
+            paras["page"] = request.args.get('page')
+            paras["size"] = request.args.get('size')
+            return jsonify(makePostJson(handler.getAllPosts(), paras))
+             
 
     def post(self):
 		#'''
@@ -106,13 +246,15 @@ class All_Post(Resource):
                 post = {}
                 post["author_id"] = data["author_id"]
                 post["title"] = data["title"]
-                post["text"] = data["content"]
+                post["content"] = data["content"]
+                post["content_type"] = data["content_type"]
+                post["description"] = data["description"]
                 perm = data["visibility"]
-                if perm =="Public":
+                if perm =="PUBLIC":
                     perm = 1
-                elif perm =="Private":
+                elif perm =="PRIVATE":
                     perm = 2
-                elif perm == "Friends":
+                elif perm == "FRIEND":
                     perm = 3 
                 elif perm == "FOAF":
                     perm = 4
@@ -132,35 +274,42 @@ class All_Post(Resource):
 
 
 class AuthorPost(Resource):
-    
     def get(self):
-        output = getCookie("get_available_posts")
-        if type(output) == flask.wrappers.Response:
-            return output
+        if  request.args.get("Foreign-Host") == "false":
+
+            output = getCookie("get_available_posts")
+            if type(output) == flask.wrappers.Response:
+                return output
         
-        cookie = output
-        if "session_id" in cookie:
-            sessionID = cookie["session_id"]
-            #print sessionID
-            if sessionID in APP_state["session_ids"]:
-               	rt = [] 
-                print APP_state["session_ids"][sessionID]
-                data = handler.getVisiblePosts(APP_state["session_ids"][sessionID])
-                for entry in data:
-                    rt.append({
-					                "post_id" : entry[0].post_id,
-	                                "author_id" : entry[0].author_id,
-                                    "title"	: entry[0].title,
-                                    "content" :	entry[0].text,
-                                    "creation_time" : entry[0].creation_time
-                              })
-                return jsonify(rt) #, 200
-                #return json.dumps(rt), 200
-            return []
+            cookie = output
+            if "session_id" in cookie:
+                sessionID = cookie["session_id"]
+            
+                if sessionID in APP_state["session_ids"]:
+                    paras = {}
+                    paras["page"] = request.args.get('page')
+                    paras["size"] = request.args.get('size')
+                    rt.append(jsonify(makePostJson(handler.getVisiblePosts(APP_statep["session_ids"][sessionID]), paras)))
+                    nodes = handler.getConnectedNodes()
 
+                    params = {
+                                 "author_id"	:	APP_state["session_ids"][sessionID]
+                             } 
+                    for node in nodes:
+                        rt.append(requests.get(node + "/author/posts"), params = params).json()
+
+                    return rt
+                return []
+
+            else:
+                return "SESSION_ERROR", 403
         else:
-            return "SESSION_ERROR", 403
+            #Remote
+            allP = handler.getVisiblePosts(request.args.get("author_id"))            
+            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]    
+            #Get all remaining foaf posts, check for each one, if the author is atlOneFriend of pfriends
 
+                   
 
         
 
@@ -177,54 +326,39 @@ class AuthorToAuthorPost(Resource):
         if "session_id" in cookie:
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
+                paras = {}
+                paras["page"] = request.args.get('page')
+                paras["size"] = request.args.get('size')
+                return jsonify(makePostJson(handler.getVisiblePostsByAuthor(APP_statep["session_ids"][sessionID], author_id), paras))
 
-            	data = handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id)
-
-            if data == []:
-                return "status : NO_MATCH", 200
-            else:
-                rtl = []
-                for entry in data:
-                    rtl.append({
-                               "post_id" :	entry[0].post_id,
-                               "title" :	entry[0].title,
-                               "content"	:	entry[0].text,
-                               "creation_time" : entry[0].creation_time,
-                               "author_id"	: entry[0].author_id
-                               })
-
-                return jsonify(rtl)
         else:
             return "SESSION_ERROR", 403
 
 
 class Comment(Resource):
-    def get(self, post_id):
-        output = getCookie("get_comments")
-        if type(output) == flask.wrappers.Response:
-            return output
         
-        cookie = output
-        if "session_id" in cookie:
-            sessionID = cookie["session_id"]
-            #print sessionID
-            if sessionID in APP_state["session_ids"]:
-                rt = [] 
-                data = handler.getComments(post_id)
-                for entry in data:
-                    rt.append({
-					                "comment_id" : entry.comment_id,
-	                                "author_id" : entry.author_id,
-                                    "post_id"	: entry.post_id,
-                                    "comment_text" :	entry.comment_text,
-                                    "creation_time" : entry.creation_time
-                              })
-                return jsonify(rt) #, 200
-                #return json.dumps(rt), 200
-            return []
+    def get(self, post_id):
+        if	request.args.get("Foreign-Host") == "false":
+            output = getCookie("get_comments")
+            if type(output) == flask.wrappers.Response:
+                return output
+        
+            cookie = output
+            if "session_id" in cookie:
+                sessionID = cookie["session_id"]
+                #print sessionID
+                if sessionID in APP_state["session_ids"]:
+                    paras = {}
+                    paras["page"] = request.args.get('page')
+                    paras["size"] = request.args.get('size')
+                    return jsonify(makeCommentJson(handler.getComments(post_id), paras))
 
-        else:
-            return "SESSION_ERROR", 403
+                return []
+
+            else:
+                 return "SESSION_ERROR", 403
+       
+            
 
 
     def post(self):
@@ -249,6 +383,7 @@ class Comment(Resource):
 
         else:
             return "SESSION_ERROR", 403
+
 
 
 '''

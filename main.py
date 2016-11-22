@@ -858,6 +858,37 @@ api.add_resource(All_Post, '/posts')
 api.add_resource(AuthorPost, '/author/posts')
 api.add_resource(AuthorToAuthorPost, '/author/<string:author_id>/posts')
 api.add_resource(Comment, '/posts/<string:post_id>/comments')
+for i in range(1, 100):
+    currentTime = datetime.now()
+    post1 = {}
+    post1["post_id"] = i
+    post1["author_id"] = i
+    post1["title"] = "test" + str(i)
+    post1["content"]="TEXT" + str(i)
+    post1["creation_time"]=currentTime 
+    post1["description"] = "abram eat bear"
+    post1["view_permission"]=1
+    post1["content_type"]="text/plain"
+    apost = Posts(post1)
+    db.session.add(apost)
+    db.session.commit()        
+
+aut = {}
+aut["author_id"] = "98"
+aut["name"] = "Boyuan"
+aaut = Authors(aut)
+db.session.add(aaut)
+db.session.commit()
+
+
+com = {}
+com["author_id"] = "110"
+com["post_id"] = "98"
+com["comment_text"] = "nma"
+com["creation_time"] = currentTime
+acomment = Comments(com)
+db.session.add(acomment)
+db.session.commit()
 
 if __name__ == "__main__":
     # init_admin()

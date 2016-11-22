@@ -8,11 +8,21 @@ class Comments(db.Model):
     
     comment_id = db.Column(db.String(33), primary_key=True, unique=True)
 
-    author_id = db.Column(db.String(33), db.ForeignKey('authors.author_id'))
+    author_id = db.Column(db.String(33))
+
+    author_name = db.Column(db.String(60))
+
+    author_host = db.Column(db.String(60))
+
+    author_url = db.Column(db.String(60))
+
+    author_github = db.Column(db.String(60))
     
     post_id = db.Column(db.String(33), db.ForeignKey('posts.post_id'))
     
     comment_text = db.Column(db.String(800))
+
+    content_type = db.Column(db.String(33))
     
     creation_time = db.Column(db.DateTime)
     
@@ -31,12 +41,12 @@ class Comments(db.Model):
         if datum == None:
             return super(Comments, cls).__new__(cls)
         
-        if ('comment_id' and 'post_id') not in datum.keys():
+        if ('post_id') not in datum.keys():
             return None
         
         else:
             return super(Comments,cls).__new__(cls)
-
+    
     def __init__(self,datum=None):
         
         """
@@ -52,18 +62,11 @@ class Comments(db.Model):
             
             """
                 
-        if datum == None:
-            self.comment_id = uuid.uuid4().hex
-            return
+        self.comment_id = uuid.uuid4().hex
 
-        empty_string=""
-            
-        self.comment_id = datum["comment_id"]
 
         if "comment_text" in datum.keys():
             self.comment_text = datum["comment_text"]
-        else:
-            self.comment_text = empty_string
 
         if "creation_time" in datum.keys():
             self.creation_time = datum["creation_time"]

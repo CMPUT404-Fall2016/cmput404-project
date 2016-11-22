@@ -13,7 +13,11 @@ class Posts(db.Model):
     
     title = db.Column(db.String(64))
     
-    text = db.Column(db.String(800))
+    description = db.Column(db.String(128))
+
+    content_type = db.Column(db.String(33))
+
+    content = db.Column(db.String(800))
     
     creation_time = db.Column(db.DateTime)
     
@@ -69,7 +73,6 @@ class Posts(db.Model):
             self.post_id = uuid.uuid4().hex
             return
 
-        empty_string=""
         
         self.post_id = datum["post_id"]
         
@@ -78,39 +81,23 @@ class Posts(db.Model):
         else:
             self.title = empty_string
         
-        if "text" in datum.keys():
-            self.text = datum["text"]
-        else:
-            self.text = empty_string
+        if "content" in datum.keys():
+            self.content = datum["content"]
         
-        
+        if "description" in datum.keys():
+            self.description = datum["description"]
+
+
         if "creation_time" in datum.keys():
             self.creation_time = datum["creation_time"]
         
         if "view_permission" in datum.keys():
             self.view_permission = datum["view_permission"]
-        else:
-            self.view_permission = 0
 
-        if "post_type" in datum.keys():
-            self.post_type = datum["post_type"]
-        else:
-            self.post_type = 0
 
-        if "numberOf_comments" in datum.keys():
-            self.numberOf_comments = datum["numberOf_comments"]
-        else:
-            self.numberOf_comments = 0
+        if "content_type" in datum.keys():
+            self.content_type = datum["content_type"]
 
-        if "numberOf_URL" in datum.keys():
-            self.numberOf_URL = datum["numberOf_URL"]
-        else:
-            self.numberOf_URL = 0
-                
-        if "numberOf_images" in datum.keys():
-            self.numberOf_images = datum["numberOf_images"]
-        else:
-            self.numberOf_images = 0
 
         self.author_id = datum["author_id"]
 

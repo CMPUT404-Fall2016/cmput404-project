@@ -16,7 +16,9 @@ class RestHandlers():
 	"""
 	def __init__(self):
 		pass
-
+	
+	def getAuthor(self, aid):
+		return db.session.query(Authors).filter(Authors.author_id == aid).first()
 
 	def getAllPosts(self, param=None):
 		"""
@@ -29,7 +31,7 @@ class RestHandlers():
 		rtl = []
 		posts = self.sort_posts( db.session.query(Posts).filter(Posts.view_permission == 1).all() )	
 		for post in posts:
-			rtl.append([post, self.getImages(post.post_id), self.getComments(post.post_id)])
+			rtl.append([post, self.getAuthor(post.author_id), self.getComments(post.post_id)])
 		return rtl
 
 
@@ -86,7 +88,7 @@ class RestHandlers():
 		posts = self.sort_posts(rtl)	
 		rtl = []
 		for post in posts:
-			rtl.append([post, self.getImages(post.post_id), self.getComments(post.post_id)])
+			rtl.append([post, self.getAuthor(post.author_id), self.getComments(post.post_id)])
 		return rtl
 
 
@@ -132,7 +134,7 @@ class RestHandlers():
 
 		rtl = []
 		for post in posts:
-			rtl.append([post, self.getImages(post.post_id), self.getComments(post.post_id)])
+			rtl.append([post, self.getAuthor(post.author_id), self.getComments(post.post_id)])
 		return rtl
 
 
@@ -145,7 +147,7 @@ class RestHandlers():
 		Refer to top - 113
 		"""
 		#Return a post with its images list and its comments list
-		return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getImages(post_id), self.getComments(post_id)]
+		return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getAuthor(author_id), self.getComments(post_id)]
 
 
 
@@ -221,7 +223,10 @@ class RestHandlers():
 		post =	{
 							"post_id" : uuid.uuid4().hex, #Need to change to self generated uuid
 							"title"	:	data["title"],
-							"text"	:	data["text"],
+							"content_type"	: data["content_type"],
+							"desciption"	: data["desciption"],
+							"categories"	: data["categories"],
+							"content"	:	data["content"],
 							"creation_time" :	currentTime,
 							"view_permission" : data["view_permission"],
 							"author_id"	:	data["author_id"]
@@ -250,6 +255,7 @@ class RestHandlers():
 								"author_id"	:	data["author_id"],
 								"post_id"	:	data["post_id"],
 								"comment_text"	:	data["comment_text"],
+								"content_type"	:	"text/markdown",	
 								"creation_time"	:	currentTime
 							}
 		try:
