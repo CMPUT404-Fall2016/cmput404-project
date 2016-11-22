@@ -11,6 +11,8 @@ import UnitTests.Model.test_Servers_db as test_Servers_db
 # import Server.main
 import main
 
+app = main.app
+
 
 def runServer():
 	main.run()
