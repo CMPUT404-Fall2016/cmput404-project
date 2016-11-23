@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request, Response
 import requests
 from flask_restful import Resource, Api, abort, reqparse
 from model import *
-from pch import *
+from post_comment_handlers import *
 import random, os
 
 from functools import wraps
