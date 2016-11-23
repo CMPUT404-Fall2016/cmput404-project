@@ -593,6 +593,9 @@ def FollowUser():
         print "Failed to parse data from PUT request during sending friend Request! : ", e
         return getResponse(body={"status": "CLIENT_FAILURE"}, status_code=200)
 
+    print "from FollowUser!"
+    printSessionIDs()
+
     cookie = output
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
