@@ -1,5 +1,32 @@
 // functionality of index.html
 
+// with header
+function sendAJAX2(headers, method, url, message, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open(method, url);
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState==4) {
+      try {
+        if (xhr.status==200) {
+          if(callback) {
+            // console.log(xhr.responseText);
+            callback(JSON.parse(xhr.responseText));
+          }
+        }
+      }
+      catch(e) {
+        alert('Error: ' + e.name);
+      }
+    }
+  }
+  console.log(headers.length);
+  for (var i=0; i<headers.length; ++i) {
+    xhr.setRequestHeader(headers[i][0], headers[i][1]);
+    //    console.log(headers[i][0] + headers[i][1]);
+  }
+  xhr.send(JSON.stringify(message));
+}
+
 var postForm = document.getElementById("post-form");
 
 $("#post-submit").click(function(e) {
@@ -10,7 +37,7 @@ $("#post-submit").click(function(e) {
   postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
   postData["description"] = postForm.elements["desc"].value;
-  // postData["contentType"] = postForm.elements["text-type"].value;
+  postData["contentType"] = postForm.elements["text-type"].value;
   postData["content"] = postForm.elements["post-text"].value;
   postData["visibility"] = postForm.elements["visibility"].value;
 
@@ -24,32 +51,35 @@ $("#post-submit").click(function(e) {
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
-                        sendAJAX("POST", "/posts", postData, function(result) {
-                                 console.log(result);
-                                 location.reload();
-                                 });
+
+  var headers = [["Foreign-Host", "false"]];
+  sendAJAX2(headers, "POST", "/posts", postData, function(result) {
+           console.log(result);
+           //location.reload();
+   });
   // done with request, reload
-//  window.location.reload();
+// window.location.reload();
 });
 
-// searches cookies for a github_username
-function getGithubUsername() {
-  // look for the github_name in cookies
-  var cookies = document.cookie.split(";");
-  for(var i=0; i < cookies.length; i++) {
-    var gname = cookies[i].split("=");
-    if(gname[0].trim() == "cookie_cmput404_github_id") {
-      return gname[1];
-    }
-  }
-  return "";
-}
+// // searches cookies for a github_username
+// function getGithubUsername() {
+//   // look for the github_name in cookies
+//   var cookies = document.cookie.split(";");
+//   for(var i=0; i < cookies.length; i++) {
+//     var gname = cookies[i].split("=");
+//     if(gname[0].trim() == "cookie_cmput404_github_id") {
+//       return gname[1];
+//     }
+//   }
+//   return "";
+// }
 
 // get the posts from authors I follow
 $(document).ready(function() {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
-  sendAJAX("GET", "/author/posts", "", function(posts) {
+  var headers = [["Foreign-Host", "false"]];
+  sendAJAX2(headers, "GET", "/author/posts", "", function(posts) {
            console.log(posts);
     for(var i=0; i < posts.length; ++i) {
            //console.log(posts);
@@ -100,17 +130,14 @@ $(document).ready(function() {
 
 // get the user's public events
 $(document).ready(function() {
-  // debug
-  // document.cookie = "cookie_cmput404_github_id=stat3kk; expires=Thu, 18 Dec 2018 12:00:00 UTC";
-
   // this is the author's github_username, empty string if there isn't one
-  var github_name = getGithubUsername(),
-      github_url = "https://api.github.com/users/" + github_name + "/events",
-      sidebar = document.getElementById("github"),
-      githubTemplate = document.getElementById("github-container");
+  var github_name = localStorage.getItem("github_username");
+  if (github_name) {
+    var github_url = "https://api.github.com/users/" + github_name + "/events",
+        sidebar = document.getElementById("github"),
+        githubTemplate = document.getElementById("github-container");
 
-  // get the events and process them to be displayed in github-containers
-  if(github_name) {
+    // get the events and process them to be displayed in github-containers
     $("#git-alert").addClass("hidden");
     sendAJAX("GET", github_url, "", function(events) {
       for(var i=0; i < events.length; ++i) {

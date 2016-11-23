@@ -51,36 +51,48 @@ $(document).ready(function() {
   
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
-  var headers = [["Foreign-Host", "false"]];
+                  console.log(myauthorlink);
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   //sendAJAX("GET", myauthorlink, "", function(events) {
   sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
             
       console.log(events.friends);
       for(var i=0; i < events.friends.length; ++i) {
-      //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
-      var friendsTemplate = document.getElementById('friends-container');
-      friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
-      friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
-      friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
-      console.log(events.friends[i].displayName);
-      //console.log(events.friends[i].displayName);
-      friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
-      
-      document.cookie = "request_author_id="+events.friends[i].id;
-      
-      friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
-      //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
-      
-      var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
-      unfriendbtn.name = events.friends[i].id;
-      unfriendbtn.setAttribute("friendhostname", events.friends[i].host);
-      
-      var normalContent = document.getElementById('friendstab');
-      
-      var clonedTemplate = friendsTemplate.content.cloneNode(true);
-      normalContent.appendChild(clonedTemplate);
+        //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+        var friendsTemplate = document.getElementById('friends-container');
+        friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
+        friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
+        friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
+        console.log(events.friends[i].displayName);
+        friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
+        
+        document.cookie = "request_author_id="+events.friends[i].id;
+        
+        //friendsTemplate.content.querySelector(".friendp1link").href = "authorpage.html";
+            var friendprofileBtn = friendsTemplate.content.querySelector(".friendp1link");
+            friendprofileBtn.setAttribute("thisuserid", events.friends[i].id);
+        //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
+        
+        var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
+        unfriendbtn.name = events.friends[i].id;
+        unfriendbtn.setAttribute("friendhostname", events.friends[i].host);
+        
+        var normalContent = document.getElementById('friendstab');
+        
+        var clonedTemplate = friendsTemplate.content.cloneNode(true);
+        normalContent.appendChild(clonedTemplate);
       
       }
+            
+      $(".friendp1link").click(function (e) {
+                                 
+         e.preventDefault();
+         
+         localStorage.setItem("fetch-author-id", $(this).attr("thisuserid"));
+         window.location.href = "authorpage.html";
+         
+         
+      });
       
       // Set which unfriend the user clicked
       $(".unfriendauthor").click(function (e) {
@@ -99,7 +111,7 @@ $(document).ready(function() {
 $("#reqtab").click(function(e) {
   e.preventDefault();
 
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 
   //sendAJAX("GET", "/getFriendRequests", "", function(events) {
   sendAJAX2(headers, "GET", "/getFriendRequests", "", function(events) {
@@ -150,7 +162,7 @@ function acceptfriend() {
   
   console.log(acceptfrienddata);
   
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   
   sendAJAX2(headers, "POST", "acceptFriendRequest", acceptfrienddata, function(response) {
             //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
@@ -179,7 +191,7 @@ $("#fdtab").click(function(e) {
     var myauthorid = getCookieid();
     var myauthorlink = "/author/" + myauthorid;
     
-    var headers = [["Foreign-Host", "false"]];
+    var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
     //sendAJAX("GET", myauthorlink, "", function(events) {
              console.log(events.friends);
@@ -241,7 +253,7 @@ function unfriendauthor() {
   unfrienddata["server_address"] = localStorage.getItem("fetch-unfriend-host");
   
   console.log(unfrienddata);
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX2(headers, "POST", "/unFriend", unfrienddata, function(response) {
                            
    //sendAJAX("POST", "/unFriend", unfrienddata, function(response) {

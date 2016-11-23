@@ -87,13 +87,15 @@ function sendAJAX2(headers, method, url, message, callback) {
 $(document).ready(function() {
 
                   
-  //var myauthorid = getCookieid();
-  var myauthorid = localStorage.getItem("author_id");
+  var myauthorid = getCookieid();
+  //var myauthorid = localStorage.getItem("author_id");
   var mypTemplate = document.getElementById('profiledatas');
+                  console.log(myauthorid);
   
   var myprofilelink = "/author/" + myauthorid;
+                  console.log(myprofilelink);
  
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
   //sendAJAX("GET", myprofilelink, "", function(result) {
 
@@ -149,19 +151,19 @@ $("#editprofilebtn").click(function (e) {
 // Save the change made by user
 function saveprofilechange() {
 
-                              var editprofiledata = {}
-                              editprofiledata["name"] = document.getElementById("pdn").value;
-                              editprofiledata["github_id"] = document.getElementById("pgitid").value;
-                              
+  var editprofiledata = {}
+  editprofiledata["name"] = document.getElementById("pdn").value;
+  editprofiledata["github_id"] = document.getElementById("pgitid").value;
+  
   console.log(JSON.stringify(editprofiledata));
   localStorage.setItem("github_username", document.getElementById("pgitid").value);
-                              sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
-                                       console.log(response);
-                                       localStorage.setItem("display_name", document.getElementById("pdn").value)
-                                       window.location.reload();
-                                       
-                              });
-                              
+  sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
+           console.log(response);
+           localStorage.setItem("display_name", document.getElementById("pdn").value)
+           window.location.reload();
+           
+  });
+  
                               
                               
                               

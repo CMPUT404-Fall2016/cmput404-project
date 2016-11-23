@@ -1,11 +1,14 @@
 import flask
 import json
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 import requests
 from flask_restful import Resource, Api, abort, reqparse
 from model import *
 from pch import *
 import random, os
+
+from functools import wraps
+
 
 
 handler = RestHandlers()
@@ -16,6 +19,34 @@ if 'local_server_Obj' in APP_state.keys():
     myip = APP_state['local_server_Obj'].IP
 else:
     myip = None
+
+
+
+#the is for server to server basic auth
+def check_auth_post(username, password):
+    """This function is called to check if a username /
+        password combination is valid.
+        """
+    return username == 'servertoserver' and password == '654321'
+
+def authenticate_post():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+                    'Could not verify your access level for that URL.\n'
+                    'You have to login with proper credentials', 401,
+                    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth_post(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth_post(auth.username, auth.password):
+            return authenticate_post()
+        return f(*args, **kwargs)
+    return decorated
+#the is for server to server basic auth
+#-----------------------------------------need @requires_auth_post
+
 
 
 
@@ -310,7 +341,7 @@ class AuthorPost(Resource):
         else:
             #Remote
             allP = handler.getVisiblePosts(request.args.get("author_id"))
-            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]
+            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get("author_id")).json()["authors"]
             #Get all remaining foaf posts, check for each one, if the author is atlOneFriend of pfriends
 
 
