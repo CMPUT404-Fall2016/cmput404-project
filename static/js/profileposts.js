@@ -78,7 +78,7 @@ $("#posttab").click(function(e) {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
-                    var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX2(headers, "GET", myprofileposts, "", function(posts) {
          // if not post are found
          if (posts == "status : NO_MATCH") {

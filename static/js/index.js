@@ -51,13 +51,14 @@ $("#post-submit").click(function(e) {
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
-                        var headers = [["Foreign-Host", "false"]];
-                        sendAJAX2(headers, "POST", "/posts", postData, function(result) {
-                                 console.log(result);
-                                 location.reload();
-                                 });
+  
+  var headers = [["Foreign-Host", "false"]];
+  sendAJAX2(headers, "POST", "/posts", postData, function(result) {
+           console.log(result);
+           //location.reload();
+   });
   // done with request, reload
- window.location.reload();
+// window.location.reload();
 });
 
 // searches cookies for a github_username
