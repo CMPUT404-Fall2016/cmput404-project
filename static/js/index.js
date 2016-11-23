@@ -10,7 +10,7 @@ $("#post-submit").click(function(e) {
   postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
   postData["description"] = postForm.elements["desc"].value;
-  // postData["contentType"] = postForm.elements["text-type"].value;
+  postData["contentType"] = postForm.elements["text-type"].value;
   postData["content"] = postForm.elements["post-text"].value;
   postData["visibility"] = postForm.elements["visibility"].value;
 
@@ -29,7 +29,7 @@ $("#post-submit").click(function(e) {
                                  location.reload();
                                  });
   // done with request, reload
-//  window.location.reload();
+ window.location.reload();
 });
 
 // searches cookies for a github_username
