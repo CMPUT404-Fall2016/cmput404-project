@@ -126,7 +126,7 @@ $(document).ready(function() {
              if(response.friends == true) {
              document.getElementById("addfriendbtn").style.display="none";
              }
-             });
+     });
 });
 
 $("#posttabs").click(function(e) {

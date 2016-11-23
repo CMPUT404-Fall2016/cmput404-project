@@ -69,7 +69,7 @@ $(document).ready(function() {
         document.cookie = "request_author_id="+events.friends[i].id;
         
         //friendsTemplate.content.querySelector(".friendp1link").href = "authorpage.html";
-            var friendprofileBtn = friendsTemplate.content.querySelector(".friendp1link");
+            var friendprofileBtn = friendsTemplate.content.querySelector("#friendp1link");
             friendprofileBtn.setAttribute("thisuserid", events.friends[i].id);
         //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
         
