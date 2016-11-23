@@ -255,10 +255,12 @@ def Login():
         s=result["github_id"]
         cookie["github_id"] = result["github_id"]
         cookie["author_id"] = result["author_id"]
+
+        print "From Login .."
+        printSessionIDs()
+
         return getResponse(body=result, cookie=cookie, status_code=200)
 
-    print "From Login .."
-    printSessionIDs()
 
 
 
