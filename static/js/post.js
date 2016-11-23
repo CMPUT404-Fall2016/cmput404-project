@@ -7,10 +7,10 @@ $(document).ready(function() {
   var commentsList = $("#posts");
 
   // are we even supposed to be here
-  if (host && postID) {
+  if (postID) {
 
     // request the post from whatever the host is
-    sendAJAX("GET", host+"/posts/"+postID, "", function(post) {
+    sendAJAX("GET", "/posts/"+postID, "", function(post) {
       // fill the container with details
       ("$post-title").textContent = post.title;
       ("$post-author").textContent = post.author.displayName;
@@ -53,9 +53,9 @@ $("#comment-submit").click(function (e) {
   e.preventDefault();
 
   var commentData = {};
-  commentData["post"] = host+"/posts/"+postID;
-  commentData["author-id"] = localStorage.getItem("author_id");
-  commentData["comment"] = $("#comment-content").val();
+  commentData["post_id"] = postID;
+  commentData["author_id"] = localStorage.getItem("author_id");
+  commentData["comment_text"] = $("#comment-content").val();
 
   console.log(JSON.stringify(commentData));
 

@@ -85,19 +85,18 @@ $(document).ready(function() {
            //console.log(posts);
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-      // postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-      // postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
-      postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
+      postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
+      postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
       postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      authorBtn.setAttribute("post-author-id", posts[i].author_id);
+      authorBtn.setAttribute("post-author-id", posts[i].author.id);
            //console.log(authorBtn);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      commentsBtn.setAttribute("post-comment-id", posts[i].post_id);
-      console.log(commentsBtn);
+      commentsBtn.setAttribute("post-comment-id", posts[i].id);
+          //  console.log(commentsBtn);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);

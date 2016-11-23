@@ -29,6 +29,7 @@ APP_state["shared_nodes_posts"] = []
 APP_state["nodes_with_authentication"] = True
 
 def initAdmin():
+	global APP_state
 	try :
 		f = open("admin_credentials.txt")
 		text = f.read()
@@ -64,6 +65,7 @@ def saveAppState():
 	pass
 
 def initServerObj():
+	global APP_state
 	server={}
 	server["server_id"] = uuid.uuid4().hex
 	server["IP"] = "http://127.0.0.1:5000"  

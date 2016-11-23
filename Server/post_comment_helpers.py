@@ -365,6 +365,8 @@ class AuthorToAuthorPost(Resource):
                 paras["page"] = request.args.get('page')
                 paras["size"] = request.args.get('size')
                 return jsonify(makePostJson(handler.getVisiblePostsByAuthor(APP_statep["session_ids"][sessionID], author_id), paras))
+            else:
+                return "SESSION_ID_ERROR", 403
 
         else:
             return "SESSION_ERROR", 403
