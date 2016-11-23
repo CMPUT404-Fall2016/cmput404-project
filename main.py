@@ -275,6 +275,8 @@ def Logout():
     output = getCookie("Logout")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
+    print "from logout!"
+    printSessionIDs()
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -284,9 +286,6 @@ def Logout():
             result = {}
             result["status"] = "SUCCESS"
         
-            print "from logout!"
-            printSessionIDs()
-
             return getResponse(body=result, status_code=200)
 
         else:
