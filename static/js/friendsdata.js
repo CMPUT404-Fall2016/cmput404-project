@@ -58,30 +58,41 @@ $(document).ready(function() {
             
       console.log(events.friends);
       for(var i=0; i < events.friends.length; ++i) {
-      //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
-      var friendsTemplate = document.getElementById('friends-container');
-      friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
-      friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
-      friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
-      console.log(events.friends[i].displayName);
-      //console.log(events.friends[i].displayName);
-      friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
-      
-      document.cookie = "request_author_id="+events.friends[i].id;
-      
-      friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
-      //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
-      
-      var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
-      unfriendbtn.name = events.friends[i].id;
-      unfriendbtn.setAttribute("friendhostname", events.friends[i].host);
-      
-      var normalContent = document.getElementById('friendstab');
-      
-      var clonedTemplate = friendsTemplate.content.cloneNode(true);
-      normalContent.appendChild(clonedTemplate);
+        //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
+        var friendsTemplate = document.getElementById('friends-container');
+        friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
+        friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
+        friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
+        console.log(events.friends[i].displayName);
+        friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
+        
+        document.cookie = "request_author_id="+events.friends[i].id;
+        
+        //friendsTemplate.content.querySelector(".friendp1link").href = "authorpage.html";
+            var friendprofileBtn = friendsTemplate.content.querySelector(".friendp1link");
+            friendprofileBtn.setAttribute("thisuserid", events.friends[i].id);
+        //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
+        
+        var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
+        unfriendbtn.name = events.friends[i].id;
+        unfriendbtn.setAttribute("friendhostname", events.friends[i].host);
+        
+        var normalContent = document.getElementById('friendstab');
+        
+        var clonedTemplate = friendsTemplate.content.cloneNode(true);
+        normalContent.appendChild(clonedTemplate);
       
       }
+            
+      $(".friendp1link").click(function (e) {
+                                 
+         e.preventDefault();
+         
+         localStorage.setItem("fetch-author-id", $(this).attr("thisuserid"));
+         window.location.href = "authorpage.html";
+         
+         
+      });
       
       // Set which unfriend the user clicked
       $(".unfriendauthor").click(function (e) {
