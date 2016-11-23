@@ -121,12 +121,12 @@ $(document).ready(function() {
     var isfriend = "/friends/" + myauthorid + "/" + author2sid;
     console.log(isfriend);
 
-    sendAJAX2(headers2, "GET", isfriend, "", function(response) {
+    sendAJAX2(headers, "GET", isfriend, "", function(response) {
              console.log(response.friends);
              if(response.friends == true) {
              document.getElementById("addfriendbtn").style.display="none";
              }
-             });
+     });
 });
 
 $("#posttabs").click(function(e) {
@@ -137,7 +137,8 @@ $("#posttabs").click(function(e) {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
-  sendAJAX("GET", authorpostlink, "", function(posts) {
+                     var headers = [["Foreign-Host", "false"]];
+  sendAJAX2(headers, "GET", authorpostlink, "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;

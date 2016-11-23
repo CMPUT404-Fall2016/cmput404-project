@@ -162,7 +162,7 @@ function acceptfriend() {
   
   console.log(acceptfrienddata);
   
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   
   sendAJAX2(headers, "POST", "acceptFriendRequest", acceptfrienddata, function(response) {
             //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
@@ -191,7 +191,7 @@ $("#fdtab").click(function(e) {
     var myauthorid = getCookieid();
     var myauthorlink = "/author/" + myauthorid;
     
-    var headers = [["Foreign-Host", "false"]];
+    var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
     //sendAJAX("GET", myauthorlink, "", function(events) {
              console.log(events.friends);
@@ -253,7 +253,7 @@ function unfriendauthor() {
   unfrienddata["server_address"] = localStorage.getItem("fetch-unfriend-host");
   
   console.log(unfrienddata);
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX2(headers, "POST", "/unFriend", unfrienddata, function(response) {
                            
    //sendAJAX("POST", "/unFriend", unfrienddata, function(response) {
