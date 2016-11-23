@@ -24,7 +24,8 @@ $("#post-submit").click(function(e) {
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
-                        sendAJAX("POST", "/posts", postData, function(result) {
+                        var headers = [["Foreign-Host", "false"]];
+                        sendAJAX(headers, "POST", "/posts", postData, function(result) {
                                  console.log(result);
                                  location.reload();
                                  });
@@ -49,7 +50,8 @@ function getGithubUsername() {
 $(document).ready(function() {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
-  sendAJAX("GET", "/author/posts", "", function(posts) {
+                  var headers = [["Foreign-Host", "false"]];
+  sendAJAX(headers, "GET", "/author/posts", "", function(posts) {
            console.log(posts);
     for(var i=0; i < posts.length; ++i) {
            //console.log(posts);
