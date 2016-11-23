@@ -69,7 +69,9 @@ def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    return username == 'servertoserver' and password == '654321'
+    db_user = db.session.query(Server).filter(Server.usser_name == username).first()
+    db_pass = db.session.query(Server).filter(Server.password == password).first()
+    return username == db_user.usser_name and password == db_pass.password
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""

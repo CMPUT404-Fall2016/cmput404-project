@@ -45,7 +45,7 @@ def requires_auth_post(f):
         return f(*args, **kwargs)
     return decorated
 #the is for server to server basic auth
-#-----------------------------------------need @requires_auth_post
+#-----------------------------------------need @requires_auth
 
 
 
