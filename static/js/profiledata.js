@@ -151,19 +151,19 @@ $("#editprofilebtn").click(function (e) {
 // Save the change made by user
 function saveprofilechange() {
 
-                              var editprofiledata = {}
-                              editprofiledata["name"] = document.getElementById("pdn").value;
-                              editprofiledata["github_id"] = document.getElementById("pgitid").value;
-                              
+  var editprofiledata = {}
+  editprofiledata["name"] = document.getElementById("pdn").value;
+  editprofiledata["github_id"] = document.getElementById("pgitid").value;
+  
   console.log(JSON.stringify(editprofiledata));
   localStorage.setItem("github_username", document.getElementById("pgitid").value);
-                              sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
-                                       console.log(response);
-                                       localStorage.setItem("display_name", document.getElementById("pdn").value)
-                                       window.location.reload();
-                                       
-                              });
-                              
+  sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
+           console.log(response);
+           localStorage.setItem("display_name", document.getElementById("pdn").value)
+           window.location.reload();
+           
+  });
+  
                               
                               
                               
