@@ -35,17 +35,18 @@ $("#create-btn").click(function (e) {
     // server accepted the registration data, log the user in
     if(response["status"] == "SUCCESS") {
       login(response);
-           
+
     } else if (response["status"] == "NOT_AUTHORIZED") {
-           alert("Awaiting admin authorization");
-           window.location.reload();
+      alert("Awaiting admin authorization");
+      window.location.reload();
 
     // author already exists
-  } else if (response["status"] == "DUPLICATE") {
-      $("#duplicate-alert").prop("disabled", false);
+    } else if (response["status"] == "DUPLICATE") {
+      $("#duplicate-alert").removeClass("hidden");
+
     // what the fuck man
     } else {
-      $("#server-alert").prop("disabled", false);
+      $("#server-alert-R").removeClass("hidden");
     }
   });
 });
@@ -97,14 +98,14 @@ $("#login-btn").click(function(e) {
     } else if (response["status"] == "NOT_AUTHORIZED") {
            alert("Awaiting admin authorization");
            window.location.reload();
-           
+
     // username or password is incorrect
     } else if (response["status"] == "NO_MATCH") {
-      $("#incorrect-alert").prop("disabled", true);
-           
+      $("#incorrect-alert-L").removeClass("hidden");
+
     // again, what the fUCK
     } else {
-      $(".server-alert").prop("disabled", false);
+      $(".server-alert").removeClass("hidden");
     }
   });
 });

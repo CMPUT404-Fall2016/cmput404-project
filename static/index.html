@@ -37,8 +37,8 @@
                 <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
               <div class="form-group">
-                <label class="radio-inline"><input id="text/plain" type="radio" checked="checked" name="text-type">Plain Text</label>
-                <label class="radio-inline"><input id="markdown" type="radio" name="text-type">Markdown</label>
+                <label class="radio-inline"><input type="radio" value="text/plain" checked="checked" name="text-type">Plain Text</label>
+                <label class="radio-inline"><input type="radio" value="text/markdown" name="text-type">Markdown</label>
               </div>
               <div class="form-group">
                 <select name="visibility">
@@ -101,8 +101,7 @@
     <div class="post-body media-body">
       <h4 class="media-heading post-title">Post Title: a sample post</h4>
       <a href="" class="post-author">Author</a>
-      <!-- <p class="post-description">description</p> -->
-      <p class="post-content">
+      <p class="post-content text-left">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
       <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>

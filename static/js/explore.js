@@ -14,13 +14,11 @@ $(document).ready(function() {
       postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
 
       // attach data to the links so it can be referenced when clicked
-           var authorBtn = postTemplate.content.querySelector(".post-author");
-           //$(authorBtn).data("post-author-id", posts[i].author_id);
-           authorBtn.setAttribute("post-author-id", posts[i].author_id);
+      var authorBtn = postTemplate.content.querySelector(".post-author");
+      authorBtn.setAttribute("post-author-id", posts[i].author_id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      // $(commentsBtn).data("post-host", posts[i].author.host);
-      $(commentsBtn).data("post-id", posts[i].id);
+      commentsBtn.setAttribute("post-comment-id", posts[i].post_id);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
@@ -42,7 +40,7 @@ $(document).ready(function() {
       e.preventDefault();
       // set this for later
       // localStorage.getItem("fetch-post-host", $(this).data("post-host"));
-      localStorage.getItem("fetch-post-id", $(this).data("post-id"));
+      localStorage.setItem("fetch-post-id", $(this).attr("post-comment-id"));
       window.location.href("post.html")
     });
   });
