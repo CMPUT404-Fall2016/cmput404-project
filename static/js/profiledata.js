@@ -95,7 +95,7 @@ $(document).ready(function() {
   var myprofilelink = "/author/" + myauthorid;
                   console.log(myprofilelink);
  
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
   //sendAJAX("GET", myprofilelink, "", function(result) {
 

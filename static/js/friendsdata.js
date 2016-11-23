@@ -52,7 +52,7 @@ $(document).ready(function() {
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
                   console.log(myauthorlink);
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   //sendAJAX("GET", myauthorlink, "", function(events) {
   sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
             
@@ -100,7 +100,7 @@ $(document).ready(function() {
 $("#reqtab").click(function(e) {
   e.preventDefault();
 
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 
   //sendAJAX("GET", "/getFriendRequests", "", function(events) {
   sendAJAX2(headers, "GET", "/getFriendRequests", "", function(events) {
