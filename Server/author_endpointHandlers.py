@@ -519,7 +519,7 @@ def searchForeignAuthor(author_id):
 
     return author
 
-def getAuthor(param, Foreign-Host):
+def getAuthor(param, foreign_host):
 
     """
     This will be called in response to :
@@ -531,7 +531,7 @@ def getAuthor(param, Foreign-Host):
     param["local_server_Obj"] = local server obj
     """
 
-    if Foreign-Host == True:
+    if foreign_host == True:
       print "looking for foreign host"
       return searchForeignAuthor(param["author"])
 
