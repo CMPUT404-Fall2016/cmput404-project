@@ -62,7 +62,8 @@ api = Api(app)
 
 app.config['SECRET_KEY'] = 'hi_this_is_cmput404'
 
-
+def printSessionIDs():
+    print APP_state['session_ids']
 
 #the is for server to server basic auth
 def check_auth(username, password):
@@ -251,6 +252,9 @@ def Login():
         cookie["author_id"] = result["author_id"]
         return getResponse(body=result, cookie=cookie, status_code=200)
 
+    print "From Login .."
+    printSessionIDs()
+
 
 
 
@@ -272,6 +276,10 @@ def Logout():
             del APP_state["session_ids"][sessionID]
             result = {}
             result["status"] = "SUCCESS"
+        
+            print "from logout!"
+            printSessionIDs()
+
             return getResponse(body=result, status_code=200)
 
         else:
@@ -348,6 +356,9 @@ def EditProfile():
         return output
 
     cookie = output
+    print "from EditProfile!"
+    printSessionIDs()
+
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
         if sessionID in APP_state["session_ids"]:
@@ -369,6 +380,7 @@ def EditProfile():
 
         print 'WARNING! "session_id" field is not found inside cookie!'
         return getResponse(body={"status" : "CLIENT_FAILURE"}, status_code=200)
+
 
 
 
@@ -432,6 +444,10 @@ def GetFriendRequests():
 
     cookie = output
 
+    print "from GetFriendRequests!"
+    printSessionIDs()
+
+
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
         if sessionID in APP_state["session_ids"]:
@@ -474,6 +490,9 @@ def AcceptFriendRequest():
     output = getCookie("AcceptFriendRequest")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
+
+    print "AcceptFriendRequest!"
+    printSessionIDs()
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -521,6 +540,9 @@ def RemoveFriend():
     output = getCookie("GetFriendRequest")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
+
+    print "from RemoveFriend!"
+    printSessionIDs()
 
     cookie = output
     if "session_id" in cookie.keys():
