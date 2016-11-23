@@ -61,11 +61,11 @@ function sendAJAX2(headers, method, url, message, callback) {
 }
 
 
-function editauthorpage() {
-  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-}
+//function editauthorpage() {
+//  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
+//  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
+//  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
+//}
 
 // clear post tab when user on profile tab
 $("#profile").click( function(e) {
@@ -117,7 +117,7 @@ $(document).ready(function() {
 
     var author2sid = getCookieid();
                   
-    var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+    //var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     var isfriend = "/friends/" + myauthorid + "/" + author2sid;
     console.log(isfriend);
 
@@ -184,17 +184,18 @@ function afriendone() {
 
   var myinfostuff = "/author/" + myuserid;
   
-  var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX2(headers, "GET", myinfostuff, "", function(result) {
   //sendAJAX("GET", myinfostuff, "", function(result) {
     var myinfodatacombine = {}
     myinfodatacombine.myhost = result.host;
     myinfodatacombine.mydisplayname = result.displayName;
 
-    var friendid = getFriendcookieid();
+    //var friendid = getFriendcookieid();
+    var friendid = localStorage.getItem("fetch-author-id");
     var getfriendinfo = "/author/" + friendid;
 
-    var headers = [["Foreign-Host", "false"]];
+    var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     sendAJAX2(headers, "GET", getfriendinfo, "", function(result2) {
     //sendAJAX("GET", getfriendinfo, "", function(result2) {
       var myinfodatacombine = {}
@@ -226,7 +227,8 @@ function afriendtwo(result) {
     friendrequestdata["friend"]["displayName"] = result.frienddisplayname;
     friendrequestdata["friend"]["url"] = result.friendurl;
 
-  sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
+  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+  sendAJAX2(headers, "POST", "/friendrequest", friendrequestdata, function(response) {
     if(response["status"] == "SUCCESS") {
       document.getElementById("addfriendbtn").style.display="none";
     }
