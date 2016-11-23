@@ -341,7 +341,7 @@ class AuthorPost(Resource):
         else:
             #Remote
             allP = handler.getVisiblePosts(request.args.get("author_id"))
-            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]
+            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get("author_id")).json()["authors"]
             #Get all remaining foaf posts, check for each one, if the author is atlOneFriend of pfriends
 
 
