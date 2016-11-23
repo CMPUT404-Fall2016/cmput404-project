@@ -51,7 +51,7 @@ $("#post-submit").click(function(e) {
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
-  
+
   var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "POST", "/posts", postData, function(result) {
            console.log(result);
@@ -61,18 +61,18 @@ $("#post-submit").click(function(e) {
 // window.location.reload();
 });
 
-// searches cookies for a github_username
-function getGithubUsername() {
-  // look for the github_name in cookies
-  var cookies = document.cookie.split(";");
-  for(var i=0; i < cookies.length; i++) {
-    var gname = cookies[i].split("=");
-    if(gname[0].trim() == "cookie_cmput404_github_id") {
-      return gname[1];
-    }
-  }
-  return "";
-}
+// // searches cookies for a github_username
+// function getGithubUsername() {
+//   // look for the github_name in cookies
+//   var cookies = document.cookie.split(";");
+//   for(var i=0; i < cookies.length; i++) {
+//     var gname = cookies[i].split("=");
+//     if(gname[0].trim() == "cookie_cmput404_github_id") {
+//       return gname[1];
+//     }
+//   }
+//   return "";
+// }
 
 // get the posts from authors I follow
 $(document).ready(function() {
@@ -130,17 +130,14 @@ $(document).ready(function() {
 
 // get the user's public events
 $(document).ready(function() {
-  // debug
-  // document.cookie = "cookie_cmput404_github_id=stat3kk; expires=Thu, 18 Dec 2018 12:00:00 UTC";
-
   // this is the author's github_username, empty string if there isn't one
-  var github_name = getGithubUsername(),
-      github_url = "https://api.github.com/users/" + github_name + "/events",
-      sidebar = document.getElementById("github"),
-      githubTemplate = document.getElementById("github-container");
+  var github_name = localStorage.getItem("github_username");
+  if (github_name) {
+    var github_url = "https://api.github.com/users/" + github_name + "/events",
+        sidebar = document.getElementById("github"),
+        githubTemplate = document.getElementById("github-container");
 
-  // get the events and process them to be displayed in github-containers
-  if(github_name) {
+    // get the events and process them to be displayed in github-containers
     $("#git-alert").addClass("hidden");
     sendAJAX("GET", github_url, "", function(events) {
       for(var i=0; i < events.length; ++i) {
