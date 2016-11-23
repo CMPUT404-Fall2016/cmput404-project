@@ -40,7 +40,7 @@ $(document).ready(function() {
       e.preventDefault();
       // set this for later
       // localStorage.getItem("fetch-post-host", $(this).data("post-host"));
-      localStorage.getItem("fetch-post-id", $(this).data("post-id"));
+      localStorage.setItem("fetch-post-id", $(this).attr("post-comment-id"));
       window.location.href("post.html")
     });
   });

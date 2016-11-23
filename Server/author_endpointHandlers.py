@@ -82,6 +82,7 @@ def getFriendList(param):
 
     TODO: add code for handling in Author_Relationships.query() when server and author id are given instead of objects
     """
+    global APP_state
 
     author_id = param["author"]
     server_index = param["local_server_Obj"].server_index
@@ -191,6 +192,8 @@ def processFriendRequest(param):
     # result = db.session.query(Authors).filter(Authors.author_id == param["to_author"]).all()
     # if len(result) == 0:
     #     return False
+
+    global APP_state
 
     to_serverIP = param["to_serverIP"]
     to_server_index=db.session.query(Servers).filter(Servers.IP == to_serverIP).all()[0].server_index
@@ -305,6 +308,7 @@ def getFriendRequestList(param):
   param["author"] = author1 id 
   param["server_Obj"] = Server object for the author being queried.
   """
+  global APP_state
 
   query_param = {}
 
@@ -357,6 +361,8 @@ def unFriend(param):
 
     # if ("author1" and "author2" and "server_1_address" and "server_2_address") not in param.keys():
     #   return "CLIENT_FAILURE"
+
+    global APP_state
 
     author1_id = param["author1"]
     author2_id = param["author2"]
@@ -530,6 +536,7 @@ def getAuthor(param, foreign_host):
     param["author"] = author_id
     param["local_server_Obj"] = local server obj
     """
+    global APP_state
 
     if foreign_host == True:
       print "looking for foreign host"
@@ -576,6 +583,8 @@ def getLocalServer():
     return db.session.query(Servers).filter(Servers.server_index == 0).all()[0]
 
 def verifyAdmin(param):
+    global APP_state
+    
     if APP_state['admin_credentials'] == None:
         print "NO admin exists"
         return False

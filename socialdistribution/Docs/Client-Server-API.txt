@@ -1,6 +1,0 @@
-*** This file lists our custom made client-server APIs***
-
-POST service/login/  -> This makes a POST with body containing login_name and password for authentication. Checks from Authors table
-POST service/register/ -> This makes a POST with body containing various information about the new user. Adds a new entry to the Authors table
-POST service/acceptFriendRequest/ -> This makes a POST with body containing information about the user1 who is accepting (following) user2's friend request. Adds a new entry to the Author_Relationships table
-POST service/editProfile/ -> This makes a POST with body containing information about the user that server should edit using the new information provided.

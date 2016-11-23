@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request, Response
 import requests
 from flask_restful import Resource, Api, abort, reqparse
 from model import *
-from pch import *
+from post_comment_handlers import *
 import random, os
 
 from functools import wraps
@@ -45,7 +45,7 @@ def requires_auth_post(f):
         return f(*args, **kwargs)
     return decorated
 #the is for server to server basic auth
-#-----------------------------------------need @requires_auth_post
+#-----------------------------------------need @requires_auth
 
 
 
@@ -365,6 +365,8 @@ class AuthorToAuthorPost(Resource):
                 paras["page"] = request.args.get('page')
                 paras["size"] = request.args.get('size')
                 return jsonify(makePostJson(handler.getVisiblePostsByAuthor(APP_statep["session_ids"][sessionID], author_id), paras))
+            else:
+                return "SESSION_ID_ERROR", 403
 
         else:
             return "SESSION_ERROR", 403

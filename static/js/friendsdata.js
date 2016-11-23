@@ -69,8 +69,8 @@ $(document).ready(function() {
         document.cookie = "request_author_id="+events.friends[i].id;
 
         //friendsTemplate.content.querySelector(".friendp1link").href = "authorpage.html";
-        var friendprofileBtn = friendsTemplate.content.querySelector(".friendp1link");
-        friendprofileBtn.setAttribute("thisuserid", events.friends[i].id);
+            var friendprofileBtn = friendsTemplate.content.querySelector(".friendp1link");
+            friendprofileBtn.setAttribute("thisuserid", events.friends[i].id);
         //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
 
         var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
@@ -129,6 +129,7 @@ $("#reqtab").click(function(e) {
 
       var addingfriendbtn = requestTemplate.content.querySelector("#friend-accept");
       addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
+      addingfriendbtn.setAttribute("friendhostserver", events.friendRequestList[i].fromServerIP);
 
       var normalContent = document.getElementById('frequest');
 
@@ -139,12 +140,13 @@ $("#reqtab").click(function(e) {
 
       $(".friend-accept").click(function (e) {
 
-                                e.preventDefault();
+          e.preventDefault();
 
-                                localStorage.setItem("fetch-addfriend-id", $(this).attr("name"));
-                                acceptfriend();
+          localStorage.setItem("fetch-addfriend-id", $(this).attr("name"));
+                      localStorage.setItem("fetch-addfriend-host", $(this).attr("friendhostserver"));
+          acceptfriend();
 
-                                });
+      });
 
 
   });
@@ -158,13 +160,14 @@ function acceptfriend() {
 
   var acceptfrienddata = {};
   acceptfrienddata["author"] = localStorage.getItem("fetch-addfriend-id");
-  acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
+  //acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
+  acceptfrienddata["server_address"] = localStorage.getItem("fetch-addfriend-host");
 
   console.log(acceptfrienddata);
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 
-  sendAJAX2(headers, "POST", "acceptFriendRequest", acceptfrienddata, function(response) {
+  sendAJAX2(headers, "POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
             //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
             console.log(response);
             window.location.href="friendspage.html";
@@ -207,8 +210,12 @@ $("#fdtab").click(function(e) {
 
              document.cookie = "request_author_id="+events.friends[i].id;
 
-             friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
-             //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
+             //friendsTemplate.content.querySelector("#friendp1link").href = "authorpage.html";
+//              var friendprofilepage = friendsTemplate.content.querySelector("#friendp2link");
+//              friendprofilepage.
+              var friendprofileBtn = friendsTemplate.content.querySelector(".friendp1link");
+              friendprofileBtn.setAttribute("thisuserid", events.friends[i].id);
+
 
              var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
              unfriendbtn.name = events.friends[i].id;
@@ -224,19 +231,26 @@ $("#fdtab").click(function(e) {
              var clonedTemplate = friendsTemplate.content.cloneNode(true);
              normalContent.appendChild(clonedTemplate);
 
-
-
              }
+
+              $(".friendp1link").click(function (e) {
+
+                 e.preventDefault();
+
+                 localStorage.setItem("fetch-author-id", $(this).attr("thisuserid"));
+                 window.location.href = "authorpage.html";
+
+             });
 
              $(".unfriendauthor").click(function (e) {
 
-                                        e.preventDefault();
+                  e.preventDefault();
 
-                                        localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
-                                        localStorage.setItem("fetch-unfriend-host", $(this).attr("friendhostname"));
-                                        unfriendauthor();
+                  localStorage.setItem("fetch-unfriend-id", $(this).attr("name"));
+                  localStorage.setItem("fetch-unfriend-host", $(this).attr("friendhostname"));
+                  unfriendauthor();
 
-                                        });
+                  });
              });
 
     document.getElementById("frequest").innerHTML = "";

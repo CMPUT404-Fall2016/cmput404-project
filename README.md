@@ -13,3 +13,6 @@ Randy Hu
 
 Touqir Sajed
 
+****** 
+
+Checkout the current APP status [Here!](https://github.com/CMPUT404-Fall2016/cmput404-project/wiki/Current-Status)

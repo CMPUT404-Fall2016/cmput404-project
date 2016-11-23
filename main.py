@@ -7,8 +7,8 @@ import uuid
 from model import *
 from Server.author_endpointHandlers import *
 import urlparse
-from Server.pch import * 
-from Server.c2sM import *
+from Server.post_comment_handlers import * 
+from Server.post_comment_helpers import *
 from gevent.wsgi import WSGIServer
 
 #http basic auth
@@ -62,14 +62,18 @@ api = Api(app)
 
 app.config['SECRET_KEY'] = 'hi_this_is_cmput404'
 
-
+def printSessionIDs():
+    global APP_state
+    print APP_state['session_ids']
 
 #the is for server to server basic auth
 def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    return username == 'servertoserver' and password == '654321'
+    db_user = db.session.query(Server).filter(Server.usser_name == username).first()
+    db_pass = db.session.query(Server).filter(Server.password == password).first()
+    return username == db_user.usser_name and password == db_pass.password
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -91,6 +95,7 @@ def requires_auth(f):
 
 # quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):
+    global APP_state
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
@@ -127,6 +132,7 @@ class Back(BaseView):
 class SettingView(BaseView):
     @expose('/')
     def index(self):
+        global APP_state
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
         if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
@@ -223,7 +229,7 @@ def Login():
 
     """
 
-    # global APP_state
+    global APP_state
 
     try:
         data=flask_post_json()
@@ -251,6 +257,9 @@ def Login():
         cookie["author_id"] = result["author_id"]
         return getResponse(body=result, cookie=cookie, status_code=200)
 
+    print "From Login .."
+    printSessionIDs()
+
 
 
 
@@ -260,7 +269,7 @@ def Logout():
     Responsible for logging out user
     Removes the sessionID at this request
     """
-    # global APP_state
+    global APP_state
     output = getCookie("Logout")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
@@ -272,6 +281,10 @@ def Logout():
             del APP_state["session_ids"][sessionID]
             result = {}
             result["status"] = "SUCCESS"
+        
+            print "from logout!"
+            printSessionIDs()
+
             return getResponse(body=result, status_code=200)
 
         else:
@@ -301,7 +314,7 @@ def Register():
         body["password"] = "123456"
 
     """
-    # global APP_state
+    global APP_state
     try:
         data=flask_post_json()
 
@@ -333,6 +346,7 @@ def EditProfile():
     """
     User makes modifications to his profile(name, password, etc) and sends them using this API
     """
+    global APP_state
     try:
         data=flask_post_json()
 
@@ -348,6 +362,9 @@ def EditProfile():
         return output
 
     cookie = output
+    print "from EditProfile!"
+    printSessionIDs()
+
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
         if sessionID in APP_state["session_ids"]:
@@ -372,8 +389,9 @@ def EditProfile():
 
 
 
+
 @app.route("/author/<AUTHOR_ID>", methods=['GET'])
-@requires_auth
+#@requires_auth
 def FetchAuthor(AUTHOR_ID):
     
     param = {}
@@ -425,12 +443,17 @@ def GetFriendRequests():
     """
     User wants the current list of friend requests that have been sent to him.
     """
+    global APP_state
 
     output = getCookie("GetFriendRequest")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
 
     cookie = output
+
+    print "from GetFriendRequests!"
+    printSessionIDs()
+
 
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
@@ -463,6 +486,7 @@ def AcceptFriendRequest():
 
 
     """
+    global APP_state
 
     try:
         data=flask_post_json()
@@ -474,6 +498,9 @@ def AcceptFriendRequest():
     output = getCookie("AcceptFriendRequest")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
+
+    print "AcceptFriendRequest!"
+    printSessionIDs()
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -510,6 +537,7 @@ def RemoveFriend():
     """
     User wants to unfriend someone
     """
+    global APP_state
 
     try:
         data=flask_post_json()
@@ -521,6 +549,9 @@ def RemoveFriend():
     output = getCookie("GetFriendRequest")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
+
+    print "from RemoveFriend!"
+    printSessionIDs()
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -552,11 +583,12 @@ def RemoveFriend():
 
 
 @app.route("/friendrequest", methods=['POST'])
-@requires_auth
+#@requires_auth
 def FollowUser():
     """
     User wants to follow someone, aka wants to send a friend request.
     """
+    global APP_state
 
     output = getCookie("FollowUser")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
@@ -568,6 +600,9 @@ def FollowUser():
     except Exception as e:
         print "Failed to parse data from PUT request during sending friend Request! : ", e
         return getResponse(body={"status": "CLIENT_FAILURE"}, status_code=200)
+
+    print "from FollowUser!"
+    printSessionIDs()
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -602,10 +637,12 @@ def FollowUser():
 
 
 @app.route("/friends/<AUTHOR_ID>", methods=['GET'])
-@requires_auth
+#@requires_auth
 def GetFriendList(AUTHOR_ID):
     """
     """
+
+    global APP_state
 
     param = {}
     param["author"] = AUTHOR_ID
@@ -620,7 +657,7 @@ def GetFriendList(AUTHOR_ID):
 
 
 @app.route("/friends/<AUTHOR_ID>", methods=['POST'])
-@requires_auth
+#@requires_auth
 def checkIfFriendsList(AUTHOR_ID):
     """
     """
@@ -647,7 +684,7 @@ def checkIfFriendsList(AUTHOR_ID):
 
 
 @app.route("/friends/<AUTHOR_ID_1>/<AUTHOR_ID_2>", methods=['GET'])
-@requires_auth
+#@requires_auth
 def checkIfFriends(AUTHOR_ID_1, AUTHOR_ID_2):
     """
     """
@@ -685,6 +722,7 @@ def profile():
     return app.send_static_file('profile.html')
 
 def admin_settings_helper():
+    global APP_state
     shared_nodes = ""
     shared_nodes_posts = ""
     shared_nodes_images = ""
@@ -710,6 +748,8 @@ def admin_settings_helper():
 
 
 def init_admin():
+    global APP_state
+
     user1={"login_name":"Amaral", "name":"amaral Dcosta"}
     user2={"login_name":"Tully", "name":"Tully Dcosta"}
     user3={"login_name":"Eddy", "name":"Eddy Dcosta"}
@@ -743,6 +783,7 @@ def init_server():
 
 @app.route('/admin_settings.html')
 def admin_settings():
+    global APP_state
     auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
     if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
@@ -774,6 +815,7 @@ def admin_settings():
 
 @app.route('/settings', methods=['POST'])
 def settings():
+    global APP_state
     updateSettings(request.form)
     redirectURL = APP_state["local_server_Obj"].IP + '/admin_settings.html'
     return redirect(redirectURL, code=302)
@@ -781,6 +823,7 @@ def settings():
 
 def updateSettings(dict):
 
+    global APP_state
     print dict
     if 'element_6' in dict:
         if dict['element_6'].strip() == "":
@@ -816,6 +859,7 @@ def updateSettings(dict):
 
 
 def updateForeignHosts():
+    global APP_state
     for host in APP_state["shared_nodes"]:
         servers = db.session.query(Servers).filter(Servers.IP == host).all()
         if len(servers) == 0:
@@ -830,7 +874,7 @@ def updateForeignHosts():
     db.session.commit()
 
 def parseAuthors(dict):
-
+    global APP_state
     new = []
     indices = []
     for k in dict.keys():
