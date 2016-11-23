@@ -92,15 +92,12 @@ $(document).ready(function() {
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      //$(authorBtn).data("post-author-id", posts[i].author_id);
-           authorBtn.setAttribute("post-author-id", posts[i].author_id);
+      authorBtn.setAttribute("post-author-id", posts[i].author_id);
            //console.log(authorBtn);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      // $(commentsBtn).data("post-host", posts[i].author.host);
-      //$(commentsBtn).data("post-id", posts[i].id);
-           commentsBtn.setAttribute("post-comment-id", posts[i].post_id);
-           console.log(commentsBtn);
+      commentsBtn.setAttribute("post-comment-id", posts[i].post_id);
+      console.log(commentsBtn);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
@@ -112,7 +109,6 @@ $(document).ready(function() {
     $(".comments").click(function(e) {
       e.preventDefault();
       // set this for later
-      // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
       localStorage.setItem("fetch-post-id", $(this).attr("post-comment-id"));
       window.location.href = "post.html";
     });

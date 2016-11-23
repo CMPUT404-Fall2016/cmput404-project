@@ -70,7 +70,9 @@ def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    return username == 'servertoserver' and password == '654321'
+    db_user = db.session.query(Server).filter(Server.usser_name == username).first()
+    db_pass = db.session.query(Server).filter(Server.password == password).first()
+    return username == db_user.usser_name and password == db_pass.password
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -385,7 +387,7 @@ def EditProfile():
 
 
 @app.route("/author/<AUTHOR_ID>", methods=['GET'])
-@requires_auth
+#@requires_auth
 def FetchAuthor(AUTHOR_ID):
     
     param = {}
@@ -574,7 +576,7 @@ def RemoveFriend():
 
 
 @app.route("/friendrequest", methods=['POST'])
-@requires_auth
+#@requires_auth
 def FollowUser():
     """
     User wants to follow someone, aka wants to send a friend request.
@@ -624,7 +626,7 @@ def FollowUser():
 
 
 @app.route("/friends/<AUTHOR_ID>", methods=['GET'])
-@requires_auth
+#@requires_auth
 def GetFriendList(AUTHOR_ID):
     """
     """
@@ -642,7 +644,7 @@ def GetFriendList(AUTHOR_ID):
 
 
 @app.route("/friends/<AUTHOR_ID>", methods=['POST'])
-@requires_auth
+#@requires_auth
 def checkIfFriendsList(AUTHOR_ID):
     """
     """
@@ -669,7 +671,7 @@ def checkIfFriendsList(AUTHOR_ID):
 
 
 @app.route("/friends/<AUTHOR_ID_1>/<AUTHOR_ID_2>", methods=['GET'])
-@requires_auth
+#@requires_auth
 def checkIfFriends(AUTHOR_ID_1, AUTHOR_ID_2):
     """
     """
