@@ -121,7 +121,7 @@ $(document).ready(function() {
     var isfriend = "/friends/" + myauthorid + "/" + author2sid;
     console.log(isfriend);
 
-    sendAJAX2(headers2, "GET", isfriend, "", function(response) {
+    sendAJAX2(headers, "GET", isfriend, "", function(response) {
              console.log(response.friends);
              if(response.friends == true) {
              document.getElementById("addfriendbtn").style.display="none";
