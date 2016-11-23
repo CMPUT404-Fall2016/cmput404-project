@@ -25,7 +25,7 @@ $("#post-submit").click(function(e) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
                         var headers = [["Foreign-Host", "false"]];
-                        sendAJAX(headers, "POST", "/posts", postData, function(result) {
+                        sendAJAX2(headers, "POST", "/posts", postData, function(result) {
                                  console.log(result);
                                  location.reload();
                                  });
@@ -51,7 +51,7 @@ $(document).ready(function() {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
                   var headers = [["Foreign-Host", "false"]];
-  sendAJAX(headers, "GET", "/author/posts", "", function(posts) {
+  sendAJAX2(headers, "GET", "/author/posts", "", function(posts) {
            console.log(posts);
     for(var i=0; i < posts.length; ++i) {
            //console.log(posts);
