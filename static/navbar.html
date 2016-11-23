@@ -86,11 +86,16 @@
     e.preventDefault();
     localStorage.setItem("fetch-author-id",document. getElementById("author-search").value );
     document.cookie = "request_author_id="+document.getElementById("author-search").value;
-    window.location.href = "authorpage.html"
+    //window.location.href = "authorpage.html"
     var linkauthor = "/author/" + document. getElementById("author-search").value;
     var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     sendAJAX2(headers, "GET", linkauthor, "", function(response) {
-              
+              if (response["status"] == "SUCCESS") {
+                window.location.href = "authorpage.html"
+              }
+              else {
+              window.location.reload();
+              }
               });
   });
 
