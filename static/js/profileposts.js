@@ -96,7 +96,6 @@ $("#posttab").click(function(e) {
            authorBtn.setAttribute("post-author-id", posts[i].author_id);
            //console.log(authorBtn);
            
-           
            var commentsBtn = postTemplate.content.querySelector(".comments");
            // $(commentsBtn).data("post-host", posts[i].author.host);
            $(commentsBtn).data("post-id", posts[i].id);
