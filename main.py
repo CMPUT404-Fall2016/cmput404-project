@@ -66,14 +66,15 @@ def printSessionIDs():
     global APP_state
     print APP_state['session_ids']
 
-#the is for server to server basic auth
-def check_auth(username, password):
+#this is for server to server basic auth
+def check_auth(username, password, forign_server):
     """This function is called to check if a username /
     password combination is valid.
     """
-    db_user = db.session.query(Server).filter(Server.usser_name == username).first()
-    db_pass = db.session.query(Server).filter(Server.password == password).first()
-    return username == db_user.usser_name and password == db_pass.password
+    db_server = db.session.query(Server).filter(Server.IP == forign_server).first()
+    
+    
+    return username == db_server.usser_name and password == db_server.password
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -86,11 +87,11 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
+        if not auth or not check_auth(auth.username, auth.password, request.remote_addr):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
-#the is for server to server basic auth
+#this is for server to server basic auth
 #-----------------------------------------need @requires_auth
 
 # quick fix for build_in flask
