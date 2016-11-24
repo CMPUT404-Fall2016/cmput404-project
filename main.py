@@ -137,7 +137,7 @@ class Back(BaseView):
 
 
 
-admin = Admin(app, name='Example: Admin', template_mode='bootstrap3')
+admin = Admin(app, name='Welcome to Admin', template_mode='bootstrap3')
 
 # Add views
 admin.add_view(UserView(Authors, db.session))
