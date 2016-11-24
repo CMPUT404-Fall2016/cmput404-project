@@ -70,10 +70,10 @@ def check_auth(username, password, forign_server):
     """This function is called to check if a username /
     password combination is valid.
     """
-    db_server = db.session.query(Server).filter(Server.IP == forign_server).first()
+    db_server = db.session.query(Servers).filter(Servers.IP == forign_server).first()
     
     
-    return username == db_server.usser_name and password == db_server.password
+    return username == db_server.user_name and password == db_server.password
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -95,15 +95,11 @@ def requires_auth(f):
 
 # quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):
-    global APP_state
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
-        if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
-            raise HTTPException('', Response(
-                "Please log in.", 401,
-                {'WWW-Authenticate': 'Basic realm="Login Required"'}
-            ))
+        if not auth or not check_auth(auth.username, auth.password, request.remote_addr):
+            return authenticate()
     
         return True
 
@@ -124,34 +120,32 @@ class URLView(ModelView):
 class ServerView(ModelView):
     can_create = True
 
+class GlobalView(ModelView):
+    can_create = True
+
+class FriendRelationshipsView(ModelView):
+    can_create = True
+
+class FriendRequestsView(ModelView):
+    can_create = True
+
 class Back(BaseView):
     @expose('/')
     def index(self):
         return app.send_static_file('./admin/index.html')
 
-class SettingView(BaseView):
-    @expose('/')
-    def index(self):
-        global APP_state
-        auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
-        
-        if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
-            raise HTTPException('', Response(
-                                             "Please log in.", 401,
-                                             {'WWW-Authenticate': 'Basic realm="Login Required"'}
-                                             ))
-        return redirect('/admin_settings.html')
 
 
-
-admin = Admin(app, name='Example: Admin', template_mode='bootstrap3')
+admin = Admin(app, name='Welcome to Admin', template_mode='bootstrap3')
 
 # Add views
 admin.add_view(UserView(Authors, db.session))
 admin.add_view(PostView(Posts, db.session))
 admin.add_view(ImageView(Images, db.session))
 admin.add_view(ServerView(Servers, db.session))
-admin.add_view(SettingView(name='Settings', endpoint='/admin_settings.html'))
+admin.add_view(GlobalView(Global_var, db.session))
+admin.add_view(FriendRelationshipsView(Author_Relationships, db.session))
+admin.add_view(FriendRequestsView(Friend_Requests, db.session))
 
 admin.add_view(Back(name='Back', endpoint='back'))
 
