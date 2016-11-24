@@ -62,6 +62,7 @@ def initAppState():
     APP_state['session_ids'] = {}
     # APP_state['no_servers'] = 0
     APP_state['admin_credentials'] = None
+    print APP_state
     saveGlobalVar(APP_state)
 
 def initServerObj():
