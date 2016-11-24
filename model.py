@@ -108,7 +108,7 @@ def initDB():
 
 # initServerObj()
 initAdmin()
-initDB()
+# initDB()
 # createDefaultAuthor()
 
 
