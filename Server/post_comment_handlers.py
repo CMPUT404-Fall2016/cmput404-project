@@ -374,6 +374,4 @@ class RestHandlers():
 
 
 	def getAllFoafPostsByUsr(author_id):
-        return db.session.query(Posts).filter(Posts.view_permission == 4, Posts.author_id == author_id).all()
-
-
+		return db.session.query(Posts).filter(Posts.view_permission == 4, Posts.author_id == author_id).all()

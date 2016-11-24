@@ -17,11 +17,12 @@ COOKIE_NAMES = ["cookie_cmput404_author_id", "cookie_cmput404_session_id", "cook
 VIEW_PER = ["", "PUBLIC", "PRIVATE", "FRIENDS", "FOAF", "SERVERONLY"]
 
 
+APP_state = loadGlobalVar()
 if 'local_server_Obj' in APP_state.keys():
     myip = APP_state['local_server_Obj'].IP
 else:
     myip = None
-
+del APP_state
 
 
 #the is for server to server basic auth
