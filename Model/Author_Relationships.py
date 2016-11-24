@@ -175,10 +175,20 @@ class Author_Relationships(db.Model):
             return db.session.query(Author_Relationships).all()
 
 
-        if "author_ids" in query_param.keys():
-            author1_id, author2_id = query_param["author_ids"]
+        if "areFollowers" in query_param.keys():
+            author1_id, author2_id = query_param["areFollowers"]
             results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
                                                                   Author_Relationships.author2_id == author2_id,
+                                                                  Author_Relationships.relationship_type == 1
+                                                                  ).all()
+
+            return results
+
+        if "areFriends" in query_param.keys():
+            author1_id, author2_id = query_param["areFriends"]
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
+                                                                  Author_Relationships.author2_id == author2_id,
+                                                                  Author_Relationships.relationship_type == 3
                                                                   ).all()
 
             return results

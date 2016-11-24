@@ -26,21 +26,19 @@ def isFriend(param):
   author_id1 = param["author1"]
   author_id2 = param["author2"]
   query_param={}
-  query_param['author_ids'] = [author_id1, author_id2]
+  query_param['areFriends'] = [author_id1, author_id2]
   results=Author_Relationships.query(query_param)
   if len(results) > 0 :
       # print results[0].relationship_type  
       # assert(len(results) == 1), "Duplicate author_relationships entry found!"
-      if results[0].relationship_type == 3 :
-          return True
+    return True
 
-  query_param['author_ids'] = [author_id2, author_id1] # Search with reverse query
+  query_param['areFriends'] = [author_id2, author_id1] # Search with reverse query
   results=Author_Relationships.query(query_param)
   if len(results) > 0 :
       # print results[0].relationship_type  
       # assert(len(results) == 1), "Duplicate author_relationships entry found!"
-      if results[0].relationship_type == 3 :
-          return True
+      return True
 
   return False
 
@@ -403,13 +401,15 @@ def unFriend(param, APP_state):
                 print("Error while unfriending! :", e)
                 return False
 
-    try:
-        db.session.delete(results[0])
-        db.session.commit()
+    else:
+        
+        try:
+            db.session.delete(results[0])
+            db.session.commit()
 
-    except Exception as e:
-        print("Error while unfriending! :", e)
-        return False
+        except Exception as e:
+            print("Error while unfriending! :", e)
+            return False
 
     return True
 
