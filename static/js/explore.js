@@ -5,20 +5,20 @@ var postList = document.getElementById("posts"),
 
 // get all the public posts on the server
 $(document).ready(function() {
-  sendAJAX("GET", "/posts", "", function(posts) {
+  sendAJAX("GET", "/posts", "", function(results) {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
-      postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-      postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-      postTemplate.content.querySelector(".post-author").text = posts[i].author.displayName;
-      postTemplate.content.querySelector(".post-content").textContent = posts[i].text;
+      postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
+      postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
+      postTemplate.content.querySelector(".post-author").text = results.posts[i].author.displayName;
+      postTemplate.content.querySelector(".post-content").textContent = results.posts[i].content;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      authorBtn.setAttribute("post-author-id", posts[i].author.id);
+      authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      commentsBtn.setAttribute("post-comment-id", posts[i].id);
+      commentsBtn.setAttribute("post-comment-id", results.posts[i].id);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
