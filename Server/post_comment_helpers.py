@@ -9,6 +9,7 @@ import random, os
 from model import *
 
 from functools import wraps
+from author_endpointHandlers import *
 
 
 handler = RestHandlers()
@@ -274,7 +275,9 @@ class All_Post(Resource):
             agre = []
             agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
             for node in nodes:
-                agre.append(requests.get(node + "/posts", paras).json())
+                headers = createAuthHeaders(node)
+                headers['Content-type'] = 'application/json'
+                agre.append(requests.get(node + "/posts", params = paras, headers = headers).json())
             # Each json object contains all public posts from a server
             return agre
 
@@ -354,7 +357,9 @@ class AuthorPost(Resource):
                     paras["author_id"] = APP_state["session_ids"][sessionID]
 
                     for node in nodes:
-                        rt.append(requests.get(node + "/author/posts", paras = paras).json())
+                        headers = createAuthHeaders(node)
+                        headers['Content-type'] = 'application/json'
+                        rt.append(requests.get(node + "/author/posts", params = paras, headers=headers).json())
                     return rt
                 else:
                     return "Session_ID Error", 403
