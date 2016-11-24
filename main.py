@@ -74,6 +74,8 @@ def check_auth(username, password, forign_server):
 
 
     print "This is an example wsgi app served from {} to {}".format(socket.gethostname(), request.url_root)
+    print username
+    print password
     print "foreign server : "
     forign_server = forign_server[:-1]
     print forign_server
