@@ -6,19 +6,19 @@ class Comments(db.Model):
     
     __tablename__ = 'comments'
     
-    comment_id = db.Column(db.String(33), primary_key=True)
+    comment_id = db.Column(db.String(100), primary_key=True)
 
-    author_id = db.Column(db.String(33))
+    author_id = db.Column(db.String(100))
 
     author_name = db.Column(db.String(60))
 
-    author_host = db.Column(db.String(60))
+    author_host = db.Column(db.String(500))
 
-    author_url = db.Column(db.String(60))
+    author_url = db.Column(db.String(600))
 
     author_github = db.Column(db.String(60))
     
-    post_id = db.Column(db.String(33), db.ForeignKey('posts.post_id'))
+    post_id = db.Column(db.String(100), db.ForeignKey('posts.post_id'))
     
     comment_text = db.Column(db.String(800))
 

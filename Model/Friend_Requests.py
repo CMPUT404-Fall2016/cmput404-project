@@ -8,15 +8,15 @@ class Friend_Requests(db.Model):
 
     __tablename__ = 'friend_requests'
     
-    friendrequests_id = db.Column(db.String(33), primary_key = True)
+    friendrequests_id = db.Column(db.String(100), primary_key = True)
     
-    fromAuthor_id = db.Column(db.String(33))
+    fromAuthor_id = db.Column(db.String(100))
     
     fromAuthorServer_id = db.Column(db.Integer)
 
     fromAuthorDisplayName = db.Column(db.String(60))
     
-    toAuthor_id = db.Column(db.String(33))
+    toAuthor_id = db.Column(db.String(100))
     
     toAuthorServer_id = db.Column(db.Integer)
     
