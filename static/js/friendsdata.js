@@ -143,7 +143,8 @@ $("#reqtab").click(function(e) {
           e.preventDefault();
 
           localStorage.setItem("fetch-addfriend-id", $(this).attr("name"));
-                      localStorage.setItem("fetch-addfriend-host", $(this).attr("friendhostserver"));
+          localStorage.setItem("fetch-addfriend-name", $(this)attr("addname"));
+          localStorage.setItem("fetch-addfriend-host", $(this).attr("friendhostserver"));
           acceptfriend();
 
       });
@@ -163,16 +164,21 @@ function acceptfriend() {
   //acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
   acceptfrienddata["server_address"] = localStorage.getItem("fetch-addfriend-host");
 
+  // touqir wants these
+  acceptfrienddata["author1_name"] = localStorage.getItem("fetch-addfriend-name");
+  acceptfrienddata["author2_name"] = localStorage.getItem("display_name");
+
   console.log(acceptfrienddata);
 
-  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+  // var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+  var headers = [["Foreign-Host", "false"]];
 
   sendAJAX2(headers, "POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
-            //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
-            console.log(response);
-            window.location.href="friendspage.html";
+    //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
+    console.log(response);
+    window.location.href="friendspage.html";
 
-            });
+  });
 }
 
 
@@ -194,10 +200,11 @@ $("#fdtab").click(function(e) {
     var myauthorid = getCookieid();
     var myauthorlink = "/author/" + myauthorid;
 
-    var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+    // var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+    var headers = [["Foreign-Host", "false"]];
     sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
     //sendAJAX("GET", myauthorlink, "", function(events) {
-             console.log(events.friends);
+            //  console.log(events.friends);
              for(var i=0; i < events.friends.length; ++i) {
              //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
              var friendsTemplate = document.getElementById('friends-container');
