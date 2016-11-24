@@ -322,7 +322,7 @@ def getFriendRequestList(param, APP_state):
             else:
                 FR.fromAuthorDisplayName = "User not found locally"
         else:
-            host_name = db.session.query(Servers).filter(Servers.server_index == FR.fromAuthorServer_id).all()[0]
+            host_name = db.session.query(Servers).filter(Servers.server_index == FR.fromAuthorServer_id).all()[0].IP
             friend = {}
             friend['id'] = FR.fromAuthor_id
             friend['host'] = host_name
