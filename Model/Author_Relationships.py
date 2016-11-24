@@ -299,5 +299,6 @@ class Author_Relationships(db.Model):
             return results
 
 
+        print "returning None"
         return None
     # _ANS = query.__func__()
