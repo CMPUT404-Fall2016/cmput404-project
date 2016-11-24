@@ -5,7 +5,7 @@ class Servers(db.Model):
 
     __tablename__ = 'servers'
 
-    server_id = db.Column(db.String(33), primary_key=True)
+    server_id = db.Column(db.String(100), primary_key=True)
 
     IP = db.Column(db.String(500), unique=True)
     
@@ -16,6 +16,10 @@ class Servers(db.Model):
     shareWith_images = db.Column(db.Boolean)
 
     shareWith_posts = db.Column(db.Boolean)
+
+    user_name = db.Column(db.String(100))
+
+    password = db.Column(db.String(100))
 
     def __new__(cls, datum=None):
 

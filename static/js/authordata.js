@@ -77,7 +77,7 @@ $("#profile").click( function(e) {
 $(document).ready(function() {
     var myauthorid = localStorage.getItem("fetch-author-id");
     console.log(localStorage.getItem("fetch-author-id"));
-                  
+
     // If author search there own id, it redirect them to the profile page
     if (myauthorid == getCookieid()) {
       window.location.href = "profilepage.html";
@@ -86,10 +86,10 @@ $(document).ready(function() {
     var mypTemplate = document.getElementById('profiledatas');
 
     var myprofilelink = "/author/" + myauthorid;
-                  
+
     var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     sendAJAX2(headers, "GET", myprofilelink, "", function(result) {
-              
+
       // fill the container with details
       var td = mypTemplate.content.querySelector("#profilehname");
       profileusernametext = result.displayName;
@@ -116,7 +116,7 @@ $(document).ready(function() {
     });
 
     var author2sid = getCookieid();
-                  
+
     //var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     var isfriend = "/friends/" + myauthorid + "/" + author2sid;
     console.log(isfriend);
@@ -137,21 +137,20 @@ $("#posttabs").click(function(e) {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
-                     var headers = [["Foreign-Host", "false"]];
+  var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "GET", authorpostlink, "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-      postTemplate.content.querySelector(".post-author").textContent = posts[i].author_id;
+      postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayName;
       postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      $(authorBtn).data("post-author", posts[i].author_id);
+      authorBtn.setAttribute("post-author-id", posts[i].author.id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      // $(commentsBtn).data("post-host", posts[i].author.host);
-      $(commentsBtn).data("post-id", posts[i].id);
+      commentsBtn.setAttribute("post-comment-id", posts[i].id);
 
       var clone = document.importNode(postTemplate.content, true);
       postList.appendChild(clone);
@@ -183,8 +182,8 @@ function afriendone() {
   var myuserid = getCookieid();
 
   var myinfostuff = "/author/" + myuserid;
-  
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+
   sendAJAX2(headers, "GET", myinfostuff, "", function(result) {
   //sendAJAX("GET", myinfostuff, "", function(result) {
     var myinfodatacombine = {}
@@ -214,7 +213,7 @@ function afriendone() {
 
 // This sends the friend request to the user
 function afriendtwo(result) {
-  
+
   // This is the body for the POST request
   var friendrequestdata = {};
     friendrequestdata["author"] = {}
@@ -235,5 +234,3 @@ function afriendtwo(result) {
     //window.location.href="friendspage.html";
   });
 }
-
-

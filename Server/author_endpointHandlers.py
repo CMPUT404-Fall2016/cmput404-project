@@ -68,7 +68,7 @@ def fetchForeignAuthor(param):
 
 
 
-def getFriendList(param):
+def getFriendList(param, APP_state):
 
 
     """
@@ -172,7 +172,7 @@ def areFriends_LIST(param):
 def addNewServer():
     pass
 
-def processFriendRequest(param):
+def processFriendRequest(param, APP_state):
 
     """
     This will be called in response to :
@@ -191,6 +191,7 @@ def processFriendRequest(param):
     # result = db.session.query(Authors).filter(Authors.author_id == param["to_author"]).all()
     # if len(result) == 0:
     #     return False
+
 
     to_serverIP = param["to_serverIP"]
     to_server_index=db.session.query(Servers).filter(Servers.IP == to_serverIP).all()[0].server_index
@@ -293,7 +294,7 @@ def serializeFriendRequestList(requestList):
   return {"friendRequestList" : results}
 
 
-def getFriendRequestList(param):
+def getFriendRequestList(param, APP_state):
 
   """
   CLIENT-SERVER API
@@ -339,7 +340,7 @@ def getFriendRequestList(param):
       return None
 
 
-def unFriend(param):
+def unFriend(param, APP_state):
 
     """
     CLIENT-SERVER API
@@ -357,6 +358,7 @@ def unFriend(param):
 
     # if ("author1" and "author2" and "server_1_address" and "server_2_address") not in param.keys():
     #   return "CLIENT_FAILURE"
+
 
     author1_id = param["author1"]
     author2_id = param["author2"]
@@ -519,7 +521,7 @@ def searchForeignAuthor(author_id):
 
     return author
 
-def getAuthor(param, foreign_host):
+def getAuthor(param, foreign_host, APP_state):
 
     """
     This will be called in response to :
@@ -560,7 +562,7 @@ def getAuthor(param, foreign_host):
             query_results["url"] = APP_state['local_server_Obj'].IP + '/author/' + author.author_id
             query_results["displayName"] = author.name
             query_results["bio"] = author.bio
-            query_results["friends"] = getFriendList(param)
+            query_results["friends"] = getFriendList(param, APP_state)
             query_results["githubUsername"] = author.github_id
             final_results.append(query_results)
             print "found author " + query_results["displayName"] + " id: " + query_results['id']
@@ -576,6 +578,8 @@ def getLocalServer():
     return db.session.query(Servers).filter(Servers.server_index == 0).all()[0]
 
 def verifyAdmin(param):
+    
+    APP_state = loadGlobalVar()
     if APP_state['admin_credentials'] == None:
         print "NO admin exists"
         return False
