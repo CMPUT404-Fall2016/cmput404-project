@@ -6,19 +6,19 @@ class Comments(db.Model):
     
     __tablename__ = 'comments'
     
-    comment_id = db.Column(db.String(33), primary_key=True)
+    comment_id = db.Column(db.String(100), primary_key=True)
 
-    author_id = db.Column(db.String(33))
+    author_id = db.Column(db.String(100))
 
     author_name = db.Column(db.String(60))
 
-    author_host = db.Column(db.String(60))
+    author_host = db.Column(db.String(500))
 
-    author_url = db.Column(db.String(60))
+    author_url = db.Column(db.String(600))
 
     author_github = db.Column(db.String(60))
     
-    post_id = db.Column(db.String(33), db.ForeignKey('posts.post_id'))
+    post_id = db.Column(db.String(100), db.ForeignKey('posts.post_id'))
     
     comment_text = db.Column(db.String(800))
 
@@ -62,18 +62,19 @@ class Comments(db.Model):
             
             """
                 
-        self.comment_id = uuid.uuid4().hex
-
-
-        if "comment_text" in datum.keys():
-            self.comment_text = datum["comment_text"]
-
-        if "creation_time" in datum.keys():
-            self.creation_time = datum["creation_time"]
-
        	self.post_id = datum["post_id"]
-        self.author_id = datum["author_id"]
 
+        self.comment_text = datum["comment_text"]
+
+        self.author_id = datum["author_id"]
+        self.author_host = datum["author_host"]
+        self.author_name = datum["author_name"]
+        self.author_url = datum["author_url"]
+        self.author_github = datum["author_github"]
+
+        self.comment_id = datum["comment_id"]
+
+        self.creation_time = datum["creation_time"]
 
 
     def __repr__(self):

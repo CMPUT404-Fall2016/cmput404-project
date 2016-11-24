@@ -4,11 +4,11 @@ from Comments import Comments
 
 class URL(db.Model):
     
-    URL_id = db.Column(db.String(33), primary_key=True)
+    URL_id = db.Column(db.String(100), primary_key=True)
     
-    post_id = db.Column(db.String(33),  db.ForeignKey('posts.post_id'))
+    post_id = db.Column(db.String(100),  db.ForeignKey('posts.post_id'))
     
-    comment_id = db.Column(db.String(33), db.ForeignKey('comments.comment_id'))
+    comment_id = db.Column(db.String(100), db.ForeignKey('comments.comment_id'))
     
     URL_link = db.Column(db.String(2048))
     
