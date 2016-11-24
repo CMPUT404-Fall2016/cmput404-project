@@ -197,33 +197,33 @@ def processFriendRequest(param, APP_state):
     from_serverIP = param["from_serverIP"]
     from_server_index=db.session.query(Servers).filter(Servers.IP == from_serverIP).all()[0].server_index
 
-    print ".."
-    query_param = {}
-    query_param['server_author_1'] = [from_server_index, param['from_author']]
-    results = Author_Relationships.query(query_param) 
-    print type(results), len(results)
-    if len(results) >0 :
-        if results[0].relationship_type == 2:
-            results[0].relationship_type = 3
-            db.session.commit()
-        return True
+    # print ".."
+    # query_param = {}
+    # query_param['server_author_1'] = [from_server_index, param['from_author']]
+    # results = Author_Relationships.query(query_param) 
+    # print type(results), len(results)
+    # if len(results) >0 :
+    #     if results[0].relationship_type == 2:
+    #         results[0].relationship_type = 3
+    #         db.session.commit()
+    #     return True
     
-    print "...."
-    query_param = {}
-    query_param['server_author_2'] = [from_server_index, param['from_author']]
-    results = Author_Relationships.query(query_param) 
-    if len(results) >0 :
-        if results[0].relationship_type == 1:
-            results[0].relationship_type = 3
-            query_param = {}
-            query_param['sendTo'] = [from_server_index, param['from_author']]
-            results = Friend_Requests.query(query_param)
-            if results != []:
-                db.session.delete(results[0])
-            db.session.commit()
-        return True
+    # print "...."
+    # query_param = {}
+    # query_param['server_author_2'] = [from_server_index, param['from_author']]
+    # results = Author_Relationships.query(query_param) 
+    # if len(results) >0 :
+    #     if results[0].relationship_type == 1:
+    #         results[0].relationship_type = 3
+    #         query_param = {}
+    #         query_param['sendTo'] = [from_server_index, param['from_author']]
+    #         results = Friend_Requests.query(query_param)
+    #         if results != []:
+    #             db.session.delete(results[0])
+    #         db.session.commit()
+    #     return True
 
-    print "....."
+    # print "....."
     if APP_state['local_server_Obj'].IP == from_serverIP:
         print "process 1"
         datum={}
@@ -242,7 +242,7 @@ def processFriendRequest(param, APP_state):
         db.session.add(new_relationship)
         db.session.commit()
 
-    print "......"
+    # print "......"
     if to_serverIP == APP_state['local_server_Obj'].IP :
         datum={}
         datum = {
