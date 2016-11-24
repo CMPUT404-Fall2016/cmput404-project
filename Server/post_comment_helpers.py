@@ -513,7 +513,7 @@ class Comment(Resource):
                 sessionID = cookie["session_id"]
                 if sessionID in APP_state["session_ids"]:
 
-                    data = request.json
+                    data = request.get_json(force=True)
                     comment["post_id"] = data["post"].split("/")[4]
                     comment["comment_text"] = data["comment"]["comment"]
                     comment["author_id"] = data["comment"]["author"]["id"]
