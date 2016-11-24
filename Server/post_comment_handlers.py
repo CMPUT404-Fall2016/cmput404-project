@@ -340,5 +340,40 @@ class RestHandlers():
 		return True
 
 
+	#This function determines if usr1 and usr2 are friends or not
+	def isFriend(usr1, usr2):
+		friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == usr1, Author_Relationships.author2_id == usr2, Author_Relationships.relationship_type == 3).all()
+		if not friendship:
+			friendship = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == usr2, Author_Relationships.author2_id == usr1, Author_Relationships.relationship_type == 3).all()
+		if not friendship:
+			return False
+		else:
+			return True
+		
+
+	#This function gets all remote server addrs	where we have permission to share data
+	def getConnectedNodes():
+		nodes = []
+		servers = db.session.query(Servers).filter(Servers.shareWith == True).all()
+		for ele in servers:
+			nodes.append(ele.IP)
+		return nodes        
+
+
+	#This function returns true if usr is friend of at least one usr in usrs	    
+	def atlOneFriend(usr, usrs):
+		for(usrr in usrs):
+			if(isFriend(usr, usrr)):
+				return True
+		return False
+
+	
+	#This function returns all FOAF posts stored in the server
+	def getAllFoafPosts():
+		return db.session.query(Posts).filter(Posts.view_permission == 4).all()
+
+
+	def getAllFoafPostsByUsr(author_id):
+        return db.session.query(Posts).filter(Posts.view_permission == 4, Posts.author_id == author_id).all()
 
 

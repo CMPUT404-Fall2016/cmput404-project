@@ -6,15 +6,17 @@ from flask_restful import Resource, Api, abort, reqparse
 from model import *
 from post_comment_handlers import *
 import random, os
+from model import *
 
 from functools import wraps
 
 
-
 handler = RestHandlers()
 COOKIE_NAME = "cookie_cmput404_"
-COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","    cookie_cmput404_github_id"]
+COOKIE_NAMES = ["cookie_cmput404_author_id", "cookie_cmput404_session_id", "cookie_cmput404_github_id"]
 VIEW_PER = ["", "PUBLIC", "PRIVATE", "FRIENDS", "FOAF", "SERVERONLY"]
+
+
 if 'local_server_Obj' in APP_state.keys():
     myip = APP_state['local_server_Obj'].IP
 else:
@@ -103,7 +105,6 @@ def makeCommentJson(data, args):
 
 
 
-
 def makePostJson(data, args):
     #Init
     rt = {
@@ -148,8 +149,9 @@ def makePostJson(data, args):
 
     return rt
 
-def getCookie(Operation_str):
 
+
+def getCookie(Operation_str):
     COOKIE ={}
     # print request.cookies.keys()
     for name in COOKIE_NAMES:
@@ -169,8 +171,10 @@ def getCookie(Operation_str):
     return COOKIE
 
 
+
 class Post(Resource):
     def get(self, post_id):
+        APP_state = loadGlobalVar()
         #Local Request
         if(request.args.get("Foreign-Host") == "false"):
             output = getCookie("get_one_post")
@@ -187,13 +191,16 @@ class Post(Resource):
                     if len(got) != 0:
                         if got[0] in handler.getVisiblePosts(APP_state["session_ids"][sessionID]):
                             rst = got
+                        else:
+                            #No permission
                     else:
+                        #The post is in other server
                         nodes = handler.getConnectedNodes()
                         params = {}
                         params["author_id"] = APP_state["session_ids"][sessionID]
                         params["post_id"] = post_id
                         for node in nodes:
-                            rst += requests.get(node + "/posts/" + post_id, params = params).json()
+                            rst += requests.get(node + "/posts/" + post_id, params = params).json
                         if	len(rst) != 0:
                             return rst[0]
 
@@ -202,8 +209,8 @@ class Post(Resource):
                     paras["size"] = request.args.get('size')
                     return jsonify(makePostJson(rst, paras))
 
-                return {"Response" : "session error"}
-
+                else:
+                    return {"Response" : "sessionID error"}
             else:
                 return {"Response" : "Session not found"}
 
@@ -212,19 +219,29 @@ class Post(Resource):
         #Assume we passed server to server auth
         #Assume this is the place we do remote get
             pid = request.args.get("post_id")
+            remoteAuthor = request.args.get("author_id")
             got = handler.getPost(pid)
+
             if len(got) != 0:
                 localAuthor = got[0][1].author_id
-                if	got[0] in handler.getVisiblePosts(request.args.get(author_id)):
+                if	got[0] in handler.getVisiblePosts(remoteAuthor):
                     return jsonify(makePostJson(got), {"page":None, "size":None})
                 else:
                     if got[0][0].view_permission == 4:
-                        pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get(author_id)).json()["authors"]
+                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json["authors"]
                         if(handler.atlOneFriend(localAuthor, pfriends)):
                     		return jsonify(makePostJson(got), {"page":None, "size":None})
+                        else:
+                            #No permission coz the requesting remote user is not foaf of the post author in my server
+                    else:
+                        #No permission coz either this post is private or serveronly
+            else:
+                #Post Not in my server
+
 
 
     def delete(self, post_id):
+        APP_state = loadGlobalVar()
         output = getCookie("delete_post")
         if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
             return output
@@ -235,9 +252,12 @@ class Post(Resource):
             if sessionID in APP_state["session_ids"]:
 
                 if handler.delete_post(post_id):
-                    return '', 201
+                    return {"Response"	: "deletion OK!"}, 200
+            else:
+                return "SessionID ERROR", 403
         else:
             return "SESSION_ERROR", 403
+
 
 
 class All_Post(Resource):
@@ -251,14 +271,14 @@ class All_Post(Resource):
             agre = []
             agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
             for node in nodes:
-                agre.append(requests.get(node + "/posts").json())
+                agre.append(requests.get(node + "/posts", paras).json)
             # Each json object contains all public posts from a server
             return agre
 
         #Remote
         else:
         #Assume we passed server to server auth
-        #Assume this is the place we do remote get
+        #Assume this is the place we respond to remote get
             paras = {}
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
@@ -266,9 +286,9 @@ class All_Post(Resource):
 
 
     def post(self):
-		#'''
+        APP_state = loadGlobalVar()
         output = getCookie("post_post")
-        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
             return output
 
         cookie = output
@@ -298,83 +318,121 @@ class All_Post(Resource):
                 post["view_permission"]= perm
 
                 if handler.make_post(post):
-                    return {"query" : "addPost", "success" : "true", "message" : "Post created"}
+                    return {"query" : "addPost", "success" : "true", "message" : "Post Added"}
                 else:
-                    return {"query"	: "addPost", "success" : "false", "message" : "Fail to create post"}
+                    return {"query"	: "addPost", "success" : "false", "message" : "Post not allowed"}
 
             else:
-                return "Invalid Session", 403
+                return "Invalid Session ID", 403
         else:
             return "No Session", 403
 
 
+
 class AuthorPost(Resource):
     def get(self):
+        APP_state = loadGlobalVar()
         if  request.args.get("Foreign-Host") == "false":
-
             output = getCookie("get_available_posts")
             if type(output) == flask.wrappers.Response:
                 return output
-
             cookie = output
             if "session_id" in cookie:
                 sessionID = cookie["session_id"]
-
                 if sessionID in APP_state["session_ids"]:
                     paras = {}
+                    rt = []
                     paras["page"] = request.args.get('page')
                     paras["size"] = request.args.get('size')
                     rt.append(jsonify(makePostJson(handler.getVisiblePosts(APP_statep["session_ids"][sessionID]), paras)))
                     nodes = handler.getConnectedNodes()
 
-                    params = {
-                                 "author_id"	:	APP_state["session_ids"][sessionID]
-                             }
-                    for node in nodes:
-                        rt.append(requests.get(node + "/author/posts"), params = params).json()
+                    paras["author_id"] = APP_state["session_ids"][sessionID]
 
+                    for node in nodes:
+                        rt.append(requests.get(node + "/author/posts"), paras = paras).json
                     return rt
-                return []
+                else:
+                    return "Session_ID Error", 403
 
             else:
                 return "SESSION_ERROR", 403
+
         else:
             #Remote
-            allP = handler.getVisiblePosts(request.args.get("author_id"))
-            pfriends = requests.get(request.remote_addr + "/friends/" + request.args.get("author_id")).json()["authors"]
-            #Get all remaining foaf posts, check for each one, if the author is atlOneFriend of pfriends
+            remoteUsr = request.args.get("author_id")
+            allPosts = handler.getVisiblePosts(remoteUsr)
+            pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json["authors"]
+            #Get all remaining foaf posts, check for each one, if the author is a friend of at least one usr in pfriends
+            foafPosts = handler.getAllFoafPosts()
 
+            for post in foafPosts:
+                if	atlOneFriend(post.author_id, pfriends):
+                    allPost.append(post)
 
+            paras = {}
+            paras["page"] = request.args.get('page')
+            paras["size"] = request.args.get('size')
 
+            return jsonify(makePostJson(allPosts), paras)
+            
 
 
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
-
     def get(self, author_id):
+        APP_state = loadGlobalVar()
+        if  request.args.get("Foreign-Host") == "false":
+            output = getCookie("view_author_id_post")
+            if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+                return output
 
-        output = getCookie("view_author_id_post")
-        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
-            return output
+            cookie = output
+            if "session_id" in cookie:
+                sessionID = cookie["session_id"]
+                if sessionID in APP_state["session_ids"]:
+                    paras = {}
+                    paras["page"] = request.args.get('page')
+                    paras["size"] = request.args.get('size')
+                    if	author_id in handler.getAllUsers():
+                        return jsonify(makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras))
+                    else:
+                        nodes = handler.getConnectedNodes()
+                        paras["author_id"] = APP_state["session_ids"][sessionID]
+                        for node in nodes:
+                           rt = requests.get(node + "/author/" + str(author_id) + "/posts", paras).json
+                           if rt["count"] > 0:    
+                               return jsonify(makePostJson(rt), paras)
+                        #No such author in any of the connecting servers
+                else:
+                    return "SESSION_ID_ERROR", 403
 
-        cookie = output
-        if "session_id" in cookie:
-            sessionID = cookie["session_id"]
-            if sessionID in APP_state["session_ids"]:
+            else:
+                return "SESSION_ERROR", 403
+        else:
+        #Remote
+            if author_id in handler.getAllUsers():
+                remoteUsr = request.args.get("author_id")
+                allPosts = handler.getVisiblePostsByAuthor(remoteUsr, author_id)
+                foafPosts = handler.getAllFoafPostsByUsr(author_id)                
+                pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json["authors"]
+                for post in foafPosts:
+                    if(atlOneFriend(post.author_id, pfriends):
+                        allPosts.append(post)
+
                 paras = {}
                 paras["page"] = request.args.get('page')
                 paras["size"] = request.args.get('size')
-                return jsonify(makePostJson(handler.getVisiblePostsByAuthor(APP_statep["session_ids"][sessionID], author_id), paras))
+
+                return jsonify(makePostJson(allPosts), paras)
+                
             else:
-                return "SESSION_ID_ERROR", 403
-
-        else:
-            return "SESSION_ERROR", 403
-
+                #We don't have this requested user in our server 
 
 class Comment(Resource):
 
     def get(self, post_id):
+        APP_state = loadGlobalVar()
         if	request.args.get("Foreign-Host") == "false":
             output = getCookie("get_comments")
             if type(output) == flask.wrappers.Response:
@@ -404,19 +462,36 @@ class Comment(Resource):
         	return output
 
         cookie = output
+        #For both local and remote request
         if "session_id" in cookie:
             sessionID = cookie["session_id"]
             if sessionID in APP_state["session_ids"]:
 
                 data = request.json
-                comment["post_id"] = data["post_id"]
-                comment["author_id"] = data["author_id"]
-                comment["comment_text"] = data["comment_text"]
+                comment["post_id"] = data["post"].split("/")[4]
+                comment["comment_text"] = data["comment"]["comment"]
+                comment["author_id"] = data["comment"]["author"]["id"]
+                comment["author_host"] = data["comment"]["author"]["host"]
+                comment["author_name"] = data["comment"]["author"]["displayName"]
+                comment["author_url"] = data["comment"]["author"]["url"]
+                comment["author_github"] = data["comment"]["author"]["github"]
+                comment["comment_id"] = data["comment"]["guid"]
+                comment["published"] = data["comment"]["published"]
 
-                if handler.make_comment(comment):
-                    return {"query" : "addComment", "success" : "true", "message" : "Comment created"}
+                start = data["post"].split("/")[0]
+                middle = data["post"].split("/")[1]
+                end = data["post"].split("/")[2]
+
+                addr = start + middle
+                addr += end
+                  
+                if addr == myip:
+                    if handler.make_comment(comment):
+                        return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
+                    else:
+                        return {"query"	: "addComment", "success" : "false", "message" : "Comment not allowed"}
                 else:
-                    return {"query"	: "addComment", "success" : "false", "message" : "Fail to create comment"}
+                    return requests.post(data["post"]+"/comments", data)
 
         else:
             return "SESSION_ERROR", 403
