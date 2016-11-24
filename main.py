@@ -71,7 +71,7 @@ def check_auth(username, password, forign_server):
     """This function is called to check if a username /
     password combination is valid.
     """
-    db_server = db.session.query(Server).filter(Server.IP == forign_server).first()
+    db_server = db.session.query(Servers).filter(Servers.IP == forign_server).first()
     
     
     return username == db_server.user_name and password == db_server.password
