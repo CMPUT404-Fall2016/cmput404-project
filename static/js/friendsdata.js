@@ -144,6 +144,7 @@ $("#reqtab").click(function(e) {
 
           localStorage.setItem("fetch-addfriend-id", $(this).attr("name"));
           localStorage.setItem("fetch-addfriend-name", $(this).attr("addname"));
+                                
           localStorage.setItem("fetch-addfriend-host", $(this).attr("friendhostserver"));
           acceptfriend();
 
