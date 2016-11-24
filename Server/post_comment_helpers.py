@@ -351,7 +351,7 @@ class AuthorPost(Resource):
                     paras["author_id"] = APP_state["session_ids"][sessionID]
 
                     for node in nodes:
-                        rt.append(requests.get(node + "/author/posts"), paras = paras).json
+                        rt.append(requests.get(node + "/author/posts", paras = paras).json)
                     return rt
                 else:
                     return "Session_ID Error", 403
@@ -418,7 +418,7 @@ class AuthorToAuthorPost(Resource):
                 foafPosts = handler.getAllFoafPostsByUsr(author_id)                
                 pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json["authors"]
                 for post in foafPosts:
-                    if(atlOneFriend(post.author_id, pfriends):
+                    if(atlOneFriend(post.author_id, pfriends)):
                         allPosts.append(post)
 
                 paras = {}
