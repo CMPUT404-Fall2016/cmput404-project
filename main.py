@@ -72,6 +72,8 @@ def check_auth(username, password, forign_server):
     """
     db_server = db.session.query(Servers).filter(Servers.IP == forign_server).first()
     
+    print forign_server
+    print db_server
     
     return username == db_server.user_name and password == db_server.password
 
