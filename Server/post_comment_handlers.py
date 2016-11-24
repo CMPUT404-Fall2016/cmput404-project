@@ -362,8 +362,8 @@ class RestHandlers():
 
 	#This function returns true if usr is friend of at least one usr in usrs	    
 	def atlOneFriend(usr, usrs):
-		for(usrr in usrs):
-			if(isFriend(usr, usrr)):
+		for usrr in usrs:
+			if isFriend(usr, usrr):
 				return True
 		return False
 
