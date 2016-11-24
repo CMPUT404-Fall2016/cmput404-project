@@ -196,7 +196,31 @@ def processFriendRequest(param, APP_state):
 
     from_serverIP = param["from_serverIP"]
     from_server_index=db.session.query(Servers).filter(Servers.IP == from_serverIP).all()[0].server_index
-  
+
+    query_param = {}
+    query_param['server_author_1'] = [from_server_index, param['from_author']]
+    results = Author_Relationships.query(query_param) 
+    if results != []:
+        if results[0].relationship_type == 2:
+            results[0].relationship_type = 3
+            db.session.commit()
+        return True
+
+    query_param = {}
+    query_param['server_author_2'] = [from_server_index, param['from_author']]
+    results = Author_Relationships.query(query_param) 
+    if results != []:
+        if results[0].relationship_type == 1:
+            results[0].relationship_type = 3
+            query_param = {}
+            query_param['sendTo'] = [from_server_index, param['from_author']]
+            results = Friend_Requests.query(query_param)
+            if results != []:
+                db.session.delete(results[0])
+            db.session.commit()
+        return True
+
+
     if APP_state['local_server_Obj'].IP == from_serverIP:
         print "process 1"
         datum={}
@@ -272,7 +296,7 @@ def sendFriendRequest(param):
     headers = {'Content-type': 'application/json'}
     url = param['to_serverIP'] + '/friendrequest'
     r = requests.post(url, data=json.dumps(body), headers=headers)
-    print "Send a friend request to %s. Status code %d: "%(url, r.status_code) 
+    print "Sent a friend request to %s. Status code %d: "%(url, r.status_code) 
     return 
 
 
@@ -402,7 +426,7 @@ def unFriend(param, APP_state):
                 return False
 
     else:
-        
+
         try:
             db.session.delete(results[0])
             db.session.commit()
@@ -462,7 +486,6 @@ def beFriend(param):
         datum["author1_id"] = author1_id
         datum["author2_id"] = author2_id
         datum["relationship_type"] = 3 # Mutual friendship
-
         new_relationship = Author_Relationships(datum)
 
         try:
@@ -473,6 +496,16 @@ def beFriend(param):
         except Exception as e:
             print("Error while saving a relationship entry! : ", e)
             return False
+
+        param = {}
+        param["from_author"] = author2_id
+        param["to_author"] = author1_id
+        param["from_author_name"] = db.session.query(Authors).filter(Authors.author_id == author2_id).all()[0].name
+        param["to_author_name"] = Friend_Requests.query({"sendTo": [server2_index, author2_id]})[0].fromAuthorDisplayName
+        param["from_serverIP"] = server2_IP
+        param["to_serverIP"] = server1_IP 
+        sendFriendRequest(datum)
+
 
     else:
 

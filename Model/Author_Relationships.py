@@ -182,6 +182,11 @@ class Author_Relationships(db.Model):
                                                                   Author_Relationships.relationship_type == 1
                                                                   ).all()
 
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
+                                                                  Author_Relationships.author2_id == author2_id,
+                                                                  Author_Relationships.relationship_type == 2
+                                                                  ).all()
+
             return results
 
         if "areFriends" in query_param.keys():
