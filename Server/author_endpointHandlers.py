@@ -97,20 +97,20 @@ def getFriendList(param, APP_state):
     # print results2
     friendList = serializeFriendList(results2, 1) + friendList
 
-    for friend in friendList:
-        if friend['host'] == APP_state["local_server_Obj"].IP:            
-            results = db.session.query(Authors).filter(Authors.author_id == friend['id']).all()
-            if len(results) != 0:
-                friend['displayName'] = results[0].name
-            else:
-                friend['displayName'] = "User Not found locally"
+    # for friend in friendList:
+    #     if friend['host'] == APP_state["local_server_Obj"].IP:            
+    #         results = db.session.query(Authors).filter(Authors.author_id == friend['id']).all()
+    #         if len(results) != 0:
+    #             friend['displayName'] = results[0].name
+    #         else:
+    #             friend['displayName'] = "User Not found locally"
 
-        else:
-            author = fetchForeignAuthor(friend)
-            if author != None :
-                friend['displayName'] = author['displayName']
-            else:
-                friend['displayName'] = "User Not found in host : " + friend['host']
+    #     else:
+    #         author = fetchForeignAuthor(friend)
+    #         if author != None :
+    #             friend['displayName'] = author['displayName']
+    #         else:
+    #             friend['displayName'] = "User Not found in host : " + friend['host']
 
     return friendList
 
@@ -124,14 +124,14 @@ def serializeFriendList(FriendList, number):
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer1_id).all()[0].IP
             temp['host']=host
             temp['id']=friendship.author1_id
-            # temp['displayName']=friendship.author1_name
+            temp['displayName']=friendship.author1_name
             temp['url'] = host+'/author/'+temp['id']
 
         elif number == 2:
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer2_id).all()[0].IP
             temp['host']=host
             temp['id']=friendship.author2_id
-            # temp['displayName']=friendship.author2_name
+            temp['displayName']=friendship.author2_name
             temp['url'] = host+'/author/'+temp['id']
 
         friendlist.append(temp)
