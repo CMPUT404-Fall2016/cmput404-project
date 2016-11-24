@@ -300,9 +300,10 @@ class All_Post(Resource):
 
             if sessionID in APP_state["session_ids"]:
 
-                data = request.json
+                #data = request.json
+                data = request.data
                 post = {}
-                print "do you reach here?"
+                print request.json
                 print request.data
                 post["author_id"] = data["author_id"]
                 post["title"] = data["title"]
