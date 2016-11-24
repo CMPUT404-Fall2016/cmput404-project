@@ -377,7 +377,7 @@ def unFriend(param, APP_state):
     results2 = Author_Relationships.query(query_param)
 
     results = results1 + results2
-    assert(len(results) == 1), "there should 1 row for each relationships"
+    # assert(len(results) == 1), "there should 1 row for each relationships"
 
     if server1_index == APP_state["local_server_Obj"].server_index and server2_index == APP_state["local_server_Obj"].server_index:
         
