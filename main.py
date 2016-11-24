@@ -88,7 +88,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password, request.remote_addr):
+        if not auth or not check_auth(auth.username, auth.password, request.environ['REMOTE_ADDR']):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
