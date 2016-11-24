@@ -273,6 +273,7 @@ class All_Post(Resource):
             paras["size"] = request.args.get('size')
             nodes = handler.getConnectedNodes()
             print nodes
+            print "im fucked"
             agre = []
             agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
             for node in nodes: 
