@@ -223,6 +223,14 @@ def getCookie(Operation_str):
     return COOKIE
 
 
+@app.route("/cleanSessions", methods=['GET'])
+def cleanSessions():
+    APP_state = loadGlobalVar()
+    print "from cleanSessions"
+    printSessionIDs(APP_state)
+    APP_state['session_ids'] = {}
+    saveGlobalVar(APP_state)
+
 @app.route("/login", methods=['POST'])
 
 def Login():
@@ -268,7 +276,7 @@ def Login():
         cookie["author_id"] = result["author_id"]
 
         print "From Login .."
-        printSessionIDs()
+        printSessionIDs(APP_state)
 
         return getResponse(body=result, cookie=cookie, status_code=200)
 
@@ -287,7 +295,7 @@ def Logout():
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
     print "from logout!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -370,7 +378,7 @@ def EditProfile():
 
     cookie = output
     print "from EditProfile!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
@@ -461,7 +469,7 @@ def GetFriendRequests():
     cookie = output
 
     print "from GetFriendRequests!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
 
     if "session_id" in cookie.keys():
@@ -509,7 +517,7 @@ def AcceptFriendRequest():
         return output
 
     print "AcceptFriendRequest!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -560,7 +568,7 @@ def RemoveFriend():
         return output
 
     print "from RemoveFriend!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -611,8 +619,7 @@ def FollowUser():
         return getResponse(body={"status": "CLIENT_FAILURE"}, status_code=200)
 
     print "from FollowUser!"
-    printSessionIDs()
-
+    printSessionIDs(APP_state)
     cookie = output
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
