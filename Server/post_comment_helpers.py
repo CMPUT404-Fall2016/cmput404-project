@@ -303,6 +303,7 @@ class All_Post(Resource):
                 data = request.json
                 post = {}
                 print "do you reach here?"
+                print request.data
                 post["author_id"] = data["author_id"]
                 post["title"] = data["title"]
                 post["content"] = data["content"]
