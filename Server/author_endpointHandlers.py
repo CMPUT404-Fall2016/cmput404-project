@@ -255,14 +255,26 @@ def processFriendRequest(param, APP_state):
                 'isChecked' : False
                  }
 
-        new_friendRequest = Friend_Requests(datum)
-        try :
-            db.session.add(new_friendRequest)
+        query_param = {}
+        query_param['server_author_1'] = [to_server_index, param['to_author']]
+        results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == param['to_author'],
+                                                              Author_Relationships.authorServer1_id == to_server_index,
+                                                              Author_Relationships.relationship_type == 1
+                                                              ).all()
+        # print type(results), len(results)
+        if len(results) >0 :
+            results[0].relationship_type = 3
             db.session.commit()
 
-        except Exception as e:
-            print "Error occured while saving new friend request: ", e
-            return False
+        else:
+            new_friendRequest = Friend_Requests(datum)
+            try :
+                db.session.add(new_friendRequest)
+                db.session.commit()
+
+            except Exception as e:
+                print "Error occured while saving new friend request: ", e
+                return False
     
     else:
         # to_server is a remote server not the local one
