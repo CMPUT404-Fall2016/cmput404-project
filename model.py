@@ -118,6 +118,7 @@ def saveGlobalVar(var_dict):
             var_dict['local_server_Obj'] = myServer
             print "Found type servers"
 
+    print global_var
     toStore = json.dumps(var_dict)
     global_var.content = toStore
     db.session.commit()
