@@ -40,7 +40,7 @@ def initAdmin():
         APP_state['admin_credentials'] = [login, password]
         f.close()
         print APP_state["admin_credentials"] 
-        saveGlobalVar()
+        saveGlobalVar(APP_state)
 
     except Exception as e:
         print "error while loading admin : ", e
