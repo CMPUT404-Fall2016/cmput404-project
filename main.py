@@ -232,6 +232,11 @@ def cleanSessions():
     saveGlobalVar(APP_state)
     return "SUCCESS"
 
+@app.route("/getSessionIds", methods=['GET'])
+def getSessionIds():
+    APP_state = loadGlobalVar()
+    return getResponse(body=APP_state['session_ids'], status_code=200)    
+
 @app.route("/login", methods=['POST'])
 
 def Login():
@@ -608,10 +613,6 @@ def FollowUser():
     """
     APP_state = loadGlobalVar()
 
-    output = getCookie("FollowUser")
-    if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
-        return output
-
     try:
         data=flask_post_json()
 
@@ -621,35 +622,30 @@ def FollowUser():
 
     print "from FollowUser!"
     printSessionIDs(APP_state)
-    cookie = output
-    if "session_id" in cookie.keys():
-        sessionID = cookie["session_id"]
-        if sessionID in APP_state["session_ids"]:
-            # userID = APP_state["session_ids"][sessionID]
-            param={}
-            param["from_author"] = data["author"]["id"]
-            param["from_author_name"] = data["author"]["displayName"]
-            param["from_serverIP"] = data["author"]["host"]
-            param["to_author"] = data["friend"]["id"]
-            param["to_author_name"] = data["friend"]["displayName"]
-            param["to_serverIP"] = data["friend"]["host"]
-            
-            result = processFriendRequest(param, APP_state)
+    try :
+        param={}
+        param["from_author"] = data["author"]["id"]
+        param["from_author_name"] = data["author"]["displayName"]
+        param["from_serverIP"] = data["author"]["host"]
+        param["to_author"] = data["friend"]["id"]
+        param["to_author_name"] = data["friend"]["displayName"]
+        param["to_serverIP"] = data["friend"]["host"]
+        
+        print data
+        result = processFriendRequest(param, APP_state)
 
-            if result == True:
-                return getResponse(body={"status": "SUCCESS"}, status_code=200)
-            else:
-                return getResponse(body={"status": "DB_FAILURE"}, status_code=200)
+        return getResponse(status_code=200)
+
+    except Exception as e:
+
+        return getResponse(status_code=400)
+
+    # if result == True:
+    #     return getResponse(body={"status": "SUCCESS"}, status_code=200)
+    # else:
+    #     return getResponse(body={"status": "DB_FAILURE"}, status_code=200)
 
 
-        else:
-            print "WARNING! Session id not inside server!"
-            return getResponse(body={"status" : "INVALID_SESSION_ID"}, status_code=200)
-
-    else :
-
-        print 'WARNING! "session_id" field is not found inside cookie!'
-        return getResponse(body={"status" : "CLIENT_FAILURE"}, status_code=200)
 
 
 

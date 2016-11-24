@@ -26,21 +26,19 @@ def isFriend(param):
   author_id1 = param["author1"]
   author_id2 = param["author2"]
   query_param={}
-  query_param['author_ids'] = [author_id1, author_id2]
+  query_param['areFriends'] = [author_id1, author_id2]
   results=Author_Relationships.query(query_param)
   if len(results) > 0 :
       # print results[0].relationship_type  
-      assert(len(results) == 1), "Duplicate author_relationships entry found!"
-      if results[0].relationship_type == 3 :
-          return True
+      # assert(len(results) == 1), "Duplicate author_relationships entry found!"
+    return True
 
-  query_param['author_ids'] = [author_id2, author_id1] # Search with reverse query
+  query_param['areFriends'] = [author_id2, author_id1] # Search with reverse query
   results=Author_Relationships.query(query_param)
   if len(results) > 0 :
       # print results[0].relationship_type  
-      assert(len(results) == 1), "Duplicate author_relationships entry found!"
-      if results[0].relationship_type == 3 :
-          return True
+      # assert(len(results) == 1), "Duplicate author_relationships entry found!"
+      return True
 
   return False
 
@@ -198,7 +196,34 @@ def processFriendRequest(param, APP_state):
 
     from_serverIP = param["from_serverIP"]
     from_server_index=db.session.query(Servers).filter(Servers.IP == from_serverIP).all()[0].server_index
-  
+
+    # print ".."
+    # query_param = {}
+    # query_param['server_author_1'] = [from_server_index, param['from_author']]
+    # results = Author_Relationships.query(query_param) 
+    # print type(results), len(results)
+    # if len(results) >0 :
+    #     if results[0].relationship_type == 2:
+    #         results[0].relationship_type = 3
+    #         db.session.commit()
+    #     return True
+    
+    # print "...."
+    # query_param = {}
+    # query_param['server_author_2'] = [from_server_index, param['from_author']]
+    # results = Author_Relationships.query(query_param) 
+    # if len(results) >0 :
+    #     if results[0].relationship_type == 1:
+    #         results[0].relationship_type = 3
+    #         query_param = {}
+    #         query_param['sendTo'] = [from_server_index, param['from_author']]
+    #         results = Friend_Requests.query(query_param)
+    #         if results != []:
+    #             db.session.delete(results[0])
+    #         db.session.commit()
+    #     return True
+
+    # print "....."
     if APP_state['local_server_Obj'].IP == from_serverIP:
         print "process 1"
         datum={}
@@ -217,6 +242,7 @@ def processFriendRequest(param, APP_state):
         db.session.add(new_relationship)
         db.session.commit()
 
+    # print "......"
     if to_serverIP == APP_state['local_server_Obj'].IP :
         datum={}
         datum = {
@@ -229,14 +255,26 @@ def processFriendRequest(param, APP_state):
                 'isChecked' : False
                  }
 
-        new_friendRequest = Friend_Requests(datum)
-        try :
-            db.session.add(new_friendRequest)
+        query_param = {}
+        query_param['server_author_1'] = [to_server_index, param['to_author']]
+        results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == param['to_author'],
+                                                              Author_Relationships.authorServer1_id == to_server_index,
+                                                              Author_Relationships.relationship_type == 1
+                                                              ).all()
+        # print type(results), len(results)
+        if len(results) >0 :
+            results[0].relationship_type = 3
             db.session.commit()
 
-        except Exception as e:
-            print "Error occured while saving new friend request: ", e
-            return False
+        else:
+            new_friendRequest = Friend_Requests(datum)
+            try :
+                db.session.add(new_friendRequest)
+                db.session.commit()
+
+            except Exception as e:
+                print "Error occured while saving new friend request: ", e
+                return False
     
     else:
         # to_server is a remote server not the local one
@@ -274,7 +312,7 @@ def sendFriendRequest(param):
     headers = {'Content-type': 'application/json'}
     url = param['to_serverIP'] + '/friendrequest'
     r = requests.post(url, data=json.dumps(body), headers=headers)
-    print "Send a friend request to %s. Status code %d: "%(url, r.status_code) 
+    print "Sent a friend request to %s. Status code %d: "%(url, r.status_code) 
     return 
 
 
@@ -322,7 +360,7 @@ def getFriendRequestList(param, APP_state):
             else:
                 FR.fromAuthorDisplayName = "User not found locally"
         else:
-            host_name = db.session.query(Servers).filter(Servers.server_index == FR.fromAuthorServer_id).all()[0]
+            host_name = db.session.query(Servers).filter(Servers.server_index == FR.fromAuthorServer_id).all()[0].IP
             friend = {}
             friend['id'] = FR.fromAuthor_id
             friend['host'] = host_name
@@ -379,7 +417,7 @@ def unFriend(param, APP_state):
     results2 = Author_Relationships.query(query_param)
 
     results = results1 + results2
-    assert(len(results) == 1), "there should 1 row for each relationships"
+    # assert(len(results) == 1), "there should 1 row for each relationships"
 
     if server1_index == APP_state["local_server_Obj"].server_index and server2_index == APP_state["local_server_Obj"].server_index:
         
@@ -403,13 +441,15 @@ def unFriend(param, APP_state):
                 print("Error while unfriending! :", e)
                 return False
 
-    try:
-        db.session.delete(results[0])
-        db.session.commit()
+    else:
 
-    except Exception as e:
-        print("Error while unfriending! :", e)
-        return False
+        try:
+            db.session.delete(results[0])
+            db.session.commit()
+
+        except Exception as e:
+            print("Error while unfriending! :", e)
+            return False
 
     return True
 
@@ -462,7 +502,6 @@ def beFriend(param):
         datum["author1_id"] = author1_id
         datum["author2_id"] = author2_id
         datum["relationship_type"] = 3 # Mutual friendship
-
         new_relationship = Author_Relationships(datum)
 
         try:
@@ -473,6 +512,16 @@ def beFriend(param):
         except Exception as e:
             print("Error while saving a relationship entry! : ", e)
             return False
+
+        param = {}
+        param["from_author"] = author2_id
+        param["to_author"] = author1_id
+        param["from_author_name"] = db.session.query(Authors).filter(Authors.author_id == author2_id).all()[0].name
+        param["to_author_name"] = Friend_Requests.query({"sendTo": [server2_index, author2_id]})[0].fromAuthorDisplayName
+        param["from_serverIP"] = server2_IP
+        param["to_serverIP"] = server1_IP 
+        sendFriendRequest(param)
+
 
     else:
 
@@ -562,7 +611,10 @@ def getAuthor(param, foreign_host, APP_state):
             query_results["displayName"] = author.name
             query_results["bio"] = author.bio
             query_results["friends"] = getFriendList(param, APP_state)
-            query_results["githubUsername"] = author.github_id
+            if author.github_id==None:
+                query_results["githubUsername"] = ""
+            else:
+                query_results["githubUsername"] = author.github_id
             final_results.append(query_results)
             print "found author " + query_results["displayName"] + " id: " + query_results['id']
 
