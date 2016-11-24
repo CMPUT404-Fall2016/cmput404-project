@@ -201,7 +201,7 @@ def processFriendRequest(param, APP_state):
     query_param = {}
     query_param['server_author_1'] = [from_server_index, param['from_author']]
     results = Author_Relationships.query(query_param) 
-    print results
+    print type(results), len(results)
     if results != []:
         if results[0].relationship_type == 2:
             results[0].relationship_type = 3
