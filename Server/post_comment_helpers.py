@@ -192,7 +192,7 @@ class Post(Resource):
                     if len(got) != 0:
                         if got[0] in handler.getVisiblePosts(APP_state["session_ids"][sessionID]):
                             rst = got
-                        else:
+                        # else:
                             #No permission
                     else:
                         #The post is in other server
@@ -232,11 +232,11 @@ class Post(Resource):
                         pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json["authors"]
                         if(handler.atlOneFriend(localAuthor, pfriends)):
                             return jsonify(makePostJson(got), {"page":None, "size":None})
-                        else:
+                        # else:
                             #No permission coz the requesting remote user is not foaf of the post author in my server
-                    else:
+                    # else:
                         #No permission coz either this post is private or serveronly
-            else:
+            # else:
                 #Post Not in my server
 
 
@@ -427,7 +427,7 @@ class AuthorToAuthorPost(Resource):
 
                 return jsonify(makePostJson(allPosts), paras)
                 
-            else:
+            # else:
                 #We don't have this requested user in our server 
 
 class Comment(Resource):
