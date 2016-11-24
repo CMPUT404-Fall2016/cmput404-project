@@ -300,7 +300,7 @@ class All_Post(Resource):
 
             if sessionID in APP_state["session_ids"]:
 
-                data = jsonify(request.get_json(force=True))
+                data = request.get_json(force=True)
                 post = {}
                 print data
                 post["author_id"] = data["author_id"]
