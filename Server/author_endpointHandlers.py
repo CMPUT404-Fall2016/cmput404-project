@@ -616,7 +616,7 @@ def getAuthor(param, foreign_host, APP_state):
             print "looking in foreign hosts"
             return searchForeignAuthor(param["author"])
         else:
-            return "{}"
+            return None
     
     else:
         for author in results:
