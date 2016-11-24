@@ -508,7 +508,7 @@ def beFriend(param):
         param["to_author_name"] = Friend_Requests.query({"sendTo": [server2_index, author2_id]})[0].fromAuthorDisplayName
         param["from_serverIP"] = server2_IP
         param["to_serverIP"] = server1_IP 
-        sendFriendRequest(datum)
+        sendFriendRequest(param)
 
 
     else:
