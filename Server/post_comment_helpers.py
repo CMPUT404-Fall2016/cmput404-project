@@ -306,7 +306,7 @@ class All_Post(Resource):
                 post["author_id"] = data["author_id"]
                 post["title"] = data["title"]
                 post["content"] = data["content"]
-                post["content_type"] = data["content_type"]
+                post["content_type"] = data["contentType"]
                 post["description"] = data["description"]
                 perm = data["visibility"]
                 if perm =="PUBLIC":
