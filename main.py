@@ -71,7 +71,7 @@ def check_auth(username, password, forign_server):
     password combination is valid.
     """
     db_server = db.session.query(Servers).filter(Servers.IP == forign_server).first()
-    
+    print "HERE is the forign_server"
     print forign_server
     print db_server
     
@@ -88,7 +88,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password, request.environ['REMOTE_ADDR']):
+        if not auth or not check_auth(auth.username, auth.password, request.url_root ):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
@@ -101,7 +101,7 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
-        if not auth or not check_auth(auth.username, auth.password, request.environ['REMOTE_ADDR']):
+        if not auth or not check_auth(auth.username, auth.password, request.url_root):
             raise HTTPException('', Response(
                 "Please log in.", 401,
                 {'WWW-Authenticate': 'Basic realm="Login Required"'}
