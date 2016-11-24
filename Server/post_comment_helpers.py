@@ -420,7 +420,7 @@ class AuthorToAuthorPost(Resource):
                 foafPosts = handler.getAllFoafPostsByUsr(author_id)                
                 pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json()["authors"]
                 for author in pfriends:
-                    if(handler.isFriend(author, author_id))
+                    if(handler.isFriend(author, author_id)):
                         allPosts += foafPosts
                         break
 

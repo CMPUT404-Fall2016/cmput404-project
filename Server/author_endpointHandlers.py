@@ -467,7 +467,8 @@ def beFriend(param):
     param["author2"] = author2 id
     param["server_1_address"] = server1 IP  
     param["server_2_address"] = server2 IP 
-
+    param["author1_name"] = author 1 name
+    param["author2_name"] = author 2 name
     """
 
     if isFriend(param) is True:
@@ -501,6 +502,8 @@ def beFriend(param):
         datum["authorServer2_id"] = server2_index
         datum["author1_id"] = author1_id
         datum["author2_id"] = author2_id
+        # datum["author1_name"] = param["author1_name"]
+        # datum["author2_name"] = param["author2_name"]
         datum["relationship_type"] = 3 # Mutual friendship
         new_relationship = Author_Relationships(datum)
 
