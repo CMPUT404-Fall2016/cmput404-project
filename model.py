@@ -106,19 +106,19 @@ def saveGlobalVar(var_dict):
     global_var = db.session.query(Global_var).filter(Global_var.id == 0).all()[0]
     if 'local_server_Obj' in var_dict.keys():
         print "FOUND LOCAL SERVER OBJ"
-        if type(var_dict['local_server_Obj']) == Servers or type(var_dict['local_server_Obj']) == emptyClass:
-            server_obj = var_dict['local_server_Obj']
-            myServer = {}
-            myServer['server_id'] = server_obj.server_id
-            myServer['IP'] = server_obj.IP
-            myServer['server_index'] = server_obj.server_index
-            myServer['shareWith'] = server_obj.shareWith
-            myServer['shareWith_images'] = server_obj.shareWith_images
-            myServer['shareWith_posts'] = server_obj.shareWith_posts
-            myServer['user_name'] = server_obj.user_name
-            myServer['password'] = server_obj.password
-            var_dict['local_server_Obj'] = myServer
-            print "Found type servers"
+        # if (type(var_dict['local_server_Obj']) == Servers) or (type(var_dict['local_server_Obj']) == emptyClass):
+        print "Found type servers"
+        server_obj = var_dict['local_server_Obj']
+        myServer = {}
+        myServer['server_id'] = server_obj.server_id
+        myServer['IP'] = server_obj.IP
+        myServer['server_index'] = server_obj.server_index
+        myServer['shareWith'] = server_obj.shareWith
+        myServer['shareWith_images'] = server_obj.shareWith_images
+        myServer['shareWith_posts'] = server_obj.shareWith_posts
+        myServer['user_name'] = server_obj.user_name
+        myServer['password'] = server_obj.password
+        var_dict['local_server_Obj'] = myServer
 
     print var_dict
     toStore = json.dumps(var_dict)
