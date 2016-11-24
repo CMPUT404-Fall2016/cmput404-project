@@ -87,7 +87,7 @@ def createDefaultAuthor():
 def loadGlobalVar():
     global_var = db.session.query(Global_var).filter(Global_var.id == 0).all()[0]
     var_dict = json.loads(global_var.content)
-    if 'local_server_Obj' in var_dict:
+    if 'local_server_Obj' in var_dict.keys():
         myServer = var_dict['local_server_Obj']
         server_obj = emptyClass()  
         server_obj.server_id = myServer['server_id'] 
@@ -104,7 +104,8 @@ def loadGlobalVar():
 
 def saveGlobalVar(var_dict):
     global_var = db.session.query(Global_var).filter(Global_var.id == 0).all()[0]
-    if 'local_server_Obj' in var_dict:
+    if 'local_server_Obj' in var_dict.keys():
+        print "FOUND LOCAL SERVER OBJ"
         if type(var_dict['local_server_Obj']) == Servers or type(var_dict['local_server_Obj']) == emptyClass:
             server_obj = var_dict['local_server_Obj']
             myServer = {}
@@ -119,7 +120,7 @@ def saveGlobalVar(var_dict):
             var_dict['local_server_Obj'] = myServer
             print "Found type servers"
 
-    print global_var
+    print var_dict
     toStore = json.dumps(var_dict)
     global_var.content = toStore
     db.session.commit()
