@@ -228,9 +228,9 @@ function afriendtwo(result) {
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX2(headers, "POST", "/friendrequest", friendrequestdata, function(response) {
-    if(response["status"] == "SUCCESS") {
+    //if(response["status"] == "SUCCESS") {
       document.getElementById("addfriendbtn").style.display="none";
-    }
+    //}
     //window.location.href="friendspage.html";
   });
 }
