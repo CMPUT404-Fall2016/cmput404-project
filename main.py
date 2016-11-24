@@ -96,15 +96,11 @@ def requires_auth(f):
 
 # quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):
-    global APP_state
     def is_accessible(self):
-        auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
+        auth = request.authorization
         
-        if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
-            raise HTTPException('', Response(
-                "Please log in.", 401,
-                {'WWW-Authenticate': 'Basic realm="Login Required"'}
-            ))
+        if not auth or check_auth(auth.username, auth.password, request.remote_addr):
+            return authenticate()
     
         return True
 
