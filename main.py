@@ -101,7 +101,7 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
-        if not auth or not check_auth(auth.username, auth.password, request.remote_addr):
+        if not auth or not check_auth(auth.username, auth.password, request.environ['REMOTE_ADDR']):
             raise HTTPException('', Response(
                 "Please log in.", 401,
                 {'WWW-Authenticate': 'Basic realm="Login Required"'}
