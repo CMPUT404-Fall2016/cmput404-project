@@ -230,6 +230,7 @@ def cleanSessions():
     printSessionIDs(APP_state)
     APP_state['session_ids'] = {}
     saveGlobalVar(APP_state)
+    return "SUCCESS"
 
 @app.route("/login", methods=['POST'])
 
