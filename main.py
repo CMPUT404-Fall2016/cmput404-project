@@ -96,6 +96,7 @@ def requires_auth(f):
 #-----------------------------------------need @requires_auth
 
 # quick fix for build_in flask
+'''
 class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
@@ -107,6 +108,8 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
             ))
     
         return True
+'''
+
 
 
 #@requires_auth
