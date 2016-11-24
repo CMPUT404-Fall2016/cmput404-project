@@ -9,17 +9,17 @@ class Author_Relationships(db.Model):
     __tablename__ = 'author_relationships'
 
     # AuthorRelationship_id = db.Column(db.Integer, primary_key=True)
-    AuthorRelationship_id = db.Column(db.String(33), primary_key=True)
+    AuthorRelationship_id = db.Column(db.String(100), primary_key=True)
     
     authorServer1_id = db.Column(db.Integer)
     
-    author1_id = db.Column(db.String(33))
+    author1_id = db.Column(db.String(100))
     
     author1_name = db.Column(db.String(60))
 
     authorServer2_id = db.Column(db.Integer)
     
-    author2_id = db.Column(db.String(33))
+    author2_id = db.Column(db.String(100))
 
     author2_name = db.Column(db.String(60))
     

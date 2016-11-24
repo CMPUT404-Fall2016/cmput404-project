@@ -1,5 +1,6 @@
 from db import db
 import uuid
+import json
 
 from Model.Author_Relationships import Author_Relationships
 from Model.Authors import Authors
@@ -9,6 +10,7 @@ from Model.Images import Images
 from Model.Posts import Posts
 from Model.Servers import Servers
 from Model.URL import URL
+from Model.Global_var import Global_var
 from sample_data.data1 import *
 
 
@@ -83,9 +85,30 @@ def createDefaultAuthor():
 	db.session.add(defaultAuthor2)
 	db.session.commit()
 
-# db.create_all()
+def loadGlobalVar():
+	global_var = db.session.query(Global_var).filter(Global_var.id == 0).all()[0]
+	var_dict = json.loads(global_var.content)
+	return var_dict
+
+def saveGlobalVar(var_dict):
+	global_var = db.session.query(Global_var).filter(Global_var.id == 0).all()[0]
+	toStore = json.dumps(var_dict)
+	global_var.content = toStore
+	db.session.commit()
+
+def initDB():
+	db.create_all()
+	new_global = Global_var()
+	new_global.content = "{}"
+	new_global.id = 0
+	db.session.add(new_global)
+	db.session.commit()
+
+
+
 # initServerObj()
 initAdmin()
+# initDB()
 # createDefaultAuthor()
 
 

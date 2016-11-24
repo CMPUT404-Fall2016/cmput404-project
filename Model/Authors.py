@@ -8,9 +8,9 @@ class Authors(db.Model):
     
     __tablename__ = 'authors'
     
-    author_id = db.Column(db.String(33), primary_key=True)
+    author_id = db.Column(db.String(100), primary_key=True)
 
-    github_id = db.Column(db.String(200)) #Test cases later
+    github_id = db.Column(db.String(200)) 
     
     name = db.Column(db.String(60))
     
