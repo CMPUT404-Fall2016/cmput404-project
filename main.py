@@ -232,6 +232,11 @@ def cleanSessions():
     saveGlobalVar(APP_state)
     return "SUCCESS"
 
+@app.route("/getSessionIds", methods=['GET'])
+def getSessionIds():
+    APP_state = loadGlobalVar()
+    return getResponse(body=APP_state['session_ids'], status_code=200)    
+
 @app.route("/login", methods=['POST'])
 
 def Login():
