@@ -629,7 +629,7 @@ def FollowUser():
         print data
         result = processFriendRequest(param, APP_state)
 
-        return getResponse
+        return getResponse(status_code=200)
 
     except Exception as e:
 
