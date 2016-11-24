@@ -10,6 +10,7 @@ import urlparse
 from Server.post_comment_handlers import * 
 from Server.post_comment_helpers import *
 from gevent.wsgi import WSGIServer
+import socket
 
 #http basic auth
 from functools import wraps
@@ -71,6 +72,7 @@ def check_auth(username, password, forign_server):
     password combination is valid.
     """
 
+    print "This is an example wsgi app served from {} to {}".format(socket.gethostname(), request.remote_addr)
     print "foreign server : "
     print forign_server
     db_server = db.session.query(Servers).filter(Servers.IP == forign_server).all()
