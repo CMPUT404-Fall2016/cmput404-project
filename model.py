@@ -104,7 +104,7 @@ def loadGlobalVar():
 def saveGlobalVar(var_dict):
     global_var = db.session.query(Global_var).filter(Global_var.id == 0).all()[0]
     if 'local_server_Obj' in var_dict:
-        if type(var_dict['local_server_Obj']) == Servers:
+        if type(var_dict['local_server_Obj']) == Servers or type(var_dict['local_server_Obj']) == emptyClass:
             server_obj = var_dict['local_server_Obj']
             myServer = {}
             myServer['server_id'] = server_obj.server_id
