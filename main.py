@@ -70,12 +70,15 @@ def check_auth(username, password, forign_server):
     """This function is called to check if a username /
     password combination is valid.
     """
-    db_server = db.session.query(Servers).filter(Servers.IP == forign_server).first()
+    db_server = db.session.query(Servers).filter(Servers.IP == forign_server).all()[0]
     
-    print forign_server
-    print db_server
-    
-    return username == db_server.user_name and password == db_server.password
+    if len(db_server) == 0:
+        return False
+    else:
+        print forign_server
+        print db_server
+        
+        return username == db_server.user_name and password == db_server.password
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
