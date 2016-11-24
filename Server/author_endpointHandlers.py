@@ -30,7 +30,7 @@ def isFriend(param):
   results=Author_Relationships.query(query_param)
   if len(results) > 0 :
       # print results[0].relationship_type  
-      assert(len(results) == 1), "Duplicate author_relationships entry found!"
+      # assert(len(results) == 1), "Duplicate author_relationships entry found!"
       if results[0].relationship_type == 3 :
           return True
 
@@ -38,7 +38,7 @@ def isFriend(param):
   results=Author_Relationships.query(query_param)
   if len(results) > 0 :
       # print results[0].relationship_type  
-      assert(len(results) == 1), "Duplicate author_relationships entry found!"
+      # assert(len(results) == 1), "Duplicate author_relationships entry found!"
       if results[0].relationship_type == 3 :
           return True
 
