@@ -55,7 +55,7 @@ $("#post-submit").click(function(e) {
   var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "POST", "/posts", postData, function(result) {
            console.log(result);
-           //location.reload();
+          //  window.location.reload();
    });
   // done with request, reload
 // window.location.reload();
