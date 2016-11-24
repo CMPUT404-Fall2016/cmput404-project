@@ -6,7 +6,10 @@ var postList = document.getElementById("posts"),
 // get all the public posts on the server
 $(document).ready(function() {
   sendAJAX("GET", "/posts", "", function(results) {
-    for(var i=0; i < results.posts.length; ++i) {
+    console.log(results.posts);
+    console.log(results.posts.length);
+
+    for(var i=0; i < results.count; ++i) {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
