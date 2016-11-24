@@ -72,6 +72,8 @@ def check_auth(username, password, forign_server):
     """
     db_server = db.session.query(Servers).filter(Servers.IP == forign_server).first()
     
+    print forign_server
+    print db_server
     
     return username == db_server.user_name and password == db_server.password
 
@@ -99,7 +101,10 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
         if not auth or not check_auth(auth.username, auth.password, request.remote_addr):
-            return authenticate()
+            raise HTTPException('', Response(
+                "Please log in.", 401,
+                {'WWW-Authenticate': 'Basic realm="Login Required"'}
+            ))
     
         return True
 
