@@ -581,6 +581,7 @@ def searchForeignAuthor(author_id):
             param = {}
             param['id'] = author_id
             param['url'] = server.IP + '/author/' + author_id
+            param['host'] = server.IP
             author = fetchForeignAuthor(param)
             if author != None:
                 return author
