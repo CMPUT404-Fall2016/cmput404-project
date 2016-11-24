@@ -224,7 +224,7 @@ class RestHandlers():
                             "post_id" : uuid.uuid4().hex, #Need to change to self generated uuid
                             "title" :   data["title"],
                             "content_type"  : data["content_type"],
-                            "desciption"    : data["desciption"],
+                            "desciption"    : data["description"],
                             "categories"    : "abram bear",
                             "content"   :   data["content"],
                             "creation_time" :   currentTime,

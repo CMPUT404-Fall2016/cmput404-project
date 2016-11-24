@@ -2,6 +2,7 @@ import uuid
 from model import *
 import requests
 import json
+from base64 import b64encode
 
 """
 THINGS TO DO:
@@ -43,6 +44,14 @@ def isFriend(param):
   return False
 
 
+def createAuthHeaders(host_name):
+
+    server_obj = db.session.query(Servers).filter(Servers.IP == host_name).all()[0]
+    auth_str = b"%s:%s"%(server_obj.user_name, server_obj.password)
+    userAndPass = b64encode(auth_str).decode("ascii")
+    headers = { 'Authorization' : 'Basic %s' %  userAndPass }
+    return headers
+
 def fetchForeignAuthor(param):
 
     """
@@ -51,7 +60,11 @@ def fetchForeignAuthor(param):
     param['host'] = host name for the author
     """
 
-    r = requests.get(param['url'])
+
+
+    headers = createAuthHeaders(param['host'])
+    headers['Content-type'] = 'application/json'
+    r = requests.get(param['url'], headers = headers)
     if r.text == "":
         return None
     print "url : " + param['url']
@@ -309,7 +322,8 @@ def sendFriendRequest(param):
     body['friend']['displayName'] = param['to_author_name']
     body['friend']['url'] = param['to_serverIP'] + '/author/' + param['to_author']
 
-    headers = {'Content-type': 'application/json'}
+    headers = createAuthHeaders(param['to_serverIP'])
+    headers['Content-type'] = 'application/json'
     url = param['to_serverIP'] + '/friendrequest'
     r = requests.post(url, data=json.dumps(body), headers=headers)
     print "Sent a friend request to %s. Status code %d: "%(url, r.status_code) 
@@ -567,6 +581,7 @@ def searchForeignAuthor(author_id):
             param = {}
             param['id'] = author_id
             param['url'] = server.IP + '/author/' + author_id
+            param['host'] = server.IP
             author = fetchForeignAuthor(param)
             if author != None:
                 return author
@@ -601,7 +616,7 @@ def getAuthor(param, foreign_host, APP_state):
             print "looking in foreign hosts"
             return searchForeignAuthor(param["author"])
         else:
-            return "{}"
+            return None
     
     else:
         for author in results:

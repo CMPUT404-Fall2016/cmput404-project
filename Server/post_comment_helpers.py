@@ -9,6 +9,7 @@ import random, os
 from model import *
 
 from functools import wraps
+from author_endpointHandlers import *
 
 
 handler = RestHandlers()
@@ -271,11 +272,17 @@ class All_Post(Resource):
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
             nodes = handler.getConnectedNodes()
+            print nodes
+            print "im fucked"
             agre = []
             agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
-            for node in nodes:
-                agre.append(requests.get(node + "/posts", paras).json())
+            for node in nodes: 
+                print "Im searching posts in the server with address" + node 
+                headers = createAuthHeaders(node)
+                headers['Content-type'] = 'application/json'
+                agre.append(requests.get(node + "/posts", params = paras, headers = headers).json())
             # Each json object contains all public posts from a server
+            print agre
             return agre
 
         #Remote
@@ -300,12 +307,13 @@ class All_Post(Resource):
 
             if sessionID in APP_state["session_ids"]:
 
-                data = request.json
+                data = request.get_json(force=True)
                 post = {}
+                print data
                 post["author_id"] = data["author_id"]
                 post["title"] = data["title"]
                 post["content"] = data["content"]
-                post["content_type"] = data["content_type"]
+                post["content_type"] = data["contentType"]
                 post["description"] = data["description"]
                 perm = data["visibility"]
                 if perm =="PUBLIC":
@@ -353,7 +361,9 @@ class AuthorPost(Resource):
                     paras["author_id"] = APP_state["session_ids"][sessionID]
 
                     for node in nodes:
-                        rt.append(requests.get(node + "/author/posts", paras = paras).json())
+                        headers = createAuthHeaders(node)
+                        headers['Content-type'] = 'application/json'
+                        rt.append(requests.get(node + "/author/posts", params = paras, headers=headers).json())
                     return rt
                 else:
                     return "Session_ID Error", 403
@@ -512,7 +522,7 @@ class Comment(Resource):
                 sessionID = cookie["session_id"]
                 if sessionID in APP_state["session_ids"]:
 
-                    data = request.json
+                    data = request.get_json(force=True)
                     comment["post_id"] = data["post"].split("/")[4]
                     comment["comment_text"] = data["comment"]["comment"]
                     comment["author_id"] = data["comment"]["author"]["id"]
