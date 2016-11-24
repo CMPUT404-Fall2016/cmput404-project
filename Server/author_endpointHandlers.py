@@ -562,7 +562,10 @@ def getAuthor(param, foreign_host, APP_state):
             query_results["displayName"] = author.name
             query_results["bio"] = author.bio
             query_results["friends"] = getFriendList(param, APP_state)
-            query_results["githubUsername"] = author.github_id
+            if author.github_id==None:
+                query_results["githubUsername"] = ""
+            else:
+                query_results["githubUsername"] = author.github_id
             final_results.append(query_results)
             print "found author " + query_results["displayName"] + " id: " + query_results['id']
 
