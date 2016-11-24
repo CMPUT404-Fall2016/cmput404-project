@@ -72,6 +72,8 @@ def check_auth(username, password, forign_server):
     """
     db_server = db.session.query(Servers).filter(Servers.IP == forign_server).first()
     
+    print forign_server
+    print db_server
     
     return username == db_server.user_name and password == db_server.password
 
@@ -86,7 +88,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password, request.remote_addr):
+        if not auth or not check_auth(auth.username, auth.password, request.environ['REMOTE_ADDR']):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
@@ -94,6 +96,7 @@ def requires_auth(f):
 #-----------------------------------------need @requires_auth
 
 # quick fix for build_in flask
+'''
 class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
@@ -105,6 +108,8 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
             ))
     
         return True
+'''
+
 
 
 #@requires_auth
@@ -218,6 +223,15 @@ def getCookie(Operation_str):
     return COOKIE
 
 
+@app.route("/cleanSessions", methods=['GET'])
+def cleanSessions():
+    APP_state = loadGlobalVar()
+    print "from cleanSessions"
+    printSessionIDs(APP_state)
+    APP_state['session_ids'] = {}
+    saveGlobalVar(APP_state)
+    return "SUCCESS"
+
 @app.route("/login", methods=['POST'])
 
 def Login():
@@ -263,7 +277,7 @@ def Login():
         cookie["author_id"] = result["author_id"]
 
         print "From Login .."
-        printSessionIDs()
+        printSessionIDs(APP_state)
 
         return getResponse(body=result, cookie=cookie, status_code=200)
 
@@ -282,7 +296,7 @@ def Logout():
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
     print "from logout!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -365,7 +379,7 @@ def EditProfile():
 
     cookie = output
     print "from EditProfile!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
@@ -456,7 +470,7 @@ def GetFriendRequests():
     cookie = output
 
     print "from GetFriendRequests!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
 
     if "session_id" in cookie.keys():
@@ -504,7 +518,7 @@ def AcceptFriendRequest():
         return output
 
     print "AcceptFriendRequest!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -555,7 +569,7 @@ def RemoveFriend():
         return output
 
     print "from RemoveFriend!"
-    printSessionIDs()
+    printSessionIDs(APP_state)
 
     cookie = output
     if "session_id" in cookie.keys():
@@ -606,8 +620,7 @@ def FollowUser():
         return getResponse(body={"status": "CLIENT_FAILURE"}, status_code=200)
 
     print "from FollowUser!"
-    printSessionIDs()
-
+    printSessionIDs(APP_state)
     cookie = output
     if "session_id" in cookie.keys():
         sessionID = cookie["session_id"]
