@@ -62,8 +62,7 @@ api = Api(app)
 
 app.config['SECRET_KEY'] = 'hi_this_is_cmput404'
 
-def printSessionIDs():
-    global APP_state
+def printSessionIDs(APP_state):
     print APP_state['session_ids']
 
 #this is for server to server basic auth
@@ -230,7 +229,7 @@ def Login():
 
     """
 
-    global APP_state
+    APP_state = loadGlobalVar()
 
     try:
         data=flask_post_json()
@@ -250,6 +249,7 @@ def Login():
     else:
         sessionID = uuid.uuid4().hex
         APP_state['session_ids'][sessionID] = result['author_id']
+        saveGlobalVar(APP_state)
         cookie={}
         cookie["session_id"] = sessionID
         result["status"] = "SUCCESS"
@@ -272,7 +272,7 @@ def Logout():
     Responsible for logging out user
     Removes the sessionID at this request
     """
-    global APP_state
+    APP_state = loadGlobalVar()
     output = getCookie("Logout")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
         return output
@@ -284,6 +284,7 @@ def Logout():
         sessionID = cookie["session_id"]
         if sessionID in APP_state["session_ids"]:
             del APP_state["session_ids"][sessionID]
+            saveGlobalVar(APP_state)
             result = {}
             result["status"] = "SUCCESS"
         
@@ -316,7 +317,6 @@ def Register():
         body["password"] = "123456"
 
     """
-    global APP_state
     try:
         data=flask_post_json()
 
@@ -327,11 +327,6 @@ def Register():
     result = userRegistration(data)
 
     if type(result) == dict:
-        # sessionID = uuid.uuid4().hex
-        # APP_state['session_ids'][sessionID] = result['author_id']
-        # cookie={}
-        # cookie["session_id"] = sessionID
-        # cookie["author_id"] = result["author_id"]
         result["status"] = "NOT_AUTHORIZED"
         return getResponse(body=result, status_code=200)
 
@@ -348,7 +343,7 @@ def EditProfile():
     """
     User makes modifications to his profile(name, password, etc) and sends them using this API
     """
-    global APP_state
+    APP_state = loadGlobalVar()
     try:
         data=flask_post_json()
 
@@ -396,6 +391,7 @@ def EditProfile():
 #@requires_auth
 def FetchAuthor(AUTHOR_ID):
     
+    APP_state = loadGlobalVar()
     param = {}
     print "<<<"
     print "Author ID : " + AUTHOR_ID
@@ -408,7 +404,7 @@ def FetchAuthor(AUTHOR_ID):
         if foreign_host.strip() == "false":
             foreign_host = False
 
-    fetched_author=getAuthor(param, foreign_host)
+    fetched_author=getAuthor(param, foreign_host, APP_state)
     if fetched_author == None:
         return getResponse(status_code=200)
 
@@ -423,6 +419,7 @@ def FetchAuthor(AUTHOR_ID):
 @app.route("/authorByName/", methods=['GET'])
 def FetchAuthorByName():
 
+    APP_state = loadGlobalVar()
     first=""
     last=""
     if request.args.has_key("first"):
@@ -432,7 +429,7 @@ def FetchAuthorByName():
     name = first+' '+last
     param = {}
     param["author_name"] = name
-    results = getAuthor(param, False)
+    results = getAuthor(param, False, APP_state)
     if len(results) == 0:
         return getResponse(body={"status" : "NO_MATCH"}, status_code=200)
     else:
@@ -445,7 +442,7 @@ def GetFriendRequests():
     """
     User wants the current list of friend requests that have been sent to him.
     """
-    global APP_state
+    APP_state = loadGlobalVar()
 
     output = getCookie("GetFriendRequest")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
@@ -464,7 +461,7 @@ def GetFriendRequests():
             param = {}
             param["author"] = userID
             param["server_Obj"] = APP_state['local_server_Obj']
-            result = getFriendRequestList(param)
+            result = getFriendRequestList(param, APP_state)
 
             if result != None:
                 result['status'] = 'SUCCESS'
@@ -488,7 +485,7 @@ def AcceptFriendRequest():
 
 
     """
-    global APP_state
+    APP_state = loadGlobalVar()
 
     try:
         data=flask_post_json()
@@ -539,7 +536,7 @@ def RemoveFriend():
     """
     User wants to unfriend someone
     """
-    global APP_state
+    APP_state = loadGlobalVar()
 
     try:
         data=flask_post_json()
@@ -565,7 +562,7 @@ def RemoveFriend():
             param["server_1_address"] = APP_state['local_server_Obj'].IP
             param["author2"] = data["author"]
             param["server_2_address"] = data["server_address"]
-            result = unFriend(param)
+            result = unFriend(param, APP_state)
 
             if result == False :
                 return getResponse(body={"status" : "DB_FAILURE"}, status_code=200)
@@ -590,7 +587,7 @@ def FollowUser():
     """
     User wants to follow someone, aka wants to send a friend request.
     """
-    global APP_state
+    APP_state = loadGlobalVar()
 
     output = getCookie("FollowUser")
     if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
@@ -619,7 +616,7 @@ def FollowUser():
             param["to_author_name"] = data["friend"]["displayName"]
             param["to_serverIP"] = data["friend"]["host"]
             
-            result = processFriendRequest(param)
+            result = processFriendRequest(param, APP_state)
 
             if result == True:
                 return getResponse(body={"status": "SUCCESS"}, status_code=200)
@@ -644,12 +641,12 @@ def GetFriendList(AUTHOR_ID):
     """
     """
 
-    global APP_state
+    APP_state = loadGlobalVar()
 
     param = {}
     param["author"] = AUTHOR_ID
     param["local_server_Obj"] = APP_state["local_server_Obj"]
-    results=getFriendList(param)
+    results=getFriendList(param, APP_state)
     print results
     body = {}
     body["query"] = "friends"
@@ -724,7 +721,7 @@ def profile():
     return app.send_static_file('profile.html')
 
 def admin_settings_helper():
-    global APP_state
+    APP_state = loadGlobalVar()
     shared_nodes = ""
     shared_nodes_posts = ""
     shared_nodes_images = ""
@@ -750,7 +747,7 @@ def admin_settings_helper():
 
 
 def init_admin():
-    global APP_state
+    APP_state = loadGlobalVar()
 
     user1={"login_name":"Amaral", "name":"amaral Dcosta"}
     user2={"login_name":"Tully", "name":"Tully Dcosta"}
@@ -772,12 +769,13 @@ def restart():
 
 
 def init_server():
-    global APP_state
+    APP_state = loadGlobalVar()
     servers = db.session.query(Servers).filter(Servers.server_index == 0).all()
     server = None
     if len(servers) != 0:
         server = servers[0]
         APP_state['local_server_Obj'] = server
+        saveGlobalVar(APP_state)
         return True
 
     return False
@@ -815,9 +813,9 @@ def admin_settings():
                             )
 
 
-@app.route('/settings', methods=['POST'])
+@app.route('/settings', methods=['GET'])
 def settings():
-    global APP_state
+    APP_state = loadGlobalVar()
     updateSettings(request.form)
     redirectURL = APP_state["local_server_Obj"].IP + '/admin_settings.html'
     return redirect(redirectURL, code=302)
@@ -825,7 +823,7 @@ def settings():
 
 def updateSettings(dict):
 
-    global APP_state
+    APP_state = loadGlobalVar()
     print dict
     if 'element_6' in dict:
         if dict['element_6'].strip() == "":
@@ -861,7 +859,7 @@ def updateSettings(dict):
 
 
 def updateForeignHosts():
-    global APP_state
+    APP_state = loadGlobalVar()
     for host in APP_state["shared_nodes"]:
         servers = db.session.query(Servers).filter(Servers.IP == host).all()
         if len(servers) == 0:
@@ -876,7 +874,7 @@ def updateForeignHosts():
     db.session.commit()
 
 def parseAuthors(dict):
-    global APP_state
+    APP_state = loadGlobalVar()
     new = []
     indices = []
     for k in dict.keys():

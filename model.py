@@ -20,18 +20,17 @@ APP_state is a global variable that contains important information about the sta
 APP_state['no_friend_Requests'] : Number of friend requests send to this server. Used for id'ing friend requests
 (MAYBE) ** APP_state['no_Authors'] : Number of Authors created on the server so far. Used for id'ing the authors **
 """
-APP_state = {}
-APP_state["session_ids"]={}
-APP_state["no_servers"] = 0
-APP_state["admin_credentials"] = None
-APP_state["shared_nodes"] = []
-APP_state["shared_nodes_images"] = []
-APP_state["shared_nodes_posts"] = []
-# APP_state["pending_authors"] = []
-APP_state["nodes_with_authentication"] = True
+# APP_state = {}
+# APP_state["session_ids"]={}
+# APP_state["no_servers"] = 0
+# APP_state["admin_credentials"] = None
+# APP_state["shared_nodes"] = []
+# APP_state["shared_nodes_images"] = []
+# APP_state["shared_nodes_posts"] = []
+# APP_state["nodes_with_authentication"] = True
 
 def initAdmin():
-	global APP_state
+    APP_state = loadGlobalVar()
 	try :
 		f = open("admin_credentials.txt")
 		text = f.read()
@@ -41,6 +40,7 @@ def initAdmin():
 		APP_state['admin_credentials'] = [login, password]
 		f.close()
 		print APP_state["admin_credentials"] 
+		saveGlobalVar()
 
 	except Exception as e:
 		print "error while loading admin : ", e
@@ -58,13 +58,11 @@ def DELETE_ALL():
 
 
 def initAppState():
-	global APP_state
-	if "session_ids" not in APP_state.keys():
-		APP_state["session_ids"]={}
-
-
-def saveAppState():
-	pass
+    APP_state = loadGlobalVar()
+    APP_state['session_ids'] = {}
+    # APP_state['no_servers'] = 0
+    APP_state['admin_credentials'] = None
+    saveGlobalVar(APP_state)
 
 def initServerObj():
 	global APP_state
@@ -107,6 +105,7 @@ def initDB():
 
 
 # initServerObj()
+initAppState()
 initAdmin()
 # initDB()
 # createDefaultAuthor()
