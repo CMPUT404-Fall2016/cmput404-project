@@ -92,7 +92,7 @@ def requires_auth(f):
     return decorated
 #this is for server to server basic auth
 #-----------------------------------------need @requires_auth
-'''
+
 # quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
@@ -102,37 +102,37 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
             return authenticate()
     
         return True
-'''
 
-@requires_auth
+
+#@requires_auth
 class UserView(ModelView):
     can_create = True
 
-@requires_auth
+#@requires_auth
 class PostView(ModelView):
     can_create = True
 
-@requires_auth
+#@requires_auth
 class ImageView(ModelView):
     can_create = True
 
-@requires_auth
+#@requires_auth
 class URLView(ModelView):
     can_create = True
 
-@requires_auth
+#@requires_auth
 class ServerView(ModelView):
     can_create = True
 
-@requires_auth
+#@requires_auth
 class GlobalView(ModelView):
     can_create = True
 
-@requires_auth
+#@requires_auth
 class FriendRelationshipsView(ModelView):
     can_create = True
 
-@requires_auth
+#@requires_auth
 class FriendRequestsView(ModelView):
     can_create = True
 
