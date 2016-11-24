@@ -94,49 +94,41 @@ def requires_auth(f):
 #this is for server to server basic auth
 #-----------------------------------------need @requires_auth
 
-'''
 # quick fix for build_in flask
 class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
-        auth = request.authorization
+        auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
-        if not auth or check_auth(auth.username, auth.password, request.remote_addr):
+        if not auth or not check_auth(auth.username, auth.password, request.remote_addr):
             return authenticate()
     
         return True
-'''
+
 
 
 class UserView(ModelView):
     can_create = True
-    @requires_auth
 
 class PostView(ModelView):
     can_create = True
-    @requires_auth
 
 class ImageView(ModelView):
     can_create = True
-    @requires_auth
+
 class URLView(ModelView):
     can_create = True
-    @requires_auth
 
 class ServerView(ModelView):
     can_create = True
-    @requires_auth
 
 class GlobalView(ModelView):
     can_create = True
-    @requires_auth
 
 class FriendRelationshipsView(ModelView):
     can_create = True
-    @requires_auth
 
 class FriendRequestsView(ModelView):
     can_create = True
-    @requires_auth
 
 class Back(BaseView):
     @expose('/')
