@@ -370,7 +370,7 @@ class AuthorPost(Resource):
 
             else:
                 return "SESSION_ERROR", 403
-
+        
         else:
             #Remote
             remoteUsr = request.args.get("author_id")
@@ -388,7 +388,7 @@ class AuthorPost(Resource):
             paras["size"] = request.args.get('size')
 
             return jsonify(makePostJson(allPosts), paras)
-            
+             
 
 
 # gets all post made by AUTHOR_ID for current author to view.
