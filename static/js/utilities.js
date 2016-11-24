@@ -26,6 +26,7 @@ function sendAJAX(method, url, message, callback) {
       }
     }
   }
+  xhr.setRequestHeader('Foreign-Host', "false");
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(message));
 }
