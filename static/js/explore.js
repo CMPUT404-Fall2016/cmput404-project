@@ -5,7 +5,7 @@ var postList = document.getElementById("posts"),
 
 // get all the public posts on the server
 $(document).ready(function() {
-  sendAJAX("GET", "/posts"+"?Foreign-Host=false", "", function(results) {
+  sendAJAX("GET", "/posts", "", function(results) {
     console.log(results.posts);
     console.log(results.posts.length);
 
