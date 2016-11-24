@@ -225,7 +225,7 @@ class RestHandlers():
                             "title" :   data["title"],
                             "content_type"  : data["content_type"],
                             "desciption"    : data["desciption"],
-                            "categories"    : data["categories"],
+                            "categories"    : "abram bear",
                             "content"   :   data["content"],
                             "creation_time" :   currentTime,
                             "view_permission" : data["view_permission"],
@@ -251,12 +251,16 @@ class RestHandlers():
     def make_comment(self, data):
         currentTime = datetime.now()    
         comment = {
-                                "comment_id"    :   uuid.uuid4().hex,
+                                "comment_id"    :   data["comment_id"],
                                 "author_id" :   data["author_id"],
+                                "author_host" :   data["author_host"],
+                                "author_name" :   data["author_name"],
+                                "author_url" :   data["author_url"],
+                                "author_github" :   data["author_github"],
                                 "post_id"   :   data["post_id"],
                                 "comment_text"  :   data["comment_text"],
                                 "content_type"  :   "text/markdown",    
-                                "creation_time" :   currentTime
+                                "creation_time" :   data["published"]
                             }
         try:
             db.session.add(Comments(comment))
@@ -375,3 +379,7 @@ class RestHandlers():
 
     def getAllFoafPostsByUsr(author_id):
         return db.session.query(Posts).filter(Posts.view_permission == 4, Posts.author_id == author_id).all()
+
+
+    def getAllUsers():
+        return db.session.query(Authors).filter().all()	

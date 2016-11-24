@@ -62,18 +62,19 @@ class Comments(db.Model):
             
             """
                 
-        self.comment_id = uuid.uuid4().hex
-
-
-        if "comment_text" in datum.keys():
-            self.comment_text = datum["comment_text"]
-
-        if "creation_time" in datum.keys():
-            self.creation_time = datum["creation_time"]
-
        	self.post_id = datum["post_id"]
-        self.author_id = datum["author_id"]
 
+        self.comment_text = datum["comment_text"]
+
+        self.author_id = datum["author_id"]
+        self.author_host = datum["author_host"]
+        self.author_name = datum["author_name"]
+        self.author_url = datum["author_url"]
+        self.author_github = datum["author_github"]
+
+        self.comment_id = datum["comment_id"]
+
+        self.creation_time = datum["creation_time"]
 
 
     def __repr__(self):

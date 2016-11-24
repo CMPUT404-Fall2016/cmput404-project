@@ -190,18 +190,20 @@ class Post(Resource):
                     rst = []
                     got = handler.getPost(post_id)
                     if len(got) != 0:
+                        #This post is in our server
                         if got[0] in handler.getVisiblePosts(APP_state["session_ids"][sessionID]):
+                            #if the user has permission to see it
                             rst = got
                         # else:
                             #No permission
                     else:
-                        #The post is in other server
+                        #The post is in other server?
                         nodes = handler.getConnectedNodes()
                         params = {}
                         params["author_id"] = APP_state["session_ids"][sessionID]
                         params["post_id"] = post_id
                         for node in nodes:
-                            rst += requests.get(node + "/posts/" + post_id, params = params).json
+                            rst += requests.get(node + "/posts/" + post_id, params = params).json()
                         if  len(rst) != 0:
                             return rst[0]
 
@@ -229,7 +231,7 @@ class Post(Resource):
                     return jsonify(makePostJson(got), {"page":None, "size":None})
                 else:
                     if got[0][0].view_permission == 4:
-                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json["authors"]
+                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json()["authors"]
                         if(handler.atlOneFriend(localAuthor, pfriends)):
                             return jsonify(makePostJson(got), {"page":None, "size":None})
                         # else:
@@ -272,7 +274,7 @@ class All_Post(Resource):
             agre = []
             agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
             for node in nodes:
-                agre.append(requests.get(node + "/posts", paras).json)
+                agre.append(requests.get(node + "/posts", paras).json())
             # Each json object contains all public posts from a server
             return agre
 
@@ -351,7 +353,7 @@ class AuthorPost(Resource):
                     paras["author_id"] = APP_state["session_ids"][sessionID]
 
                     for node in nodes:
-                        rt.append(requests.get(node + "/author/posts", paras = paras).json)
+                        rt.append(requests.get(node + "/author/posts", paras = paras).json())
                     return rt
                 else:
                     return "Session_ID Error", 403
@@ -363,7 +365,7 @@ class AuthorPost(Resource):
             #Remote
             remoteUsr = request.args.get("author_id")
             allPosts = handler.getVisiblePosts(remoteUsr)
-            pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json["authors"]
+            pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json()["authors"]
             #Get all remaining foaf posts, check for each one, if the author is a friend of at least one usr in pfriends
             foafPosts = handler.getAllFoafPosts()
 
@@ -401,9 +403,9 @@ class AuthorToAuthorPost(Resource):
                         nodes = handler.getConnectedNodes()
                         paras["author_id"] = APP_state["session_ids"][sessionID]
                         for node in nodes:
-                           rt = requests.get(node + "/author/" + str(author_id) + "/posts", paras).json
+                           rt = requests.get(node + "/author/" + str(author_id) + "/posts", paras).json()
                            if rt["count"] > 0:    
-                               return jsonify(makePostJson(rt), paras)
+                               return rt
                         #No such author in any of the connecting servers
                 else:
                     return "SESSION_ID_ERROR", 403
@@ -416,10 +418,11 @@ class AuthorToAuthorPost(Resource):
                 remoteUsr = request.args.get("author_id")
                 allPosts = handler.getVisiblePostsByAuthor(remoteUsr, author_id)
                 foafPosts = handler.getAllFoafPostsByUsr(author_id)                
-                pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json["authors"]
-                for post in foafPosts:
-                    if(atlOneFriend(post.author_id, pfriends)):
-                        allPosts.append(post)
+                pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json()["authors"]
+                for author in pfriends:
+                    if(handler.isFriend(author, author_id))
+                        allPosts += foafPosts
+                        break
 
                 paras = {}
                 paras["page"] = request.args.get('page')
@@ -447,56 +450,119 @@ class Comment(Resource):
                     paras = {}
                     paras["page"] = request.args.get('page')
                     paras["size"] = request.args.get('size')
-                    return jsonify(makeCommentJson(handler.getComments(post_id), paras))
+                    if  handler.getPost(post_id):
+                        return jsonify(makeCommentJson(handler.getComments(post_id), paras))
+                    else:
+                        #The post is in other server?
+                        nodes = handler.getConnectedNodes()
+                        paras["author_id"] = APP_state["session_ids"][sessionID]
+                        paras["post_id"] = post_id
+                        for node in nodes:
+                            rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
+                        if  len(rst) != 0:
+                            return rst[0]
 
-                return []
+                    return jsonify(makeCommentJson([], paras))
+                       
+
+                return {"Response"	: "SESSION_ID_ERROR"}, 403
 
             else:
-                 return "SESSION_ERROR", 403
+                return {"Response"	:  "SESSION_ERROR"}, 403
 
+        else:
+        #Remote
+        #Assume we passed server to server auth
+        #Assume this is the place we do remote get
+            pid = request.args.get("post_id")
+            remoteAuthor = request.args.get("author_id")
+            pg = request.args.get("page")
+            sz = request.args.get("size")
+            got = handler.getPost(pid)
 
+            if len(got) != 0:
+                localAuthor = got[0][1].author_id
+                if  got[0] in handler.getVisiblePosts(remoteAuthor):
+                    return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
+                else:
+                    if got[0][0].view_permission == 4:
+                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json()["authors"]
+                        if(handler.atlOneFriend(localAuthor, pfriends)):
+                            return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
+                        # else:
+                            #No permission coz the requesting remote user is not foaf of the post author in my server
+                    # else:
+                        #No permission coz either this post is private or serveronly, so cant access its comments
+            # else:
+                #Post Not in my server, so does its corresponding comments
+
+     
 
 
     def post(self):
-        output = getCookie("comment_post")
-        if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
-            return output
+        APP_state = loadGlobalVar()
+        if  request.args.get("Foreign-Host") == "false":
+            output = getCookie("comment_post")
+            if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+                return output
 
-        cookie = output
-        #For both local and remote request
-        if "session_id" in cookie:
-            sessionID = cookie["session_id"]
-            if sessionID in APP_state["session_ids"]:
+            cookie = output
+            #For both local and remote request
+            if "session_id" in cookie:
+                sessionID = cookie["session_id"]
+                if sessionID in APP_state["session_ids"]:
 
-                data = request.json
-                comment["post_id"] = data["post"].split("/")[4]
-                comment["comment_text"] = data["comment"]["comment"]
-                comment["author_id"] = data["comment"]["author"]["id"]
-                comment["author_host"] = data["comment"]["author"]["host"]
-                comment["author_name"] = data["comment"]["author"]["displayName"]
-                comment["author_url"] = data["comment"]["author"]["url"]
-                comment["author_github"] = data["comment"]["author"]["github"]
-                comment["comment_id"] = data["comment"]["guid"]
-                comment["published"] = data["comment"]["published"]
+                    data = request.json
+                    comment["post_id"] = data["post"].split("/")[4]
+                    comment["comment_text"] = data["comment"]["comment"]
+                    comment["author_id"] = data["comment"]["author"]["id"]
+                    comment["author_host"] = data["comment"]["author"]["host"]
+                    comment["author_name"] = data["comment"]["author"]["displayName"]
+                    comment["author_url"] = data["comment"]["author"]["url"]
+                    comment["author_github"] = data["comment"]["author"]["github"]
+                    comment["comment_id"] = data["comment"]["guid"]
+                    comment["published"] = data["comment"]["published"]
 
-                start = data["post"].split("/")[0]
-                middle = data["post"].split("/")[1]
-                end = data["post"].split("/")[2]
+                    start = data["post"].split("/")[0]
+                    middle = data["post"].split("/")[1]
+                    end = data["post"].split("/")[2]
 
-                addr = start + middle
-                addr += end
+                    addr = start + middle
+                    addr += end
                   
-                if addr == myip:
-                    if handler.make_comment(comment):
-                        return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
+                    if addr == myip:
+                        if handler.make_comment(comment):
+                            return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
+                        else:
+                            return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}
                     else:
-                        return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}
+                        return requests.post(data["post"]+"/comments", data).json()
+
                 else:
-                    return requests.post(data["post"]+"/comments", data)
+                    return {"Response" : "SESSION_ID_ERROR"}, 403
+
+            else:
+                return {"Response"  :  "SESSION_ERROR"}, 403
 
         else:
-            return "SESSION_ERROR", 403
+        #Remote
+            data = request.json
+            comment["post_id"] = data["post"].split("/")[4]
+            comment["comment_text"] = data["comment"]["comment"]
+            comment["author_id"] = data["comment"]["author"]["id"]
+            comment["author_host"] = data["comment"]["author"]["host"]
+            comment["author_name"] = data["comment"]["author"]["displayName"]
+            comment["author_url"] = data["comment"]["author"]["url"]
+            comment["author_github"] = data["comment"]["author"]["github"]
+            comment["comment_id"] = data["comment"]["guid"]
+            comment["published"] = data["comment"]["published"]
 
+            
+            if handler.make_comment(comment):
+                return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
+            else:
+                return {"query" : "addComment", "success" : "false", "message" : "Error when add"}
+ 
 
 
 '''
