@@ -73,12 +73,12 @@ def check_auth(username, password, forign_server):
     """
 
 
-    print "This is an example wsgi app served from {} to {}".format(socket.gethostname(), request.url_root)
-    print username
-    print password
-    print "foreign server : "
+    # print "This is an example wsgi app served from {} to {}".format(socket.gethostname(), request.url_root)
+    # print username
+    # print password
+    # print "foreign server : "
+    # print forign_server
     forign_server = forign_server[:-1]
-    print forign_server
     db_server_list = db.session.query(Servers).filter(Servers.IP == forign_server).all()
     
     if len(db_server_list) == 0:
@@ -86,8 +86,8 @@ def check_auth(username, password, forign_server):
     else:
 
         db_server = db_server_list[0]
-        print forign_server
-        print db_server
+        # print forign_server
+        # print db_server
         
         return username == db_server.user_name and password == db_server.password
 
@@ -251,8 +251,8 @@ def getSessionIds():
     APP_state = loadGlobalVar()
     return getResponse(body=APP_state['session_ids'], status_code=200)    
 
-@app.route("/login", methods=['POST'])
 
+@app.route("/login", methods=['POST'])
 def Login():
     """ 
     Responsible for loggin in user. Creates a session ID and sends back all the information as a cookie.
@@ -549,6 +549,10 @@ def AcceptFriendRequest():
             param["author2"] = userID
             param["server_1_address"] = data["server_address"]  
             param["server_2_address"] = APP_state["local_server_Obj"].IP 
+            param["author1_name"] = data['author1_name']
+            param["author2_name"] = data['author2_name']
+            print "author1_name: %s"%(param["author1_name"])
+            print "author2_name: %s"%(param["author2_name"])
             result = beFriend(param)
             
             if result == True:
@@ -645,7 +649,7 @@ def FollowUser():
         param["to_author_name"] = data["friend"]["displayName"]
         param["to_serverIP"] = data["friend"]["host"]
         
-        print data
+        # print data
         result = processFriendRequest(param, APP_state)
 
         return getResponse(status_code=200)
@@ -748,43 +752,6 @@ def start():
 def profile():
     return app.send_static_file('profile.html')
 
-def admin_settings_helper():
-    APP_state = loadGlobalVar()
-    shared_nodes = ""
-    shared_nodes_posts = ""
-    shared_nodes_images = ""
-    pending_authors = []
-
-    for node in APP_state["shared_nodes"]:
-        shared_nodes = shared_nodes + '[' + node + ']'
-
-    for node in APP_state["shared_nodes_posts"]:
-        shared_nodes_posts = shared_nodes_posts + '[' + node + ']'
-
-    for node in APP_state["shared_nodes_images"]:
-        shared_nodes_images = shared_nodes_images + '[' + node + ']'
-
-    # index = 0
-    # for author in APP_state['pending_authors']:
-    #     author['webID'] = "element_3_" + str(index)
-    #     author['value'] = str(index)
-    #     pending_authors.append(author)
-    #     index += 1
-
-    return [shared_nodes, shared_nodes_posts, shared_nodes_images]
-
-
-def init_admin():
-    APP_state = loadGlobalVar()
-
-    user1={"login_name":"Amaral", "name":"amaral Dcosta"}
-    user2={"login_name":"Tully", "name":"Tully Dcosta"}
-    user3={"login_name":"Eddy", "name":"Eddy Dcosta"}
-    APP_state["pending_authors"] = [user1, user2, user3]
-    APP_state["pending_authors"] += APP_state["pending_authors"] + APP_state["pending_authors"] + APP_state["pending_authors"] + APP_state["pending_authors"] 
-    APP_state["shared_nodes"] = ["http://1", "http://2"]
-    APP_state["shared_nodes_images"] = ["http://3", "http://4"]
-    APP_state["shared_nodes_posts"] = ["http://5", "http://6"]
 
 @app.route('/restart')
 def restart():
@@ -809,139 +776,6 @@ def init_server():
     return False
 
 
-@app.route('/admin_settings.html')
-def admin_settings():
-    global APP_state
-    auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
-        
-    if not auth or [auth.username, auth.password] != APP_state['admin_credentials']:
-        raise HTTPException('', Response(
-                                         "Please log in.", 401,
-                                         {'WWW-Authenticate': 'Basic realm="Login Required"'}
-                                         ))
-    
-    """
-        This leads to the admin settings form page
-    """
-    method_action = APP_state["local_server_Obj"].IP + '/settings'
-    [shared_nodes, shared_nodes_posts, shared_nodes_images]=admin_settings_helper()
-    checked = None
-    if APP_state["nodes_with_authentication"]:
-        checked = "checked"
-
-
-    # print shared_nodes
-    return render_template("admin_form.html",
-                            users=[],
-                            action_endpoint = method_action,
-                            shared_nodes = shared_nodes,
-                            shared_nodes_images = shared_nodes_images,
-                            shared_nodes_posts = shared_nodes_posts,
-                            isChecked = checked
-                            )
-
-
-@app.route('/settings', methods=['GET'])
-def settings():
-    APP_state = loadGlobalVar()
-    updateSettings(request.form)
-    redirectURL = APP_state["local_server_Obj"].IP + '/admin_settings.html'
-    return redirect(redirectURL, code=302)
-
-
-def updateSettings(dict):
-
-    APP_state = loadGlobalVar()
-    print dict
-    if 'element_6' in dict:
-        if dict['element_6'].strip() == "":
-            APP_state["shared_nodes"] = []
-        else:
-            APP_state["shared_nodes"] = parseHosts(dict['element_6'])
-    else:
-        APP_state["shared_nodes"] = []
-
-    if "element_7_1" in dict:
-        APP_state["nodes_with_authentication"] = True
-    else:
-        APP_state["nodes_with_authentication"] = False
-
-    if "element_1" in dict:
-        if dict['element_1'].strip() == "":
-            APP_state["shared_nodes_posts"] = []
-        else:
-            APP_state["shared_nodes_posts"] = parseHosts(dict['element_1'])
-    else:
-        APP_state["shared_nodes_posts"] = []
-
-    if "element_2" in dict:
-        if dict['element_2'].strip() == "":
-            APP_state["shared_nodes_images"] = []
-        else:
-            APP_state["shared_nodes_images"] = parseHosts(dict['element_2'])
-    else:
-        APP_state["shared_nodes_images"] = []
-
-    updateForeignHosts()
-    # parseAuthors(dict)
-
-
-def updateForeignHosts():
-    APP_state = loadGlobalVar()
-    for host in APP_state["shared_nodes"]:
-        servers = db.session.query(Servers).filter(Servers.IP == host).all()
-        if len(servers) == 0:
-            param = {}
-            param["server_id"] = uuid.uuid4().hex
-            param["IP"] = host
-            param["server_index"] = APP_state["no_servers"]
-            APP_state["no_servers"] += 1
-            server = Servers(param)
-            db.session.add(server)
-
-    db.session.commit()
-
-def parseAuthors(dict):
-    APP_state = loadGlobalVar()
-    new = []
-    indices = []
-    for k in dict.keys():
-        if k[:10] == "element_3_":
-            login_name=APP_state["pending_authors"][int(k[10:])]["login_name"]
-            author = db.session.query(Authors).filter(Authors.login_name == login_name).all()[0]
-            author.authorized = True
-            db.session.commit()
-            APP_state["pending_authors"][int(k[10:])] = None
-
-    for i in APP_state["pending_authors"]:
-        if i != None:
-            new.append(i)
-
-    APP_state["pending_authors"] = new
-
-
-def parseHosts(host_text):
-
-    result=[]
-    splitted = host_text.split('][')
-    if len(splitted) > 1:
-        splitted[0] = splitted[0].strip()[1:]
-        for split in splitted:
-            result.append(split)
-
-        result[-1] = splitted[-1].strip()[0:-1]
-
-    if len(splitted) == 1:
-        result.append(splitted[0].strip()[1:-1])
-
-    return result
-
-@app.route("/secretAuthorization/<AUTHOR_ID>", methods=['GET'])
-def authorizeAuthors(AUTHOR_ID):
-    author = db.session.query(Authors).filter(Authors.author_id == AUTHOR_ID)[0]
-    author.authorized = True
-    db.session.commit()
-
 
 def run():
     app.run(debug=True)
@@ -953,37 +787,6 @@ api.add_resource(AuthorPost, '/author/posts')
 api.add_resource(AuthorToAuthorPost, '/author/<string:author_id>/posts')
 api.add_resource(Comment, '/posts/<string:post_id>/comments')
 
-# for i in range(1, 100):
-#     currentTime = datetime.now()
-#     post1 = {}
-#     post1["post_id"] = i
-#     post1["author_id"] = i
-#     post1["title"] = "test" + str(i)
-#     post1["content"]="TEXT" + str(i)
-#     post1["creation_time"]=currentTime 
-#     post1["description"] = "abram eat bear"
-#     post1["view_permission"]=1
-#     post1["content_type"]="text/plain"
-#     apost = Posts(post1)
-#     db.session.add(apost)
-#     db.session.commit()        
-
-# aut = {}
-# aut["author_id"] = "98"
-# aut["name"] = "Boyuan"
-# aaut = Authors(aut)
-# db.session.add(aaut)
-# db.session.commit()
-
-
-# com = {}
-# com["author_id"] = "110"
-# com["post_id"] = "98"
-# com["comment_text"] = "nma"
-# com["creation_time"] = currentTime
-# acomment = Comments(com)
-# db.session.add(acomment)
-# db.session.commit()
 
 if __name__ == "__main__":
     # init_admin()

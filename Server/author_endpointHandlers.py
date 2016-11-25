@@ -68,7 +68,7 @@ def fetchForeignAuthor(param):
     if r.text == "":
         return None
     print "url : " + param['url']
-    print r.text
+    # print r.text
     try:
         body = r.json()
         return body
@@ -210,31 +210,38 @@ def processFriendRequest(param, APP_state):
     from_serverIP = param["from_serverIP"]
     from_server_index=db.session.query(Servers).filter(Servers.IP == from_serverIP).all()[0].server_index
 
-    # print ".."
+    print ".."
     # query_param = {}
     # query_param['server_author_1'] = [from_server_index, param['from_author']]
     # results = Author_Relationships.query(query_param) 
     # print type(results), len(results)
-    # if len(results) >0 :
-    #     if results[0].relationship_type == 2:
-    #         results[0].relationship_type = 3
-    #         db.session.commit()
-    #     return True
+    results = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == param['from_author'],
+                                                            Author_Relationships.author2_id == param['to_author']
+                                                            ).all()
+    if len(results) >0 :
+        print "came 1"
+        if results[0].relationship_type == 2:
+            results[0].relationship_type = 3
+            db.session.commit()
+        return True
     
-    # print "...."
+    print "...."
     # query_param = {}
     # query_param['server_author_2'] = [from_server_index, param['from_author']]
-    # results = Author_Relationships.query(query_param) 
-    # if len(results) >0 :
-    #     if results[0].relationship_type == 1:
-    #         results[0].relationship_type = 3
-    #         query_param = {}
-    #         query_param['sendTo'] = [from_server_index, param['from_author']]
-    #         results = Friend_Requests.query(query_param)
-    #         if results != []:
-    #             db.session.delete(results[0])
-    #         db.session.commit()
-    #     return True
+    results = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == param['from_author'],
+                                                            Author_Relationships.author1_id == param['to_author']
+                                                            ).all()
+    if len(results) >0 :
+        print "came 2"
+        if results[0].relationship_type == 1:
+            results[0].relationship_type = 3
+            query_param = {}
+            query_param['sendTo'] = [from_server_index, param['from_author']]
+            results = Friend_Requests.query(query_param)
+            if results != []:
+                db.session.delete(results[0])
+            db.session.commit()
+        return True
 
     # print "....."
     if APP_state['local_server_Obj'].IP == from_serverIP:
@@ -516,8 +523,8 @@ def beFriend(param):
         datum["authorServer2_id"] = server2_index
         datum["author1_id"] = author1_id
         datum["author2_id"] = author2_id
-        # datum["author1_name"] = param["author1_name"]
-        # datum["author2_name"] = param["author2_name"]
+        datum["author1_name"] = param["author1_name"]
+        datum["author2_name"] = param["author2_name"]
         datum["relationship_type"] = 3 # Mutual friendship
         new_relationship = Author_Relationships(datum)
 

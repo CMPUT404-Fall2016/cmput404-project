@@ -39,7 +39,7 @@ def initAdmin():
         password = splitted[1].split(':')[1].strip()
         APP_state['admin_credentials'] = [login, password]
         f.close()
-        print APP_state["admin_credentials"] 
+        # print APP_state["admin_credentials"] 
         saveGlobalVar(APP_state)
 
     except Exception as e:
@@ -62,7 +62,7 @@ def initAppState():
     APP_state['session_ids'] = {}
     # APP_state['no_servers'] = 0
     APP_state['admin_credentials'] = None
-    print APP_state
+    # print APP_state
     saveGlobalVar(APP_state)
 
 def initServerObj():
@@ -105,9 +105,9 @@ def loadGlobalVar():
 def saveGlobalVar(var_dict):
     global_var = db.session.query(Global_var).filter(Global_var.id == 0).all()[0]
     if 'local_server_Obj' in var_dict.keys():
-        print "FOUND LOCAL SERVER OBJ"
+        # print "FOUND LOCAL SERVER OBJ"
         # if (type(var_dict['local_server_Obj']) == Servers) or (type(var_dict['local_server_Obj']) == emptyClass):
-        print "Found type servers"
+        # print "Found type servers"
         server_obj = var_dict['local_server_Obj']
         myServer = {}
         myServer['server_id'] = server_obj.server_id
@@ -120,7 +120,7 @@ def saveGlobalVar(var_dict):
         myServer['password'] = server_obj.password
         var_dict['local_server_Obj'] = myServer
 
-    print var_dict
+    # print var_dict
     toStore = json.dumps(var_dict)
     global_var.content = toStore
     db.session.commit()
