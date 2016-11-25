@@ -55,7 +55,7 @@ $("#create-btn").click(function (e) {
 function login(data) {
   localStorage.setItem("author_id", data["author_id"]);
   localStorage.setItem("display_name", data["name"]);
-  // localStorage.setItem(github_username, data["github_username"]);
+  localStorage.setItem(github_username, data["github_id"]);
   window.location.href = "index.html";
 }
 
