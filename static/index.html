@@ -19,8 +19,8 @@
                          'insertdatetime media table contextmenu paste code'
                          ],
                  toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-                  content_css: '//www.tinymce.com/css/codepen.min.css',
-               plugin: 'textpattern',
+                  content_css: '//www.tinymce.com/css/codepen.min.css'
+               /*plugin: 'textpattern',
                textpattern_patterns: [
                                       {start: '*', end: '*', format: 'italic'},
                                       {start: '**', end: '**', format: 'bold'},
@@ -33,7 +33,7 @@
                                       {start: '1. ', cmd: 'InsertOrderedList'},
                                       {start: '* ', cmd: 'InsertUnorderedList'},
                                       {start: '- ', cmd: 'InsertUnorderedList'}
-                                      ]
+                                      ]*/
                  });
   </script>
   <!-- <script src="/js/login-check.js"></script> -->
@@ -65,8 +65,8 @@
                 <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
               <div class="form-group">
-                <label id="ratiocheck" class="radio-inline"><input type="radio" value="text/plain" name="text-type" checked>Plain Text</label>
-                <label id="ratiocheck" class="radio-inline"><input type="radio" value="text/markdown" name="text-type">Markdown</label>
+                <label class="ratiocheck" class="radio-inline"><input type="radio" value="text/plain" name="text-type" checked>Plain Text</label>
+                <label class="ratiocheck" class="radio-inline"><input type="radio" value="text/markdown" name="text-type">Markdown</label>
               </div>
               <div class="form-group">
                 <select name="visibility">
