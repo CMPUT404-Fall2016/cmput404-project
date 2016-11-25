@@ -9,6 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+  <script src="/js/commonmark.js"></script>
   <script>
   tinymce.init({ selector:'textarea',
                menubar: false,
@@ -18,7 +19,21 @@
                          'insertdatetime media table contextmenu paste code'
                          ],
                  toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-                  content_css: '//www.tinymce.com/css/codepen.min.css'
+                  content_css: '//www.tinymce.com/css/codepen.min.css',
+               plugin: 'textpattern',
+               textpattern_patterns: [
+                                      {start: '*', end: '*', format: 'italic'},
+                                      {start: '**', end: '**', format: 'bold'},
+                                      {start: '#', format: 'h1'},
+                                      {start: '##', format: 'h2'},
+                                      {start: '###', format: 'h3'},
+                                      {start: '####', format: 'h4'},
+                                      {start: '#####', format: 'h5'},
+                                      {start: '######', format: 'h6'},
+                                      {start: '1. ', cmd: 'InsertOrderedList'},
+                                      {start: '* ', cmd: 'InsertUnorderedList'},
+                                      {start: '- ', cmd: 'InsertUnorderedList'}
+                                      ]
                  });
   </script>
   <!-- <script src="/js/login-check.js"></script> -->
@@ -50,8 +65,8 @@
                 <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
               <div class="form-group">
-                <label class="radio-inline"><input type="radio" value="text/plain" checked="checked" name="text-type">Plain Text</label>
-                <label class="radio-inline"><input type="radio" value="text/markdown" name="text-type">Markdown</label>
+                <label id="ratiocheck" class="radio-inline"><input type="radio" value="text/plain" name="text-type" checked>Plain Text</label>
+                <label id="ratiocheck" class="radio-inline"><input type="radio" value="text/markdown" name="text-type">Markdown</label>
               </div>
               <div class="form-group">
                 <select name="visibility">
@@ -130,6 +145,7 @@
 <!-- <footer class="container-fluid text-center">
 </footer> -->
 <script src="/js/utilities.js"></script>
+<script src="/js/commonmark.js"></script>
 <!-- <script src="/js/login-check.js"></script> -->
 <script src="/js/index.js"></script>
 <script src="/js/setmycookie.js"></script>
