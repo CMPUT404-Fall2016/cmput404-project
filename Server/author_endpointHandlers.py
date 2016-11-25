@@ -214,8 +214,9 @@ def processFriendRequest(param, APP_state):
     query_param = {}
     query_param['server_author_1'] = [from_server_index, param['from_author']]
     results = Author_Relationships.query(query_param) 
-    print type(results), len(results)
+    # print type(results), len(results)
     if len(results) >0 :
+        print "came 1"
         if results[0].relationship_type == 2:
             results[0].relationship_type = 3
             db.session.commit()
@@ -226,6 +227,7 @@ def processFriendRequest(param, APP_state):
     query_param['server_author_2'] = [from_server_index, param['from_author']]
     results = Author_Relationships.query(query_param) 
     if len(results) >0 :
+        print "came 2"
         if results[0].relationship_type == 1:
             results[0].relationship_type = 3
             query_param = {}
