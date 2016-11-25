@@ -14,6 +14,7 @@ $(document).ready(function() {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").text = results.posts[i].author.displayName;
+           console.log(results.posts[i].author.id);
            
            var cmreader = new commonmark.Parser();
            var writer = new commonmark.HtmlRenderer();
@@ -42,6 +43,7 @@ $(document).ready(function() {
     	e.preventDefault();
     	// set this for authorpage to use
     	localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+                            console.log("clicked");
     	window.location.href = "authorpage.html";
     });
 

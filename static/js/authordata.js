@@ -82,24 +82,45 @@ $(document).ready(function() {
       normalContent.appendChild(clonedTemplate);
 
       // This checks if the user is the same as the search user
-      if(getCookieid() == getFriendcookieid()) {
+      if(getCookieid() == localStorage.getItem("fetch-author-id")) {
         document.getElementById("addfriendbtn").style.display="none";
       }
+             
+       var isfriend = "/friends/" + myauthorid + "/" + author2sid;
+       console.log(isfriend);
+       
+       sendAJAX("GET", isfriend, "", function(response) {
+                console.log(response.friends);
+                if(response.friends == true) {
+                //console.log(">>");
+                //console.log(document.getElementById("addfriendbtn").style.display);
+                //document.getElementById("addfriendbtn").style.display="none";
+                  changebtn();
+                }
+        });
+
     });
 
     var author2sid = getCookieid();
 
     //var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-    var isfriend = "/friends/" + myauthorid + "/" + author2sid;
-    console.log(isfriend);
-
-    sendAJAX("GET", isfriend, "", function(response) {
-       console.log(response.friends);
-       if(response.friends == true) {
-         document.getElementById("addfriendbtn").style.display="none";
-       }
-     });
+//    var isfriend = "/friends/" + myauthorid + "/" + author2sid;
+//    console.log(isfriend);
+//
+//    sendAJAX("GET", isfriend, "", function(response) {
+//       console.log(response.friends);
+//       if(response.friends == true) {
+//             console.log(">>");
+//             console.log(document.getElementById("addfriendbtn").style.display);
+//         //document.getElementById("addfriendbtn").style.display="none";
+//             changebtn();
+//       }
+//     });
 });
+
+function changebtn() {
+  document.getElementById("addfriendbtn").style.display="none";
+}
 
 $("#posttabs").click(function(e) {
   e.preventDefault();
@@ -159,22 +180,25 @@ function afriendone() {
     var myinfodatacombine = {}
     myinfodatacombine.myhost = result.host;
     myinfodatacombine.mydisplayname = result.displayName;
+           console.log(myinfodatacombine);
 
     //var friendid = getFriendcookieid();
     var friendid = localStorage.getItem("fetch-author-id");
     var getfriendinfo = "/author/" + friendid;
 
     sendAJAX("GET", getfriendinfo, "", function(result2) {
-      var myinfodatacombine = {}
+      var myinfodatacombines = {}
       console.log(result.displayName);
-      myinfodatacombine.myhost = result.host;
-      myinfodatacombine.mydisplayname = result.displayName;
-      myinfodatacombine.friendid = result2.id;
-      myinfodatacombine.friendhost = result2.host;
-      myinfodatacombine.frienddisplayname = result2.displayName
-      myinfodatacombine.friendurl = result2.url;
+      myinfodatacombines.myhost = result.host;
+      myinfodatacombines.mydisplayname = result.displayName;
+      myinfodatacombines.friendid = result2.id;
+      myinfodatacombines.friendhost = result2.host;
+      myinfodatacombines.frienddisplayname = result2.displayName
+      myinfodatacombines.friendurl = result2.url;
+             
+             console.log(myinfodatacombines);
 
-      afriendtwo(myinfodatacombine);
+      afriendtwo(myinfodatacombines);
     });
   });
 }
@@ -193,9 +217,12 @@ function afriendtwo(result) {
     friendrequestdata["friend"]["host"] = result.friendhost;
     friendrequestdata["friend"]["displayName"] = result.frienddisplayname;
     friendrequestdata["friend"]["url"] = result.friendurl;
+  
+  console.log(friendrequestdata);
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
+           console.log(response);
     //if(response["status"] == "SUCCESS") {
       //document.getElementById("addfriendbtn").style.display="none";
     //}
