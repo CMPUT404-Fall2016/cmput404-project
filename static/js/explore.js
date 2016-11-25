@@ -42,6 +42,7 @@ $(document).ready(function() {
     	e.preventDefault();
     	// set this for authorpage to use
     	localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+                            console.log("clicked");
     	window.location.href = "authorpage.html";
     });
 
