@@ -101,10 +101,11 @@ $("#reqtab").click(function(e) {
 
            var rpBtn = requestTemplate.content.querySelector(".reqprofile");
            rpBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
-
-      var addingfriendbtn = requestTemplate.content.querySelector("#friend-accept");
+           
+      var addingfriendbtn = requestTemplate.content.querySelector(".friend-accept");
       addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
       addingfriendbtn.setAttribute("friendhostserver", events.friendRequestList[i].fromServerIP);
+      addingfriendbtn.setAttribute("addname", events.friendRequestList[i].fromAuthorDisplayName);
 
       var normalContent = document.getElementById('frequest');
 
