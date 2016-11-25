@@ -14,7 +14,14 @@ $(document).ready(function() {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").text = results.posts[i].author.displayName;
-      postTemplate.content.querySelector(".post-content").textContent = results.posts[i].content;
+           
+           var cmreader = new commonmark.Parser();
+           var writer = new commonmark.HtmlRenderer();
+           var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
+           // transform parsed if you like...
+           var commonmarkresult = writer.render(parsed);
+           
+      postTemplate.content.querySelector(".post-content").textContent = commonmarkresult;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
