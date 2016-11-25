@@ -32,11 +32,11 @@ $(document).ready(function() {
       for(var i=0; i < events.friends.length; ++i) {
         //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
         var friendsTemplate = document.getElementById('friends-container');
-        friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
-        friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
-        friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
+        friendsTemplate.content.querySelector(".friendid").textContent = events.friends[i].id;
+        friendsTemplate.content.querySelector(".friendhost").textContent = events.friends[i].host;
+        friendsTemplate.content.querySelector(".frienddisplayName").textContent = events.friends[i].displayName;
         console.log(events.friends[i].displayName);
-        friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
+        friendsTemplate.content.querySelector(".friendurl").href = events.friends[i].url;
 
         document.cookie = "request_author_id="+events.friends[i].id;
 
@@ -45,7 +45,7 @@ $(document).ready(function() {
             friendprofileBtn.setAttribute("thisuserid", events.friends[i].id);
         //friendsTemplate.content.querySelector("#friendp2link").href = "authorpage.html";
 
-        var unfriendbtn = friendsTemplate.content.querySelector("#unfriendauthor");
+        var unfriendbtn = friendsTemplate.content.querySelector(".unfriendauthor");
         unfriendbtn.name = events.friends[i].id;
         unfriendbtn.setAttribute("friendhostname", events.friends[i].host);
 
@@ -99,8 +99,8 @@ $("#reqtab").click(function(e) {
       //console.log(events.friendRequestList[i].fromServerIP);
       requestTemplate.content.querySelector("#author2id").textContent = events.friendRequestList[i].fromAuthor_id;
 
-           var authorBtn = requestTemplate.content.querySelector(".reqprofile");
-           authorBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
+           var rpBtn = requestTemplate.content.querySelector(".reqprofile");
+           rpBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
 
       var addingfriendbtn = requestTemplate.content.querySelector("#friend-accept");
       addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
