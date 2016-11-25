@@ -1,33 +1,3 @@
-// with header
-function sendAJAX2(headers, method, url, message, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open(method, url);
-  xhr.onreadystatechange = function(){
-    if (xhr.readyState==4) {
-      try {
-        if (xhr.status==200) {
-          if(callback) {
-            // console.log(xhr.responseText);
-            // if(xhr.responseText === null) {
-            //   console.log("ahah null.")
-            // }
-            callback(JSON.parse(xhr.responseText));
-          }
-        }
-      }
-      catch(e) {
-        alert('Error: ' + e.name);
-      }
-    }
-  }
-  console.log(headers.length);
-  for (var i=0; i<headers.length; ++i) {
-    xhr.setRequestHeader(headers[i][0], headers[i][1]);
-    //    console.log(headers[i][0] + headers[i][1]);
-  }
-  xhr.send(JSON.stringify(message));
-}
-
 function getCookieid() {
   // look for the github_name in cookies
   var cookies = document.cookie.split(";");
@@ -81,8 +51,8 @@ $("#posttab").click(function(e) {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
-  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-  sendAJAX2(headers, "GET", myprofileposts, "", function(posts) {
+  sendAJAX("GET", myprofileposts, "", function(posts) {
+           console.log(posts);
          // if not post are found
          if (posts == "status : NO_MATCH") {
               document.getElementById("posts").innerHTML = "";

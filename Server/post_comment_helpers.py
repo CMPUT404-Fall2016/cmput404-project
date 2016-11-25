@@ -273,6 +273,7 @@ class All_Post(Resource):
             paras["size"] = request.args.get('size')
             nodes = handler.getConnectedNodes()
             print nodes
+            print "im fucked"
             agre = []
             agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
             for node in nodes: 
@@ -369,7 +370,7 @@ class AuthorPost(Resource):
 
             else:
                 return "SESSION_ERROR", 403
-
+        
         else:
             #Remote
             remoteUsr = request.args.get("author_id")
@@ -387,7 +388,7 @@ class AuthorPost(Resource):
             paras["size"] = request.args.get('size')
 
             return jsonify(makePostJson(allPosts), paras)
-            
+             
 
 
 # gets all post made by AUTHOR_ID for current author to view.

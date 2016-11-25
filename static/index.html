@@ -8,6 +8,34 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+  <script src="/js/commonmark.js"></script>
+<!--  <script>-->
+<!--  tinymce.init({ selector:'textarea',-->
+<!--               menubar: false,-->
+<!--                  plugins: [-->
+<!--                         'advlist autolink lists link image charmap print preview anchor',-->
+<!--                         'searchreplace visualblocks code fullscreen',-->
+<!--                         'insertdatetime media table contextmenu paste code'-->
+<!--                         ],-->
+<!--                 toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',-->
+<!--                  content_css: '//www.tinymce.com/css/codepen.min.css'-->
+<!--               /*plugin: 'textpattern',-->
+<!--               textpattern_patterns: [-->
+<!--                                      {start: '*', end: '*', format: 'italic'},-->
+<!--                                      {start: '**', end: '**', format: 'bold'},-->
+<!--                                      {start: '#', format: 'h1'},-->
+<!--                                      {start: '##', format: 'h2'},-->
+<!--                                      {start: '###', format: 'h3'},-->
+<!--                                      {start: '####', format: 'h4'},-->
+<!--                                      {start: '#####', format: 'h5'},-->
+<!--                                      {start: '######', format: 'h6'},-->
+<!--                                      {start: '1. ', cmd: 'InsertOrderedList'},-->
+<!--                                      {start: '* ', cmd: 'InsertUnorderedList'},-->
+<!--                                      {start: '- ', cmd: 'InsertUnorderedList'}-->
+<!--                                      ]*/-->
+<!--                 });-->
+<!--  </script>-->
   <!-- <script src="/js/login-check.js"></script> -->
 </head>
 <body>
@@ -17,11 +45,11 @@
   <div class="row">
 
     <!-- profile sidebar -->
-    <div class="col-sm-4 col-lg-3 text-center">
+    <div class="hidden-sm col-md-3 text-center">
     </div>
 
     <!-- middle content -->
-    <div class="col-sm-8 col-lg-6 content-main">
+    <div class="col-sm-8 col-md-6 content-main">
       <!-- form for creating a post -->
       <div class="panel panel-default text-left">
         <div class="panel-body">
@@ -37,8 +65,8 @@
                 <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
               <div class="form-group">
-                <label class="radio-inline"><input type="radio" value="text/plain" checked="checked" name="text-type">Plain Text</label>
-                <label class="radio-inline"><input type="radio" value="text/markdown" name="text-type">Markdown</label>
+                <label class="ratiocheck" class="radio-inline"><input type="radio" value="text/plain" name="text-type" checked>Plain Text</label>
+                <label class="ratiocheck" class="radio-inline"><input type="radio" value="text/markdown" name="text-type">Markdown</label>
               </div>
               <div class="form-group">
                 <select name="visibility">
@@ -60,25 +88,12 @@
       </div>
       <!-- list group for holding posts -->
       <ol id="posts" class="list-group text-center">
-            <!-- placeholder post -->
-            <li class="list-group-item post-container media">
-              <div class="post-body media-body">
-                <h4 class="media-heading post-title">Post Title: a sample post</h4>
-                <a href="#" class="post-author-url" post-author-id="">
-                  <p class="post-author">Author</p>
-                </a>
-                <p class="post-description">description<span>
-                <p class="post-content">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <a href="#" post-comment-id="" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
-              </div>
-            </li>
+
       </ol>
     </div>
 
     <!-- github sidebar -->
-    <div class="hidden-sm col-lg-3 text-center">
+    <div class="col-sm-4 col-md-3 text-center">
       <div class="">
         <ol id="github" class="list-group">
           <li class="list-group-item text-center">
@@ -104,6 +119,7 @@
       <p class="post-content text-left">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
+      <img src"../sample_data/kitten.jpg" class="post-image" style="width:inherit" />
       <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
     </div>
   </li>
@@ -114,7 +130,7 @@
   <li class="list-group-item media">
     <div class="media-left">
       <a href="#" class="github-dp">
-        <img src="https://github.com/stat3kk.png" class="media-object github-img" height="50" width="50" alt="Github DP">
+        <img src="" class="media-object github-img" height="50" width="50" alt="Github DP">
       </a>
     </div>
     <div class="post-body media-body">
@@ -129,6 +145,7 @@
 <!-- <footer class="container-fluid text-center">
 </footer> -->
 <script src="/js/utilities.js"></script>
+<script src="/js/commonmark.js"></script>
 <!-- <script src="/js/login-check.js"></script> -->
 <script src="/js/index.js"></script>
 <script src="/js/setmycookie.js"></script>

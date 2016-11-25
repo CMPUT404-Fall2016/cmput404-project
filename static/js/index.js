@@ -1,45 +1,43 @@
 // functionality of index.html
 
-// with header
-function sendAJAX2(headers, method, url, message, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open(method, url);
-  xhr.onreadystatechange = function(){
-    if (xhr.readyState==4) {
-      try {
-        if (xhr.status==200) {
-          if(callback) {
-            // console.log(xhr.responseText);
-            callback(JSON.parse(xhr.responseText));
-          }
-        }
-      }
-      catch(e) {
-        alert('Error: ' + e.name);
-      }
-    }
-  }
-  console.log(headers.length);
-  for (var i=0; i<headers.length; ++i) {
-    xhr.setRequestHeader(headers[i][0], headers[i][1]);
-    //    console.log(headers[i][0] + headers[i][1]);
-  }
-  xhr.send(JSON.stringify(message));
-}
-
 var postForm = document.getElementById("post-form");
 
 $("#post-submit").click(function(e) {
   e.preventDefault();
-
+  
+  
   // encode form data as a JSON object
   var postData = {};
   postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
   postData["description"] = postForm.elements["desc"].value;
   postData["contentType"] = postForm.elements["text-type"].value;
-  postData["content"] = postForm.elements["post-text"].value;
+  console.log(postData["contentType"]);
+                        
+                        var cmreader = new commonmark.Parser();
+                        var writer = new commonmark.HtmlRenderer();
+                        var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
+                        // transform parsed if you like...
+                        var commonmarkresult = writer.render(parsed);
+                        console.log(commonmarkresult);
+                        
+  //postData["content"] = postForm.elements["post-text"].value;
+  postData["content"] = commonmarkresult;
+  //postData["content"] = tinyMCE.activeEditor.getContent({format : 'raw'});
+  //postData["content"] = tinyMCE.activeEditor.getContent();
   postData["visibility"] = postForm.elements["visibility"].value;
+                        
+                        
+//                        var cmreader = new commonmark.Parser();
+//                        var writer = new commonmark.HtmlRenderer();
+//                        var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
+//                        // transform parsed if you like...
+//                        var commonmarkresult = writer.render(parsed);
+//                        
+//                        console.log(commonmarkresult);
+                        
+                        
+  
 
   // convert the image to base64 string and attach to the data
   var reader = new FileReader();
@@ -52,35 +50,17 @@ $("#post-submit").click(function(e) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
 
-  var headers = [["Foreign-Host", "false"]];
-  sendAJAX2(headers, "POST", "/posts", postData, function(result) {
-           console.log(result);
-          //  window.location.reload();
-   });
-  // done with request, reload
-// window.location.reload();
+  sendAJAX("POST", "/posts", postData, function(result) {
+    console.log(result);
+    window.location.reload();
+  });
 });
-
-// // searches cookies for a github_username
-// function getGithubUsername() {
-//   // look for the github_name in cookies
-//   var cookies = document.cookie.split(";");
-//   for(var i=0; i < cookies.length; i++) {
-//     var gname = cookies[i].split("=");
-//     if(gname[0].trim() == "cookie_cmput404_github_id") {
-//       return gname[1];
-//     }
-//   }
-//   return "";
-// }
 
 // get the posts from authors I follow
 $(document).ready(function() {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
-  var headers = [["Foreign-Host", "false"]];
-  sendAJAX2(headers, "GET", "/author/posts", "", function(posts) {
-           console.log(posts);
+  sendAJAX("GET", "/author/posts", "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
            //console.log(posts);
       // fill the container with details
@@ -140,10 +120,12 @@ $(document).ready(function() {
 
         // fill the container with details
         githubTemplate.content.querySelector(".github-type").innerHTML = events[i].type;
-        githubTemplate.content.querySelector(".github-dp").href = events[i].actor.url;
+        githubTemplate.content.querySelector(".github-dp").href = "https://github.com/" + events[i].actor.login;
+        githubTemplate.content.querySelector(".github-img").src = events[i].actor.avatar_url;
         githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
         githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
-        githubTemplate.content.querySelector(".github-date").innerHTML = events[i].created_at;
+
+        githubTemplate.content.querySelector(".github-date").textContent = Date(events[i].created_at);
 
         // clone the template to render and append to the dom
         var clone = document.importNode(githubTemplate.content, true);

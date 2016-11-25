@@ -14,14 +14,22 @@ $(document).ready(function() {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").text = results.posts[i].author.displayName;
-      postTemplate.content.querySelector(".post-content").textContent = results.posts[i].content;
+           
+           var cmreader = new commonmark.Parser();
+           var writer = new commonmark.HtmlRenderer();
+           var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
+           // transform parsed if you like...
+           var commonmarkresult = writer.render(parsed);
+           
+      //postTemplate.content.querySelector(".post-content").textContent = commonmarkresult;
+      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
       authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      commentsBtn.setAttribute("post-comment-id", results.posts[i].id);
+      commentsBtn.setAttribute("post-id", results.posts[i].id);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
@@ -42,9 +50,8 @@ $(document).ready(function() {
     $(".comments").click(function(e) {
       e.preventDefault();
       // set this for later
-      // localStorage.getItem("fetch-post-host", $(this).data("post-host"));
-      localStorage.setItem("fetch-post-id", $(this).attr("post-comment-id"));
-      window.location.href("post.html")
+      localStorage.setItem("fetch-post-id", $(this).attr("post-id"));
+      window.location.href = "post.html";
     });
   });
 });
