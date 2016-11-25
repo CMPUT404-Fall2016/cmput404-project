@@ -117,9 +117,25 @@ secure_springs = {
 			'POST/posts/P/comments' : ["http://secure-springs-85403.herokuapp.com/posts/", "/comments"]
 			}
 
+bloggyblog404 = {
+			'GET/friends/A' : ["http://api-bloggyblog404.herokuapp.com/friends/", ""],
+			'GET/friends/A1/A2' : ["http://api-bloggyblog404.herokuapp.com/friends/", ""],
+			'POST/friends/A' : ["http://api-bloggyblog404.herokuapp.com/friends/" , ""],
+			'POST/friendrequest' : ["http://api-bloggyblog404.herokuapp.com/friendrequest", ""],
+			'GET/author/A' : ["http://api-bloggyblog404.herokuapp.com/author/", ""],
+			'GET/posts' : ["http://api-bloggyblog404.herokuapp.com/posts", ""],
+			'GET/author/posts' : ["http://api-bloggyblog404.herokuapp.com/author/posts", ""],
+			'GET/author/A/posts' : ["http://api-bloggyblog404.herokuapp.com/author/", "/posts"],
+			'GET/posts/P' : ["http://api-bloggyblog404.herokuapp.com/posts/", ""],
+			'GET/posts/P/comments' : ["http://api-bloggyblog404.herokuapp.com/posts/", "/comments"],
+			'POST/posts/P/comments' : ["http://api-bloggyblog404.herokuapp.com/posts/", "/comments"]
+			}
+
+
 _NODES_['http://secret-penguin.herokuapp.com'] = secret_penguin
 _NODES_['http://secure-springs-85403.herokuapp.com'] = secure_springs
+_NODES_['https://api-bloggyblog404.herokuapp.com'] = bloggyblog404
 
 if __name__ == "__main__":
-	hostnames = ['http://secret-penguin.herokuapp.com', 'http://secure-springs-85403.herokuapp.com']
+	hostnames = ['http://secret-penguin.herokuapp.com', 'http://secure-springs-85403.herokuapp.com', 'http://api-bloggyblog404.herokuapp.com']
 	testgetAPI(hostnames)
