@@ -95,7 +95,10 @@ $(document).ready(function() {
                       console.log(">>");
                       console.log(document.getElementById("addfriendbtn").style.display);
                       //document.getElementById("addfriendbtn").style.display="none";
-                      changebtn();
+                      changebtnn();
+                      }
+                      else {
+                      changebtnv();
                       }
                       });
 
@@ -118,7 +121,11 @@ $(document).ready(function() {
 //     });
 });
 
-function changebtn() {
+function changebtnn() {
+  document.getElementById("addfriendbtn").style.display="visible";
+}
+
+function changebtnv() {
   document.getElementById("addfriendbtn").style.display="none";
 }
 
