@@ -82,7 +82,7 @@ $(document).ready(function() {
       normalContent.appendChild(clonedTemplate);
 
       // This checks if the user is the same as the search user
-      if(getCookieid() == getFriendcookieid()) {
+      if(getCookieid() == localStorage.getItem("fetch-author-id")) {
         document.getElementById("addfriendbtn").style.display="none";
       }
     });
@@ -98,10 +98,15 @@ $(document).ready(function() {
        if(response.friends == true) {
              console.log(">>");
              console.log(document.getElementById("addfriendbtn").style.display);
-         document.getElementById("addfriendbtn").style.display="none";
+         //document.getElementById("addfriendbtn").style.display="none";
+             changebtn();
        }
      });
 });
+
+function changebtn() {
+  document.getElementById("addfriendbtn").style.display="none";
+}
 
 $("#posttabs").click(function(e) {
   e.preventDefault();
