@@ -179,7 +179,7 @@ function afriendone() {
              
              console.log(myinfodatacombines);
 
-      afriendtwo(myinfodatacombine);
+      afriendtwo(myinfodatacombines);
     });
   });
 }
