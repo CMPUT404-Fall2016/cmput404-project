@@ -125,7 +125,7 @@ $("#reqtab").click(function(e) {
 
       });
            
-     $(".post-author").click(function(e) {
+     $(".reqprofile").click(function(e) {
          e.preventDefault();
          // set this for authorpage to use
          localStorage.setItem("fetch-author-id", $(this).attr("reqprofileid"));
