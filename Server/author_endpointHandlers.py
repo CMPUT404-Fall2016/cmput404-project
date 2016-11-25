@@ -68,7 +68,7 @@ def fetchForeignAuthor(param):
     if r.text == "":
         return None
     print "url : " + param['url']
-    print r.text
+    # print r.text
     try:
         body = r.json()
         return body
@@ -516,8 +516,8 @@ def beFriend(param):
         datum["authorServer2_id"] = server2_index
         datum["author1_id"] = author1_id
         datum["author2_id"] = author2_id
-        # datum["author1_name"] = param["author1_name"]
-        # datum["author2_name"] = param["author2_name"]
+        datum["author1_name"] = param["author1_name"]
+        datum["author2_name"] = param["author2_name"]
         datum["relationship_type"] = 3 # Mutual friendship
         new_relationship = Author_Relationships(datum)
 
