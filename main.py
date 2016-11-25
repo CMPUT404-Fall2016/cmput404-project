@@ -549,6 +549,10 @@ def AcceptFriendRequest():
             param["author2"] = userID
             param["server_1_address"] = data["server_address"]  
             param["server_2_address"] = APP_state["local_server_Obj"].IP 
+            param["author1_name"] = data['author1_name']
+            param["author2_name"] = data['author2_name']
+            print "author1_name: %s"%(param["author1_name"])
+            print "author2_name: %s"%(param["author2_name"])
             result = beFriend(param)
             
             if result == True:
@@ -747,7 +751,7 @@ def start():
 @app.route('/profile.html')
 def profile():
     return app.send_static_file('profile.html')
-    
+
 
 @app.route('/restart')
 def restart():
