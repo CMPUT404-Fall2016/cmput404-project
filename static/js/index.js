@@ -99,8 +99,8 @@ $(document).ready(function() {
         githubTemplate.content.querySelector(".github-img").src = events[i].actor.avatar_url;
         githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
         githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
-        
-        githubTemplate.content.querySelector(".github-date").textContent = Date.fromISO(events[i].created_at).toLocaleString();
+
+        githubTemplate.content.querySelector(".github-date").textContent = Date(events[i].created_at);
 
         // clone the template to render and append to the dom
         var clone = document.importNode(githubTemplate.content, true);

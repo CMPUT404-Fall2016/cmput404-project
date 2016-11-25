@@ -22,11 +22,14 @@ function sendAJAX(method, url, message, callback) {
         }
       }
       catch(e) {
-        alert('Error: ' + e.name);
+        console.log('Error: ' + e.name + " message: " + e.message + " file: " + e.fileName + " line: " + e.lineNumber);
       }
     }
   }
-  xhr.setRequestHeader('Foreign-Host', "false");
+  // don't do foreign host if we're requesting from github
+  if (url.split(".com")[0] != "https://api.github") {
+    xhr.setRequestHeader('Foreign-Host', "false");
+  }
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(message));
 }
