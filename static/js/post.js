@@ -1,7 +1,6 @@
 // get the posts with the post-id in localStorage
 $(document).ready(function() {
 
-  var host = localStorage.getItem("fetch-post-host");
   var postID = localStorage.getItem("fetch-post-id");
   var commentTemplate = $("#comment-template");
   var commentsList = $("#posts");
@@ -12,16 +11,20 @@ $(document).ready(function() {
     // request the post from whatever the host is
     sendAJAX("GET", "/posts/"+postID, "", function(post) {
       // fill the container with details
-      ("$post-title").textContent = post.title;
-      ("$post-author").textContent = post.author.displayName;
-      ("$post-description").textContent = post.description;
-      ("$post-content").textContent = post.content;
+      $("#post-title").text() = post.title;
+      $("#post-author").text() = post.author.displayName;
+      $("#post-description").text() = post.description;
+      $("#post-content").text() = post.content;
+
+      // bind the author's ID to the author link
+      var author = commentTemplate.content.querySelector(".comment-author");
+      $("#post-author").setAttribute("post-author-id", post.author.id);
     });
 
     // now fetch all the comments
-    sendAJAX("GET", host+"/posts/"+postID+"/comments", "", function(comments) {
+    sendAJAX("GET", "/posts/"+postID+"/comments", "", function(comments) {
       for (var i=0; i<comments.length; ++i) {
-        commentTemplate.content.querySelector(".comment-author").textContent = comments[i].author.id;
+        commentTemplate.content.querySelector(".comment-author").textContent = comments[i].author.displayName;
         commentTemplate.content.querySelector(".comment-content").textContent = comments[i].comment;
 
         // bind the author's ID to the author link

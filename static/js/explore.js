@@ -21,7 +21,7 @@ $(document).ready(function() {
       authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      commentsBtn.setAttribute("post-comment-id", results.posts[i].id);
+      commentsBtn.setAttribute("post-id", results.posts[i].id);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
@@ -42,9 +42,8 @@ $(document).ready(function() {
     $(".comments").click(function(e) {
       e.preventDefault();
       // set this for later
-      // localStorage.getItem("fetch-post-host", $(this).data("post-host"));
-      localStorage.setItem("fetch-post-id", $(this).attr("post-comment-id"));
-      window.location.href("post.html")
+      localStorage.setItem("fetch-post-id", $(this).attr("post-id"));
+      window.location.href = "post.html";
     });
   });
 });
