@@ -86,21 +86,18 @@ $(document).ready(function() {
         document.getElementById("addfriendbtn").style.display="none";
       }
              
-             var isfriend = "/friends/" + myauthorid + "/" + author2sid;
-             console.log(isfriend);
-             
-             sendAJAX("GET", isfriend, "", function(response) {
-                      console.log(response.friends);
-                      if(response.friends == true) {
-                      console.log(">>");
-                      console.log(document.getElementById("addfriendbtn").style.display);
-                      //document.getElementById("addfriendbtn").style.display="none";
-                      changebtnn();
-                      }
-                      else {
-                      changebtnv();
-                      }
-                      });
+       var isfriend = "/friends/" + myauthorid + "/" + author2sid;
+       console.log(isfriend);
+       
+       sendAJAX("GET", isfriend, "", function(response) {
+                console.log(response.friends);
+                if(response.friends == true) {
+                //console.log(">>");
+                //console.log(document.getElementById("addfriendbtn").style.display);
+                //document.getElementById("addfriendbtn").style.display="none";
+                  changebtn();
+                }
+        });
 
     });
 
@@ -121,11 +118,7 @@ $(document).ready(function() {
 //     });
 });
 
-function changebtnn() {
-  document.getElementById("addfriendbtn").style.display="visible";
-}
-
-function changebtnv() {
+function changebtn() {
   document.getElementById("addfriendbtn").style.display="none";
 }
 
