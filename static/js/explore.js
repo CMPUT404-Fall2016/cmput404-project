@@ -1,16 +1,22 @@
 // functionality of explore.html
 
-var postList = document.getElementById("posts"),
-    postTemplate = document.getElementById("post-container");
+const postList = document.getElementById("posts"),
+      postTemplate = document.getElementById("post-container");
+var page = "/posts?page=0";
 
-// get all the public posts on the server
-$(document).ready(function() {
-  sendAJAX("GET", "/posts", "", function(results) {
-    console.log(results.posts);
-    console.log(results.posts.length);
+function loadPosts() {
 
+  sendAJAX("GET", page, function(results) {
+    if (results.next) {
+      // set the next page of posts
+      page = results.next.split(".com")[1];
+    } else {
+      // no more posts to show
+      $("#load-posts").addClass("hidden");
+    }
+
+    // fill the containers with results
     for(var i=0; i < results.count; ++i) {
-      // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").text = results.posts[i].author.displayName;
@@ -56,4 +62,15 @@ $(document).ready(function() {
       window.location.href = "post.html";
     });
   });
+}
+
+// get all the public posts on the server
+$(document).ready(function() {
+  loadPosts();
 });
+
+// load more when scrolled to bottom
+$("#load-posts").click( function(e) {
+  e.preventDefault();
+  loadPosts();
+};

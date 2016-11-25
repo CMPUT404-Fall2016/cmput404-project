@@ -1,6 +1,8 @@
 // functionality of index.html
 
-var postForm = document.getElementById("post-form");
+const postForm = document.getElementById("post-form");
+const postList = document.getElementById("posts");
+const postTemplate = document.getElementById("post-container");
 
 $("#post-submit").click(function(e) {
   e.preventDefault();
@@ -58,8 +60,8 @@ $("#post-submit").click(function(e) {
 
 // get the posts from authors I follow
 $(document).ready(function() {
-  var postList = document.getElementById("posts");
-  var postTemplate = document.getElementById("post-container");
+
+
   sendAJAX("GET", "/author/posts", "", function(posts) {
     for(var i=0; i < posts.length; ++i) {
            //console.log(posts);
