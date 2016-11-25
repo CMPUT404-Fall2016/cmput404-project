@@ -95,10 +95,12 @@ $(document).ready(function() {
 
         // fill the container with details
         githubTemplate.content.querySelector(".github-type").innerHTML = events[i].type;
-        githubTemplate.content.querySelector(".github-dp").href = events[i].actor.url;
+        githubTemplate.content.querySelector(".github-dp").href = "https://github.com/" + events[i].actor.login;
+        githubTemplate.content.querySelector(".github-img").src = events[i].actor.avatar_url;
         githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
         githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
-        githubTemplate.content.querySelector(".github-date").innerHTML = events[i].created_at;
+        
+        githubTemplate.content.querySelector(".github-date").textContent = Date.fromISO(events[i].created_at).toLocaleString();
 
         // clone the template to render and append to the dom
         var clone = document.importNode(githubTemplate.content, true);
