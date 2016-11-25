@@ -22,7 +22,7 @@ $(document).ready(function() {
            var commonmarkresult = writer.render(parsed);
            
       //postTemplate.content.querySelector(".post-content").textContent = commonmarkresult;
-      postTemplate.content.querySelector(".post-content").textContent = results.posts[i].content;
+      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
