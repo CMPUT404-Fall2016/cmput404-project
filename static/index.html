@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel=”stylesheet” href=”widgEditor/css/widgEditor.css” />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- <script src="/js/login-check.js"></script> -->
@@ -34,7 +35,7 @@
                 <input type="text" class="form-control" name="desc" placeholder="Description (optional)">
               </div>
               <div class="form-group">
-                <textarea class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
+                <textarea id="widgEditor"class="form-control" name="post-text" rows="4" placeholder="What's going on?" required></textarea>
               </div>
               <div class="form-group">
                 <label class="radio-inline"><input type="radio" value="text/plain" checked="checked" name="text-type">Plain Text</label>
@@ -118,6 +119,7 @@
 </footer> -->
 <script src="/js/utilities.js"></script>
 <!-- <script src="/js/login-check.js"></script> -->
+<script src=”widgEditor/scripts/widgEditor.js”></script>
 <script src="/js/index.js"></script>
 <script src="/js/setmycookie.js"></script>
 </body>
