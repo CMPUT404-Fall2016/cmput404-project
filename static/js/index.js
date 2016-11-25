@@ -54,25 +54,10 @@ $("#post-submit").click(function(e) {
 
   var headers = [["Foreign-Host", "false"]];
   sendAJAX2(headers, "POST", "/posts", postData, function(result) {
-           console.log(result);
-          //  window.location.reload();
-   });
-  // done with request, reload
-// window.location.reload();
+    console.log(result);
+    window.location.reload();
+  });
 });
-
-// // searches cookies for a github_username
-// function getGithubUsername() {
-//   // look for the github_name in cookies
-//   var cookies = document.cookie.split(";");
-//   for(var i=0; i < cookies.length; i++) {
-//     var gname = cookies[i].split("=");
-//     if(gname[0].trim() == "cookie_cmput404_github_id") {
-//       return gname[1];
-//     }
-//   }
-//   return "";
-// }
 
 // get the posts from authors I follow
 $(document).ready(function() {
