@@ -22,7 +22,7 @@ $("#post-submit").click(function(e) {
                         console.log(commonmarkresult);
                         
   //postData["content"] = postForm.elements["post-text"].value;
-  postData["content"] = commentmarkresult;
+  postData["content"] = commonmarkresult;
   //postData["content"] = tinyMCE.activeEditor.getContent({format : 'raw'});
   //postData["content"] = tinyMCE.activeEditor.getContent();
   postData["visibility"] = postForm.elements["visibility"].value;
