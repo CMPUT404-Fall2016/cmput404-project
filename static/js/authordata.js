@@ -218,7 +218,7 @@ function afriendtwo(result) {
     friendrequestdata["friend"]["displayName"] = result.frienddisplayname;
     friendrequestdata["friend"]["url"] = result.friendurl;
   
-  console.log(friendrequestdata);
+  console.log(JSON.stringify(friendrequestdata));
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
