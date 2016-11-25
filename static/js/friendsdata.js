@@ -99,7 +99,7 @@ $("#reqtab").click(function(e) {
       //console.log(events.friendRequestList[i].fromServerIP);
       requestTemplate.content.querySelector("#author2id").textContent = events.friendRequestList[i].fromAuthor_id;
 
-           var authorBtn = requestgTemplate.content.querySelector(".reqprofile");
+           var authorBtn = requestTemplate.content.querySelector(".reqprofile");
            authorBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
 
       var addingfriendbtn = requestTemplate.content.querySelector("#friend-accept");
