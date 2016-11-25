@@ -85,23 +85,37 @@ $(document).ready(function() {
       if(getCookieid() == localStorage.getItem("fetch-author-id")) {
         document.getElementById("addfriendbtn").style.display="none";
       }
+             
+             var isfriend = "/friends/" + myauthorid + "/" + author2sid;
+             console.log(isfriend);
+             
+             sendAJAX("GET", isfriend, "", function(response) {
+                      console.log(response.friends);
+                      if(response.friends == true) {
+                      console.log(">>");
+                      console.log(document.getElementById("addfriendbtn").style.display);
+                      //document.getElementById("addfriendbtn").style.display="none";
+                      changebtn();
+                      }
+                      });
+
     });
 
     var author2sid = getCookieid();
 
     //var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-    var isfriend = "/friends/" + myauthorid + "/" + author2sid;
-    console.log(isfriend);
-
-    sendAJAX("GET", isfriend, "", function(response) {
-       console.log(response.friends);
-       if(response.friends == true) {
-             console.log(">>");
-             console.log(document.getElementById("addfriendbtn").style.display);
-         //document.getElementById("addfriendbtn").style.display="none";
-             changebtn();
-       }
-     });
+//    var isfriend = "/friends/" + myauthorid + "/" + author2sid;
+//    console.log(isfriend);
+//
+//    sendAJAX("GET", isfriend, "", function(response) {
+//       console.log(response.friends);
+//       if(response.friends == true) {
+//             console.log(">>");
+//             console.log(document.getElementById("addfriendbtn").style.display);
+//         //document.getElementById("addfriendbtn").style.display="none";
+//             changebtn();
+//       }
+//     });
 });
 
 function changebtn() {
