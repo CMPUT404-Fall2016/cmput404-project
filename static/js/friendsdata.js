@@ -86,7 +86,9 @@ $("#reqtab").click(function(e) {
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 
   sendAJAX("GET", "/getFriendRequests", "", function(events) {
+           console.log(events.friendRequestList.length);
       console.log(events);
+           
       //console.log(events.friendRequestList[0].fromAuthor_id);
       console.log(events.friendRequestList.length);
       for(var i=0; i < events.friendRequestList.length; ++i) {
