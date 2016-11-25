@@ -10,33 +10,6 @@ function getCookieid() {
   return "";
 }
 
-
-function sendAJAX2(headers, method, url, message, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open(method, url);
-  xhr.onreadystatechange = function(){
-    if (xhr.readyState==4) {
-      try {
-        if (xhr.status==200) {
-          if(callback) {
-            // console.log(xhr.responseText);
-            callback(JSON.parse(xhr.responseText));
-          }
-        }
-      }
-      catch(e) {
-        alert('Error: ' + e.name);
-      }
-    }
-  }
-  console.log(headers.length);
-  for (var i=0; i<headers.length; ++i) {
-    xhr.setRequestHeader(headers[i][0], headers[i][1]);
-    //    console.log(headers[i][0] + headers[i][1]);
-  }
-  xhr.send(JSON.stringify(message));
-}
-
 $(document).ready(function() {
   function getCookieid() {
     var cookies = document.cookie.split(";");
@@ -53,8 +26,7 @@ $(document).ready(function() {
   var myauthorlink = "/author/" + myauthorid;
                   console.log(myauthorlink);
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-  //sendAJAX("GET", myauthorlink, "", function(events) {
-  sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
+  sendAJAX("GET", myauthorlink, "", function(events) {
 
       console.log(events.friends);
       for(var i=0; i < events.friends.length; ++i) {
@@ -113,8 +85,7 @@ $("#reqtab").click(function(e) {
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 
-  //sendAJAX("GET", "/getFriendRequests", "", function(events) {
-  sendAJAX2(headers, "GET", "/getFriendRequests", "", function(events) {
+  sendAJAX("GET", "/getFriendRequests", "", function(events) {
       console.log(events);
       //console.log(events.friendRequestList[0].fromAuthor_id);
       console.log(events.friendRequestList.length);
@@ -144,7 +115,7 @@ $("#reqtab").click(function(e) {
 
           localStorage.setItem("fetch-addfriend-id", $(this).attr("name"));
           localStorage.setItem("fetch-addfriend-name", $(this).attr("addname"));
-                                
+
           localStorage.setItem("fetch-addfriend-host", $(this).attr("friendhostserver"));
           acceptfriend();
 
@@ -162,7 +133,6 @@ function acceptfriend() {
 
   var acceptfrienddata = {};
   acceptfrienddata["author"] = localStorage.getItem("fetch-addfriend-id");
-  //acceptfrienddata["server_address"] = document.getElementById("requesthost").textContent;
   acceptfrienddata["server_address"] = localStorage.getItem("fetch-addfriend-host");
 
   // touqir wants these
@@ -171,11 +141,8 @@ function acceptfriend() {
 
   console.log(acceptfrienddata);
 
-  // var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-  var headers = [["Foreign-Host", "false"]];
 
-  sendAJAX2(headers, "POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
-    //sendAJAX("POST", "acceptFriendRequest", acceptfrienddata, function(response) {
+  sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
     console.log(response);
     window.location.href="friendspage.html";
 
@@ -203,8 +170,7 @@ $("#fdtab").click(function(e) {
 
     // var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
     var headers = [["Foreign-Host", "false"]];
-    sendAJAX2(headers, "GET", myauthorlink, "", function(events) {
-    //sendAJAX("GET", myauthorlink, "", function(events) {
+    sendAJAX("GET", myauthorlink, "", function(events) {
             //  console.log(events.friends);
              for(var i=0; i < events.friends.length; ++i) {
              //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
@@ -274,15 +240,11 @@ function unfriendauthor() {
   unfrienddata["author"] = localStorage.getItem("fetch-unfriend-id");
   unfrienddata["server_address"] = localStorage.getItem("fetch-unfriend-host");
 
-  console.log(unfrienddata);
-  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-  sendAJAX2(headers, "POST", "/unFriend", unfrienddata, function(response) {
+  // console.log(unfrienddata);
 
-   //sendAJAX("POST", "/unFriend", unfrienddata, function(response) {
-            console.log("hello");
-            console.log(response);
-            window.location.href="friendspage.html";
+  sendAJAX("POST", "/unFriend", unfrienddata, function(response) {
+    console.log(response);
+    window.location.href="friendspage.html";
+  });
 
-            });
-
-   }
+}
