@@ -86,8 +86,8 @@ def check_auth(username, password, forign_server):
     else:
 
         db_server = db_server_list[0]
-        print forign_server
-        print db_server
+        # print forign_server
+        # print db_server
         
         return username == db_server.user_name and password == db_server.password
 
@@ -649,7 +649,7 @@ def FollowUser():
         param["to_author_name"] = data["friend"]["displayName"]
         param["to_serverIP"] = data["friend"]["host"]
         
-        print data
+        # print data
         result = processFriendRequest(param, APP_state)
 
         return getResponse(status_code=200)
