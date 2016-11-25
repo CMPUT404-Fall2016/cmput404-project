@@ -35,42 +35,25 @@ $(document).ready(function() {
       // clone the template to render and append to the dom
       var clone = document.importNode(postTemplate.content, true);
       postList.appendChild(clone);
-           
-           $(".post-author").click(function(e) {
-                                   e.preventDefault();
-                                   // set this for authorpage to use
-                                   localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-                                   console.log("clicked");
-                                   window.location.href = "authorpage.html";
-                                   });
-           
-           // bind the onclick to set post host and id in localStorage
-           // and link the user to the post's page
-           $(".comments").click(function(e) {
-                                e.preventDefault();
-                                // set this for later
-                                localStorage.setItem("fetch-post-id", $(this).attr("post-id"));
-                                window.location.href = "post.html";
-                                });
     }
 
-//	  // bind the onclick to set author id in localStorage
-//    // and link the user to the author's profile
-//    $(".post-author").click(function(e) {
-//    	e.preventDefault();
-//    	// set this for authorpage to use
-//    	localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-//                            console.log("clicked");
-//    	window.location.href = "authorpage.html";
-//    });
-//
-//    // bind the onclick to set post host and id in localStorage
-//    // and link the user to the post's page
-//    $(".comments").click(function(e) {
-//      e.preventDefault();
-//      // set this for later
-//      localStorage.setItem("fetch-post-id", $(this).attr("post-id"));
-//      window.location.href = "post.html";
-//    });
+	  // bind the onclick to set author id in localStorage
+    // and link the user to the author's profile
+    $(".post-author").click(function(e) {
+    	e.preventDefault();
+    	// set this for authorpage to use
+    	localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+                            console.log("clicked");
+    	window.location.href = "authorpage.html";
+    });
+
+    // bind the onclick to set post host and id in localStorage
+    // and link the user to the post's page
+    $(".comments").click(function(e) {
+      e.preventDefault();
+      // set this for later
+      localStorage.setItem("fetch-post-id", $(this).attr("post-id"));
+      window.location.href = "post.html";
+    });
   });
 });

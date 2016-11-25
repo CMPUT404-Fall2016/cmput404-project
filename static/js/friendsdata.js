@@ -99,6 +99,8 @@ $("#reqtab").click(function(e) {
       //console.log(events.friendRequestList[i].fromServerIP);
       requestTemplate.content.querySelector("#author2id").textContent = events.friendRequestList[i].fromAuthor_id;
 
+           var authorBtn = postTemplate.content.querySelector(".reqprofile");
+           authorBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
 
       var addingfriendbtn = requestTemplate.content.querySelector("#friend-accept");
       addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
@@ -122,6 +124,15 @@ $("#reqtab").click(function(e) {
           acceptfriend();
 
       });
+           
+     $(".post-author").click(function(e) {
+         e.preventDefault();
+         // set this for authorpage to use
+         localStorage.setItem("fetch-author-id", $(this).attr("reqprofileid"));
+         //console.log("clicked");
+         window.location.href = "authorpage.html";
+      });
+
 
 
   });
