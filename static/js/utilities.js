@@ -26,7 +26,10 @@ function sendAJAX(method, url, message, callback) {
       }
     }
   }
-  xhr.setRequestHeader('Foreign-Host', "false");
+  // don't do foreign host if we're requesting from github
+  if (url.split(".com")[0] != "https://api.github") {
+    xhr.setRequestHeader('Foreign-Host', "false");
+  }
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(message));
 }
