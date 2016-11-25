@@ -22,7 +22,7 @@ function sendAJAX(method, url, message, callback) {
         }
       }
       catch(e) {
-        alert('Error: ' + e.name);
+        console.log('Error: ' + e.name + " message: " + e.message + " file: " + e.fileName + " line: " + e.lineNumber);
       }
     }
   }
