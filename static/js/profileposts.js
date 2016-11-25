@@ -52,6 +52,7 @@ $("#posttab").click(function(e) {
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
   sendAJAX("GET", myprofileposts, "", function(posts) {
+           console.log(posts);
          // if not post are found
          if (posts == "status : NO_MATCH") {
               document.getElementById("posts").innerHTML = "";
