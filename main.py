@@ -444,7 +444,7 @@ def FetchAuthor(AUTHOR_ID):
 
     fetched_author=getAuthor(param, foreign_host, APP_state)
     if fetched_author == None:
-        return getResponse(status_code=200)
+        return getResponse(body = {}, status_code=200)
 
     if fetched_author == {}:
         return getResponse(body={"status" : "NO_MATCH"}, status_code=200)

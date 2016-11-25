@@ -219,8 +219,8 @@ def processFriendRequest(param, APP_state):
                                                             Author_Relationships.author2_id == param['to_author']
                                                             ).all()
     if len(results) >0 :
-        print "came 1"
         if results[0].relationship_type == 2:
+            print "came 1"
             results[0].relationship_type = 3
             db.session.commit()
         return True
@@ -232,8 +232,8 @@ def processFriendRequest(param, APP_state):
                                                             Author_Relationships.author1_id == param['to_author']
                                                             ).all()
     if len(results) >0 :
-        print "came 2"
         if results[0].relationship_type == 1:
+            print "came 2"
             results[0].relationship_type = 3
             query_param = {}
             query_param['sendTo'] = [from_server_index, param['from_author']]
@@ -526,6 +526,8 @@ def beFriend(param):
         datum["author1_name"] = param["author1_name"]
         datum["author2_name"] = param["author2_name"]
         datum["relationship_type"] = 3 # Mutual friendship
+        print "During accepting friend request, here is the datum dictionary for creating the entry : "
+        print datum
         new_relationship = Author_Relationships(datum)
 
         try:
