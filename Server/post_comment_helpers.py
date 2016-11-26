@@ -8,7 +8,7 @@ from post_comment_handlers import *
 import random, os
 from model import *
 
-from Nodes.py import *
+from Nodes import *
 from functools import wraps
 from author_endpointHandlers import *
 from requests.auth import HTTPBasicAuth
