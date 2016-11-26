@@ -6,7 +6,7 @@ var page = "/posts?page=0";
 
 function loadPosts() {
 
-  sendAJAX("GET", page, function(results) {
+  sendAJAX("GET", page, "", function(results) {
     if (results.next) {
       // set the next page of posts
       page = results.next.split(".com")[1];
