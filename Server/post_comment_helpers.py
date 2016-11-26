@@ -282,10 +282,10 @@ class All_Post(Resource):
                 print "Im searching posts in the server with address" + node 
                 headers = createAuthHeaders(node)
                 headers['Content-type'] = 'application/json'
-                agre.append(requests.get(node + "/posts", params = paras, headers = headers))
+                agre.append(requests.get(node + "/posts", params = paras, headers = headers).json())
             # Each json object contains all public posts from a server
             print agre
-            return agre
+            return jsonify(agre)
 
         #Remote
         else:
