@@ -86,6 +86,8 @@ $(document).ready(function() {
         document.getElementById("addfriendbtn").style.display="none";
       }
              
+             var author2sid = getCookieid();
+             
        var isfriend = "/friends/" + myauthorid + "/" + author2sid;
        console.log(isfriend);
        
@@ -101,7 +103,7 @@ $(document).ready(function() {
 
     });
 
-    var author2sid = getCookieid();
+    
 
     //var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 //    var isfriend = "/friends/" + myauthorid + "/" + author2sid;
