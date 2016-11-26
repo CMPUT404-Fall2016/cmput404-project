@@ -265,7 +265,7 @@ class Post(Resource):
             return "SESSION_ERROR", 403
 
 
-# DONE - own server to server- need to test with other servers ------------------------------------
+# DONE - own server to server- working with one other server ------------------------------------
 class All_Post(Resource):
     def get(self):
         #Local Request

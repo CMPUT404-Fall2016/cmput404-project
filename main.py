@@ -738,12 +738,13 @@ def checkIfFriends(AUTHOR_ID_1, AUTHOR_ID_2):
 
 
 @app.route('/login.html')
+@app.route('/')
 def login():
     return app.send_static_file('login.html')
 
 
 @app.route('/index.html')
-@app.route('/')
+
 def start():
     return app.send_static_file('index.html')
 
