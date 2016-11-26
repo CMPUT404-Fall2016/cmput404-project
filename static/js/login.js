@@ -105,7 +105,7 @@ $("#login-btn").click(function(e) {
 
     // again, what the fUCK
     } else {
-      $(".server-alert").removeClass("hidden");
+      $("#server-alert-L").removeClass("hidden");
     }
   });
 });
