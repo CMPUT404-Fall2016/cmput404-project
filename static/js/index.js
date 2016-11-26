@@ -1,81 +1,46 @@
 // functionality of index.html
 
-var postForm = document.getElementById("post-form");
+const postForm = document.getElementById("post-form");
+const postList = document.getElementById("posts");
+const postTemplate = document.getElementById("post-container");
+var page = "/posts?page=0";
 
-$("#post-submit").click(function(e) {
-  e.preventDefault();
-  
-  
-  // encode form data as a JSON object
-  var postData = {};
-  postData["author_id"] = localStorage.getItem("author_id");
-  postData["title"] = postForm.elements["title"].value;
-  postData["description"] = postForm.elements["desc"].value;
-  postData["contentType"] = postForm.elements["text-type"].value;
-  console.log(postData["contentType"]);
-                        
-                        var cmreader = new commonmark.Parser();
-                        var writer = new commonmark.HtmlRenderer();
-                        var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
-                        // transform parsed if you like...
-                        var commonmarkresult = writer.render(parsed);
-                        console.log(commonmarkresult);
-                        
-  //postData["content"] = postForm.elements["post-text"].value;
-  postData["content"] = commonmarkresult;
-  //postData["content"] = tinyMCE.activeEditor.getContent({format : 'raw'});
-  //postData["content"] = tinyMCE.activeEditor.getContent();
-  postData["visibility"] = postForm.elements["visibility"].value;
-                        
-                        
-//                        var cmreader = new commonmark.Parser();
-//                        var writer = new commonmark.HtmlRenderer();
-//                        var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
-//                        // transform parsed if you like...
-//                        var commonmarkresult = writer.render(parsed);
-//                        
-//                        console.log(commonmarkresult);
-                        
-                        
-  
+var github_name = localStorage.getItem("github_username");
 
-  // convert the image to base64 string and attach to the data
-  var reader = new FileReader();
-  reader.addEventListener("load", function () {
-    postData["image"] = reader.result;
-    console.log(JSON.stringify(postData));
-  }, false);
+function loadPosts() {
 
-  if (postForm.elements["image"].files[0]) {
-    reader.readAsDataURL(postForm.elements["image"].files[0]);
-  }
+  sendAJAX("GET", "/author" + page, "", function(results) {
+    if (results.next) {
+      // set the next page of posts
+      page = results.next.split(".com")[1];
+      console.log(page);
+    } else {
+      // no more posts to show
+      $("#load-posts").addClass("hidden");
+      console.log("no more posts");
+    }
 
-  sendAJAX("POST", "/posts", postData, function(result) {
-    console.log(result);
-    window.location.reload();
-  });
-});
-
-// get the posts from authors I follow
-$(document).ready(function() {
-  var postList = document.getElementById("posts");
-  var postTemplate = document.getElementById("post-container");
-  sendAJAX("GET", "/author/posts", "", function(posts) {
-    for(var i=0; i < posts.length; ++i) {
+    for(var i=0; i < results.posts.length; ++i) {
            //console.log(posts);
       // fill the container with details
-      postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-      postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-      postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
-      postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+      postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
+      postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
+      postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayname;
+
+      var cmreader = new commonmark.Parser();
+      var writer = new commonmark.HtmlRenderer();
+      var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
+      // transform parsed if you like...
+
+      var commonmarkresult = writer.render(parsed);
+      postTemplate.content.querySelector(".post-content").textContent = results.posts[i].content;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      authorBtn.setAttribute("post-author-id", posts[i].author.id);
-           //console.log(authorBtn);
+      authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      commentsBtn.setAttribute("post-comment-id", posts[i].id);
+      commentsBtn.setAttribute("post-comment-id", results.posts[i].id);
           //  console.log(commentsBtn);
 
       // clone the template to render and append to the dom
@@ -101,36 +66,97 @@ $(document).ready(function() {
       window.location.href = "authorpage.html";
     });
   });
+}
+
+function loadGithub() {
+  var github_url = "https://api.github.com/users/" + github_name + "/events",
+      sidebar = document.getElementById("github"),
+      githubTemplate = document.getElementById("github-container");
+
+  // get the events and process them to be displayed in github-containers
+  $("#git-alert").addClass("hidden");
+  sendAJAX("GET", github_url, "", function(events) {
+    for(var i=0; i < events.length; ++i) {
+      var repo_url = "https://github.com/" + events[i].repo.name;
+
+      // fill the container with details
+      githubTemplate.content.querySelector(".github-type").innerHTML = events[i].type;
+      githubTemplate.content.querySelector(".github-dp").href = "https://github.com/" + events[i].actor.login;
+      githubTemplate.content.querySelector(".github-img").src = events[i].actor.avatar_url;
+      githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
+      githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
+
+      githubTemplate.content.querySelector(".github-date").textContent = Date(events[i].created_at);
+
+      // clone the template to render and append to the dom
+      var clone = document.importNode(githubTemplate.content, true);
+      sidebar.appendChild(clone);
+    }
+  });
+}
+
+$("#post-submit").click(function(e) {
+  e.preventDefault();
+
+  // encode form data as a JSON object
+  var postData = {};
+  postData["author_id"] = localStorage.getItem("author_id");
+  postData["title"] = postForm.elements["title"].value;
+  postData["description"] = postForm.elements["desc"].value;
+  postData["contentType"] = postForm.elements["text-type"].value;
+  console.log(postData["contentType"]);
+
+  var cmreader = new commonmark.Parser();
+  var writer = new commonmark.HtmlRenderer();
+  var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
+  // transform parsed if you like...
+  var commonmarkresult = writer.render(parsed);
+  console.log(commonmarkresult);
+
+  //postData["content"] = postForm.elements["post-text"].value;
+  postData["content"] = commonmarkresult;
+  //postData["content"] = tinyMCE.activeEditor.getContent({format : 'raw'});
+  //postData["content"] = tinyMCE.activeEditor.getContent();
+  postData["visibility"] = postForm.elements["visibility"].value;
+
+
+//                        var cmreader = new commonmark.Parser();
+//                        var writer = new commonmark.HtmlRenderer();
+//                        var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
+//                        // transform parsed if you like...
+//                        var commonmarkresult = writer.render(parsed);
+//
+//                        console.log(commonmarkresult);
+
+  // convert the image to base64 string and attach to the data
+  var reader = new FileReader();
+  reader.addEventListener("load", function () {
+    postData["image"] = reader.result;
+    console.log(JSON.stringify(postData));
+  }, false);
+
+  if (postForm.elements["image"].files[0]) {
+    reader.readAsDataURL(postForm.elements["image"].files[0]);
+  }
+
+  sendAJAX("POST", "/posts", postData, function(result) {
+    console.log(result);
+    window.location.reload();
+  });
 });
 
-// get the user's public events
 $(document).ready(function() {
-  // this is the author's github_username, empty string if there isn't one
-  var github_name = localStorage.getItem("github_username");
+  // get the posts from authors I follow
+  loadPosts();
+
+  // if we have a github username, load the public events
   if (github_name) {
-    var github_url = "https://api.github.com/users/" + github_name + "/events",
-        sidebar = document.getElementById("github"),
-        githubTemplate = document.getElementById("github-container");
-
-    // get the events and process them to be displayed in github-containers
-    $("#git-alert").addClass("hidden");
-    sendAJAX("GET", github_url, "", function(events) {
-      for(var i=0; i < events.length; ++i) {
-        var repo_url = "https://github.com/" + events[i].repo.name;
-
-        // fill the container with details
-        githubTemplate.content.querySelector(".github-type").innerHTML = events[i].type;
-        githubTemplate.content.querySelector(".github-dp").href = "https://github.com/" + events[i].actor.login;
-        githubTemplate.content.querySelector(".github-img").src = events[i].actor.avatar_url;
-        githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
-        githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
-
-        githubTemplate.content.querySelector(".github-date").textContent = Date(events[i].created_at);
-
-        // clone the template to render and append to the dom
-        var clone = document.importNode(githubTemplate.content, true);
-        sidebar.appendChild(clone);
-      }
-    });
+    loadGithub();
   }
+});
+
+// load more posts
+$("#load-posts").click( function(e) {
+  e.preventDefault();
+  loadPosts();
 });

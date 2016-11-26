@@ -54,11 +54,11 @@ $("#posttab").click(function(e) {
   sendAJAX("GET", myprofileposts, "", function(posts) {
            console.log(posts);
          // if not post are found
-         if (posts == "status : NO_MATCH") {
-              document.getElementById("posts").innerHTML = "";
-         }
-         // if post are found
-         else {
+//         if (posts == "status : NO_MATCH") {
+//              document.getElementById("posts").innerHTML = "";
+//         }
+//         // if post are found
+//         else {
            for(var i=0; i < posts.length; ++i) {
            // fill the container with details
            postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
@@ -112,7 +112,7 @@ $("#posttab").click(function(e) {
                 location.reload();
 
            }));
-         }
+//         g}
    });
 });
 
