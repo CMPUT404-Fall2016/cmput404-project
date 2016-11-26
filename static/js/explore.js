@@ -18,7 +18,7 @@ function loadPosts() {
     }
 
     // fill the containers with results
-    for(var i=0; i < results.count; ++i) {
+    for(var i=0; i < results.posts.length; ++i) {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
@@ -71,7 +71,7 @@ $(document).ready(function() {
   loadPosts();
 });
 
-// load more when scrolled to bottom
+// load more posts
 $("#load-posts").click( function(e) {
   e.preventDefault();
   loadPosts();
