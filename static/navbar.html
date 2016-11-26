@@ -47,12 +47,21 @@
   $("#logout").click(function(e) {
 
     e.preventDefault();
-    sendAJAX("GET", "/logout", "", null);
+    sendAJAX("GET", "/logout", "", function(response) {
+             console.log(response);
+       if (response["status"] == "Success") {
+         document.cookie="";
+         localStorage.clear();
+         window.location.href = "login.html";
+       }
+             
+    });
     // clear cookies and localStorage
-    var cookies = $.cookie();
-    for(var cookie in cookies) {
-       $.removeCookie(cookie);
-    }
+    //var cookies = $.cookie();
+    //for(var cookie in cookies) {
+    //   $.removeCookie(cookie);
+    //}
+    document.cookie="";
     localStorage.clear();
     window.location.href = "login.html";
   });
