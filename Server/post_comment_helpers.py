@@ -290,7 +290,11 @@ class All_Post(Resource):
                 node_user = db.session.query(Servers).filter(Servers.IP == node).first()
                 node_user_name = node_user.user_name
                 node_user_pass = node_user.password
-                foreign_return = (requests.get(node + "/posts", auth = HTTPBasicAuth(node_user_name,node_user_pass), params = paras, headers = headers).json())
+                if request.args.get('page') == 0 and request.args.get('size'):
+                    foreign_return = (requests.get(node + "/posts", auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                else:
+                    foreign_return = (requests.get(node + "/posts", auth = HTTPBasicAuth(node_user_name,node_user_pass), params = paras, headers = headers).json())
+                
                 print foreign_return
                 print node_user
     
