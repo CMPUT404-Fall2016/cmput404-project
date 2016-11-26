@@ -276,16 +276,23 @@ class All_Post(Resource):
             nodes = handler.getConnectedNodes()
             print nodes
             print "SERVERtoclient response"
-            agre = []
+            json_return = {}
+            json_return["count"] = 0
+            json_return["size"] = 0
+            json_return["query"] = "posts"
+            json_return["posts"] = []
             #agre.append(makePostJson(handler.getAllPosts(), paras))
             for node in nodes: 
                 print "Im searching posts in the server with address" + node 
                 headers = createAuthHeaders(node)
                 headers['Content-type'] = 'application/json'
-                agre.append(requests.get(node + "/posts", params = paras, headers = headers).json())
+                agre = (requests.get(node + "/posts", params = paras, headers = headers).json())
+                json_return["count"] += args["count"]
+                json_return["posts"].extend(args["posts"])
+            
             # Each json object contains all public posts from a server
-            print agre
-            return jsonify(agre)
+            
+            return jsonify(json_return)
 
         #Remote
         else:
