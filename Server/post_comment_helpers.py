@@ -264,7 +264,7 @@ class Post(Resource):
             return "SESSION_ERROR", 403
 
 
-
+# DONE - own server to server- need to test with other servers ------------------------------------
 class All_Post(Resource):
     def get(self):
         #Local Request
@@ -284,7 +284,7 @@ class All_Post(Resource):
             json_return["posts"] = []
             #agre.append(makePostJson(handler.getAllPosts(), paras))
             for node in nodes: 
-                print "Im searching posts in the server with address" + node 
+                print "Im searching posts in the server with address" + node
                 headers = createAuthHeaders(node)
                 headers['Content-type'] = 'application/json'
                 node_user = db.session.query(Servers).filter(Servers.IP == node).first()
@@ -292,6 +292,7 @@ class All_Post(Resource):
                 node_user_pass = node_user.password
                 foreign_return = (requests.get(node + "/posts", auth = HTTPBasicAuth(node_user_name,node_user_pass), params = paras, headers = headers).json())
                 print foreign_return
+                print node_user
     
                 json_return["posts"].extend(foreign_return["posts"])
             
@@ -308,7 +309,7 @@ class All_Post(Resource):
             paras["size"] = request.args.get('size')
             print "SERVERTOSERVER response"
             return jsonify(makePostJson(handler.getAllPosts(), paras))
-
+#----------------------------------------------------------------------------------------------------
 
     def post(self):
         APP_state = loadGlobalVar()
