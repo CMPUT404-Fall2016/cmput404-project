@@ -277,7 +277,7 @@ class All_Post(Resource):
             print nodes
             print "SERVERtoclient response"
             agre = []
-            agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
+            agre.append(makePostJson(handler.getAllPosts(), paras))
             for node in nodes: 
                 print "Im searching posts in the server with address" + node 
                 headers = createAuthHeaders(node)
