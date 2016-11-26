@@ -448,37 +448,38 @@ def unFriend(param, APP_state):
     results = results1 + results2
     # assert(len(results) == 1), "there should 1 row for each relationships"
 
-    if server1_index == APP_state["local_server_Obj"].server_index and server2_index == APP_state["local_server_Obj"].server_index:
+    # if server1_index == APP_state["local_server_Obj"].server_index and server2_index == APP_state["local_server_Obj"].server_index:
         
-        if results1 != []:
-            friend_obj = results1[0]
-            friend_obj.relationship_type = 2
-            
-            try:
-                db.session.commit()
-            except Exception as e:
-                print("Error while unfriending! :", e)
-                return False
-
-        elif results2 != []:
-            friend_obj = results2[0]
-            friend_obj.relationship_type = 1
-
-            try:
-                db.session.commit()
-            except Exception as e:
-                print("Error while unfriending! :", e)
-                return False
-
-    else:
-
+    if results1 != []:
+        friend_obj = results1[0]
+        friend_obj.relationship_type = 2
+        
         try:
-            db.session.delete(results[0])
             db.session.commit()
-
         except Exception as e:
             print("Error while unfriending! :", e)
             return False
+
+    elif results2 != []:
+        friend_obj = results2[0]
+        friend_obj.relationship_type = 1
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            print("Error while unfriending! :", e)
+            return False
+
+    # else:
+    #     # If the other author is from foreign server, we will not delete the entry, we will set the relationship type to 1 or 2 accordingly
+        
+    #     try:
+    #         db.session.delete(results[0])
+    #         db.session.commit()
+
+    #     except Exception as e:
+    #         print("Error while unfriending! :", e)
+    #         return False
 
     return True
 
