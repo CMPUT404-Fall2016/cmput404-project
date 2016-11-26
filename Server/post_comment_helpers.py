@@ -267,23 +267,32 @@ class Post(Resource):
 class All_Post(Resource):
     def get(self):
         #Local Request
-        if(request.args.get("Foreign-Host") == "false"):
+        print request.headers.get("Foreign-Host")
+        
+        if(request.headers.get("Foreign-Host") == "false"):
             paras = {}
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
             nodes = handler.getConnectedNodes()
             print nodes
-            print "im fucked"
-            agre = []
-            agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
+            print "SERVERtoclient response"
+            json_return = {}
+            json_return["count"] = 0
+            json_return["size"] = 0
+            json_return["query"] = "posts"
+            json_return["posts"] = []
+            #agre.append(makePostJson(handler.getAllPosts(), paras))
             for node in nodes: 
                 print "Im searching posts in the server with address" + node 
                 headers = createAuthHeaders(node)
                 headers['Content-type'] = 'application/json'
-                agre.append(requests.get(node + "/posts", params = paras, headers = headers).json())
+                foreign_return = (requests.get(node + "/posts", params = paras, headers = headers).json())
+                json_return["count"] += foreign_return["count"]
+                json_return["posts"].extend(foreign_return["posts"])
+            
             # Each json object contains all public posts from a server
-            print agre
-            return agre
+            
+            return jsonify(json_return)
 
         #Remote
         else:
@@ -292,6 +301,7 @@ class All_Post(Resource):
             paras = {}
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
+            print "SERVERTOSERVER response"
             return jsonify(makePostJson(handler.getAllPosts(), paras))
 
 
