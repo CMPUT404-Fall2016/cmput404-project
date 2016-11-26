@@ -286,9 +286,9 @@ class All_Post(Resource):
                 print "Im searching posts in the server with address" + node 
                 headers = createAuthHeaders(node)
                 headers['Content-type'] = 'application/json'
-                agre = (requests.get(node + "/posts", params = paras, headers = headers).json())
-                json_return["count"] += args["count"]
-                json_return["posts"].extend(args["posts"])
+                foreign_return = (requests.get(node + "/posts", params = paras, headers = headers).json())
+                json_return["count"] += foreign_return["count"]
+                json_return["posts"].extend(foreign_return["posts"])
             
             # Each json object contains all public posts from a server
             
