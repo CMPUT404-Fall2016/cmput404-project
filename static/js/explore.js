@@ -1,6 +1,6 @@
 // functionality of explore.html
 
-var postList = document.getElementById("posts"),
+var postList = document.getElementById("posts");
 var postTemplate = document.getElementById("post-container");
 var page = "/posts?page=0";
 
