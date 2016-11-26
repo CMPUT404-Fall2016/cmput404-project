@@ -292,7 +292,7 @@ class All_Post(Resource):
             paras = {}
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
-			print "SERVERTOSERVER response"
+            print "SERVERTOSERVER response"
             return jsonify(makePostJson(handler.getAllPosts(), paras))
 
 
