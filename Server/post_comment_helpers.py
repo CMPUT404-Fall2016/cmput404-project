@@ -293,7 +293,7 @@ class All_Post(Resource):
                 node_user_pass = node_user.password
                 
                 [prefix, suffix] = getAPI(node, 'GET/posts')
-                custom_url = prefix, suffix
+                custom_url = prefix + suffix
                 
                 
                 if request.args.get('page') == 0 and request.args.get('size') == 0:
