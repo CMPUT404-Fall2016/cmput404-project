@@ -299,7 +299,7 @@ class All_Post(Resource):
                 if request.args.get('page') == 0 and request.args.get('size') == 0:
                     foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
                 else:
-                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), params = paras, headers = headers).json())
+                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
                 
                 print foreign_return
                 print node_user_pass
