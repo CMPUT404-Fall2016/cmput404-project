@@ -42,20 +42,19 @@
 
 <!-- i hate this too but scripts don't seem to work for the navbar unless they're here -->
 <script type="text/javascript">
+
   // onclick method for logout button
   $("#logout").click(function(e) {
 
     e.preventDefault();
-    sendAJAX("GET", "/logout", null, function (response) {
-      if (response["status"] == "SUCCESS") {
-        document.cookie = "cookie_cmput404_author_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        document.cookie = "cookie_cmput404_session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        document.cookie = "cookie_cmput404_github_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        document.cookie = "";
-        localStorage.clear();
-        window.location.href = "login.html";
-      }
-    });
+    sendAJAX("GET", "/logout", "", null);
+    // clear cookies and localStorage
+    var cookies = $.cookie();
+    for(var cookie in cookies) {
+       $.removeCookie(cookie);
+    }
+    localStorage.clear();
+    window.location.href = "login.html";
   });
 
   // onclick method for searching for author by id
