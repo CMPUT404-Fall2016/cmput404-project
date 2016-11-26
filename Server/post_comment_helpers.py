@@ -8,6 +8,7 @@ from post_comment_handlers import *
 import random, os
 from model import *
 
+from Nodes.py import *
 from functools import wraps
 from author_endpointHandlers import *
 from requests.auth import HTTPBasicAuth
@@ -290,13 +291,19 @@ class All_Post(Resource):
                 node_user = db.session.query(Servers).filter(Servers.IP == node).first()
                 node_user_name = node_user.user_name
                 node_user_pass = node_user.password
+                
+                [prefix, suffix] = getAPI(node, 'GET/posts')
+                custom_url = prefix, suffix
+                
+                
                 if request.args.get('page') == 0 and request.args.get('size') == 0:
-                    foreign_return = (requests.get(node + "/posts", auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
                 else:
-                    foreign_return = (requests.get(node + "/posts", auth = HTTPBasicAuth(node_user_name,node_user_pass), params = paras, headers = headers).json())
+                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), params = paras, headers = headers).json())
                 
                 print foreign_return
-                print node_user
+                print node_user_pass
+                print node_user_name
     
                 json_return["posts"].extend(foreign_return["posts"])
             
