@@ -10,6 +10,7 @@ from model import *
 
 from functools import wraps
 from author_endpointHandlers import *
+from requests.auth import HTTPBasicAuth
 
 
 handler = RestHandlers()
