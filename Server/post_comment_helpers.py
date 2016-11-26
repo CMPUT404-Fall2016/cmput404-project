@@ -291,6 +291,7 @@ class All_Post(Resource):
                 node_user_name = node_user.user_name
                 node_user_pass = node_user.password
                 foreign_return = (requests.get(node + "/posts", auth = HTTPBasicAuth(node_user_name,node_user_pass), params = paras, headers = headers).json())
+                print foreign_return
                 
                 json_return["count"] += foreign_return["count"]
                 json_return["posts"].extend(foreign_return["posts"])
