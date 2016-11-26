@@ -19,15 +19,15 @@ function loadPosts() {
     for(var i=0; i < results.count; ++i) {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
-      postTemplate.content.querySelector(".post-author").text = results.posts[i].author.displayName;
-           console.log(results.posts[i].author.id);
-           
+      postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
+          //  console.log(results.posts[i].author.id);
+
            var cmreader = new commonmark.Parser();
            var writer = new commonmark.HtmlRenderer();
            var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
            // transform parsed if you like...
            var commonmarkresult = writer.render(parsed);
-           
+
       //postTemplate.content.querySelector(".post-content").textContent = commonmarkresult;
       postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
 
@@ -73,4 +73,4 @@ $(document).ready(function() {
 $("#load-posts").click( function(e) {
   e.preventDefault();
   loadPosts();
-};
+});
