@@ -1,7 +1,7 @@
 // functionality of explore.html
 
-const postList = document.getElementById("posts"),
-      postTemplate = document.getElementById("post-container");
+var postList = document.getElementById("posts"),
+var postTemplate = document.getElementById("post-container");
 var page = "/posts?page=0";
 
 function loadPosts() {
@@ -10,9 +10,11 @@ function loadPosts() {
     if (results.next) {
       // set the next page of posts
       page = results.next.split(".com")[1];
+      console.log(page);
     } else {
       // no more posts to show
       $("#load-posts").addClass("hidden");
+      console.log("no more posts");
     }
 
     // fill the containers with results
