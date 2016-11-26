@@ -3,6 +3,7 @@ from model import *
 import requests
 import json
 from base64 import b64encode
+from Nodes import *
 
 """
 THINGS TO DO:
@@ -138,14 +139,16 @@ def serializeFriendList(FriendList, number):
             temp['host']=host
             temp['id']=friendship.author1_id
             temp['displayName']=friendship.author1_name
-            temp['url'] = host+'/author/'+temp['id']
+            [prefix, suffix] = getAPI(host,'GET/author/A')
+            temp['url'] =  prefix + temp['id'] + suffix 
 
         elif number == 2:
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer2_id).all()[0].IP
             temp['host']=host
             temp['id']=friendship.author2_id
             temp['displayName']=friendship.author2_name
-            temp['url'] = host+'/author/'+temp['id']
+            [prefix, suffix] = getAPI(host,'GET/author/A')
+            temp['url'] =  prefix + temp['id'] + suffix 
 
         friendlist.append(temp)
 
@@ -327,11 +330,14 @@ def sendFriendRequest(param):
     body['friend']['id'] = param['to_author']
     body['friend']['host'] = param['to_serverIP']
     body['friend']['displayName'] = param['to_author_name']
-    body['friend']['url'] = param['to_serverIP'] + '/author/' + param['to_author']
+
+    [prefix, suffix] = getAPI(param['to_serverIP'], 'GET/author/A')
+    body['friend']['url'] = prefix + body['friend']['id'] + suffix
 
     headers = createAuthHeaders(param['to_serverIP'])
     headers['Content-type'] = 'application/json'
-    url = param['to_serverIP'] + '/friendrequest'
+    [prefix, suffix] = getAPI(param['to_serverIP'], 'POST/friendrequest')
+    url = prefix + suffix
     r = requests.post(url, data=json.dumps(body), headers=headers)
     print "Sent a friend request to %s. Status code %d: "%(url, r.status_code) 
     return 
@@ -347,7 +353,8 @@ def serializeFriendRequestList(requestList):
       result["fromAuthorDisplayName"] = request.fromAuthorDisplayName
       result["fromServerIP"] = db.session.query(Servers).filter(Servers.server_index == request.fromAuthorServer_id).all()[0].IP
       result["isChecked"] = request.isChecked
-      result["url"] = result["fromServerIP"] +'/author/' + request.fromAuthor_id   
+      [prefix, suffix] = getAPI(result["fromServerIP"], 'GET/author/A')
+      result["url"] = prefix + request.fromAuthor_id + suffix   
       results.append(result)
 
   return {"friendRequestList" : results}
@@ -385,7 +392,8 @@ def getFriendRequestList(param, APP_state):
             friend = {}
             friend['id'] = FR.fromAuthor_id
             friend['host'] = host_name
-            friend['url'] = friend['host'] + '/author/' + friend['id'] 
+            [prefix, suffix] = getAPI(host_name, 'GET/author/A')
+            friend['url'] = prefix + friend['id'] + suffix 
             author = fetchForeignAuthor(friend)
             if author != None :
                 FR.fromAuthorDisplayName = author['displayName']
@@ -440,37 +448,38 @@ def unFriend(param, APP_state):
     results = results1 + results2
     # assert(len(results) == 1), "there should 1 row for each relationships"
 
-    if server1_index == APP_state["local_server_Obj"].server_index and server2_index == APP_state["local_server_Obj"].server_index:
+    # if server1_index == APP_state["local_server_Obj"].server_index and server2_index == APP_state["local_server_Obj"].server_index:
         
-        if results1 != []:
-            friend_obj = results1[0]
-            friend_obj.relationship_type = 2
-            
-            try:
-                db.session.commit()
-            except Exception as e:
-                print("Error while unfriending! :", e)
-                return False
-
-        elif results2 != []:
-            friend_obj = results2[0]
-            friend_obj.relationship_type = 1
-
-            try:
-                db.session.commit()
-            except Exception as e:
-                print("Error while unfriending! :", e)
-                return False
-
-    else:
-
+    if results1 != []:
+        friend_obj = results1[0]
+        friend_obj.relationship_type = 2
+        
         try:
-            db.session.delete(results[0])
             db.session.commit()
-
         except Exception as e:
             print("Error while unfriending! :", e)
             return False
+
+    elif results2 != []:
+        friend_obj = results2[0]
+        friend_obj.relationship_type = 1
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            print("Error while unfriending! :", e)
+            return False
+
+    # else:
+    #     # If the other author is from foreign server, we will not delete the entry, we will set the relationship type to 1 or 2 accordingly
+        
+    #     try:
+    #         db.session.delete(results[0])
+    #         db.session.commit()
+
+    #     except Exception as e:
+    #         print("Error while unfriending! :", e)
+    #         return False
 
     return True
 
@@ -589,7 +598,8 @@ def searchForeignAuthor(author_id):
         if server.shareWith == True:        
             param = {}
             param['id'] = author_id
-            param['url'] = server.IP + '/author/' + author_id
+            [prefix, suffix] = getAPI(server.IP, 'GET/author/A')
+            param['url'] = prefix + author_id + suffix
             param['host'] = server.IP
             author = fetchForeignAuthor(param)
             if author != None:
@@ -634,7 +644,8 @@ def getAuthor(param, foreign_host, APP_state):
             param['author'] = author.author_id
             query_results["id"] = author.author_id
             query_results["host"] = APP_state['local_server_Obj'].IP
-            query_results["url"] = APP_state['local_server_Obj'].IP + '/author/' + author.author_id
+            [prefix, suffix] = getAPI(APP_state['local_server_Obj'].IP, 'GET/author/A')
+            query_results["url"] = prefix + author.author_id + suffix
             query_results["displayName"] = author.name
             query_results["bio"] = author.bio
             query_results["friends"] = getFriendList(param, APP_state)
