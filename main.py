@@ -744,6 +744,7 @@ def login():
 
 
 @app.route('/index.html')
+
 def start():
     return app.send_static_file('index.html')
 

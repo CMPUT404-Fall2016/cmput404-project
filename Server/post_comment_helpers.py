@@ -8,8 +8,10 @@ from post_comment_handlers import *
 import random, os
 from model import *
 
+from Nodes import *
 from functools import wraps
 from author_endpointHandlers import *
+from requests.auth import HTTPBasicAuth
 
 
 handler = RestHandlers()
@@ -263,27 +265,51 @@ class Post(Resource):
             return "SESSION_ERROR", 403
 
 
-
+# DONE - own server to server- working with one other server ------------------------------------
 class All_Post(Resource):
     def get(self):
         #Local Request
-        if(request.args.get("Foreign-Host") == "false"):
+        print request.headers.get("Foreign-Host")
+        
+        if(request.headers.get("Foreign-Host") == "false"):
             paras = {}
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
             nodes = handler.getConnectedNodes()
             print nodes
-            print "im fucked"
-            agre = []
-            agre.append(jsonify(makePostJson(handler.getAllPosts(), paras)))
+            print "SERVERtoclient response"
+            json_return = {}
+            json_return["count"] = 0
+            json_return["size"] = 0
+            json_return["query"] = "posts"
+            json_return["posts"] = []
+            #agre.append(makePostJson(handler.getAllPosts(), paras))
             for node in nodes: 
-                print "Im searching posts in the server with address" + node 
+                print "Im searching posts in the server with address" + node
                 headers = createAuthHeaders(node)
                 headers['Content-type'] = 'application/json'
-                agre.append(requests.get(node + "/posts", params = paras, headers = headers).json())
+                node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+                node_user_name = node_user.user_name
+                node_user_pass = node_user.password
+                
+                [prefix, suffix] = getAPI(node, 'GET/posts')
+                custom_url = prefix + suffix
+                
+                
+                if request.args.get('page') == 0 and request.args.get('size') == 0:
+                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                else:
+                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                
+                print foreign_return
+                print node_user_pass
+                print node_user_name
+    
+                json_return["posts"].extend(foreign_return["posts"])
+            
             # Each json object contains all public posts from a server
-            print agre
-            return agre
+            
+            return jsonify(json_return)
 
         #Remote
         else:
@@ -292,8 +318,9 @@ class All_Post(Resource):
             paras = {}
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
+            print "SERVERTOSERVER response"
             return jsonify(makePostJson(handler.getAllPosts(), paras))
-
+#----------------------------------------------------------------------------------------------------
 
     def post(self):
         APP_state = loadGlobalVar()

@@ -1,27 +1,35 @@
 // functionality of explore.html
 
-var postList = document.getElementById("posts"),
-    postTemplate = document.getElementById("post-container");
+var postList = document.getElementById("posts");
+var postTemplate = document.getElementById("post-container");
+var page = "/posts?page=0";
 
-// get all the public posts on the server
-$(document).ready(function() {
-  sendAJAX("GET", "/posts", "", function(results) {
-    console.log(results.posts);
-    console.log(results.posts.length);
+function loadPosts() {
 
-    for(var i=0; i < results.count; ++i) {
-      // fill the container with details
+  sendAJAX("GET", page, "", function(results) {
+    if (results.next) {
+      // set the next page of posts
+      page = results.next.split(".com")[1];
+      console.log(page);
+    } else {
+      // no more posts to show
+      $("#load-posts").addClass("hidden");
+      console.log("no more posts");
+    }
+
+    // fill the containers with results
+    for(var i=0; i < results.posts.length; ++i) {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
-      postTemplate.content.querySelector(".post-author").text = results.posts[i].author.displayName;
-           console.log(results.posts[i].author.id);
-           
+      postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
+          //  console.log(results.posts[i].author.id);
+
            var cmreader = new commonmark.Parser();
            var writer = new commonmark.HtmlRenderer();
            var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
            // transform parsed if you like...
            var commonmarkresult = writer.render(parsed);
-           
+
       //postTemplate.content.querySelector(".post-content").textContent = commonmarkresult;
       postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
 
@@ -56,4 +64,15 @@ $(document).ready(function() {
       window.location.href = "post.html";
     });
   });
+}
+
+// get all the public posts on the server
+$(document).ready(function() {
+  loadPosts();
+});
+
+// load more posts
+$("#load-posts").click( function(e) {
+  e.preventDefault();
+  loadPosts();
 });

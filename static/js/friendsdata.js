@@ -101,16 +101,17 @@ $("#reqtab").click(function(e) {
 
            var rpBtn = requestTemplate.content.querySelector(".reqprofile");
            rpBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
-
-      var addingfriendbtn = requestTemplate.content.querySelector("#friend-accept");
+           
+      var addingfriendbtn = requestTemplate.content.querySelector(".friend-accept");
       addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
       addingfriendbtn.setAttribute("friendhostserver", events.friendRequestList[i].fromServerIP);
+      addingfriendbtn.setAttribute("addname", events.friendRequestList[i].fromAuthorDisplayName);
 
       var normalContent = document.getElementById('frequest');
 
       var clonedTemplate = requestTemplate.content.cloneNode(true);
       normalContent.appendChild(clonedTemplate);
-      }
+      
 
 
       $(".friend-accept").click(function (e) {
@@ -121,7 +122,23 @@ $("#reqtab").click(function(e) {
           localStorage.setItem("fetch-addfriend-name", $(this).attr("addname"));
 
           localStorage.setItem("fetch-addfriend-host", $(this).attr("friendhostserver"));
-          acceptfriend();
+          //acceptfriend();
+          var acceptfrienddata = {};
+          acceptfrienddata["author"] = localStorage.getItem("fetch-addfriend-id");
+          acceptfrienddata["server_address"] = localStorage.getItem("fetch-addfriend-host");
+          
+          // touqir wants these
+          acceptfrienddata["author1_name"] = localStorage.getItem("fetch-addfriend-name");
+          acceptfrienddata["author2_name"] = localStorage.getItem("display_name");
+          
+          console.log(acceptfrienddata);
+          
+          
+          sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
+                   console.log(response);
+                   window.location.href="friendspage.html";
+                   
+                   });
 
       });
            
@@ -133,7 +150,7 @@ $("#reqtab").click(function(e) {
          window.location.href = "authorpage.html";
       });
 
-
+}
 
   });
   // clear friends tab so the template does not duplicate
