@@ -269,7 +269,7 @@ class All_Post(Resource):
         #Local Request
         print request.headers.keys("Foreign-Host")
         
-        if(request.headers.keys("Foreign-Host") == "false"):
+        if(request.headers.get("Foreign-Host") == "false"):
             paras = {}
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
