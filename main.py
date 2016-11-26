@@ -78,7 +78,7 @@ def check_auth(username, password, forign_server):
     # print password
     # print "foreign server : "
     # print forign_server
-    # forign_server = forign_server[:-1]
+    forign_server = forign_server[:-1]
     db_server_list = db.session.query(Servers).filter(Servers.IP == forign_server).all()
     
     if len(db_server_list) == 0:
