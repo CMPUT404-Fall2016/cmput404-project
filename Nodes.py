@@ -134,7 +134,7 @@ bloggyblog404 = {
 
 _NODES_['http://secret-penguin.herokuapp.com'] = secret_penguin
 _NODES_['http://secure-springs-85403.herokuapp.com'] = secure_springs
-_NODES_['https://api-bloggyblog404.herokuapp.com'] = bloggyblog404
+_NODES_['http://api-bloggyblog404.herokuapp.com'] = bloggyblog404
 
 if __name__ == "__main__":
 	hostnames = ['http://secret-penguin.herokuapp.com', 'http://secure-springs-85403.herokuapp.com', 'http://api-bloggyblog404.herokuapp.com']
