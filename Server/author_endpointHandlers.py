@@ -604,6 +604,7 @@ def searchForeignAuthor(author_id):
             param['host'] = server.IP
             author = fetchForeignAuthor(param)
             if (author != None) and (author != {}) and (author != ''):
+                print 'GOT author from %s'%(param['host'])
                 return author
 
     return author
