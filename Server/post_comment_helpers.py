@@ -444,6 +444,8 @@ class AuthorPost(Resource):
                 if type(output) == flask.wrappers.Response:
                     return output
                 cookie = output
+                print "this is COOKIE: "
+                print cookie["session_id"]
                 if "session_id" in cookie:
                     sessionID = cookie["session_id"]
                     print sessionID
@@ -613,7 +615,7 @@ class AuthorToAuthorPost(Resource):
 #        
 #        
 #    
-    
+
     
     #--------------old code--------------
     def get(self, author_id):
