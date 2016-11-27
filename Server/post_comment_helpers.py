@@ -187,9 +187,9 @@ class Post(Resource):
         json_return["query"] = "posts"
         json_return["posts"] = []
         
-        if "Foreign-Host" in request.args.keys():
+        if "Foreign-Host" in request.headers.keys():
         
-            if(request.args.get("Foreign-Host") == "false"):
+            if(request.headers.get("Foreign-Host") == "false"):
             
 #            output = getCookie("get_one_post")
 #            if type(output) == flask.wrappers.Response:
@@ -314,48 +314,50 @@ class All_Post(Resource):
         #Local Request
         print request.headers.get("Foreign-Host")
         
-        if(request.headers.get("Foreign-Host") == "false"):
-            paras = {}
-            paras["page"] = request.args.get('page')
-            paras["size"] = request.args.get('size')
-            nodes = handler.getConnectedNodes()
-            print nodes
-            print "SERVERtoclient response"
-            json_return = {}
-            json_return["count"] = 0
-            json_return["size"] = 0
-            json_return["query"] = "posts"
-            json_return["posts"] = []
-            #agre.append(makePostJson(handler.getAllPosts(), paras))
-            for node in nodes: 
-                print "Im searching posts in the server with address" + node
-                headers = createAuthHeaders(node)
-                headers['Content-type'] = 'application/json'
-                node_user = db.session.query(Servers).filter(Servers.IP == node).first()
-                node_user_name = node_user.user_name
-                node_user_pass = node_user.password
-                
-                [prefix, suffix] = getAPI(node, 'GET/posts')
-                custom_url = prefix + suffix
-                
-                
-                if request.args.get('page') == 0 and request.args.get('size') == 0:
-                    foreign_return = requests.get(custom_url, headers = headers)
-                else:
-                    foreign_return = requests.get(custom_url, headers = headers)
-                #auth = HTTPBasicAuth(node_user_name,node_user_pass),
-                
-                print foreign_return
-                print node_user_pass
-                print node_user_name
-                if foreign_return.status_code == 200:
-                    recvJson = foreign_return.json()
+        if "Foreign-Host" in request.headers.keys():
+            
+            if(request.headers.get("Foreign-Host") == "false"):
+                paras = {}
+                paras["page"] = request.args.get('page')
+                paras["size"] = request.args.get('size')
+                nodes = handler.getConnectedNodes()
+                print nodes
+                print "SERVERtoclient response"
+                json_return = {}
+                json_return["count"] = 0
+                json_return["size"] = 0
+                json_return["query"] = "posts"
+                json_return["posts"] = []
+                #agre.append(makePostJson(handler.getAllPosts(), paras))
+                for node in nodes: 
+                    print "Im searching posts in the server with address" + node
+                    headers = createAuthHeaders(node)
+                    headers['Content-type'] = 'application/json'
+                    node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+                    node_user_name = node_user.user_name
+                    node_user_pass = node_user.password
                     
-                    json_return["posts"].extend(recvJson["posts"])
-            
-            # Each json object contains all public posts from a server
-            
-            return jsonify(json_return)
+                    [prefix, suffix] = getAPI(node, 'GET/posts')
+                    custom_url = prefix + suffix
+                    
+                    
+                    if request.args.get('page') == 0 and request.args.get('size') == 0:
+                        foreign_return = requests.get(custom_url, headers = headers)
+                    else:
+                        foreign_return = requests.get(custom_url, headers = headers)
+                    #auth = HTTPBasicAuth(node_user_name,node_user_pass),
+                    
+                    print foreign_return
+                    print node_user_pass
+                    print node_user_name
+                    if foreign_return.status_code == 200:
+                        recvJson = foreign_return.json()
+                        
+                        json_return["posts"].extend(recvJson["posts"])
+                
+                # Each json object contains all public posts from a server
+                
+                return jsonify(json_return)
 
         #Remote
         else:
@@ -425,7 +427,7 @@ class AuthorPost(Resource):
         json_return["query"] = "posts"
         json_return["posts"] = []
     
-        if "Foreign-Host" in request.headers.get():
+        if "Foreign-Host" in request.headers.keys():
             if  request.headers.get("Foreign-Host") == "false":
                 output = getCookie("get_available_posts")
                 if type(output) == flask.wrappers.Response:
