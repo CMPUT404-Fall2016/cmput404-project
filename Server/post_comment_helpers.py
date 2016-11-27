@@ -445,7 +445,7 @@ class AuthorPost(Resource):
                     return output
                 cookie = output
                 print "this is COOKIE: "
-                print cookie["session_id"]
+                print cookie
                 if "session_id" in cookie:
                     sessionID = cookie["session_id"]
                     print sessionID
