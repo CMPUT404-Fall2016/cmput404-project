@@ -143,6 +143,8 @@ $("#post-submit").click(function(e) {
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
+                        
+  console.log(postData);
 
   sendAJAX("POST", "/posts", postData, function(result) {
     console.log(result);
