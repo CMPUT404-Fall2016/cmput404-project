@@ -453,21 +453,18 @@ class AuthorPost(Resource):
                         paras["author_id"] = APP_state["session_ids"][sessionID]
 
                         for node in nodes:
-                            if node == "http://secret-penguin.herokuapp.com/":
-                                pass
-                            else:
-                                
-                                headers = createAuthHeaders(node)
-                                
-                                headers['Content-type'] = 'application/json'
-                                headers['author_id'] = APP_state["session_ids"][sessionID]
-                                
-                                [prefix, suffix] = getAPI(node, 'GET/author/posts')
-                                custom_url = prefix + suffix
-                                
-                                foreign_return = requests.get(custom_url, headers=headers)
-                
-                
+
+                            headers = createAuthHeaders(node)
+                            
+                            headers['Content-type'] = 'application/json'
+                            headers['author_id'] = APP_state["session_ids"][sessionID]
+                            
+                            [prefix, suffix] = getAPI(node, 'GET/author/posts')
+                            custom_url = prefix + suffix
+                            
+                            foreign_return = requests.get(custom_url, headers=headers)
+            
+            
                             if foreign_return.status_code == 200:
                                 recvJson = foreign_return.json()
                                 
