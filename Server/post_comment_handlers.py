@@ -148,7 +148,7 @@ class RestHandlers():
         """
         #Return a post with its images list and its comments list
         return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getAuthor(author_id), self.getComments(post_id)]
-
+        #return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getAuthor(author_id), self.getComments(post_id)]
 
 
     def getComments(self, post_id):
