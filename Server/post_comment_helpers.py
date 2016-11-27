@@ -442,7 +442,7 @@ class AuthorPost(Resource):
                         paras["size"] = request.args.get('size')
                         #rt.append(jsonify
                         
-                        own_returns = makePostJson(handler.getVisiblePosts(APP_statep["session_ids"][sessionID]), paras)
+                        own_returns = makePostJson(handler.getVisiblePosts(APP_state["session_ids"][sessionID]), paras)
                         
                         nodes = handler.getConnectedNodes()
 
