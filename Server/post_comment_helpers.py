@@ -456,7 +456,7 @@ class AuthorPost(Resource):
                                 headers = createAuthHeaders(node)
                                 
                                 headers['Content-type'] = 'application/json'
-                                headers['author_id'] = APP_statep["session_ids"][sessionID]
+                                headers['author_id'] = APP_state["session_ids"][sessionID]
                                 
                                 [prefix, suffix] = getAPI(node, 'GET/author/posts')
                                 custom_url = prefix + suffix
