@@ -454,7 +454,7 @@ def FetchAuthor(AUTHOR_ID):
 
 
 
-@app.route("/authorByName", methods=['POST'])
+@app.route("/authorByName", methods=['GET'])
 def FetchAuthorByName():
 
     APP_state = loadGlobalVar()
