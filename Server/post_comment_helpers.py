@@ -333,17 +333,16 @@ class All_Post(Resource):
                 
                 
                 if request.args.get('page') == 0 and request.args.get('size') == 0:
-                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                    foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
                 else:
-                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                    foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
                 
                 print foreign_return
                 print node_user_pass
                 print node_user_name
-                
                 if foreign_return.status_code == 200:
-    
-                    json_return["posts"].extend(foreign_return["posts"])
+                    recvJson = foreign_return.json()
+                    json_return["posts"].extend(recvJson["posts"])
             
             # Each json object contains all public posts from a server
             
