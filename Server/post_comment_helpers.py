@@ -259,30 +259,28 @@ class Post(Resource):
             
             
             return jsonify(makePostJson(handler.getPost(pid)), {"page":None, "size":None})
-       '''
-        #Assume we passed server to server auth
-        #Assume this is the place we do remote get
-            pid = request.args.get("post_id")
-            remoteAuthor = request.args.get("author_id")
-            got = handler.getPost(pid)
-
-            if len(got) != 0:
-                localAuthor = got[0][1].author_id
-                if  got[0] in handler.getVisiblePosts(remoteAuthor):
-                    return jsonify(makePostJson(got), {"page":None, "size":None})
-                else:
-                    if got[0][0].view_permission == 4:
-                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json()["authors"]
-                        if(handler.atlOneFriend(localAuthor, pfriends)):
-                            return jsonify(makePostJson(got), {"page":None, "size":None})
-                        # else:
-                            #No permission coz the requesting remote user is not foaf of the post author in my server
-                    # else:
-                        #No permission coz either this post is private or serveronly
-            # else:
-                #Post Not in my server
-
-        '''
+            
+#        #Assume we passed server to server auth
+#        #Assume this is the place we do remote get
+#            pid = request.args.get("post_id")
+#            remoteAuthor = request.args.get("author_id")
+#            got = handler.getPost(pid)
+#
+#            if len(got) != 0:
+#                localAuthor = got[0][1].author_id
+#                if  got[0] in handler.getVisiblePosts(remoteAuthor):
+#                    return jsonify(makePostJson(got), {"page":None, "size":None})
+#                else:
+#                    if got[0][0].view_permission == 4:
+#                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json()["authors"]
+#                        if(handler.atlOneFriend(localAuthor, pfriends)):
+#                            return jsonify(makePostJson(got), {"page":None, "size":None})
+#                        # else:
+#                            #No permission coz the requesting remote user is not foaf of the post author in my server
+#                    # else:
+#                        #No permission coz either this post is private or serveronly
+#            # else:
+#                #Post Not in my server
 
     def delete(self, post_id):
         APP_state = loadGlobalVar()
