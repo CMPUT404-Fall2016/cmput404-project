@@ -492,7 +492,8 @@ class AuthorPost(Resource):
             
             [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
             custom_url = prefix + remoteUsr + suffix
-
+            print "friend request url: "
+            print custom_url
 
             pfriends = requests.get(custom_url, headers=headers).json()["authors"]
             #Get all remaining foaf posts, check for each one, if the author is a friend of at least one usr in pfriends
