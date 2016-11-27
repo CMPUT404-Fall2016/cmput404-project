@@ -66,9 +66,10 @@ def fetchForeignAuthor(param):
     headers = createAuthHeaders(param['host'])
     headers['Content-type'] = 'application/json'
     r = requests.get(param['url'], headers = headers)
-    if r.text == "":
-        return None
     print "url : " + param['url']
+    if r.text == "":
+        print "found empty body from foreign server during searching author"
+        return None
     # print r.text
     try:
         body = r.json()
@@ -472,7 +473,7 @@ def unFriend(param, APP_state):
 
     # else:
     #     # If the other author is from foreign server, we will not delete the entry, we will set the relationship type to 1 or 2 accordingly
-        
+
     #     try:
     #         db.session.delete(results[0])
     #         db.session.commit()
