@@ -150,8 +150,8 @@ team4 = 	{
 _NODES_['http://secret-penguin.herokuapp.com/'] = secret_penguin
 _NODES_['http://secure-springs-85403.herokuapp.com/'] = secure_springs
 _NODES_['http://api-bloggyblog404.herokuapp.com/'] = bloggyblog404
-_NODES_['http://cmput404f16t04dev.herokuapp.com/'] = team4
+_NODES_['http://cmput404f16t04dev.herokuapp.com/api'] = team4
 
 if __name__ == "__main__":
-	hostnames = ['http://secret-penguin.herokuapp.com/', 'http://secure-springs-85403.herokuapp.com/', 'http://api-bloggyblog404.herokuapp.com/', 'http://cmput404f16t04dev.herokuapp.com/']
+	hostnames = ['http://secret-penguin.herokuapp.com/', 'http://secure-springs-85403.herokuapp.com/', 'http://api-bloggyblog404.herokuapp.com/', 'http://cmput404f16t04dev.herokuapp.com/api']
 	testgetAPI(hostnames)

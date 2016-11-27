@@ -67,6 +67,9 @@ def fetchForeignAuthor(param):
     headers['Content-type'] = 'application/json'
     r = requests.get(param['url'], headers = headers)
     print "url : " + param['url']
+    if r.status_code != 200:
+        print "status code : %s"%(r.status_code)
+        return None
     if r.text == "":
         print "found empty body from foreign server during searching author"
         return None
