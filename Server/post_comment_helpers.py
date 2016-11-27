@@ -425,8 +425,8 @@ class AuthorPost(Resource):
         json_return["query"] = "posts"
         json_return["posts"] = []
     
-        if "Foreign-Host" in request.args.keys():
-            if  request.args.get("Foreign-Host") == "false":
+        if "Foreign-Host" in request.headers.get():
+            if  request.headers.get("Foreign-Host") == "false":
                 output = getCookie("get_available_posts")
                 if type(output) == flask.wrappers.Response:
                     return output
@@ -477,9 +477,18 @@ class AuthorPost(Resource):
             
         else:
             #Remote
-            remoteUsr = request.args.get("author_id")
+            remoteUsr = request.headers.get("author_id")
             allPosts = handler.getVisiblePosts(remoteUsr)
-            pfriends = requests.get(request.remote_addr + "/friends/" + remoteUsr).json()["authors"]
+            
+            headers = createAuthHeaders(node)
+
+            headers['Content-type'] = 'application/json'
+            
+            [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+            custom_url = prefix + remoteUsr + suffix
+
+
+            pfriends = requests.get(custom_url, headers=headers).json()["authors"]
             #Get all remaining foaf posts, check for each one, if the author is a friend of at least one usr in pfriends
             foafPosts = handler.getAllFoafPosts()
 
