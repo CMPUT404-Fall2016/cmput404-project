@@ -482,7 +482,7 @@ class AuthorPost(Resource):
             remoteUsr = request.headers.get("author_id")
             allPosts = handler.getVisiblePosts(remoteUsr)
             
-            headers = createAuthHeaders(node)
+            headers = createAuthHeaders(request.url_root)
 
             headers['Content-type'] = 'application/json'
             
