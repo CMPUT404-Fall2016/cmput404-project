@@ -436,7 +436,8 @@ class AuthorPost(Resource):
                 if "session_id" in cookie:
                     sessionID = cookie["session_id"]
                     print sessionID
-                    print "SESSIONID in appstate: " + APP_state["session_ids"]
+                    print "SESSIONID in appstate: "
+                    print APP_state["session_ids"]
                     
                     if sessionID in APP_state["session_ids"]:
                         paras = {}
