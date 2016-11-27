@@ -68,7 +68,7 @@ function loadPosts() {
 
 // get all the public posts on the server
 $(document).ready(function() {
-  loadPosts();
+  //loadPosts();
 });
 
 // load more posts
