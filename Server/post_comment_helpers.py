@@ -207,30 +207,30 @@ class Post(Resource):
                             #rst = got
                         # else:
                             #No permission
-                    else:
+                    #else:
                         #The post is in other server?
-                        nodes = handler.getConnectedNodes()
-                        params = {}
-                        
-                        params["author_id"] = APP_state["session_ids"][sessionID]
-                        params["post_id"] = post_id
-                        for node in nodes:
-                            
-                            
-                            print "Im searching posts in the server with address" + node
-                            headers = createAuthHeaders(node)
-                            headers['Content-type'] = 'application/json'
-                            node_user = db.session.query(Servers).filter(Servers.IP == node).first()
-                            node_user_name = node_user.user_name
-                            node_user_pass = node_user.password
-
-                            [prefix, suffix] = getAPI(node, 'GET/posts/P')
-                            custom_url = prefix + post_id + suffix
+                    nodes = handler.getConnectedNodes()
+                    params = {}
                     
+                    params["author_id"] = APP_state["session_ids"][sessionID]
+                    params["post_id"] = post_id
+                    for node in nodes:
+                        
+                        
+                        print "Im searching posts in the server with address" + node
+                        headers = createAuthHeaders(node)
+                        headers['Content-type'] = 'application/json'
+                        node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+                        node_user_name = node_user.user_name
+                        node_user_pass = node_user.password
+
+                        [prefix, suffix] = getAPI(node, 'GET/posts/P')
+                        custom_url = prefix + post_id + suffix
+                
+                        
+                        foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
                             
-                            foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
-                                
-                            json_return["posts"].extend(foreign_return["posts"])
+                        json_return["posts"].extend(foreign_return["posts"])
                             #rst += requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
                                 
 #                        if  len(rst) != 0:
