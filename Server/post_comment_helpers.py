@@ -207,30 +207,30 @@ class Post(Resource):
                             #rst = got
                         # else:
                             #No permission
-                    else:
+                    #else:
                         #The post is in other server?
-                        nodes = handler.getConnectedNodes()
-                        params = {}
-                        
-                        params["author_id"] = APP_state["session_ids"][sessionID]
-                        params["post_id"] = post_id
-                        for node in nodes:
-                            
-                            
-                            print "Im searching posts in the server with address" + node
-                            headers = createAuthHeaders(node)
-                            headers['Content-type'] = 'application/json'
-                            node_user = db.session.query(Servers).filter(Servers.IP == node).first()
-                            node_user_name = node_user.user_name
-                            node_user_pass = node_user.password
-
-                            [prefix, suffix] = getAPI(node, 'GET/posts/P')
-                            custom_url = prefix + post_id + suffix
+                    nodes = handler.getConnectedNodes()
+                    params = {}
                     
+                    params["author_id"] = APP_state["session_ids"][sessionID]
+                    params["post_id"] = post_id
+                    for node in nodes:
+                        
+                        
+                        print "Im searching posts in the server with address" + node
+                        headers = createAuthHeaders(node)
+                        headers['Content-type'] = 'application/json'
+                        node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+                        node_user_name = node_user.user_name
+                        node_user_pass = node_user.password
+
+                        [prefix, suffix] = getAPI(node, 'GET/posts/P')
+                        custom_url = prefix + post_id + suffix
+                
+                        
+                        foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
                             
-                            foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
-                                
-                            json_return["posts"].extend(foreign_return["posts"])
+                        json_return["posts"].extend(foreign_return["posts"])
                             #rst += requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
                                 
 #                        if  len(rst) != 0:
@@ -259,30 +259,28 @@ class Post(Resource):
             
             
             return jsonify(makePostJson(handler.getPost(pid)), {"page":None, "size":None})
-       '''
-        #Assume we passed server to server auth
-        #Assume this is the place we do remote get
-            pid = request.args.get("post_id")
-            remoteAuthor = request.args.get("author_id")
-            got = handler.getPost(pid)
-
-            if len(got) != 0:
-                localAuthor = got[0][1].author_id
-                if  got[0] in handler.getVisiblePosts(remoteAuthor):
-                    return jsonify(makePostJson(got), {"page":None, "size":None})
-                else:
-                    if got[0][0].view_permission == 4:
-                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json()["authors"]
-                        if(handler.atlOneFriend(localAuthor, pfriends)):
-                            return jsonify(makePostJson(got), {"page":None, "size":None})
-                        # else:
-                            #No permission coz the requesting remote user is not foaf of the post author in my server
-                    # else:
-                        #No permission coz either this post is private or serveronly
-            # else:
-                #Post Not in my server
-
-        '''
+            
+#        #Assume we passed server to server auth
+#        #Assume this is the place we do remote get
+#            pid = request.args.get("post_id")
+#            remoteAuthor = request.args.get("author_id")
+#            got = handler.getPost(pid)
+#
+#            if len(got) != 0:
+#                localAuthor = got[0][1].author_id
+#                if  got[0] in handler.getVisiblePosts(remoteAuthor):
+#                    return jsonify(makePostJson(got), {"page":None, "size":None})
+#                else:
+#                    if got[0][0].view_permission == 4:
+#                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json()["authors"]
+#                        if(handler.atlOneFriend(localAuthor, pfriends)):
+#                            return jsonify(makePostJson(got), {"page":None, "size":None})
+#                        # else:
+#                            #No permission coz the requesting remote user is not foaf of the post author in my server
+#                    # else:
+#                        #No permission coz either this post is private or serveronly
+#            # else:
+#                #Post Not in my server
 
     def delete(self, post_id):
         APP_state = loadGlobalVar()
@@ -335,15 +333,16 @@ class All_Post(Resource):
                 
                 
                 if request.args.get('page') == 0 and request.args.get('size') == 0:
-                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                    foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
                 else:
-                    foreign_return = (requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json())
+                    foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
                 
                 print foreign_return
                 print node_user_pass
                 print node_user_name
-    
-                json_return["posts"].extend(foreign_return["posts"])
+                if foreign_return.status_code == 200:
+                    recvJson = foreign_return.json()
+                    json_return["posts"].extend(recvJson["posts"])
             
             # Each json object contains all public posts from a server
             
