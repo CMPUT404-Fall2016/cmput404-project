@@ -340,8 +340,10 @@ class All_Post(Resource):
                 print foreign_return
                 print node_user_pass
                 print node_user_name
+                
+                if foreign_return.status_code == 200:
     
-                json_return["posts"].extend(foreign_return["posts"])
+                    json_return["posts"].extend(foreign_return["posts"])
             
             # Each json object contains all public posts from a server
             
