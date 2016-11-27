@@ -114,12 +114,11 @@ $("#post-submit").click(function(e) {
   // transform parsed if you like...
   var commonmarkresult = writer.render(parsed);
   console.log(commonmarkresult);
-                        postData["content"] = commonmarkresult;
-                        }
-                        
-                        else {
-                        postData["content"] = postForm.elements["post-text"].value;
-                        }
+  postData["content"] = commonmarkresult;
+  }
+  else {
+  postData["content"] = postForm.elements["post-text"].value;
+  }
 
   //postData["content"] = postForm.elements["post-text"].value;
   
