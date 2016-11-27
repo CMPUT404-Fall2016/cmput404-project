@@ -461,6 +461,7 @@ def FetchAuthorByName():
     first=""
     last=""
     name = ""
+    print request.args
     if request.args.has_key("first"):
         first=request.args.get("first")
         name = first 
