@@ -180,6 +180,14 @@ class Post(Resource):
     def get(self, post_id):
         APP_state = loadGlobalVar()
         #Local Request
+        
+        json_return = {}
+        json_return["count"] = 0
+        json_return["size"] = 0
+        json_return["query"] = "posts"
+        json_return["posts"] = []
+        
+        
         if(request.args.get("Foreign-Host") == "false"):
             output = getCookie("get_one_post")
             if type(output) == flask.wrappers.Response:
@@ -190,30 +198,48 @@ class Post(Resource):
                 sessionID = cookie["session_id"]
                 #print sessionID
                 if sessionID in APP_state["session_ids"]:
-                    rst = []
-                    got = handler.getPost(post_id)
-                    if len(got) != 0:
+#                    rst = []
+#                    got = handler.getPost(post_id)
+                    #if len(got) != 0:
                         #This post is in our server
-                        if got[0] in handler.getVisiblePosts(APP_state["session_ids"][sessionID]):
+                        #if got[0] in handler.getVisiblePosts(APP_state["session_ids"][sessionID]):
                             #if the user has permission to see it
-                            rst = got
+                            #rst = got
                         # else:
                             #No permission
                     else:
                         #The post is in other server?
                         nodes = handler.getConnectedNodes()
                         params = {}
+                        
                         params["author_id"] = APP_state["session_ids"][sessionID]
                         params["post_id"] = post_id
                         for node in nodes:
-                            rst += requests.get(node + "/posts/" + post_id, params = params).json()
-                        if  len(rst) != 0:
-                            return rst[0]
+                            
+                            
+                            print "Im searching posts in the server with address" + node
+                            headers = createAuthHeaders(node)
+                            headers['Content-type'] = 'application/json'
+                            node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+                            node_user_name = node_user.user_name
+                            node_user_pass = node_user.password
 
-                    paras = {}
-                    paras["page"] = request.args.get('page')
-                    paras["size"] = request.args.get('size')
-                    return jsonify(makePostJson(rst, paras))
+                            [prefix, suffix] = getAPI(node, 'GET/posts/P')
+                            custom_url = prefix + post_id + suffix
+                    
+                            
+                            foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
+                                
+                            json_return["posts"].extend(foreign_return["posts"])
+                            #rst += requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
+                                
+#                        if  len(rst) != 0:
+#                            return rst[0]
+
+#                    paras = {}
+#                    paras["page"] = request.args.get('page')
+#                    paras["size"] = request.args.get('size')
+                    return jsonify(json_return)
 
                 else:
                     return {"Response" : "sessionID error"}
@@ -222,6 +248,18 @@ class Post(Resource):
 
         #Remote Request
         else:
+            
+            pid = request.args.get("post_id")
+            
+            paras = {}
+            
+            paras["page"] = request.args.get('page')
+            paras["size"] = request.args.get('size')
+            print "SERVERTOSERVER response"
+            
+            
+            return jsonify(makePostJson(handler.getPost(pid)), {"page":None, "size":None})
+       '''
         #Assume we passed server to server auth
         #Assume this is the place we do remote get
             pid = request.args.get("post_id")
@@ -244,7 +282,7 @@ class Post(Resource):
             # else:
                 #Post Not in my server
 
-
+        '''
 
     def delete(self, post_id):
         APP_state = loadGlobalVar()
