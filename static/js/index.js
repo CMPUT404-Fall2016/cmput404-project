@@ -152,7 +152,7 @@ $("#post-submit").click(function(e) {
 
 $(document).ready(function() {
   // get the posts from authors I follow
-  loadPosts();
+  //loadPosts();
 
   // if we have a github username, load the public events
   if (github_name) {
