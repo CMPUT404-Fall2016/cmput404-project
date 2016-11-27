@@ -397,8 +397,11 @@ class All_Post(Resource):
                 post["author_id"] = data["author_id"]
                 post["title"] = data["title"]
                 post["content"] = data["content"]
+                if data["description"] == "":
+                    post["description"] = "Empty"
+                
                 post["content_type"] = data["contentType"]
-                post["description"] = data["description"]
+                
                 perm = data["visibility"]
                 if perm =="PUBLIC":
                     perm = 1
@@ -478,7 +481,7 @@ class AuthorPost(Resource):
                                 
                                 own_returns["posts"].extend(recvJson["posts"])
 
-
+                        print
                         return jsonify(own_returns)
                     else:
                         return "Session_ID Error", 403
