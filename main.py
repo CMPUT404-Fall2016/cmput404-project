@@ -656,6 +656,8 @@ def FollowUser():
 
     except Exception as e:
 
+        print "Exception from followUser"
+        print data
         return getResponse(status_code=400)
 
     # if result == True:
