@@ -454,7 +454,7 @@ def FetchAuthor(AUTHOR_ID):
 
 
 
-@app.route("/authorByName/", methods=['POST'])
+@app.route("/authorByName", methods=['POST'])
 def FetchAuthorByName():
 
     APP_state = loadGlobalVar()
@@ -470,12 +470,17 @@ def FetchAuthorByName():
 
     param = {}
     param["author_name"] = name
+    print param
     results = getAuthor(param, False, APP_state)
-    if len(results) == 0:
-        return getResponse(body={"status" : "NO_MATCH"}, status_code=200)
+    if results != None:
+        if len(results["author_name"]) == 0:
+            return getResponse(body={"status" : "NO_MATCH"}, status_code=200)
+        else:
+            results["status"] = "SUCCESS"
+            return getResponse(body=results, status_code=200)
+
     else:
-        results["status"] = "SUCCESS"
-        return getResponse(body=results, status_code=200)
+        return getResponse(body={"status" : "NO_MATCH"}, status_code=200)
 
 
 @app.route("/getFriendRequests", methods=['GET'])
