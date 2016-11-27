@@ -474,7 +474,7 @@ def FetchAuthorByName():
     print param
     results = getAuthor(param, False, APP_state)
     if results != None:
-        if len(results["author_name"]) == 0:
+        if len(results["authors"]) == 0:
             return getResponse(body={"status" : "NO_MATCH"}, status_code=200)
         else:
             results["status"] = "SUCCESS"
