@@ -216,6 +216,11 @@ class Post(Resource):
 
                 params["author_id"] = APP_state["session_ids"][sessionID]
                 params["post_id"] = post_id
+                
+                own_post = makePostJson(handler.getPost(pid), {"page":None, "size":None})
+                
+                json_return["posts"].extend(own_post["posts"])
+                
                 for node in nodes:
                     
                     
@@ -265,7 +270,7 @@ class Post(Resource):
             print "SERVERTOSERVER response"
             
             
-            return jsonify(makePostJson(handler.getPost(pid)), {"page":None, "size":None})
+            return jsonify(makePostJson(handler.getPost(pid), {"page":None, "size":None}))
             
 #        #Assume we passed server to server auth
 #        #Assume this is the place we do remote get
@@ -328,6 +333,9 @@ class All_Post(Resource):
                 json_return["size"] = 0
                 json_return["query"] = "posts"
                 json_return["posts"] = []
+                
+                json_return["posts"].extend(makePostJson(handler.getAllPosts(), paras)["posts"])
+                
                 #agre.append(makePostJson(handler.getAllPosts(), paras))
                 for node in nodes: 
                     print "Im searching posts in the server with address" + node
@@ -453,21 +461,18 @@ class AuthorPost(Resource):
                         paras["author_id"] = APP_state["session_ids"][sessionID]
 
                         for node in nodes:
-                            if node == "http://secret-penguin.herokuapp.com/":
-                                pass
-                            else:
-                                
-                                headers = createAuthHeaders(node)
-                                
-                                headers['Content-type'] = 'application/json'
-                                headers['author_id'] = APP_state["session_ids"][sessionID]
-                                
-                                [prefix, suffix] = getAPI(node, 'GET/author/posts')
-                                custom_url = prefix + suffix
-                                
-                                foreign_return = requests.get(custom_url, headers=headers)
-                
-                
+
+                            headers = createAuthHeaders(node)
+                            
+                            headers['Content-type'] = 'application/json'
+                            headers['author_id'] = APP_state["session_ids"][sessionID]
+                            
+                            [prefix, suffix] = getAPI(node, 'GET/author/posts')
+                            custom_url = prefix + suffix
+                            
+                            foreign_return = requests.get(custom_url, headers=headers)
+            
+            
                             if foreign_return.status_code == 200:
                                 recvJson = foreign_return.json()
                                 
