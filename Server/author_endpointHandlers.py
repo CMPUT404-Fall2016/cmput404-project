@@ -622,6 +622,7 @@ def getAuthor(param, foreign_host, APP_state):
 
     query_results = {}
     final_results = []
+    using_author_name = False
     if "author" in param.keys():
         author_id = param["author"]
         results=db.session.query(Authors).filter(Authors.author_id == author_id).all()
@@ -629,10 +630,11 @@ def getAuthor(param, foreign_host, APP_state):
     if "author_name" in param.keys():
         name = param["author_name"]
         results=db.session.query(Authors).filter(Authors.name == name).all()
+        using_author_name = True
 
     
     if (len(results) == 0) :
-        if foreign_host == False :
+        if (foreign_host == False) and (using_author_name == False):
             print "looking in foreign hosts"
             return searchForeignAuthor(param["author"])
         else:

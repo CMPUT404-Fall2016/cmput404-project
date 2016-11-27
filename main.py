@@ -454,17 +454,20 @@ def FetchAuthor(AUTHOR_ID):
 
 
 
-@app.route("/authorByName/", methods=['GET'])
+@app.route("/authorByName/", methods=['POST'])
 def FetchAuthorByName():
 
     APP_state = loadGlobalVar()
     first=""
     last=""
+    name = ""
     if request.args.has_key("first"):
         first=request.args.get("first")
+        name = first 
     if request.args.has_key("last"):
         last=request.args.get("last")
-    name = first+' '+last
+        name = name + ' ' + last
+
     param = {}
     param["author_name"] = name
     results = getAuthor(param, False, APP_state)
