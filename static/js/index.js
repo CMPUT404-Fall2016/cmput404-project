@@ -25,7 +25,7 @@ function loadPosts() {
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
-      postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayname;
+      postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
 
       var cmreader = new commonmark.Parser();
       var writer = new commonmark.HtmlRenderer();
