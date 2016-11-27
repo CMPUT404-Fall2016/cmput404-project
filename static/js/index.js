@@ -106,17 +106,23 @@ $("#post-submit").click(function(e) {
   postData["contentType"] = postForm.elements["text-type"].value;
   console.log(postData["contentType"]);
 
+  if (postForm.elements["text-type"].value == "text/markdown") {
+                        
   var cmreader = new commonmark.Parser();
   var writer = new commonmark.HtmlRenderer();
   var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
   // transform parsed if you like...
   var commonmarkresult = writer.render(parsed);
   console.log(commonmarkresult);
+                        postData["content"] = commonmarkresult;
+                        }
+                        
+                        else {
+                        postData["content"] = postForm.elements["post-text"].value;
+                        }
 
   //postData["content"] = postForm.elements["post-text"].value;
-  postData["content"] = commonmarkresult;
-  //postData["content"] = tinyMCE.activeEditor.getContent({format : 'raw'});
-  //postData["content"] = tinyMCE.activeEditor.getContent();
+  
   postData["visibility"] = postForm.elements["visibility"].value;
 
 
