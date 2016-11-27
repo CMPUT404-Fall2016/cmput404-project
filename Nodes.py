@@ -131,11 +131,27 @@ bloggyblog404 = {
 			'POST/posts/P/comments' : ["http://api-bloggyblog404.herokuapp.com/posts/", "/comments/"] #Not implemented
 			}
 
+team4 = 	{
+			'GET/friends/A' : ["http://cmput404f16t04dev.herokuapp.com/api/friends/", "/?format=json"],
+			'GET/friends/A1/A2' : ["http://cmput404f16t04dev.herokuapp.com/api/friends/", "/?format=json"],
+			'POST/friends/A' : ["http://cmput404f16t04dev.herokuapp.com/api/friends/" , "/"],
+			'POST/friendrequest' : ["http://cmput404f16t04dev.herokuapp.com/api/friendrequest", "/"],
+			'GET/author/A' : ["http://cmput404f16t04dev.herokuapp.com/api/author/", "/?format=json"],
+			'GET/posts' : ["http://cmput404f16t04dev.herokuapp.com/api/posts", "/?format=json"],
+			'GET/author/posts' : ["http://cmput404f16t04dev.herokuapp.com/api/author/posts", "/?format=json"], 
+			'GET/author/A/posts' : ["http://cmput404f16t04dev.herokuapp.com/api/author/", "/posts/?format=json"], 
+			'GET/posts/P' : ["http://cmput404f16t04dev.herokuapp.com/api/posts/", "/?format=json"],
+			'GET/posts/P/comments' : ["http://cmput404f16t04dev.herokuapp.com/api/posts/", "/comments/?format=json"],
+			'POST/posts/P/comments' : ["http://cmput404f16t04dev.herokuapp.com/api/posts/", "/comments/"] 
+			}
+
+
 
 _NODES_['http://secret-penguin.herokuapp.com/'] = secret_penguin
 _NODES_['http://secure-springs-85403.herokuapp.com/'] = secure_springs
 _NODES_['http://api-bloggyblog404.herokuapp.com/'] = bloggyblog404
+_NODES_['http://cmput404f16t04dev.herokuapp.com/'] = team4
 
 if __name__ == "__main__":
-	hostnames = ['http://secret-penguin.herokuapp.com/', 'http://secure-springs-85403.herokuapp.com/', 'http://api-bloggyblog404.herokuapp.com/']
+	hostnames = ['http://secret-penguin.herokuapp.com/', 'http://secure-springs-85403.herokuapp.com/', 'http://api-bloggyblog404.herokuapp.com/', 'http://cmput404f16t04dev.herokuapp.com/']
 	testgetAPI(hostnames)
