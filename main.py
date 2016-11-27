@@ -454,14 +454,14 @@ def FetchAuthor(AUTHOR_ID):
 
 
 
-@app.route("/authorByName", methods=['GET'])
+@app.route("/authorByName/", methods=['GET'])
 def FetchAuthorByName():
 
     APP_state = loadGlobalVar()
     first=""
     last=""
     name = ""
-    print request.args
+    # print request.args
     if request.args.has_key("first"):
         first=request.args.get("first")
         name = first 
