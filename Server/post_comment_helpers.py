@@ -217,6 +217,8 @@ class Post(Resource):
 #                params["post_id"] = post_id
                 pid = request.args.get("post_id")
                 
+                print "checking OWN POST"
+                print db.session.query(Posts).filter(Posts.post_id == post_id).first()
                 
                 own_post = handler.getPost(pid)
                 if len(own_post) > 0:
