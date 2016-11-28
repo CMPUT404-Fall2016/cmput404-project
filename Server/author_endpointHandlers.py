@@ -104,14 +104,14 @@ def getFriendList(param, APP_state):
     relationship_type = 3 #FOR FRIENDS
     
     query_param={}
-    query_param["server_author_id1"] = [server_index, author_id, 3] 
+    query_param["server_author_1"] = [server_index, author_id] 
     results1 = Author_Relationships.query(query_param)
     results1 = updateFriendship(results1, author_id, server_index)
     # print results1
     friendList = serializeFriendList(results1, 2)
 
     query_param={}   
-    query_param["server_author_id2"] = [server_index, author_id, 3] #Reverse query, posing the author as the second user in the table
+    query_param["server_author_2"] = [server_index, author_id] #Reverse query, posing the author as the second user in the table
     results2 = Author_Relationships.query(query_param)
     # print results2
     results2 = updateFriendship(results2, author_id, server_index)
@@ -214,6 +214,9 @@ def serializeFriendList(FriendList, number):
 
     friendlist = []
     for friendship in FriendList:
+        if friendship.relationship_type != 3:
+            continue
+            
         temp={}
         if number == 1:
             host = db.session.query(Servers).filter(Servers.server_index == friendship.authorServer1_id).all()[0].IP
