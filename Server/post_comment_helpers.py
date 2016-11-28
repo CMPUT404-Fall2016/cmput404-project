@@ -553,7 +553,7 @@ class AuthorToAuthorPost(Resource):
                                 
                                 [prefix, suffix] = getAPI(node, 'GET/author/A/posts')
                                 custom_url = prefix + author_id +suffix
-                                foreign_return = requests.get(custom_url, paras=paras,headers=headers)
+                                foreign_return = requests.get(custom_url,headers=headers)
                                 
                                 if foreign_return.status_code == 200:
                                     recvJson = foreign_return.json()
