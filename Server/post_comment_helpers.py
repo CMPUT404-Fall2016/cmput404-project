@@ -215,6 +215,7 @@ class Post(Resource):
 #
 #                params["author_id"] = APP_state["session_ids"][sessionID]
 #                params["post_id"] = post_id
+                pid = request.args.get("post_id")
                 
                 own_post = makePostJson(handler.getPost(pid), {"page":None, "size":None})
                 
