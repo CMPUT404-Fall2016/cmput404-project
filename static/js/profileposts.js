@@ -63,7 +63,7 @@ $("#posttab").click(function(e) {
            // fill the container with details
            postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
            postTemplate.content.querySelector(".post-description").textContent = posts[i].description;
-           postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayname;
+           postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayName;
            postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
 
            // attach data to the links so it can be referenced when clicked
