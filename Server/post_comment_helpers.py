@@ -534,6 +534,8 @@ class AuthorToAuthorPost(Resource):
                     return output
 
                 cookie = output
+                print "cookie out dude: "
+                print cookie
                 if "session_id" in cookie:
                     sessionID = cookie["session_id"]
                     if sessionID in APP_state["session_ids"]:
