@@ -398,6 +398,8 @@ class All_Post(Resource):
                 post["content"] = data["content"]
                 if data["description"] == "":
                     post["description"] = "Empty"
+                else:
+                    post["description"] = data["description"]
                 
                 post["content_type"] = data["contentType"]
                 
