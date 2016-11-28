@@ -148,7 +148,7 @@ class RestHandlers():
         """
         #Return a post with its images list and its comments list
         return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getAuthor(author_id), self.getComments(post_id)]
-
+        #return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getAuthor(author_id), self.getComments(post_id)]
 
 
     def getComments(self, post_id):
@@ -358,7 +358,7 @@ class RestHandlers():
     #This function gets all remote server addrs where we have permission to share data
     def getConnectedNodes(self):
         nodes = []
-        servers = db.session.query(Servers).filter(Servers.shareWith == True).all()
+        servers = db.session.query(Servers).filter(Servers.shareWith == True, Servers.server_index > 0).all()
         for ele in servers:
             nodes.append(ele.IP)
         return nodes        

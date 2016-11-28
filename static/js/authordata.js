@@ -132,19 +132,19 @@ $("#posttabs").click(function(e) {
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
-  sendAJAX("GET", authorpostlink, "", function(posts) {
-    for(var i=0; i < posts.length; ++i) {
+  sendAJAX("GET", authorpostlink, "", function(results) {
+    for(var i=0; i < results.posts.length; ++i) {
       // fill the container with details
-      postTemplate.content.querySelector(".post-title").textContent = posts[i].title;
-      postTemplate.content.querySelector(".post-author").textContent = posts[i].author.displayName;
-      postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+      postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
+      postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
+      postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
-      authorBtn.setAttribute("post-author-id", posts[i].author.id);
+      authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      commentsBtn.setAttribute("post-comment-id", posts[i].id);
+      commentsBtn.setAttribute("post-comment-id", results.posts[i].id);
 
       var clone = document.importNode(postTemplate.content, true);
       postList.appendChild(clone);
