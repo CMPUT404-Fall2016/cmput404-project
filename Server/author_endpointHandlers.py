@@ -185,7 +185,7 @@ def checkForeignFriends(host_name, author_ID, friend_ID):
     [prefix, suffix] = getAPI(host_name, 'GET/friends/A1/A2')
     url = prefix + author_ID + '/' + friend_ID + suffix
     print "from checkForeignFriends, url : %s"%(url)
-    headers = {}
+    headers = createAuthHeaders(host_name)
     headers['Content-type'] = 'application/json'
     r = requests.get(url, headers = headers)
     if r.status_code == 200:
