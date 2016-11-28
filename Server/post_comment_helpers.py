@@ -551,11 +551,11 @@ class AuthorToAuthorPost(Resource):
                         
                         else:
                             nodes = handler.getConnectedNodes()
-                            paras["author_id"] = APP_state["session_ids"][sessionID]
                             for node in nodes:
                                 headers = createAuthHeaders(node)
                             
                                 headers['Content-type'] = 'application/json'
+                                headers['author_id'] = APP_state["session_ids"][sessionID]
                                 
                                 [prefix, suffix] = getAPI(node, 'GET/author/A/posts')
                                 custom_url = prefix + author_id +suffix
@@ -578,7 +578,7 @@ class AuthorToAuthorPost(Resource):
         else:
         #Remote
             if author_id in handler.getAllUsers():
-                remoteUsr = request.args.get("author_id")
+                remoteUsr = request.headers.get("author_id")
                 allPosts = handler.getVisiblePostsByAuthor(remoteUsr, author_id)
                 foafPosts = handler.getAllFoafPostsByUsr(author_id)
                 
