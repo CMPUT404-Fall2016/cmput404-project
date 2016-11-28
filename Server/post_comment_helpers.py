@@ -544,6 +544,8 @@ class AuthorToAuthorPost(Resource):
                         paras["page"] = request.args.get('page')
                         paras["size"] = request.args.get('size')
                         print "I AM HERE 1"
+                        print author_id
+                        print handler.getAllUsers()
                         if author_id in handler.getAllUsers():
                             print "I AM HERE 2"
                             own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
