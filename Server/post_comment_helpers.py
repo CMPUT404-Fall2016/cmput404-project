@@ -212,8 +212,8 @@ class Post(Resource):
                         #The post is in other server?
                 nodes = handler.getConnectedNodes()
                 params = {}
-#
-#                params["author_id"] = APP_state["session_ids"][sessionID]
+
+                params["author_id"] = APP_state["session_ids"][sessionID]
 #                params["post_id"] = post_id
                 pid = request.args.get("post_id")
                 
