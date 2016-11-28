@@ -544,7 +544,7 @@ class AuthorToAuthorPost(Resource):
                         if  author_id in handler.getAllUsers():
                             own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
                         else:
-                            node = handler.getConnectedNodes()
+                            nodes = handler.getConnectedNodes()
                             paras["author_id"] = APP_state["session_ids"][sessionID]
                             for node in nodes:
                                 headers = createAuthHeaders(node)
