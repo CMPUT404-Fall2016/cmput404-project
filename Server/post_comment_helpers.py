@@ -518,7 +518,7 @@ class AuthorPost(Resource):
             paras["page"] = request.args.get('page')
             paras["size"] = request.args.get('size')
 
-            return jsonify(makePostJson(allPosts), paras)
+            return jsonify(makePostJson(allPosts, paras))
              
 
 
