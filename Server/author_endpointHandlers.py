@@ -172,8 +172,10 @@ def updateFriendship(friendList, author_id, server_index):
                         friendList.remove(friend)
                         db.session.delete(friend)
 
-
+      
         db.session.commit()
+    
+    return friendList
 
 
 def checkForeignFriends(host_name, author_ID, friend_ID):
@@ -190,6 +192,7 @@ def checkForeignFriends(host_name, author_ID, friend_ID):
         if 'friends' in recvJSON.keys():
             isFriend = recvJSON['friends']
             if type(isFriend) == bool:
+                print "Friends with %s from %s is %s: "%(friend_ID, host_name, str(isFriend))
                 return isFriend
             else:
                 print "from checkForeignFriends, friends key is not boolean!"
