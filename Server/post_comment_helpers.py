@@ -570,7 +570,7 @@ class AuthorToAuthorPost(Resource):
                                     if foreign_return.json()["size"] == 0:
                                         pass
                                     else:
-                                    
+                                        recvJson = foreign_return.json()
                                         return jsonify(recvJson)
                                
 #                               
