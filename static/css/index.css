@@ -2,17 +2,12 @@ textarea {
   resize: none;
 }
 
-.unliked, .comments {
-  color: #888;
-}
-
 .posts-stream-end {
   text-align: center;
 }
 
 #github {
   font-size: 11px;
-  text-align: right;
 }
 
 #follow-buttons {
@@ -22,6 +17,10 @@ textarea {
 #author-dp {
   margin: 30px 30px 0 30px;
   border: none;
+}
+
+#load-posts {
+  text-align: center;
 }
 
 body {

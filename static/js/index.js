@@ -110,7 +110,7 @@ $("#post-submit").click(function(e) {
   console.log(postData["contentType"]);
 
   if (postForm.elements["text-type"].value == "text/markdown") {
-                        
+
   var cmreader = new commonmark.Parser();
   var writer = new commonmark.HtmlRenderer();
   var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
@@ -124,7 +124,7 @@ $("#post-submit").click(function(e) {
   }
 
   //postData["content"] = postForm.elements["post-text"].value;
-  
+
   postData["visibility"] = postForm.elements["visibility"].value;
 
 
@@ -146,7 +146,7 @@ $("#post-submit").click(function(e) {
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
   }
-                        
+
   console.log(postData);
 
   sendAJAX("POST", "/posts", postData, function(result) {
@@ -157,7 +157,7 @@ $("#post-submit").click(function(e) {
 
 $(document).ready(function() {
   // get the posts from authors I follow
-  //loadPosts();
+  loadPosts();
 
   // if we have a github username, load the public events
   if (github_name) {
