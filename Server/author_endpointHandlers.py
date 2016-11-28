@@ -106,6 +106,7 @@ def getFriendList(param, APP_state):
     query_param={}
     query_param["server_author_id1"] = [server_index, author_id, 3] 
     results1 = Author_Relationships.query(query_param)
+    results1 = updateFriendship(results1, author_id, server_index)
     # print results1
     friendList = serializeFriendList(results1, 2)
 
@@ -113,41 +114,9 @@ def getFriendList(param, APP_state):
     query_param["server_author_id2"] = [server_index, author_id, 3] #Reverse query, posing the author as the second user in the table
     results2 = Author_Relationships.query(query_param)
     # print results2
+    results2 = updateFriendship(results2, author_id, server_index)
     friendList = serializeFriendList(results2, 1) + friendList
 
-    for friend in friendList:
-        if (friend.authorServer1_id != server_index):
-
-            server = db.session.query(Servers).filter(Servers.server_index == friend.authorServer1_id).all()[0]
-            foreign_host = server.IP
-            isFriend = checkForeignFriends(foreign_host, author_id, friend.author1_id)
-            if isFriend != None:
-                if isFriend == True:
-                    if friend.relationship_type == 2:
-                        friend.relationship_type = 3
-                else:
-                    if friend.relationship_type == 3: 
-                        friend.relationship_type = 2
-                    elif friend.relationship_type == 1:
-                        db.session.delete(friend)
-
-        if (friend.authorServer2_id != server_index):
-
-            server = db.session.query(Servers).filter(Servers.server_index == friend.authorServer2_id).all()[0]
-            foreign_host = server.IP
-            isFriend = checkForeignFriends(foreign_host, author_id, friend.author2_id)
-            if isFriend != None:
-                if isFriend == True:
-                    if friend.relationship_type == 1:
-                        friend.relationship_type = 3
-                else:
-                    if friend.relationship_type == 3: 
-                        friend.relationship_type = 1
-                    elif friend.relationship_type == 2:
-                        db.session.delete(friend)
-
-
-        db.session.commit()
 
     # for friend in friendList:
     #     if friend['host'] == APP_state["local_server_Obj"].IP:            
@@ -166,6 +135,45 @@ def getFriendList(param, APP_state):
 
     return friendList
 
+
+def updateFriendship(friendList, author_id, server_index):
+
+    for friend in friendList:
+        if (friend.authorServer1_id != server_index):
+
+            server = db.session.query(Servers).filter(Servers.server_index == friend.authorServer1_id).all()[0]
+            foreign_host = server.IP
+            isFriend = checkForeignFriends(foreign_host, author_id, friend.author1_id)
+            if isFriend != None:
+                if isFriend == True:
+                    if friend.relationship_type == 2:
+                        friend.relationship_type = 3
+                else:
+                    if friend.relationship_type == 3: 
+                        friend.relationship_type = 2
+                    elif friend.relationship_type == 1:
+                        friendList.remove(friend)
+                        db.session.delete(friend)
+
+
+        if (friend.authorServer2_id != server_index):
+
+            server = db.session.query(Servers).filter(Servers.server_index == friend.authorServer2_id).all()[0]
+            foreign_host = server.IP
+            isFriend = checkForeignFriends(foreign_host, author_id, friend.author2_id)
+            if isFriend != None:
+                if isFriend == True:
+                    if friend.relationship_type == 1:
+                        friend.relationship_type = 3
+                else:
+                    if friend.relationship_type == 3: 
+                        friend.relationship_type = 1
+                    elif friend.relationship_type == 2:
+                        friendList.remove(friend)
+                        db.session.delete(friend)
+
+
+        db.session.commit()
 
 
 def checkForeignFriends(host_name, author_ID, friend_ID):
