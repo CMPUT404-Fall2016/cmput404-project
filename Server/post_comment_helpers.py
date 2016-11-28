@@ -567,7 +567,7 @@ class AuthorToAuthorPost(Resource):
                                 custom_url = prefix + author_id +suffix
                                 foreign_return = requests.get(custom_url,headers=headers)
                                 print foreign_return
-                                print foreign_return.json()
+                                print foreign_return.json() # this return none
                                 
                                 
 #                                if foreign_return.status_code == 200:
@@ -577,6 +577,7 @@ class AuthorToAuthorPost(Resource):
 #                                    else:
 #                                        return jsonify(recvJson)
                                 if foreign_return.status_code == 200:
+                                    print foreign_return.json()
                                     if foreign_return.json()["count"] == 0:
                                         pass
                                     else:
