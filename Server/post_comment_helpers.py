@@ -559,7 +559,10 @@ class AuthorToAuthorPost(Resource):
                             nodes = handler.getConnectedNodes()
                             for node in nodes:
                                 headers = createAuthHeaders(node)
-                            
+
+                                node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+                                node_user_name = node_user.user_name
+                                node_user_pass = node_user.password
                                 headers['Content-type'] = 'application/json'
                                 headers['author_id'] = APP_state["session_ids"][sessionID]
                                 
@@ -577,7 +580,6 @@ class AuthorToAuthorPost(Resource):
 #                                    else:
 #                                        return jsonify(recvJson)
                                 if foreign_return.status_code == 200:
-                                    print foreign_return.json()
                                     if foreign_return.json()["count"] == 0:
                                         pass
                                     else:
