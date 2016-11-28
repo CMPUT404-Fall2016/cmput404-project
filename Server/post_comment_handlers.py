@@ -1,4 +1,4 @@
-from flask import jsonify request
+from flask import jsonify, request
 from sqlalchemy import exc
 from model import *
 from datetime import datetime
