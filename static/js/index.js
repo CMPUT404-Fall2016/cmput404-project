@@ -109,7 +109,7 @@ $("#post-submit").click(function(e) {
   postData["contentType"] = postForm.elements["text-type"].value;
   console.log(postData["contentType"]);
 
-  if (postForm.elements["text-type"].value == "text/markdown") {
+  if (postForm.elements["text-type"].value == "text/x-markdown") {
                         
   var cmreader = new commonmark.Parser();
   var writer = new commonmark.HtmlRenderer();
