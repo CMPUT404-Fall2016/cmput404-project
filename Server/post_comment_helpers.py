@@ -157,10 +157,10 @@ def makePostJson(data, args):
 
 def getCookie(Operation_str):
     COOKIE ={}
-    # print request.cookies.keys()
+    print request.cookies.keys()
+
     for name in COOKIE_NAMES:
         if name in request.cookies:
-            print name
             if name == COOKIE_NAMES[0]:
                 COOKIE['author_id'] = request.cookies[name]
             elif name == COOKIE_NAMES[1]:
