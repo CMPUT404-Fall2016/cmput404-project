@@ -61,7 +61,7 @@ def makeAuthorJson(author):
         "id"    :   author.author_id,
         "host"  :   myip,
         "displayName"   :   author.name,
-        "url"   :   myip +"/author/" + author.author_id,
+        "url"   :   myip +"author/" + author.author_id,
         "github"    :   author.github_id
     }
     return rt
@@ -82,9 +82,9 @@ def makeCommentJson(data, args):
     if args["page"]:
         pg = int(args["page"])
     if pg>0:
-        rt["previous"] = myip + "/posts/" + data[0].post_id + "comments?page=" + str(pg-1)
+        rt["previous"] = myip + "posts/" + data[0].post_id + "comments?page=" + str(pg-1)
     if (pg+1)*rt["size"] < rt["count"]:
-        rt["next"] = myip + "/posts/" + data[0].post_id + "/comments?page=" + str(pg+1)
+        rt["next"] = myip + "posts/" + data[0].post_id + "/comments?page=" + str(pg+1)
 
     #comments
     if pg*rt["size"] < rt["count"]:
@@ -124,9 +124,9 @@ def makePostJson(data, args):
     if args["page"]:
         pg = int(args["page"])
     if pg>0:
-        rt["previous"] = myip + "/posts?page=" + str(pg-1)
+        rt["previous"] = myip + "posts?page=" + str(pg-1)
     if (pg+1)*rt["size"] < rt["count"]:
-        rt["next"] = myip + "/posts?page=" + str(pg+1)
+        rt["next"] = myip + "posts?page=" + str(pg+1)
 
     #Posts
     if pg*rt["size"] < rt["count"]:
@@ -147,7 +147,7 @@ def makePostJson(data, args):
                 "id"    :   data[i][0].post_id,
                 "count" :   len(data[i][2]),
                 "size"  :   5,
-                "next"  :   myip + "/posts/"+data[i][0].post_id+"/comments",
+                "next"  :   myip + "posts/"+data[i][0].post_id+"/comments",
                 "comments"  :   makeCommentJson(data[i][2], {"size":None, "page":None})["comments"]
             })
 
@@ -544,6 +544,7 @@ class AuthorToAuthorPost(Resource):
                         print "I AM HERE 1"
                         print author_id
                         print handler.getAllUsers()
+                        
                         if author_id in handler.getAllUsers():
                             print "I AM HERE 2"
                             own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
