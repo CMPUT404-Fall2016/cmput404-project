@@ -565,10 +565,13 @@ class AuthorToAuthorPost(Resource):
                                 custom_url = prefix + author_id +suffix
                                 foreign_return = requests.get(custom_url,headers=headers)
                                 
+                                
                                 if foreign_return.status_code == 200:
-                                    recvJson = foreign_return.json()
+                                    if len(foreign_return["posts"]) == 0:
+                                        pass
+                                    else:
                                     
-                            return jsonify(recvJson)
+                                        return jsonify(recvJson)
                                
 #                               
 #                               if rt["count"] > 0:    
@@ -605,7 +608,7 @@ class AuthorToAuthorPost(Resource):
                 paras["page"] = request.args.get('page')
                 paras["size"] = request.args.get('size')
 
-                return jsonify(makePostJson(allPosts), paras)
+                return jsonify(makePostJson(allPosts, paras))
                 
             # else:
                 #We don't have this requested user in our server 
