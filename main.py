@@ -223,11 +223,14 @@ def getCookie(Operation_str):
     for name in COOKIE_NAMES:
         if name in request.cookies.keys():
 
-            if name == COOKIE_NAMES[0]:
+            name_list = name.split(';')
+            if COOKIE_NAMES[0] in name_list:
                 COOKIE['author_id'] = request.cookies[name]
-            elif name == COOKIE_NAMES[1]:
+            
+            elif COOKIE_NAMES[1] in name_list:
                 COOKIE['session_id'] = request.cookies[name]
-            elif name == COOKIE_NAMES[2]:
+            
+            elif COOKIE_NAMES[2] in name_list:
                 COOKIE['github_id'] = request.cookies[name]
 
     if COOKIE == {}:
