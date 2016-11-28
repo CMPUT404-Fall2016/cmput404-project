@@ -543,6 +543,7 @@ class AuthorToAuthorPost(Resource):
                         
                         if  author_id in handler.getAllUsers():
                             own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
+                            print own_post
                             return jsonify(own_post)
                         
                         else:
