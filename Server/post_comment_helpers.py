@@ -573,7 +573,12 @@ class AuthorToAuthorPost(Resource):
                                 [prefix, suffix] = getAPI(node, 'GET/author/A/posts')
                                 custom_url = prefix + author_id +suffix
 #                                foreign_return = requests.get(custom_url,auth = HTTPBasicAuth(node_user_name,node_user_pass),headers=headers)
+                                print "I AM HERE 4 "
+                                print node
+                                print author_id
+                                
                                 foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
+                                
                                 print foreign_return
                                 print foreign_return.json() # this return none
                                 
@@ -585,7 +590,7 @@ class AuthorToAuthorPost(Resource):
 #                                    else:
 #                                        return jsonify(recvJson)
                                 if foreign_return.status_code == 200:
-                                    if foreign_return.json()["count"] == 0:
+                                    if len(foreign_return.json()["posts"]) == 0:
                                         pass
                                     else:
                                         recvJson = foreign_return.json()
