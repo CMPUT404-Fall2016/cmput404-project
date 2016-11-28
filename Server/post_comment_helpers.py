@@ -566,6 +566,7 @@ class AuthorToAuthorPost(Resource):
                                 [prefix, suffix] = getAPI(node, 'GET/author/A/posts')
                                 custom_url = prefix + author_id +suffix
                                 foreign_return = requests.get(custom_url,headers=headers)
+                                print foreign_return
                                 
                                 
 #                                if foreign_return.status_code == 200:
