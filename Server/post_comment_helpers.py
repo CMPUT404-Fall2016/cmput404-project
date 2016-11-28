@@ -543,6 +543,8 @@ class AuthorToAuthorPost(Resource):
                         
                         if  author_id in handler.getAllUsers():
                             own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
+                            return jsonify(own_post)
+                        
                         else:
                             nodes = handler.getConnectedNodes()
                             paras["author_id"] = APP_state["session_ids"][sessionID]
@@ -557,7 +559,8 @@ class AuthorToAuthorPost(Resource):
                                 
                                 if foreign_return.status_code == 200:
                                     recvJson = foreign_return.json()
-                                    return jsonify(recvJson)
+                                    
+                            return jsonify(recvJson)
                                
 #                               
 #                               if rt["count"] > 0:    
