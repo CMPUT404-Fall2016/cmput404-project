@@ -574,12 +574,12 @@ class AuthorToAuthorPost(Resource):
 #                                        pass
 #                                    else:
 #                                        return jsonify(recvJson)
-                                 if foreign_return.status_code == 200:
-                                     if foreign_return.json()["size"] == 0:
-                                         pass
-                                     else:
-                                         recvJson = foreign_return.json()
-                                         return jsonify(recvJson)
+                                if foreign_return.status_code == 200:
+                                    if foreign_return.json()["size"] == 0:
+                                        pass
+                                    else:
+                                        recvJson = foreign_return.json()
+                                        return jsonify(recvJson)
 
 #
 #                               if rt["count"] > 0:
