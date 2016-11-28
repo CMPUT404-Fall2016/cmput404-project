@@ -212,9 +212,9 @@ class Post(Resource):
                         #The post is in other server?
                 nodes = handler.getConnectedNodes()
                 params = {}
-
-                params["author_id"] = APP_state["session_ids"][sessionID]
-                params["post_id"] = post_id
+#
+#                params["author_id"] = APP_state["session_ids"][sessionID]
+#                params["post_id"] = post_id
                 
                 own_post = makePostJson(handler.getPost(pid), {"page":None, "size":None})
                 
@@ -568,15 +568,21 @@ class AuthorToAuthorPost(Resource):
                                 foreign_return = requests.get(custom_url,headers=headers)
                                 
                                 
+#                                if foreign_return.status_code == 200:
+#                                    recvJson = foreign_return.json()
+#                                    if recvJson["size"] == 0:
+#                                        pass
+#                                    else:
+#                                        return jsonify(recvJson)
                                 if foreign_return.status_code == 200:
-                                    recvJson = foreign_return.json()
-                                    if recvJson["size"] == 0:
+                                    if foreign_return.json()["size"] == 0:
                                         pass
                                     else:
+                                        recvJson = foreign_return.json()
                                         return jsonify(recvJson)
-                               
-#                               
-#                               if rt["count"] > 0:    
+
+#
+#                               if rt["count"] > 0:
 #                                   return rt
                             #No such author in any of the connecting servers
                     else:
