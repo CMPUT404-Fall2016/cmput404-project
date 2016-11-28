@@ -41,7 +41,7 @@ function getFriendcookieid() {
 //}
 
 // clear post tab when user on profile tab
-$("#profile").click( function(e) {
+$(".profiletab").click( function(e) {
     e.preventDefault();
     document.getElementById("posts").innerHTML = "";
 });
