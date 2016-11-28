@@ -139,6 +139,8 @@ def getFriendList(param, APP_state):
 def updateFriendship(friendList, author_id, server_index):
 
     for friend in friendList:
+        print "from updateFriendship"
+        print "%d and %d"%(friend.authorServer1_id, friend.authorServer2_id)
         if (friend.authorServer1_id != server_index):
 
             server = db.session.query(Servers).filter(Servers.server_index == friend.authorServer1_id).all()[0]
