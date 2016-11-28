@@ -199,7 +199,7 @@ class Author_Relationships(db.Model):
             return results
 
 
-        if "server_author_id1" in query_param.keys() and "server_author_id2" in query_param.keys():
+        if ("server_author_id1" in query_param.keys()) and ("server_author_id2" in query_param.keys()):
             server1_id, author1_id = query_param["server_author_id1"]
             server2_id, author2_id = query_param["server_author_id2"]
             results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1_id,
@@ -233,7 +233,7 @@ class Author_Relationships(db.Model):
             return results
 
 
-        if "server_author_1" and "server_author_2" in query_param.keys():
+        if ("server_author_1" in query_param.keys()) and ("server_author_2" in query_param.keys()):
             server1, author1 = query_param["server_author_1"]
             server2, author2 = query_param["server_author_2"]
             results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1,
