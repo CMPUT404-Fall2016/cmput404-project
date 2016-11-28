@@ -567,6 +567,7 @@ class AuthorToAuthorPost(Resource):
                                 custom_url = prefix + author_id +suffix
                                 foreign_return = requests.get(custom_url,headers=headers)
                                 print foreign_return
+                                print foreign_return.json()
                                 
                                 
 #                                if foreign_return.status_code == 200:
