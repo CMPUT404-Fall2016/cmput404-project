@@ -36,6 +36,7 @@ function loadPosts() {
 
       var commonmarkresult = writer.render(parsed);
       postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+      postTemplate.content.querySelector(".post-date").textContent = Date(results.posts[i].published);
            //console.log(results.posts[i].content);
 
       // attach data to the links so it can be referenced when clicked
