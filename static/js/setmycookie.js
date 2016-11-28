@@ -11,11 +11,8 @@ function getCookieid() {
 }
 
 $("#author-dp-cookie").click(function(e){
-                      e.preventDefault();
-                      document.cookie = "request_author_id=" + getCookieid();
-                      window.location.href = "profilepage.html";
-                      
-                      
-                      
-                      
-                      });
+      e.preventDefault();
+      document.cookie = "request_author_id=" + getCookieid();
+      window.location.href = "profilepage.html";
+      
+      });
