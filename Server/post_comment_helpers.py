@@ -61,7 +61,7 @@ def makeAuthorJson(author):
         "id"    :   author.author_id,
         "host"  :   myip,
         "displayName"   :   author.name,
-        "url"   :   myip +"/author/" + author.author_id,
+        "url"   :   myip +"author/" + author.author_id,
         "github"    :   author.github_id
     }
     return rt
@@ -82,9 +82,9 @@ def makeCommentJson(data, args):
     if args["page"]:
         pg = int(args["page"])
     if pg>0:
-        rt["previous"] = myip + "/posts/" + data[0].post_id + "comments?page=" + str(pg-1)
+        rt["previous"] = myip + "posts/" + data[0].post_id + "comments?page=" + str(pg-1)
     if (pg+1)*rt["size"] < rt["count"]:
-        rt["next"] = myip + "/posts/" + data[0].post_id + "/comments?page=" + str(pg+1)
+        rt["next"] = myip + "posts/" + data[0].post_id + "/comments?page=" + str(pg+1)
 
     #comments
     if pg*rt["size"] < rt["count"]:
@@ -124,9 +124,9 @@ def makePostJson(data, args):
     if args["page"]:
         pg = int(args["page"])
     if pg>0:
-        rt["previous"] = myip + "/posts?page=" + str(pg-1)
+        rt["previous"] = myip + "posts?page=" + str(pg-1)
     if (pg+1)*rt["size"] < rt["count"]:
-        rt["next"] = myip + "/posts?page=" + str(pg+1)
+        rt["next"] = myip + "posts?page=" + str(pg+1)
 
     #Posts
     if pg*rt["size"] < rt["count"]:
@@ -147,37 +147,32 @@ def makePostJson(data, args):
                 "id"    :   data[i][0].post_id,
                 "count" :   len(data[i][2]),
                 "size"  :   5,
-                "next"  :   myip + "/posts/"+data[i][0].post_id+"/comments",
+                "next"  :   myip + "posts/"+data[i][0].post_id+"/comments",
                 "comments"  :   makeCommentJson(data[i][2], {"size":None, "page":None})["comments"]
             })
 
     return rt
 
 
-
-
 def getCookie(Operation_str):
-
     COOKIE ={}
-    # print request.cookies.keys()
-    for name in COOKIE_NAMES:
-        if name in request.cookies.keys():
+    print request.cookies.keys()
 
-            name_list = name.split(';')
-            if COOKIE_NAMES[0] in name_list:
+    for name in COOKIE_NAMES:
+        if name in request.cookies:
+            if name == COOKIE_NAMES[0]:
                 COOKIE['author_id'] = request.cookies[name]
-            
-            elif COOKIE_NAMES[1] in name_list:
+            elif name == COOKIE_NAMES[1]:
                 COOKIE['session_id'] = request.cookies[name]
-            
-            elif COOKIE_NAMES[2] in name_list:
+            elif name == COOKIE_NAMES[2]:
                 COOKIE['github_id'] = request.cookies[name]
 
     if COOKIE == {}:
         print "WARNING! Cookie not found during %s!"%(Operation_str)
-        return getResponse(body={"status" : "CLIENT_FAILURE"}, status_code=200)
+        return "status : CLIENT_FAILURE", 200
 
     return COOKIE
+
 
 
 class Post(Resource):
@@ -549,6 +544,7 @@ class AuthorToAuthorPost(Resource):
                         print "I AM HERE 1"
                         print author_id
                         print handler.getAllUsers()
+                        
                         if author_id in handler.getAllUsers():
                             print "I AM HERE 2"
                             own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
