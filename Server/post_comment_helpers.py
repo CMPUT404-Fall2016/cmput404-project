@@ -154,30 +154,25 @@ def makePostJson(data, args):
     return rt
 
 
-
-
 def getCookie(Operation_str):
-
     COOKIE ={}
-    # print request.cookies.keys()
-    for name in COOKIE_NAMES:
-        if name in request.cookies.keys():
+    print request.cookies.keys()
 
-            name_list = name.split(';')
-            if COOKIE_NAMES[0] in name_list:
+    for name in COOKIE_NAMES:
+        if name in request.cookies:
+            if name == COOKIE_NAMES[0]:
                 COOKIE['author_id'] = request.cookies[name]
-            
-            elif COOKIE_NAMES[1] in name_list:
+            elif name == COOKIE_NAMES[1]:
                 COOKIE['session_id'] = request.cookies[name]
-            
-            elif COOKIE_NAMES[2] in name_list:
+            elif name == COOKIE_NAMES[2]:
                 COOKIE['github_id'] = request.cookies[name]
 
     if COOKIE == {}:
         print "WARNING! Cookie not found during %s!"%(Operation_str)
-        return getResponse(body={"status" : "CLIENT_FAILURE"}, status_code=200)
+        return "status : CLIENT_FAILURE", 200
 
     return COOKIE
+
 
 
 class Post(Resource):
