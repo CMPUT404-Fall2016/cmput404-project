@@ -24,11 +24,11 @@ function loadPosts() {
            //console.log(posts);
       // fill the container with details
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
-           console.log(results.posts[i].title);
+           //console.log(results.posts[i].title);
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
-           console.log(results.posts[i].description);
+           //console.log(results.posts[i].description);
       postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
-           console.log(results.posts[i].author.displayName);
+           //console.log(results.posts[i].author.displayName);
       var cmreader = new commonmark.Parser();
       var writer = new commonmark.HtmlRenderer();
       var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
@@ -36,7 +36,7 @@ function loadPosts() {
 
       var commonmarkresult = writer.render(parsed);
       postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
-           console.log(results.posts[i].content);
+           //console.log(results.posts[i].content);
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
