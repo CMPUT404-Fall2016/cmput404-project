@@ -382,4 +382,9 @@ class RestHandlers():
 
 
     def getAllUsers(self):
-        return db.session.query(Authors).filter().all()	
+        rtl = db.session.query(Authors).filter().all()
+        rt = []
+        for ele in rtl:
+            rt.append(ele.author_id)
+
+        return rt
