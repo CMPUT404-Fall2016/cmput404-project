@@ -126,8 +126,9 @@ function changebtn() {
 
 $("#posttabs").click(function(e) {
   e.preventDefault();
-  var authorpid = getFriendcookieid();
+  var authorpid = localStorage.getItem("fetch-author-id");
   var authorpostlink = "/author/" + authorpid + "/posts";
+  console.log(authorpostlink);
 
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
