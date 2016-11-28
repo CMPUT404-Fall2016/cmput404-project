@@ -217,41 +217,47 @@ class Post(Resource):
 #                params["post_id"] = post_id
                 pid = request.args.get("post_id")
                 
-                own_post = makePostJson(handler.getPost(pid), {"page":None, "size":None})
                 
-                json_return["posts"].extend(own_post["posts"])
+                own_post = handler.getPost(pid)
+                if len(own_post) > 0:
                 
-                for node in nodes:
+                    own_post_return = makePostJson(own_post, {"page":None, "size":None})
                     
                     
-                    print "Im searching posts in the server with address" + node
-                    headers = createAuthHeaders(node)
-                    headers['Content-type'] = 'application/json'
-                    node_user = db.session.query(Servers).filter(Servers.IP == node).first()
-                    node_user_name = node_user.user_name
-                    node_user_pass = node_user.password
+                    json_return["posts"].extend(own_post["posts"])
+                    return jsonify(json_return)
+                else:
+                    for node in nodes:
+                        
+                        
+                        print "Im searching posts in the server with address" + node
+                        headers = createAuthHeaders(node)
+                        headers['Content-type'] = 'application/json'
+                        node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+                        node_user_name = node_user.user_name
+                        node_user_pass = node_user.password
 
-                    [prefix, suffix] = getAPI(node, 'GET/posts/P')
-                    custom_url = prefix + post_id + suffix
-
-                    
-                    foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
-                    
-                    if foreign_return.status_code == 200:
-                        recvJson = foreign_return.json()
-                        json_return["posts"].extend(recvJson["posts"])
+                        [prefix, suffix] = getAPI(node, 'GET/posts/P')
+                        custom_url = prefix + post_id + suffix
 
                         
-                    json_return["posts"].extend(foreign_return["posts"])
-                        #rst += requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
-                            
-                #                        if  len(rst) != 0:
-                #                            return rst[0]
+                        foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
+                        
+                        if foreign_return.status_code == 200:
+                            recvJson = foreign_return.json()
+                            json_return["posts"].extend(recvJson["posts"])
 
-                #                    paras = {}
-                #                    paras["page"] = request.args.get('page')
-                #                    paras["size"] = request.args.get('size')
-                return jsonify(json_return)
+                            
+                        json_return["posts"].extend(foreign_return["posts"])
+                            #rst += requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
+                                
+                    #                        if  len(rst) != 0:
+                    #                            return rst[0]
+
+                    #                    paras = {}
+                    #                    paras["page"] = request.args.get('page')
+                    #                    paras["size"] = request.args.get('size')
+                    return jsonify(json_return)
 #
 #                else:
 #                    return {"Response" : "sessionID error"}
@@ -640,38 +646,41 @@ class Comment(Resource):
 
     def get(self, post_id):
         APP_state = loadGlobalVar()
-        if  request.args.get("Foreign-Host") == "false":
-            output = getCookie("get_comments")
-            if type(output) == flask.wrappers.Response:
-                return output
+        if "Foreign-Host" in request.headers.keys():
+        
+            if  request.headers.get("Foreign-Host") == "false":
+                output = getCookie("get_comments")
+                if type(output) == flask.wrappers.Response:
+                    return output
 
-            cookie = output
-            if "session_id" in cookie:
-                sessionID = cookie["session_id"]
-                #print sessionID
-                if sessionID in APP_state["session_ids"]:
-                    paras = {}
-                    paras["page"] = request.args.get('page')
-                    paras["size"] = request.args.get('size')
-                    if  handler.getPost(post_id):
-                        return jsonify(makeCommentJson(handler.getComments(post_id), paras))
-                    else:
-                        #The post is in other server?
-                        nodes = handler.getConnectedNodes()
-                        paras["author_id"] = APP_state["session_ids"][sessionID]
-                        paras["post_id"] = post_id
-                        for node in nodes:
-                            rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
-                        if  len(rst) != 0:
-                            return rst[0]
+                cookie = output
+                if "session_id" in cookie:
+                    sessionID = cookie["session_id"]
+                    #print sessionID
+                    if sessionID in APP_state["session_ids"]:
+                        paras = {}
+                        paras["page"] = request.args.get('page')
+                        paras["size"] = request.args.get('size')
+                        
+                        if  handler.getPost(post_id):
+                            return jsonify(makeCommentJson(handler.getComments(post_id), paras))
+                        else:
+                            #The post is in other server?
+                            nodes = handler.getConnectedNodes()
+                            paras["author_id"] = APP_state["session_ids"][sessionID]
+                            paras["post_id"] = post_id
+                            for node in nodes:
+                                rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
+                            if  len(rst) != 0:
+                                return rst[0]
 
-                    return jsonify(makeCommentJson([], paras))
-                       
+                        return jsonify(makeCommentJson([], paras))
+                           
 
-                return {"Response"	: "SESSION_ID_ERROR"}, 403
+                    return {"Response"	: "SESSION_ID_ERROR"}, 403
 
-            else:
-                return {"Response"	:  "SESSION_ERROR"}, 403
+                else:
+                    return {"Response"	:  "SESSION_ERROR"}, 403
 
         else:
         #Remote
