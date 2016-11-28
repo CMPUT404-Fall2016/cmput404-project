@@ -567,7 +567,7 @@ class AuthorToAuthorPost(Resource):
                                 
                                 
                                 if foreign_return.status_code == 200:
-                                    if foreign_return["size"] == 0:
+                                    if foreign_return.json()["size"] == 0:
                                         pass
                                     else:
                                     
