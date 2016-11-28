@@ -115,6 +115,40 @@ def getFriendList(param, APP_state):
     # print results2
     friendList = serializeFriendList(results2, 1) + friendList
 
+    for friend in friendList:
+        if (friend.authorServer1_id != server_index):
+
+            server = db.session.query(Servers).filter(Servers.server_index == friend.authorServer1_id).all()[0]
+            foreign_host = server.IP
+            isFriend = checkForeignFriends(foreign_host, author_id, friend.author1_id)
+            if isFriend != None:
+                if isFriend == True:
+                    if friend.relationship_type == 2:
+                        friend.relationship_type = 3
+                else:
+                    if friend.relationship_type == 3: 
+                        friend.relationship_type = 2
+                    elif friend.relationship_type == 1:
+                        db.session.delete(friend)
+
+        if (friend.authorServer2_id != server_index):
+
+            server = db.session.query(Servers).filter(Servers.server_index == friend.authorServer2_id).all()[0]
+            foreign_host = server.IP
+            isFriend = checkForeignFriends(foreign_host, author_id, friend.author2_id)
+            if isFriend != None:
+                if isFriend == True:
+                    if friend.relationship_type == 1:
+                        friend.relationship_type = 3
+                else:
+                    if friend.relationship_type == 3: 
+                        friend.relationship_type = 1
+                    elif friend.relationship_type == 2:
+                        db.session.delete(friend)
+
+
+        db.session.commit()
+
     # for friend in friendList:
     #     if friend['host'] == APP_state["local_server_Obj"].IP:            
     #         results = db.session.query(Authors).filter(Authors.author_id == friend['id']).all()
@@ -131,6 +165,35 @@ def getFriendList(param, APP_state):
     #             friend['displayName'] = "User Not found in host : " + friend['host']
 
     return friendList
+
+
+
+def checkForeignFriends(host_name, author_ID, friend_ID):
+
+    [prefix, suffix] = getAPI(host_name, 'GET/friends/A1/A2')
+    url = prefix + author_ID + '/' + friend_ID + suffix
+    headers['Content-type'] = 'application/json'
+    r = requests.get(url, headers = headers)
+    if r.status_code == 200:
+        if r.text == "":
+            print "from checkForeignFriends, empty respond body found"
+            return None
+        recvJSON = r.json()
+        if 'friends' in recvJSON.keys():
+            isFriend = recvJSON['friends']
+            if type(isFriend) == bool:
+                return isFriend
+            else:
+                print "from checkForeignFriends, friends key is not boolean!"
+                return None
+        else:
+            print "from checkForeignFriends, friends key is not present!"
+            return None
+
+    else :
+        print "from checkForeignFriends, status code is not 200"
+        return None
+
 
 
 def serializeFriendList(FriendList, number):
@@ -552,14 +615,14 @@ def beFriend(param):
             print("Error while saving a relationship entry! : ", e)
             return False
 
-        param = {}
-        param["from_author"] = author2_id
-        param["to_author"] = author1_id
-        param["from_author_name"] = db.session.query(Authors).filter(Authors.author_id == author2_id).all()[0].name
-        param["to_author_name"] = Friend_Requests.query({"sendTo": [server2_index, author2_id]})[0].fromAuthorDisplayName
-        param["from_serverIP"] = server2_IP
-        param["to_serverIP"] = server1_IP 
-        sendFriendRequest(param)
+        # param = {}
+        # param["from_author"] = author2_id
+        # param["to_author"] = author1_id
+        # param["from_author_name"] = db.session.query(Authors).filter(Authors.author_id == author2_id).all()[0].name
+        # param["to_author_name"] = Friend_Requests.query({"sendTo": [server2_index, author2_id]})[0].fromAuthorDisplayName
+        # param["from_serverIP"] = server2_IP
+        # param["to_serverIP"] = server1_IP 
+        # sendFriendRequest(param)
 
 
     else:

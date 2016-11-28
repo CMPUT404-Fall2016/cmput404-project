@@ -224,8 +224,8 @@ def getCookie(Operation_str):
         if name in request.cookies.keys():
 
             name_list = name.split(';')
-            print name
-            print name_list
+            # print name
+            # print name_list
             if COOKIE_NAMES[0] in name_list:
                 COOKIE['author_id'] = request.cookies[name]
             
