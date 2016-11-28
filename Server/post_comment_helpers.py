@@ -558,17 +558,24 @@ class AuthorToAuthorPost(Resource):
                             print "I AM HERE 3"
                             nodes = handler.getConnectedNodes()
                             for node in nodes:
-                                headers = createAuthHeaders(node)
+#                                headers = createAuthHeaders(node)
+#
+#                                node_user = db.session.query(Servers).filter(Servers.IP == node).first()
+#                                node_user_name = node_user.user_name
+#                                node_user_pass = node_user.password
+#                                headers['Content-type'] = 'application/json'
+#                                headers['author_id'] = APP_state["session_ids"][sessionID]
 
+                                headers = createAuthHeaders(node)
+                                headers['Content-type'] = 'application/json'
                                 node_user = db.session.query(Servers).filter(Servers.IP == node).first()
                                 node_user_name = node_user.user_name
                                 node_user_pass = node_user.password
-                                headers['Content-type'] = 'application/json'
-                                headers['author_id'] = APP_state["session_ids"][sessionID]
-                                
+                      
                                 [prefix, suffix] = getAPI(node, 'GET/author/A/posts')
                                 custom_url = prefix + author_id +suffix
-                                foreign_return = requests.get(custom_url,auth = HTTPBasicAuth(node_user_name,node_user_pass),headers=headers)
+#                                foreign_return = requests.get(custom_url,auth = HTTPBasicAuth(node_user_name,node_user_pass),headers=headers)
+                                foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
                                 print foreign_return
                                 print foreign_return.json() # this return none
                                 
