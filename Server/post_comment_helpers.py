@@ -568,7 +568,7 @@ class AuthorToAuthorPost(Resource):
                                 
                                 [prefix, suffix] = getAPI(node, 'GET/author/A/posts')
                                 custom_url = prefix + author_id +suffix
-                                foreign_return = requests.get(custom_url,headers=headers)
+                                foreign_return = requests.get(custom_url,auth = HTTPBasicAuth(node_user_name,node_user_pass),headers=headers)
                                 print foreign_return
                                 print foreign_return.json() # this return none
                                 
