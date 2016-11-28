@@ -362,8 +362,8 @@ def processFriendRequest(param, APP_state):
                 'isChecked' : False
                  }
 
-        query_param = {}
-        query_param['server_author_1'] = [to_server_index, param['to_author']]
+        # query_param = {}
+        # query_param['server_author_1'] = [to_server_index, param['to_author']]
         results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == param['to_author'],
                                                               Author_Relationships.authorServer1_id == to_server_index,
                                                               Author_Relationships.relationship_type == 1

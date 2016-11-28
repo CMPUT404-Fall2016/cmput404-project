@@ -236,10 +236,10 @@ class Author_Relationships(db.Model):
         if "server_author_1" and "server_author_2" in query_param.keys():
             server1, author1 = query_param["server_author_1"]
             server2, author2 = query_param["server_author_2"]
-            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1.author_id,
-                                                                  Author_Relationships.author2_id == author2.author_id,
-                                                                  Author_Relationships.authorServer1_id == server1.server_index,
-                                                                  Author_Relationships.authorServer2_id == server2.server_index
+            results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1,
+                                                                  Author_Relationships.author2_id == author2,
+                                                                  Author_Relationships.authorServer1_id == server1,
+                                                                  Author_Relationships.authorServer2_id == server2
                                                                   ).all()
 
             return results
@@ -253,15 +253,15 @@ class Author_Relationships(db.Model):
             if "relationship_type" in query_param.keys():
                 
                 relationship_type=query_param["relationship_type"]
-                results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1.author_id,
-                                                                      Author_Relationships.authorServer1_id == server1.server_index,
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1,
+                                                                      Author_Relationships.authorServer1_id == server1,
                                                                       Author_Relationships.relationship_type == relationship_type
                                                                       ).all()
 
             else:
 
-                results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1.author_id,
-                                                                      Author_Relationships.authorServer1_id == server1.server_index,
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == author1,
+                                                                      Author_Relationships.authorServer1_id == server1,
                                                                       ).all()
 
             return results
@@ -275,15 +275,15 @@ class Author_Relationships(db.Model):
             if "relationship_type" in query_param.keys():
                 
                 relationship_type=query_param["relationship_type"]
-                results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2.author_id,
-                                                                      Author_Relationships.authorServer2_id == server2.server_index,
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2,
+                                                                      Author_Relationships.authorServer2_id == server2,
                                                                       Author_Relationships.relationship_type == relationship_type
                                                                       ).all()
 
             else:
 
-                results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2.author_id,
-                                                                      Author_Relationships.authorServer2_id == server2.server_index,
+                results=db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == author2,
+                                                                      Author_Relationships.authorServer2_id == server2,
                                                                       ).all()
 
             return results
