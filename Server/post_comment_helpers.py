@@ -543,13 +543,16 @@ class AuthorToAuthorPost(Resource):
                         paras = {}
                         paras["page"] = request.args.get('page')
                         paras["size"] = request.args.get('size')
-                        
-                        if  author_id in handler.getAllUsers():
+                        print "I AM HERE 1"
+                        if author_id in handler.getAllUsers():
+                            print "I AM HERE 2"
                             own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
+                            
                             print own_post
                             return jsonify(own_post)
                         
                         else:
+                            print "I AM HERE 3"
                             nodes = handler.getConnectedNodes()
                             for node in nodes:
                                 headers = createAuthHeaders(node)
