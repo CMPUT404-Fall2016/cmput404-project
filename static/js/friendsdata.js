@@ -99,8 +99,8 @@ $("#reqtab").click(function(e) {
       //console.log(events.friendRequestList[i].fromServerIP);
       requestTemplate.content.querySelector("#author2id").textContent = events.friendRequestList[i].fromAuthor_id;
 
-           var rpBtn = requestTemplate.content.querySelector(".reqprofile");
-           rpBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
+     var rpBtn = requestTemplate.content.querySelector(".reqprofile");
+     rpBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
            
       var addingfriendbtn = requestTemplate.content.querySelector(".friend-accept");
       addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
@@ -134,7 +134,7 @@ $("#reqtab").click(function(e) {
           console.log(acceptfrienddata);
           
           
-          sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
+          sendAJAX("POST", "/acceptFriendRequest/", acceptfrienddata, function(response) {
                    console.log(response);
                    window.location.href="friendspage.html";
                    
