@@ -129,7 +129,7 @@ $("#post-submit").click(function(e) {
   var reader = new FileReader();
   reader.addEventListener("load", function () {
     postData["image"] = reader.result;
-    // console.log(JSON.stringify(postData));
+    console.log(JSON.stringify(postData));
     sendAJAX("POST", "/posts", postData, function(result) {
       console.log(result);
       window.location.reload();

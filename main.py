@@ -782,6 +782,15 @@ def restart():
         return "FAILURE"
 
 
+@app.route('/images/<path:image_id>', methods=['GET'])
+def getImage(image_id):
+    app.config['UPLOAD_FOLDER']
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], image_id)
+    print "image filename : "
+    print filename
+    return send_from_directory(app.config['UPLOAD_FOLDER'], image_id)
+
+
 def init_server():
     APP_state = loadGlobalVar()
     servers = db.session.query(Servers).filter(Servers.server_index == 0).all()
