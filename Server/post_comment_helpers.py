@@ -68,7 +68,7 @@ def is_accessible():
     
     if not auth or not check_auth(auth.username, auth.password, request.url_root):
         raise HTTPException('', Response(
-             "NO AUTHENTICATION!!", 401,
+             "NO AUTHENTICATION.", 401,
              {'WWW-Authenticate': 'Basic realm="Login Required"'}
          ))
     
