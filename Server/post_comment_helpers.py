@@ -327,7 +327,7 @@ class Post(Resource):
                 print "SERVERTOSERVER response"
                 
                 
-                return jsonify(makePostJson(handler.getPost(pid), {"page":None, "size":None}))
+                return jsonify(makePostJson(handler.getPost(post_id), {"page":None, "size":None}))
                 
     #        #Assume we passed server to server auth
     #        #Assume this is the place we do remote get
@@ -779,11 +779,12 @@ class Comment(Resource):
             #Remote
             #Assume we passed server to server auth
             #Assume this is the place we do remote get
-                pid = request.args.get("post_id")
-                remoteAuthor = request.args.get("author_id")
+#                pid = request.args.get("post_id")
+                remoteAuthor = request.headers.get("author_id")
                 pg = request.args.get("page")
                 sz = request.args.get("size")
-                got = handler.getPost(pid)
+                
+                got = handler.getPost(post_id)
 
                 if len(got) != 0:
                     localAuthor = got[0][1].author_id
@@ -821,7 +822,7 @@ class Comment(Resource):
         if is_accessible():
             
             APP_state = loadGlobalVar()
-            if  request.args.get("Foreign-Host") == "false":
+            if  request.headers.get("Foreign-Host") == "false":
                 output = getCookie("comment_post")
                 if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
                     return output
