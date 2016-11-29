@@ -134,7 +134,7 @@ $("#reqtab").click(function(e) {
           console.log(acceptfrienddata);
           
           
-          sendAJAX("POST", "/acceptFriendRequest/", acceptfrienddata, function(response) {
+          sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
                    console.log(response);
                    window.location.href="friendspage.html";
                    

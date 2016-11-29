@@ -232,7 +232,7 @@ function afriendtwo(result) {
   console.log(JSON.stringify(friendrequestdata));
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-  sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
+  sendAJAX("POST", "/friendrequest/", friendrequestdata, function(response) {
            console.log(response);
     //if(response["status"] == "SUCCESS") {
       //document.getElementById("addfriendbtn").style.display="none";
