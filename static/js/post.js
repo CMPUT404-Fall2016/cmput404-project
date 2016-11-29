@@ -16,6 +16,9 @@ $(document).ready(function() {
       document.getElementById("post-description").textContent = results.posts[0].description;
       document.getElementById("post-content").innerHTML = results.posts[0].content;
 
+      // get the origin for when we need to make a comment
+      var origin = results.posts[0].origin;
+
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
       $("#post-author").click(function(e) {
@@ -61,11 +64,16 @@ $("#comment-submit").click(function (e) {
   e.preventDefault();
 
   var commentData = {};
-  commentData["post"] = postID;
-  commentData["author_id"] = localStorage.getItem("author_id");
-  commentData["comment_text"] =
-  commentData["contentType"] = $("input[name=text-type]").val();
+  commentData["post"] = origin;
+  commentData["author"] = {};
+  commentData["author"]["id"] = localStorage.getItem("author_id");
+  var hostname = "http://" + window.location.host;
+  commentData["author"]["host"] = hostname;
+  commentData["author"]["displayName"] = localStorage.getItem("display_name");
+  commentData["author"]["url"] = hostname + "/author" + localStorage.getItem("author_id");
+  commentData["author"]["github"] = localStorage.getItem("github_username");
 
+  commentData["contentType"] = $("input[name=text-type]").val();
   if ($("input[name=text-type]").val() == "text/x-markdown") {
     var cmreader = new commonmark.Parser();
     var writer = new commonmark.HtmlRenderer();
