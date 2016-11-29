@@ -218,10 +218,12 @@ class Post(Resource):
                 pid = request.args.get("post_id")
                 
                 print "checking OWN POST"
+                print post_id
                 print db.session.query(Posts).filter(Posts.post_id == post_id).first()
                 print "checking OWN POST_end"
                 
-                own_post = handler.getPost(pid)
+                own_post = handler.getPost(post_id)
+                
                 if len(own_post) > 0:
                 
                     own_post_return = makePostJson(own_post, {"page":None, "size":None})
