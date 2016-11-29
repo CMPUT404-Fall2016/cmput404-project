@@ -406,4 +406,8 @@ class RestHandlers():
 
 
     def getImgUrl(self, post_id):
-        return db.session.query(URL).filter(URL.post_id == post_id).first().URL_link
+        obj = db.session.query(URL).filter(URL.post_id == post_id).first()
+        if obj:
+            return obj.URL_link
+        else:
+            return ""
