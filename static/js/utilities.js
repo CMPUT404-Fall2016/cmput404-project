@@ -18,16 +18,19 @@
   if ((authenticated == false) && (window.location.pathname != "/login.html")) {
     window.location.href = "login.html";
   }
-  // already authenticated? send to index page
-  else if ((authenticated == true) && (window.location.pathname == "/login.html")) {
-    window.location.href = "index.html"
-  }
 
   // load navbar unless on login page
   if (window.location.pathname != "/login.html") {
     $('#navbar').load('/navbar.html');
   }
 })();
+
+$(document).ready(function() {
+  // load navbar unless on login page
+  if (window.location.pathname != "/login.html") {
+    $('#navbar').load('/navbar.html');
+  }
+});
 
 // standard AJAX request
 function sendAJAX(method, url, message, callback) {
