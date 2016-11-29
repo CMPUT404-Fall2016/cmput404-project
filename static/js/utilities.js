@@ -1,13 +1,33 @@
 // MAKE SURE TO LOAD THIS BEFORE ANY OTHER SCRIPTS ON EACH PAGE
 
-// load navbar unless facing login page
-$(document).ready(function(){
+// check for authentication before anything else
+(function() {
+  // check cookies for an author_id, if not found then redirect user
+  var cookies = document.cookie.split(";");
+  var authenticated = false;
+  for(var i=0; i < cookies.length; i++) {
+    var cname = cookies[i].split("=");
+    // console.log(cname[0].trim());
+    if(cname[0].trim() == "cookie_cmput404_session_id") {
+      authenticated = true;
+      // console.log("authenticated!");
+    }
+  }
+
+  // unauthenticated? send to login page
+  if ((authenticated == false) && (window.location.href != login.html) {
+    window.location.href = "login.html";
+  }
+  // already authenticated? send to index page
+  else if ((authenticated == true) && (window.location.href == login.html)) {
+    window.location.href = "index.html"
+  }
+
+  // load navbar unless on login page
   if (window.location.href != "login.html") {
     $('#navbar').load('/navbar.html');
-          
-            
   }
-});
+})();
 
 // standard AJAX request
 function sendAJAX(method, url, message, callback) {

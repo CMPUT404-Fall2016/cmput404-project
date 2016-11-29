@@ -61,7 +61,7 @@ $("#comment-submit").click(function (e) {
   e.preventDefault();
 
   var commentData = {};
-  commentData["post_id"] = postID;
+  commentData["post"] = postID;
   commentData["author_id"] = localStorage.getItem("author_id");
   commentData["comment_text"] =
   commentData["contentType"] = $("input[name=text-type]").val();
