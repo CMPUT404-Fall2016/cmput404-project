@@ -147,7 +147,10 @@ class RestHandlers():
         Refer to top - 113
         """
         #Return a post with its images list and its comments list
+        print "this is from post db handler"
+        print post_id
         get_pid_author = db.session.query(Posts).filter(Posts.post_id == post_id).first()
+        
         
         get_pid_authorid = get_pid_author.author_id
         
