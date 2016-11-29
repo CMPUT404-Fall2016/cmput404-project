@@ -38,6 +38,11 @@
       </ul>
     </div>
   </div>
+  
+  <div class="alert alert-danger fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>ID NOT FOUND!</strong>
+  </div>
 </nav>
 
 <!-- i hate this too but scripts don't seem to work for the navbar unless they're here -->
@@ -77,6 +82,10 @@
         window.location.href = "authorpage.html"
       }
       else {
+        $('.alert').show();
+        $('.close').click(function() {
+           $('.alert').hide();
+        })
         //window.location.reload();
       }
     });
