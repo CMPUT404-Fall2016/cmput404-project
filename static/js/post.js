@@ -11,10 +11,9 @@ $(document).ready(function() {
     // request the post from whatever the host is
     sendAJAX("GET", "/posts/"+postID, "", function(results) {
       // fill the container with details
-      $("#post-title").text() = results.posts.title;
-      $("#post-author").text() = results.posts.author.displayName;
-      $("#post-description").text() = results.posts.description;
-      //$("#post-content").text() = posts.content;
+      document.getElementById("post-title").textContent = results.posts.title;
+      document.getElementById("post-author").textContent = results.posts.author.displayName;
+      document.getElementById("post-description").textContent = results.posts.description;
       document.getElementById("post-content").innerHTML = results.posts.content;
 
       // bind the onclick to set author id in localStorage
