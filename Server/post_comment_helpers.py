@@ -522,6 +522,9 @@ class All_Post(Resource):
                     post["author_id"] = data["author_id"]
                     post["title"] = data["title"]
                     post["content"] = data["content"]
+                    print "The data we of the post json is: "
+                    print data
+                    print "End"
                                      
                     if data["description"] == None:
                         post["description"] = ""
