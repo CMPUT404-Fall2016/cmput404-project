@@ -218,15 +218,18 @@ class Post(Resource):
                 pid = request.args.get("post_id")
                 
                 print "checking OWN POST"
-                print db.session.query(Posts).filter(Posts.post_id == post_id).first()
+                print post_id
+                print db.session.query(Posts).filter(Posts.post_id == post_id).first().author_id
+                print "checking OWN POST_end"
                 
-                own_post = handler.getPost(pid)
+                own_post = handler.getPost(post_id)
+                
                 if len(own_post) > 0:
                 
                     own_post_return = makePostJson(own_post, {"page":None, "size":None})
                     
                     
-                    json_return["posts"].extend(own_post["posts"])
+                    json_return["posts"].extend(own_post_return["posts"])
                     return jsonify(json_return)
                 else:
                     for node in nodes:
@@ -235,15 +238,11 @@ class Post(Resource):
                         print "Im searching posts in the server with address" + node
                         headers = createAuthHeaders(node)
                         headers['Content-type'] = 'application/json'
-                        node_user = db.session.query(Servers).filter(Servers.IP == node).first()
-                        node_user_name = node_user.user_name
-                        node_user_pass = node_user.password
-
                         [prefix, suffix] = getAPI(node, 'GET/posts/P')
                         custom_url = prefix + post_id + suffix
 
                         
-                        foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
+                        foreign_return = requests.get(custom_url, headers = headers)
                         
                         if foreign_return.status_code == 200:
                             recvJson = foreign_return.json()
@@ -572,10 +571,6 @@ class AuthorToAuthorPost(Resource):
 
                                 headers['Content-type'] = 'application/json'
                                 headers['author_id'] = APP_state["session_ids"][sessionID]
-                                
-                                node_user = db.session.query(Servers).filter(Servers.IP == node).first()
-                                node_user_name = node_user.user_name
-                                node_user_pass = node_user.password
 
                       
                                 [prefix, suffix] = getAPI(node, 'GET/author/A/posts')
@@ -585,7 +580,7 @@ class AuthorToAuthorPost(Resource):
                                 print node
                                 print author_id
                                 
-                                foreign_return = requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers)
+                                foreign_return = requests.get(custom_url, headers = headers)
                                 
                                 print foreign_return
                                 print foreign_return.json() # this return none
@@ -648,6 +643,9 @@ class Comment(Resource):
 
     def get(self, post_id):
         APP_state = loadGlobalVar()
+        
+        return_comment = {}
+        
         if "Foreign-Host" in request.headers.keys():
         
             if  request.headers.get("Foreign-Host") == "false":
@@ -672,9 +670,26 @@ class Comment(Resource):
                             paras["author_id"] = APP_state["session_ids"][sessionID]
                             paras["post_id"] = post_id
                             for node in nodes:
-                                rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
-                            if  len(rst) != 0:
-                                return rst[0]
+
+                                headers = createAuthHeaders(node)
+                                headers['Content-type'] = 'application/json'
+                                [prefix, suffix] = getAPI(node, 'GET/posts/P/comments')
+                                custom_url = prefix + post_id + suffix
+
+
+                                foreign_return = requests.get(custom_url, headers = headers)
+                                    
+                                if foreign_return.status_code == 200:
+                                    
+                                    if foreign_return.json() == None:
+                                        pass
+                                    
+                                    else:
+                                    
+                                        return jsonify(foreign_return)
+#                                rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
+#                            if  len(rst) != 0:
+#                                return rst[0]
 
                         return jsonify(makeCommentJson([], paras))
                            
@@ -700,7 +715,18 @@ class Comment(Resource):
                     return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
                 else:
                     if got[0][0].view_permission == 4:
-                        pfriends = requests.get(request.remote_addr + "/friends/" + remoteAuthor).json()["authors"]
+                        
+                        headers = createAuthHeaders(request.url_root)
+
+                        headers['Content-type'] = 'application/json'
+
+                        [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+                        custom_url = prefix + remoteAuthor + suffix
+                        print "friend request url: "
+                        print custom_url
+
+                        
+                        pfriends = requests.get(custom_url, headers=headers).json()["authors"]
                         if(handler.atlOneFriend(localAuthor, pfriends)):
                             return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
                         # else:
