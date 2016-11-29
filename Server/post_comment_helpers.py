@@ -58,21 +58,71 @@ def check_auth(username, password, forign_server):
         
         return username == db_server.user_name and password == db_server.password
 
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+                    'Could not verify your access level for that URL.\n'
+                    'You have to login with proper credentials', 401,
+                    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password, request.url_root ):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
 #this is for server to server basic auth
 #-----------------------------------------need @requires_auth
 
 
 
-def is_accessible():
-    auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
-    
-    if not auth or not check_auth(auth.username, auth.password, request.url_root):
-        raise HTTPException('', Response(
-             "NO AUTHENTICATION!!", 401,
-             {'WWW-Authenticate': 'Basic realm="Login Required"'}
-         ))
-    
-    return True
+
+
+
+
+
+##this is for server to server basic auth
+#def check_auth(username, password, forign_server):
+#    """This function is called to check if a username /
+#        password combination is valid.
+#        """
+#    
+#    
+#    # print "This is an example wsgi app served from {} to {}".format(socket.gethostname(), request.url_root)
+#    # print username
+#    # print password
+#    # print "foreign server : "
+#    # print forign_server
+#    # forign_server = forign_server[:-1]
+#    db_server_list = db.session.query(Servers).filter(Servers.IP == forign_server).all()
+#    
+#    if len(db_server_list) == 0:
+#        return False
+#    else:
+#        
+#        db_server = db_server_list[0]
+#        # print forign_server
+#        # print db_server
+#        
+#        return username == db_server.user_name and password == db_server.password
+#
+##this is for server to server basic auth
+##-----------------------------------------need @requires_auth
+#
+#
+#
+#def is_accessible():
+#    auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
+#    
+#    if not auth or not check_auth(auth.username, auth.password, request.url_root):
+#        raise HTTPException('', Response(
+#             "NO AUTHENTICATION.", 401,
+#             {'WWW-Authenticate': 'Basic realm="Login Required"'}
+#         ))
+#    
+#    return True
 
 
 #
@@ -225,9 +275,10 @@ def getCookie(Operation_str):
 
 
 class Post(Resource):
+    @requires_auth
     def get(self, post_id):
-        if is_accessible():
-            
+        
+#        if is_accessible():
             APP_state = loadGlobalVar()
             #Local Request
             
@@ -352,11 +403,11 @@ class Post(Resource):
     #            # else:
     #                #Post Not in my server
 
-        else:
-            return "NO AUTHENTICATION", 401
-
+#        else:
+#            return "NO AUTHENTICATION", 401
+    @requires_auth
     def delete(self, post_id):
-        if is_accessible():
+#        if is_accessible():
             APP_state = loadGlobalVar()
             output = getCookie("delete_post")
             if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
@@ -373,14 +424,16 @@ class Post(Resource):
                     return "SessionID ERROR", 403
             else:
                 return "SESSION_ERROR", 403
-        else:
-            return "NO AUTHENTICATION", 401
+#        else:
+#            return "NO AUTHENTICATION", 401
 
 
 # DONE - own server to server- working with one other server ------------------------------------
 class All_Post(Resource):
+    @requires_auth
     def get(self):
-        if is_accessible():
+#        if is_accessible():
+
             #Local Request
             print request.headers.get("Foreign-Host")
             
@@ -443,13 +496,13 @@ class All_Post(Resource):
                 
                 return jsonify(makePostJson(handler.getAllPosts(), paras))
 
-        else:
-            return "NO AUTHENTICATION", 401
+#        else:
+#            return "NO AUTHENTICATION", 401
 #----------------------------------------------------------------------------------------------------
-
+    @requires_auth
     def post(self):
-        if is_accessible():
-        
+#        if is_accessible():
+
             APP_state = loadGlobalVar()
             output = getCookie("post_post")
             if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
@@ -502,15 +555,16 @@ class All_Post(Resource):
             else:
                 return "No Session", 403
 
-        else:
-            return "NO AUTHENTICATION", 401
+#        else:
+#            return "NO AUTHENTICATION", 401
 
 
 
 class AuthorPost(Resource):
+    @requires_auth
     def get(self):
-        if is_accessible():
-        
+#        if is_accessible():
+
             APP_state = loadGlobalVar()
             
         
@@ -601,18 +655,18 @@ class AuthorPost(Resource):
                 paras["size"] = request.args.get('size')
 
                 return jsonify(makePostJson(allPosts, paras))
-        else:
-            return "NO AUTHENTICATION", 401
+#        else:
+#            return "NO AUTHENTICATION", 401
 
 
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
-
+    @requires_auth
     #--------------new code--------------
     def get(self, author_id):
         
-        if is_accessible():
-        
+#        if is_accessible():
+
             APP_state = loadGlobalVar()
             if "Foreign-Host" in request.headers.keys():
                 if  request.headers.get("Foreign-Host") == "false":
@@ -716,14 +770,14 @@ class AuthorToAuthorPost(Resource):
                     
                 # else:
                     #We don't have this requested user in our server
-        else:
-            return "NO AUTHENTICATION", 401
+#        else:
+#            return "NO AUTHENTICATION", 401
 
 class Comment(Resource):
-
+    @requires_auth
     def get(self, post_id):
-        if is_accessible():
-        
+#        if is_accessible():
+
             APP_state = loadGlobalVar()
             
             return_comment = {}
@@ -819,14 +873,14 @@ class Comment(Resource):
                 # else:
                     #Post Not in my server, so does its corresponding comments
 
-        else:
-            return "NO AUTHENTICATION", 401
+#        else:
+#            return "NO AUTHENTICATION", 401
 
 
-
+    @requires_auth
     def post(self):
-        if is_accessible():
-            
+#        if is_accessible():
+
             APP_state = loadGlobalVar()
             if  request.headers.get("Foreign-Host") == "false":
                 output = getCookie("comment_post")
@@ -890,8 +944,8 @@ class Comment(Resource):
                 else:
                     return {"query" : "addComment", "success" : "false", "message" : "Error when add"}
 
-        else:
-            return "NO AUTHENTICATION", 401
+#        else:
+#            return "NO AUTHENTICATION", 401
 
 '''
 class Edit_Post(Resource):
