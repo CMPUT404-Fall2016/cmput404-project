@@ -8,12 +8,13 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/js/utilities.js"></script>
   <script src="/js/commonmark.js"></script>
 </head>
 <body>
-<div id="navbar" style="padding-bottom: 70px"></div>
+<div id="navbar"></div>
 <!-- main page content -->
-<div class="container" id="page-container">
+<div class="container" id="page-container" style="margin-top: 70px">
   <div class="row">
 
     <!-- sidebar -->
@@ -95,7 +96,7 @@
         </div>
         <img class="post-image" />
         <p class="post-date"></p>
-        <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments</span></a>
+        <a href="#" class="comments"><span><i class="glyphicon glyphicon-comment"></i> Comments<p class="comments-num"></p></span></a>
         </div>
   </li>
 </template>
@@ -117,11 +118,6 @@
   </li>
 </template>
 
-<!-- <footer class="container-fluid text-center">
-</footer> -->
-<script src="/js/utilities.js"></script>
-<script src="/js/commonmark.js"></script>
-<!-- <script src="/js/login-check.js"></script> -->
 <script src="/js/index.js"></script>
 <script src="/js/setmycookie.js"></script>
 </body>

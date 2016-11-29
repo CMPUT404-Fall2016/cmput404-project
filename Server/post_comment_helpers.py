@@ -14,6 +14,11 @@ from Nodes import *
 from functools import wraps
 from author_endpointHandlers import *
 from requests.auth import HTTPBasicAuth
+from datetime import datetime
+import time
+import uuid
+
+random.seed(time.time())
 
 
 handler = RestHandlers()
@@ -31,10 +36,8 @@ del APP_state
 
 
 
-
-
 #this is for server to server basic auth
-def check_auth(username, password, forign_server):
+def check_auth(username, password):
     """This function is called to check if a username /
         password combination is valid.
         """
@@ -46,7 +49,7 @@ def check_auth(username, password, forign_server):
     # print "foreign server : "
     # print forign_server
     # forign_server = forign_server[:-1]
-    db_server_list = db.session.query(Servers).filter(Servers.IP == forign_server).all()
+    db_server_list = db.session.query(Servers).filter(Servers.user_name == username).all()
     
     if len(db_server_list) == 0:
         return False
@@ -58,19 +61,68 @@ def check_auth(username, password, forign_server):
         
         return username == db_server.user_name and password == db_server.password
 
-#this is for server to server basic auth
-#-----------------------------------------need @requires_auth
+#def authenticate():
+#    """Sends a 401 response that enables basic auth"""
+#    return Response(
+#                    'Could not verify your access level for that URL.\n'
+#                    'You have to login with proper credentials', 401,
+#                    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+#
+#def requires_auth(f):
+#    @wraps(f)
+#    def decorated(*args, **kwargs):
+#        auth = request.authorization
+#        print "this is auth for server____: "
+#        print request.headers.get("Origin")
+#        if not auth or not check_auth(auth.username, auth.password):
+#            return authenticate()
+#        return f(*args, **kwargs)
+#    return decorated
+##this is for server to server basic auth
+##-----------------------------------------need @requires_auth
+#
+#
+
+
+
+
+
+
+##this is for server to server basic auth
+#def check_auth(username, password, forign_server):
+#    """This function is called to check if a username /
+#        password combination is valid.
+#        """
+#    
+#    
+#    # print "This is an example wsgi app served from {} to {}".format(socket.gethostname(), request.url_root)
+#    # print username
+#    # print password
+#    # print "foreign server : "
+#    # print forign_server
+#    # forign_server = forign_server[:-1]
+#    db_server_list = db.session.query(Servers).filter(Servers.IP == forign_server).all()
+#    
+#    if len(db_server_list) == 0:
+#        return False
+#    else:
+#        
+#        db_server = db_server_list[0]
+#        # print forign_server
+#        # print db_server
+#        
+#        return username == db_server.user_name and password == db_server.password
+#
+##this is for server to server basic auth
+##-----------------------------------------need @requires_auth
 
 
 
 def is_accessible():
     auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
     
-    if not auth or not check_auth(auth.username, auth.password, request.url_root):
-        raise HTTPException('', Response(
-             "NO AUTHENTICATION!!", 401,
-             {'WWW-Authenticate': 'Basic realm="Login Required"'}
-         ))
+    if not auth or not check_auth(auth.username, auth.password):
+        raise HTTPException('', Response('NO AUTHENTICATION', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'}))
     
     return True
 
@@ -149,7 +201,7 @@ def makeCommentJson(data, args):
                                 },
                 "comment"   :   data[i].comment_text,
                 "contentType"   :   data[i].content_type,
-                "published" :   data[i].creation_time,
+                "published" :   data[i].creation_time.isoformat(),
                 "id"    : data[i].comment_id
             })
 
@@ -183,16 +235,17 @@ def makePostJson(data, args):
                 break
             rt["posts"].append({
                 "title" :   data[i][0].title,
-                "source"    :   "",
-                "origin"    :   "",
+                "source"    :   myip + "posts/" + data[i][0].post_id,
+                "origin"    :   myip + "posts/" + data[i][0].post_id,
                 "author"    :   makeAuthorJson(data[i][1]),
                 "description"   :   data[i][0].description,
                 "contentType"   :   data[i][0].content_type,
                 "content"   :   data[i][0].content,
                 "categories"    :   "abram bear",
-                "published" :   data[i][0].creation_time,
+                "published" :   data[i][0].creation_time.isoformat(),
                 "visibility"    :   VIEW_PER[data[i][0].view_permission],
                 "id"    :   data[i][0].post_id,
+                "image-url"	: handler.getImgUrl(data[i][0].post_id),
                 "count" :   len(data[i][2]),
                 "size"  :   5,
                 "next"  :   myip + "posts/"+data[i][0].post_id+"/comments",
@@ -224,9 +277,10 @@ def getCookie(Operation_str):
 
 
 class Post(Resource):
+#    @requires_auth
     def get(self, post_id):
+        
         if is_accessible():
-            
             APP_state = loadGlobalVar()
             #Local Request
             
@@ -269,7 +323,7 @@ class Post(Resource):
                     
                     print "checking OWN POST"
                     print post_id
-                    print db.session.query(Posts).filter(Posts.post_id == post_id).first().author_id
+#                    print db.session.query(Posts).filter(Posts.post_id == post_id).first().author_id
                     print "checking OWN POST_end"
                     
                     own_post = handler.getPost(post_id)
@@ -353,7 +407,7 @@ class Post(Resource):
 
         else:
             return "NO AUTHENTICATION", 401
-
+#    @requires_auth
     def delete(self, post_id):
         if is_accessible():
             APP_state = loadGlobalVar()
@@ -378,8 +432,10 @@ class Post(Resource):
 
 # DONE - own server to server- working with one other server ------------------------------------
 class All_Post(Resource):
+#    @requires_auth
     def get(self):
         if is_accessible():
+
             #Local Request
             print request.headers.get("Foreign-Host")
             
@@ -445,10 +501,10 @@ class All_Post(Resource):
         else:
             return "NO AUTHENTICATION", 401
 #----------------------------------------------------------------------------------------------------
-
+#    @requires_auth
     def post(self):
         if is_accessible():
-        
+
             APP_state = loadGlobalVar()
             output = getCookie("post_post")
             if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
@@ -466,11 +522,16 @@ class All_Post(Resource):
                     post["author_id"] = data["author_id"]
                     post["title"] = data["title"]
                     post["content"] = data["content"]
-                    if data["description"] == "":
-                        post["description"] = "Empty"
+                    print "The data we of the post json is: "
+                    print data
+                    print "End"
+                    '''                  
+                    if data["description"] == None:
+                        post["description"] = ""
                     else:
                         post["description"] = data["description"]
-                    
+                    '''
+                    post["description"] = data["description"]
                     post["content_type"] = data["contentType"]
                     
                     perm = data["visibility"]
@@ -486,6 +547,10 @@ class All_Post(Resource):
                         perm = 5
                     post["view_permission"]= perm
 
+                    if("image" in data):                       
+                        url = saveImage(data["image"], data["image-ext"])
+                        post["img-url"] = url
+                        
                     if handler.make_post(post):
                         return {"query" : "addPost", "success" : "true", "message" : "Post Added"}
                     else:
@@ -502,9 +567,10 @@ class All_Post(Resource):
 
 
 class AuthorPost(Resource):
+#    @requires_auth
     def get(self):
         if is_accessible():
-        
+
             APP_state = loadGlobalVar()
             
         
@@ -573,11 +639,16 @@ class AuthorPost(Resource):
                 remoteUsr = request.headers.get("author_id")
                 allPosts = handler.getVisiblePosts(remoteUsr)
                 
-                headers = createAuthHeaders(request.url_root)
+                auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+                
+                
+                
+                
+                headers = createAuthHeaders(auth)
 
                 headers['Content-type'] = 'application/json'
                 
-                [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+                [prefix, suffix] = getAPI(auth, 'GET/friends/A')
                 custom_url = prefix + remoteUsr + suffix
                 print "friend request url: "
                 print custom_url
@@ -601,12 +672,12 @@ class AuthorPost(Resource):
 
 # gets all post made by AUTHOR_ID for current author to view.
 class AuthorToAuthorPost(Resource):
-
+#    @requires_auth
     #--------------new code--------------
     def get(self, author_id):
         
         if is_accessible():
-        
+
             APP_state = loadGlobalVar()
             if "Foreign-Host" in request.headers.keys():
                 if  request.headers.get("Foreign-Host") == "false":
@@ -687,11 +758,13 @@ class AuthorToAuthorPost(Resource):
                     allPosts = handler.getVisiblePostsByAuthor(remoteUsr, author_id)
                     foafPosts = handler.getAllFoafPostsByUsr(author_id)
                     
-                    headers = createAuthHeaders(request.url_root)
+                    auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+                    
+                    headers = createAuthHeaders(auth)
 
                     headers['Content-type'] = 'application/json'
                     
-                    [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+                    [prefix, suffix] = getAPI(auth, 'GET/friends/A')
                     custom_url = prefix + remoteUsr + suffix
                     print "friend request url: "
                     print custom_url
@@ -714,10 +787,10 @@ class AuthorToAuthorPost(Resource):
             return "NO AUTHENTICATION", 401
 
 class Comment(Resource):
-
+#    @requires_auth
     def get(self, post_id):
         if is_accessible():
-        
+
             APP_state = loadGlobalVar()
             
             return_comment = {}
@@ -793,11 +866,13 @@ class Comment(Resource):
                     else:
                         if got[0][0].view_permission == 4:
                             
-                            headers = createAuthHeaders(request.url_root)
+                            auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+                            
+                            headers = createAuthHeaders(auth)
 
                             headers['Content-type'] = 'application/json'
 
-                            [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+                            [prefix, suffix] = getAPI(auth, 'GET/friends/A')
                             custom_url = prefix + remoteAuthor + suffix
                             print "friend request url: "
                             print custom_url
@@ -817,10 +892,10 @@ class Comment(Resource):
             return "NO AUTHENTICATION", 401
 
 
-
+#    @requires_auth
     def post(self):
         if is_accessible():
-            
+
             APP_state = loadGlobalVar()
             if  request.headers.get("Foreign-Host") == "false":
                 output = getCookie("comment_post")
@@ -832,7 +907,8 @@ class Comment(Resource):
                 if "session_id" in cookie:
                     sessionID = cookie["session_id"]
                     if sessionID in APP_state["session_ids"]:
-
+                          
+                        currentTime = datetime.now()
                         data = request.get_json(force=True)
                         comment["post_id"] = data["post"].split("/")[4]
                         comment["comment_text"] = data["comment"]["comment"]
@@ -841,8 +917,10 @@ class Comment(Resource):
                         comment["author_name"] = data["comment"]["author"]["displayName"]
                         comment["author_url"] = data["comment"]["author"]["url"]
                         comment["author_github"] = data["comment"]["author"]["github"]
-                        comment["comment_id"] = data["comment"]["guid"]
-                        comment["published"] = data["comment"]["published"]
+                        #comment["comment_id"] = data["comment"]["guid"]
+                        #comment["published"] = data["comment"]["published"]
+                        data["comment"]["author"]["guid"] = uuid.uuid().hex
+                        data["comment"]["published"] = currentTime.isoformat() 
 
                         start = data["post"].split("/")[0]
                         middle = data["post"].split("/")[1]

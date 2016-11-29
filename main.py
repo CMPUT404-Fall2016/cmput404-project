@@ -67,7 +67,7 @@ def printSessionIDs(APP_state):
     print APP_state['session_ids']
 
 #this is for server to server basic auth
-def check_auth(username, password, forign_server):
+def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
@@ -79,7 +79,7 @@ def check_auth(username, password, forign_server):
     # print "foreign server : "
     # print forign_server
     # forign_server = forign_server[:-1]
-    db_server_list = db.session.query(Servers).filter(Servers.IP == forign_server).all()
+    db_server_list = db.session.query(Servers).filter(Servers.user_name == username).all()
     
     if len(db_server_list) == 0:
         return False
@@ -102,7 +102,10 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password, request.url_root ):
+        print "this is auth for server____: "
+        print request.headers.get("Origin")
+        print "_________________"
+        if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
@@ -115,7 +118,7 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
         
-        if not auth or not check_auth(auth.username, auth.password, request.url_root):
+        if not auth or not check_auth(auth.username, auth.password):
             raise HTTPException('', Response(
                 "Please log in.", 401,
                 {'WWW-Authenticate': 'Basic realm="Login Required"'}
@@ -639,7 +642,7 @@ def RemoveFriend():
 
 
 
-@app.route("/friendrequest", methods=['POST'])
+@app.route("/friendrequest/", methods=['POST'])
 @requires_auth
 def FollowUser():
     """
@@ -705,7 +708,7 @@ def GetFriendList(AUTHOR_ID):
 
 
 
-@app.route("/friends/<AUTHOR_ID>", methods=['POST'])
+@app.route("/friends/<AUTHOR_ID>/", methods=['POST'])
 @requires_auth
 def checkIfFriendsList(AUTHOR_ID):
     """
@@ -813,7 +816,7 @@ api.add_resource(Post, '/posts/<string:post_id>')
 api.add_resource(All_Post, '/posts')
 api.add_resource(AuthorPost, '/author/posts')
 api.add_resource(AuthorToAuthorPost, '/author/<string:author_id>/posts')
-api.add_resource(Comment, '/posts/<string:post_id>/comments')
+api.add_resource(Comment, '/posts/<string:post_id>/comments/')
 
 
 if __name__ == "__main__":

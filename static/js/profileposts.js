@@ -67,15 +67,15 @@ $("#posttab").click(function(e) {
 //           console.log(results.posts[i].description);
            postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
 //           console.log(results.posts[i].author.displayName);
-           
+
            //postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
            postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
-
+           if (results.posts[i].count > 0) {
+             postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
+           }
            // attach data to the links so it can be referenced when clicked
            var authorBtn = postTemplate.content.querySelector(".post-author");
-           //$(authorBtn).data("post-author-id", posts[i].author_id);
            authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
-           //console.log(authorBtn);
 
            var commentsBtn = postTemplate.content.querySelector(".comments");
            commentsBtn.setAttribute("post-id", results.posts[i].id);
