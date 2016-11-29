@@ -151,11 +151,14 @@ class RestHandlers():
         print post_id
         get_pid_author = db.session.query(Posts).filter(Posts.post_id == post_id).first()
         
+        if get_pid_author != None:
+            get_pid_authorid = get_pid_author.author_id
         
-        get_pid_authorid = get_pid_author.author_id
         
-        
-        return [get_pid_author, self.getAuthor(get_pid_authorid), self.getComments(post_id)]
+            return [get_pid_author, self.getAuthor(get_pid_authorid), self.getComments(post_id)]
+
+        else:
+            return []
         #return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getAuthor(author_id), self.getComments(post_id)]
 
 
