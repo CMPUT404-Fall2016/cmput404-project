@@ -396,3 +396,7 @@ class RestHandlers():
             rt.append(ele.author_id)
 
         return rt
+
+
+    def getImgUrl(self, post_id):
+        return db.session.query(URL).filter(URL.post_id == post_id).first()
