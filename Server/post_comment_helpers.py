@@ -14,6 +14,8 @@ from Nodes import *
 from functools import wraps
 from author_endpointHandlers import *
 from requests.auth import HTTPBasicAuth
+from datetime import datetime
+import time
 
 
 handler = RestHandlers()
@@ -28,8 +30,6 @@ if 'local_server_Obj' in APP_state.keys():
 else:
     myip = None
 del APP_state
-
-
 
 
 
@@ -149,7 +149,7 @@ def makeCommentJson(data, args):
                                 },
                 "comment"   :   data[i].comment_text,
                 "contentType"   :   data[i].content_type,
-                "published" :   data[i].creation_time,
+                "published" :   data[i].creation_time.isoformat(),
                 "id"    : data[i].comment_id
             })
 
@@ -190,9 +190,10 @@ def makePostJson(data, args):
                 "contentType"   :   data[i][0].content_type,
                 "content"   :   data[i][0].content,
                 "categories"    :   "abram bear",
-                "published" :   data[i][0].creation_time,
+                "published" :   data[i][0].creation_time.isoformat(),
                 "visibility"    :   VIEW_PER[data[i][0].view_permission],
                 "id"    :   data[i][0].post_id,
+                "image-url"	: handler.getImgUrl(data[i][0].post_id),
                 "count" :   len(data[i][2]),
                 "size"  :   5,
                 "next"  :   myip + "posts/"+data[i][0].post_id+"/comments",
@@ -466,8 +467,9 @@ class All_Post(Resource):
                     post["author_id"] = data["author_id"]
                     post["title"] = data["title"]
                     post["content"] = data["content"]
-                    if data["description"] == "":
-                        post["description"] = "Empty"
+                                     
+                    if data["description"] == None:
+                        post["description"] = ""
                     else:
                         post["description"] = data["description"]
                     
@@ -485,6 +487,12 @@ class All_Post(Resource):
                     else:
                         perm = 5
                     post["view_permission"]= perm
+
+                    if("image" in data):                       
+                        url = saveImage(data["image"], data["image-ext"])
+                        
+                     
+                    
 
                     if handler.make_post(post):
                         return {"query" : "addPost", "success" : "true", "message" : "Post Added"}

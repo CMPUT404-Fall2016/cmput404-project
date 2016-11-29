@@ -259,7 +259,7 @@ class RestHandlers():
     def make_comment(self, data):
         currentTime = datetime.now()    
         comment = {
-                                "comment_id"    :   data["comment_id"],
+                                "comment_id"    :   uuid.uuid4().hex,
                                 "author_id" :   data["author_id"],
                                 "author_host" :   data["author_host"],
                                 "author_name" :   data["author_name"],
@@ -268,7 +268,7 @@ class RestHandlers():
                                 "post_id"   :   data["post_id"],
                                 "comment_text"  :   data["comment_text"],
                                 "content_type"  :   "text/markdown",    
-                                "creation_time" :   data["published"]
+                                "creation_time" :   currentTime
                             }
         try:
             db.session.add(Comments(comment))
