@@ -63,7 +63,7 @@ def check_auth(username, password, forign_server):
 
 
 
-def is_accessible(self):
+def is_accessible():
     auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
     
     if not auth or not check_auth(auth.username, auth.password, request.url_root):
@@ -225,7 +225,7 @@ def getCookie(Operation_str):
 
 class Post(Resource):
     def get(self, post_id):
-        if is_accessible:
+        if is_accessible():
             
             APP_state = loadGlobalVar()
             #Local Request
@@ -355,7 +355,7 @@ class Post(Resource):
             return "NO AUTHENTICATION", 401
 
     def delete(self, post_id):
-        if is_accessible:
+        if is_accessible():
             APP_state = loadGlobalVar()
             output = getCookie("delete_post")
             if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
@@ -379,7 +379,7 @@ class Post(Resource):
 # DONE - own server to server- working with one other server ------------------------------------
 class All_Post(Resource):
     def get(self):
-        if is_accessible:
+        if is_accessible():
             #Local Request
             print request.headers.get("Foreign-Host")
             
@@ -447,7 +447,7 @@ class All_Post(Resource):
 #----------------------------------------------------------------------------------------------------
 
     def post(self):
-        if is_accessible:
+        if is_accessible():
         
             APP_state = loadGlobalVar()
             output = getCookie("post_post")
@@ -503,7 +503,7 @@ class All_Post(Resource):
 
 class AuthorPost(Resource):
     def get(self):
-        if is_accessible:
+        if is_accessible():
         
             APP_state = loadGlobalVar()
             
@@ -605,7 +605,7 @@ class AuthorToAuthorPost(Resource):
     #--------------new code--------------
     def get(self, author_id):
         
-        if is_accessible:
+        if is_accessible():
         
             APP_state = loadGlobalVar()
             if "Foreign-Host" in request.headers.keys():
@@ -716,7 +716,7 @@ class AuthorToAuthorPost(Resource):
 class Comment(Resource):
 
     def get(self, post_id):
-        if is_accessible:
+        if is_accessible():
         
             APP_state = loadGlobalVar()
             
@@ -818,7 +818,7 @@ class Comment(Resource):
 
 
     def post(self):
-        if is_accessible:
+        if is_accessible():
             
             APP_state = loadGlobalVar()
             if  request.args.get("Foreign-Host") == "false":
