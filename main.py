@@ -102,6 +102,8 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
+        print "this is auth for server: "
+        print request.url_root
         if not auth or not check_auth(auth.username, auth.password, request.url_root ):
             return authenticate()
         return f(*args, **kwargs)
