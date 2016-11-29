@@ -782,13 +782,13 @@ def restart():
         return "FAILURE"
 
 
-@app.route('/images/<path:image_id>', methods=['GET'])
-def getImage(image_id):
+@app.route('/images/<path:image_path>', methods=['GET'])
+def getImage(image_path):
     app.config['UPLOAD_FOLDER']
-    filename = os.path.join(app.config['UPLOAD_FOLDER'], image_id)
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], image_path)
     print "image filename : "
     print filename
-    return send_from_directory(app.config['UPLOAD_FOLDER'], image_id)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], image_path)
 
 
 def init_server():
