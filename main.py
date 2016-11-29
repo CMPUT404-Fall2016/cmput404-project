@@ -642,7 +642,7 @@ def RemoveFriend():
 
 
 
-@app.route("/friendrequest", methods=['POST'])
+@app.route("/friendrequest/", methods=['POST'])
 @requires_auth
 def FollowUser():
     """
@@ -708,7 +708,7 @@ def GetFriendList(AUTHOR_ID):
 
 
 
-@app.route("/friends/<AUTHOR_ID>", methods=['POST'])
+@app.route("/friends/<AUTHOR_ID>/", methods=['POST'])
 @requires_auth
 def checkIfFriendsList(AUTHOR_ID):
     """
@@ -816,7 +816,7 @@ api.add_resource(Post, '/posts/<string:post_id>')
 api.add_resource(All_Post, '/posts')
 api.add_resource(AuthorPost, '/author/posts')
 api.add_resource(AuthorToAuthorPost, '/author/<string:author_id>/posts')
-api.add_resource(Comment, '/posts/<string:post_id>/comments')
+api.add_resource(Comment, '/posts/<string:post_id>/comments/')
 
 
 if __name__ == "__main__":
