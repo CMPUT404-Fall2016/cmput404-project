@@ -75,9 +75,7 @@ $("#posttab").click(function(e) {
            }
            // attach data to the links so it can be referenced when clicked
            var authorBtn = postTemplate.content.querySelector(".post-author");
-           //$(authorBtn).data("post-author-id", posts[i].author_id);
            authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
-           //console.log(authorBtn);
 
            var commentsBtn = postTemplate.content.querySelector(".comments");
            commentsBtn.setAttribute("post-id", results.posts[i].id);
