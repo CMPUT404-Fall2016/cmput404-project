@@ -11,17 +11,17 @@ $(document).ready(function() {
     // request the post from whatever the host is
     sendAJAX("GET", "/posts/"+postID, "", function(results) {
       // fill the container with details
-      document.getElementById("post-title").textContent = results.posts.title;
-      document.getElementById("post-author").textContent = results.posts.author.displayName;
-      document.getElementById("post-description").textContent = results.posts.description;
-      document.getElementById("post-content").innerHTML = results.posts.content;
+      document.getElementById("post-title").textContent = results.posts[0].title;
+      document.getElementById("post-author").textContent = results.posts[0].author.displayName;
+      document.getElementById("post-description").textContent = results.posts[0].description;
+      document.getElementById("post-content").innerHTML = results.posts[0].content;
 
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
       $(".post-author").click(function(e) {
         e.preventDefault();
         // set this for authorpage to use
-        localStorage.setItem("fetch-author-id", results.post.author.id);
+        localStorage.setItem("fetch-author-id", results.post[0].author.id);
         window.location.href = "authorpage.html";
       });
     });
