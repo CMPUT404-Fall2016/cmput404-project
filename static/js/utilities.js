@@ -15,7 +15,7 @@
   }
 
   // unauthenticated? send to login page
-  if ((authenticated == false) && (window.location.pathname != "/login.html") {
+  if ((authenticated == false) && (window.location.pathname != "/login.html")) {
     window.location.href = "login.html";
   }
   // already authenticated? send to index page
