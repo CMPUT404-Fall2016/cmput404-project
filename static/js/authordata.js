@@ -191,7 +191,8 @@ function afriendone() {
     var myinfodatacombine = {}
     myinfodatacombine.myhost = result.host;
     myinfodatacombine.mydisplayname = result.displayName;
-           console.log(myinfodatacombine);
+     myinfodatacombines.mydisplayname = result.url;
+     console.log(myinfodatacombine);
 
     //var friendid = getFriendcookieid();
     var friendid = localStorage.getItem("fetch-author-id");
@@ -202,6 +203,7 @@ function afriendone() {
       console.log(result.displayName);
       myinfodatacombines.myhost = result.host;
       myinfodatacombines.mydisplayname = result.displayName;
+      myinfodatacombines.myurl = result.url;
       myinfodatacombines.friendid = result2.id;
       myinfodatacombines.friendhost = result2.host;
       myinfodatacombines.frienddisplayname = result2.displayName
@@ -219,15 +221,17 @@ function afriendtwo(result) {
 
   // This is the body for the POST request
   var friendrequestdata = {};
-    friendrequestdata["author"] = {}
-    friendrequestdata["author"]["id"]= getCookieid();;
-    friendrequestdata["author"]["host"] = result.myhost;
-    friendrequestdata["author"]["displayName"] = result.mydisplayname;
-    friendrequestdata["friend"] = {};
-    friendrequestdata["friend"]["id"] = result.friendid;
-    friendrequestdata["friend"]["host"] = result.friendhost;
-    friendrequestdata["friend"]["displayName"] = result.frienddisplayname;
-    friendrequestdata["friend"]["url"] = result.friendurl;
+  
+    friendrequestdata["author"] = {};
+    friendrequestdata["author"]["id"] = result.friendid;
+    friendrequestdata["author"]["host"] = result.friendhost;
+    friendrequestdata["author"]["displayName"] = result.frienddisplayname;
+//    friendrequestdata["author"]["url"] = result.friendurl;
+    friendrequestdata["friend"] = {}
+    friendrequestdata["friend"]["id"]= getCookieid();;
+    friendrequestdata["friend"]["host"] = result.myhost;
+    friendrequestdata["friend"]["displayName"] = result.mydisplayname;
+    friendrequestdata["friend"]["url"] = result.myurl;
 
   console.log(JSON.stringify(friendrequestdata));
 
