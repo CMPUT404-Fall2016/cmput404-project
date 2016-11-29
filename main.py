@@ -134,6 +134,10 @@ class UserView(ModelView):
 class PostView(ModelView):
     can_create = True
 
+class CommentView(ModelView):
+    can_create = True
+
+
 #@requires_auth
 class ImageView(ModelView):
     can_create = True
@@ -170,6 +174,7 @@ admin = Admin(app, name='Welcome to Admin', template_mode='bootstrap3')
 # Add views
 admin.add_view(UserView(Authors, db.session))
 admin.add_view(PostView(Posts, db.session))
+admin.add_view(CommentView(Comments, db.session))
 admin.add_view(ImageView(Images, db.session))
 admin.add_view(ServerView(Servers, db.session))
 admin.add_view(GlobalView(Global_var, db.session))

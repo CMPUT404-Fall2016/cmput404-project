@@ -226,7 +226,7 @@ class Post(Resource):
                 
                 if len(own_post) > 0:
                 
-                    own_post_return = makePostJson(own_post, {"page":None, "size":None})
+                    own_post_return = makePostJson([own_post], {"page":None, "size":None})
                     
                     
                     json_return["posts"].extend(own_post_return["posts"])
