@@ -525,12 +525,13 @@ class All_Post(Resource):
                     print "The data we of the post json is: "
                     print data
                     print "End"
-                                     
+                    '''                  
                     if data["description"] == None:
                         post["description"] = ""
                     else:
                         post["description"] = data["description"]
-                    
+                    '''
+                    post["description"] = data["description"]
                     post["content_type"] = data["contentType"]
                     
                     perm = data["visibility"]

@@ -92,29 +92,29 @@ _NODES_ = {}
 secret_penguin = {
 			'GET/friends/A' : ["http://secret-penguin.herokuapp.com/friends/", ""],
 			'GET/friends/A1/A2' : ["http://secret-penguin.herokuapp.com/friends/", ""],
-			'POST/friends/A' : ["http://secret-penguin.herokuapp.com/friends/" , ""],
-			'POST/friendrequest' : ["http://secret-penguin.herokuapp.com/friendrequest", ""],
+			'POST/friends/A' : ["http://secret-penguin.herokuapp.com/friends/" , "/"],
+			'POST/friendrequest' : ["http://secret-penguin.herokuapp.com/friendrequest/", ""],
 			'GET/author/A' : ["http://secret-penguin.herokuapp.com/author/", ""],
 			'GET/posts' : ["http://secret-penguin.herokuapp.com/posts", ""],
 			'GET/author/posts' : ["http://secret-penguin.herokuapp.com/author/posts", ""],
 			'GET/author/A/posts' : ["http://secret-penguin.herokuapp.com/author/", "/posts"],
 			'GET/posts/P' : ["http://secret-penguin.herokuapp.com/posts/", ""],
 			'GET/posts/P/comments' : ["http://secret-penguin.herokuapp.com/posts/", "/comments"],
-			'POST/posts/P/comments' : ["http://secret-penguin.herokuapp.com/posts/", "/comments"]
+			'POST/posts/P/comments' : ["http://secret-penguin.herokuapp.com/posts/", "/comments/"]
 		   }
 
 secure_springs = {
 			'GET/friends/A' : ["http://secure-springs-85403.herokuapp.com/friends/", ""],
 			'GET/friends/A1/A2' : ["http://secure-springs-85403.herokuapp.com/friends/", ""],
-			'POST/friends/A' : ["http://secure-springs-85403.herokuapp.com/friends/" , ""],
-			'POST/friendrequest' : ["http://secure-springs-85403.herokuapp.com/friendrequest", ""],
+			'POST/friends/A' : ["http://secure-springs-85403.herokuapp.com/friends/" , "/"],
+			'POST/friendrequest' : ["http://secure-springs-85403.herokuapp.com/friendrequest/", ""],
 			'GET/author/A' : ["http://secure-springs-85403.herokuapp.com/author/", ""],
 			'GET/posts' : ["http://secure-springs-85403.herokuapp.com/posts", ""],
 			'GET/author/posts' : ["http://secure-springs-85403.herokuapp.com/author/posts", ""],
 			'GET/author/A/posts' : ["http://secure-springs-85403.herokuapp.com/author/", "/posts"],
 			'GET/posts/P' : ["http://secure-springs-85403.herokuapp.com/posts/", ""],
 			'GET/posts/P/comments' : ["http://secure-springs-85403.herokuapp.com/posts/", "/comments"],
-			'POST/posts/P/comments' : ["http://secure-springs-85403.herokuapp.com/posts/", "/comments"]
+			'POST/posts/P/comments' : ["http://secure-springs-85403.herokuapp.com/posts/", "/comments/"]
 			}
 
 bloggyblog404 = {
