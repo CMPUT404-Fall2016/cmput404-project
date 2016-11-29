@@ -78,7 +78,7 @@ $("#posttab").click(function(e) {
            //console.log(authorBtn);
 
            var commentsBtn = postTemplate.content.querySelector(".comments");
-           commentsBtn.setAttribute("post-comment-id", results.posts[i].id);
+           commentsBtn.setAttribute("post-id", results.posts[i].id);
 
            var deletepostBtn = postTemplate.content.querySelector(".deletepost");
            deletepostBtn.setAttribute("delete-post-id", results.posts[i].id);
@@ -93,8 +93,8 @@ $("#posttab").click(function(e) {
                 e.preventDefault();
                 // set this for later
                 // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
-                localStorage.setItem("fetch-post-id", $(this).attr("post-comment-id"));
-                window.location.href= "post.html";
+                localStorage.setItem("fetch-post-id", $(this).attr("post-id"));
+                window.location.href = "post.html";
           });
 
            // bind the onclick to set author id in localStorage

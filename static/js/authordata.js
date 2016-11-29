@@ -147,7 +147,7 @@ $("#posttabs").click(function(e) {
       authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
 
       var commentsBtn = postTemplate.content.querySelector(".comments");
-      commentsBtn.setAttribute("post-comment-id", results.posts[i].id);
+      commentsBtn.setAttribute("post-id", results.posts[i].id);
 
       var clone = document.importNode(postTemplate.content, true);
       postList.appendChild(clone);
