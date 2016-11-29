@@ -39,7 +39,7 @@
     </div>
   </div>
   
-  <div class="alert alert-danger fade in">
+  <div class="alert alert-danger">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>ID NOT FOUND!</strong>
   </div>
@@ -94,5 +94,6 @@
   // display name in navbar
   $(document).ready(function() {
     document.getElementById("nav-display-name").textContent = localStorage.getItem("display_name");
+                    $('.alert').show();
   })
 </script>
