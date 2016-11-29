@@ -219,7 +219,7 @@ class Post(Resource):
                 
                 print "checking OWN POST"
                 print post_id
-                print db.session.query(Posts).filter(Posts.post_id == post_id).first()
+                print db.session.query(Posts).filter(Posts.post_id == post_id).first().author_id
                 print "checking OWN POST_end"
                 
                 own_post = handler.getPost(post_id)
@@ -229,7 +229,7 @@ class Post(Resource):
                     own_post_return = makePostJson(own_post, {"page":None, "size":None})
                     
                     
-                    json_return["posts"].extend(own_post["posts"])
+                    json_return["posts"].extend(own_post_return["posts"])
                     return jsonify(json_return)
                 else:
                     for node in nodes:
