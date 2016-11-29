@@ -4,6 +4,8 @@ import requests
 import json
 from base64 import b64encode
 from Nodes import *
+import base64
+import os
 
 """
 THINGS TO DO:
@@ -44,6 +46,20 @@ def isFriend(param):
 
   return False
 
+
+# Based on http://code.runnable.com/UiPcaBXaxGNYAAAL/how-to-upload-a-file-to-the-server-in-flask-for-python
+def saveImage(encoded_image, extension):
+    extension = extension.split('/')[1]
+    id = uuid.uuid4()
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], str(id)) + "." + extension
+    print "from saveImage"
+    print filename
+    decoded_image = base64.b64decode(encoded_image)
+    with open(filename, 'w') as f:
+        f.write(decoded_image)
+
+    url = APP_state["local_server_Obj"].IP + "images/" + str(id)
+    return url
 
 def createAuthHeaders(host_name):
 

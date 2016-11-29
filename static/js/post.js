@@ -1,9 +1,9 @@
+const postID = localStorage.getItem("fetch-post-id");
+const commentTemplate = $("#comment-template");
+const commentsList = $("#posts");
+
 // get the posts with the post-id in localStorage
 $(document).ready(function() {
-
-  var postID = localStorage.getItem("fetch-post-id");
-  var commentTemplate = $("#comment-template");
-  var commentsList = $("#posts");
 
   // are we even supposed to be here
   if (postID) {
@@ -11,17 +11,17 @@ $(document).ready(function() {
     // request the post from whatever the host is
     sendAJAX("GET", "/posts/"+postID, "", function(results) {
       // fill the container with details
-      document.getElementById("post-title").textContent = results.posts.title;
-      document.getElementById("post-author").textContent = results.posts.author.displayName;
-      document.getElementById("post-description").textContent = results.posts.description;
-      document.getElementById("post-content").innerHTML = results.posts.content;
+      document.getElementById("post-title").textContent = results.posts[0].title;
+      document.getElementById("post-author").textContent = results.posts[0].author.displayName;
+      document.getElementById("post-description").textContent = results.posts[0].description;
+      document.getElementById("post-content").innerHTML = results.posts[0].content;
 
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
       $(".post-author").click(function(e) {
         e.preventDefault();
         // set this for authorpage to use
-        localStorage.setItem("fetch-author-id", results.post.author.id);
+        localStorage.setItem("fetch-author-id", results.post[0].author.id);
         window.location.href = "authorpage.html";
       });
     });
@@ -61,14 +61,28 @@ $("#comment-submit").click(function (e) {
   e.preventDefault();
 
   var commentData = {};
-  commentData["post_id"] = postID;
+  commentData["post"] = postID;
   commentData["author_id"] = localStorage.getItem("author_id");
-  commentData["comment_text"] = $("#comment-content").val();
+  commentData["comment_text"] =
+  commentData["contentType"] = $("input[name=text-type]").val();
+
+  if ($("input[name=text-type]").val() == "text/x-markdown") {
+    var cmreader = new commonmark.Parser();
+    var writer = new commonmark.HtmlRenderer();
+    var parsed = cmreader.parse($("#comment-content").val()); // parsed is a 'Node' tree
+    // transform parsed if you like...
+    var commonmarkresult = writer.render(parsed);
+    // console.log(commonmarkresult);
+    commentData["content"] = commonmarkresult;
+  }
+  else {
+    commentData["content"] = $("#comment-content").val();
+  }
 
   console.log(JSON.stringify(commentData));
 
   // don't really care if it worked or not, that's the server's job
-  sendAJAX("POST", "/makePost", commentData, function(response) {
+  sendAJAX("POST", "/posts/"+postID+"/comments", commentData, function(results) {
     console.log(response);
   });
   window.location.reload();

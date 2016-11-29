@@ -239,6 +239,13 @@ class RestHandlers():
                             "view_permission" : data["view_permission"],
                             "author_id" :   data["author_id"]
                         }       
+        if "img-url" in data:
+            urlObj = {}
+            urlObj["URL_id"] = uuid.uuid4().hex
+            urlObj["post_id"] = post["post_id"]
+            urlObj["URL_link"] = data["img-url"]
+            db.session.add(URL(urlObj)) 
+            db.session.commit()
 
 
         #If the post comes with images, make them
@@ -259,7 +266,7 @@ class RestHandlers():
     def make_comment(self, data):
         currentTime = datetime.now()    
         comment = {
-                                "comment_id"    :   data["comment_id"],
+                                "comment_id"    :   uuid.uuid4().hex,
                                 "author_id" :   data["author_id"],
                                 "author_host" :   data["author_host"],
                                 "author_name" :   data["author_name"],
@@ -268,7 +275,7 @@ class RestHandlers():
                                 "post_id"   :   data["post_id"],
                                 "comment_text"  :   data["comment_text"],
                                 "content_type"  :   "text/markdown",    
-                                "creation_time" :   data["published"]
+                                "creation_time" :   currentTime
                             }
         try:
             db.session.add(Comments(comment))
@@ -396,3 +403,7 @@ class RestHandlers():
             rt.append(ele.author_id)
 
         return rt
+
+
+    def getImgUrl(self, post_id):
+        return db.session.query(URL).filter(URL.post_id == post_id).first().URL_link

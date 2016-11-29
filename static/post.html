@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- <script src="/js/login-check.js"></script> -->
+  <script src="/js/utilities.js"></script>
 </head>
 <body>
 <div id="navbar" style="padding-bottom: 70px"></div>
@@ -24,14 +24,14 @@
     <div class="col-sm-8 col-lg-6 content-main">
       <div class="panel panel-default text-left">
         <div class="panel-body">
-          <form>
+          <form id="comment-form">
             <fieldset>
               <div class="form-group">
                 <textarea class="form-control" name="post-text" rows="2" id="comment-content" placeholder="Reply to this post" required></textarea>
               </div>
               <div class="form-group">
-                <label class="ratiocheck" class="radio-inline"><input type="radio" value="text/plain" name="text-type" checked>Plain Text</label>
-                <label class="ratiocheck" class="radio-inline"><input type="radio" value="text/x-markdown" name="text-type">Markdown</label>
+                <label class="radio-inline"><input type="radio" value="text/plain" name="text-type" checked>Plain Text</label>
+                <label class="radio-inline"><input type="radio" value="text/x-markdown" name="text-type">Markdown</label>
               </div>
               <button id="comment-submit" class="btn btn-primary"> Add Comment</button>
             </fieldset>
@@ -53,18 +53,6 @@
           </div>
         </li>
         <!-- THE COMMENTS -->
-        <li class="list-group-item media text-left">
-          <div class="media-heading">
-            <a href="#" class="comment-author-url">
-              <p class="comment-author">Author</p>
-            </a>
-          </div>
-          <div class="media-body">
-            <p class="comment-content">
-              Lol hehe xd
-            </p>
-          </div>
-        </li>
       </ol>
     </div>
 
@@ -89,7 +77,6 @@
   </li>
 </template>
 
-<script src="/js/utilities.js"></script>
 <script src="/js/post.js"></script>
 <!-- <script src="/js/setmycookie.js"></script> -->
 </body>
