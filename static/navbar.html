@@ -50,7 +50,7 @@
 <!--      </div>-->
 <!--    </div>-->
 <!--  </div>-->
-  <div class="alert" style="display: none">
+  <div class="alert alert-danger" style="display: none">
     <a class="close" onclick="$('.alert').hide()">×</a>
     <strong>ID NOT FOUND!</strong>
   </div>
@@ -119,6 +119,5 @@
   // display name in navbar
   $(document).ready(function() {
     document.getElementById("nav-display-name").textContent = localStorage.getItem("display_name");
-                    $('.alert').show();
   })
 </script>
