@@ -1,5 +1,5 @@
 <div class="navnav">
-  <nav class="navbar navbar-inverse navbar-fixed-top" style="padding-bottom: 70px">
+  <nav class="navbar navbar-inverse navbar-fixed-top" id="navbarnab">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -42,7 +42,7 @@
   </nav>
   
   <div class="alert alert-danger" style="display: none; margin-top: 60px;">
-    <a class="close" onclick="$('.alert').hide()">×</a>
+    <a class="close" onclick="$('.alert').hide(); document.getElementById('page-container').style.marginTop = '70px';">×</a>
     <strong>ID NOT FOUND!</strong>
   </div>
 <!--  -->
@@ -90,6 +90,7 @@
       }
       else {
         $('.alert').show();
+        document.getElementById("page-container").style.marginTop = "0px";
 
         //window.location.reload();
       }
