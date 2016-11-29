@@ -658,12 +658,12 @@ def FollowUser():
     printSessionIDs(APP_state)
     # try :
     param={}
-    param["from_author"] = data["author"]["id"]
-    param["from_author_name"] = data["author"]["displayName"]
-    param["from_serverIP"] = data["author"]["host"]
-    param["to_author"] = data["friend"]["id"]
-    param["to_author_name"] = data["friend"]["displayName"]
-    param["to_serverIP"] = data["friend"]["host"]
+    param["to_author"] = data["author"]["id"]
+    param["to_author_name"] = data["author"]["displayName"]
+    param["to_serverIP"] = data["author"]["host"]
+    param["from_author"] = data["friend"]["id"]
+    param["from_author_name"] = data["friend"]["displayName"]
+    param["from_serverIP"] = data["friend"]["host"]
     
     # print data
     result = processFriendRequest(param, APP_state)
