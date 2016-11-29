@@ -9,27 +9,32 @@ $(document).ready(function() {
   if (postID) {
 
     // request the post from whatever the host is
-    sendAJAX("GET", "/posts/"+postID, "", function(post) {
+    sendAJAX("GET", "/posts/"+postID, "", function(results) {
       // fill the container with details
-      $("#post-title").text() = post.title;
-      $("#post-author").text() = post.author.displayName;
-      $("#post-description").text() = post.description;
-      $("#post-content").text() = post.content;
+      document.getElementById("post-title").textContent = results.posts[0].title;
+      document.getElementById("post-author").textContent = results.posts[0].author.displayName;
+      document.getElementById("post-description").textContent = results.posts[0].description;
+      document.getElementById("post-content").innerHTML = results.posts[0].content;
 
-      // bind the author's ID to the author link
-      var author = commentTemplate.content.querySelector(".comment-author");
-      $("#post-author").setAttribute("post-author-id", post.author.id);
+      // bind the onclick to set author id in localStorage
+      // and link the user to the author's profile
+      $(".post-author").click(function(e) {
+        e.preventDefault();
+        // set this for authorpage to use
+        localStorage.setItem("fetch-author-id", results.post[0].author.id);
+        window.location.href = "authorpage.html";
+      });
     });
 
     // now fetch all the comments
-    sendAJAX("GET", "/posts/"+postID+"/comments", "", function(comments) {
-      for (var i=0; i<comments.length; ++i) {
-        commentTemplate.content.querySelector(".comment-author").textContent = comments[i].author.displayName;
-        commentTemplate.content.querySelector(".comment-content").textContent = comments[i].comment;
+    sendAJAX("GET", "/posts/"+postID+"/comments", "", function(results) {
+      for (var i=0; i < results.comments.length; ++i) {
+        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
+        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
 
         // bind the author's ID to the author link
         var authorBtn = commentTemplate.content.querySelector(".comment-author");
-        authorBtn.setAttribute("post-author-id", comments[i].author_id);
+        authorBtn.setAttribute("post-author-id", results.comments[i].author_id);
 
         var clone = document.importNode(commentTemplate.content, true);
         commentsList.append(clone);

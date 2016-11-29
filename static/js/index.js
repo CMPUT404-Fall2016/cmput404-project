@@ -108,52 +108,46 @@ $("#post-submit").click(function(e) {
   postData["title"] = postForm.elements["title"].value;
   postData["description"] = postForm.elements["desc"].value;
   postData["contentType"] = postForm.elements["text-type"].value;
-  console.log(postData["contentType"]);
+  // console.log(postData["contentType"]);
 
-  if (postForm.elements["text-type"].value == "text/markdown") {
-
-  var cmreader = new commonmark.Parser();
-  var writer = new commonmark.HtmlRenderer();
-  var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
-  // transform parsed if you like...
-  var commonmarkresult = writer.render(parsed);
-  console.log(commonmarkresult);
-  postData["content"] = commonmarkresult;
+  if (postForm.elements["text-type"].value == "text/x-markdown") {
+    var cmreader = new commonmark.Parser();
+    var writer = new commonmark.HtmlRenderer();
+    var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
+    // transform parsed if you like...
+    var commonmarkresult = writer.render(parsed);
+    // console.log(commonmarkresult);
+    postData["content"] = commonmarkresult;
   }
   else {
-  postData["content"] = postForm.elements["post-text"].value;
+    postData["content"] = postForm.elements["post-text"].value;
   }
 
-  //postData["content"] = postForm.elements["post-text"].value;
-
   postData["visibility"] = postForm.elements["visibility"].value;
-
-
-//                        var cmreader = new commonmark.Parser();
-//                        var writer = new commonmark.HtmlRenderer();
-//                        var parsed = cmreader.parse(postForm.elements["post-text"].value); // parsed is a 'Node' tree
-//                        // transform parsed if you like...
-//                        var commonmarkresult = writer.render(parsed);
-//
-//                        console.log(commonmarkresult);
 
   // convert the image to base64 string and attach to the data
   var reader = new FileReader();
   reader.addEventListener("load", function () {
     postData["image"] = reader.result;
     console.log(JSON.stringify(postData));
+    sendAJAX("POST", "/posts", postData, function(result) {
+      console.log(result);
+      window.location.reload();
+    });
   }, false);
 
+  // if there are images, we need to send the request after it decodes
   if (postForm.elements["image"].files[0]) {
     reader.readAsDataURL(postForm.elements["image"].files[0]);
+    postData["image-ext"] = postForm.elements["image"].files[0].type;
   }
-
-  console.log(postData);
-
-  sendAJAX("POST", "/posts", postData, function(result) {
-    console.log(result);
-    window.location.reload();
-  });
+  // otherwise just send it
+  else {
+    sendAJAX("POST", "/posts", postData, function(result) {
+      console.log(result);
+      window.location.reload();
+    });
+  }
 });
 
 $(document).ready(function() {
