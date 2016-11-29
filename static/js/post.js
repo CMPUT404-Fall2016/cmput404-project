@@ -11,10 +11,11 @@ $(document).ready(function() {
     // request the post from whatever the host is
     sendAJAX("GET", "/posts/"+postID, "", function(post) {
       // fill the container with details
-      $("#post-title").text() = post.title;
-      $("#post-author").text() = post.author.displayName;
-      $("#post-description").text() = post.description;
-      $("#post-content").text() = post.content;
+      $("#post-title").text() = posts.title;
+      $("#post-author").text() = posts.author.displayName;
+      $("#post-description").text() = posts.description;
+      //$("#post-content").text() = posts.content;
+      document.getElementsByClassName("post-content").innerHTML = posts.content;
 
       // bind the author's ID to the author link
       var author = commentTemplate.content.querySelector(".comment-author");
