@@ -61,14 +61,28 @@ $("#comment-submit").click(function (e) {
   e.preventDefault();
 
   var commentData = {};
-  commentData["post_id"] = postID;
+  commentData["post_id"] = localStorage.getItem("fetch-post-id");
   commentData["author_id"] = localStorage.getItem("author_id");
-  commentData["comment_text"] = $("#comment-content").val();
+  commentData["comment_text"] =
+  commentData["contentType"] = $("input[name=text-type]").val();
+
+  if ($("input[name=text-type]").val() == "text/x-markdown") {
+    var cmreader = new commonmark.Parser();
+    var writer = new commonmark.HtmlRenderer();
+    var parsed = cmreader.parse($("#comment-content").val()); // parsed is a 'Node' tree
+    // transform parsed if you like...
+    var commonmarkresult = writer.render(parsed);
+    // console.log(commonmarkresult);
+    commentData["content"] = commonmarkresult;
+  }
+  else {
+    commentData["content"] = $("#comment-content").val();
+  }
 
   console.log(JSON.stringify(commentData));
 
   // don't really care if it worked or not, that's the server's job
-  sendAJAX("POST", "/makePost", commentData, function(response) {
+  sendAJAX("POST", "/posts/"+postID+"/comments", commentData, function(results) {
     console.log(response);
   });
   window.location.reload();
