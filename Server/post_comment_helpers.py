@@ -327,7 +327,7 @@ class Post(Resource):
                 print "SERVERTOSERVER response"
                 
                 
-                return jsonify(makePostJson(handler.getPost(post_id), {"page":None, "size":None}))
+                return jsonify(makePostJson([handler.getPost(post_id)], {"page":None, "size":None}))
                 
     #        #Assume we passed server to server auth
     #        #Assume this is the place we do remote get
