@@ -90,7 +90,7 @@ $("#comment-submit").click(function (e) {
   console.log(JSON.stringify(commentData));
 
   // don't really care if it worked or not, that's the server's job
-  sendAJAX("POST", "/posts/"+postID+"/comments", commentData, function(results) {
+  sendAJAX("POST", "/posts/"+postID+"/comments/", commentData, function(results) {
     console.log(response);
   });
   window.location.reload();
