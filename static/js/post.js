@@ -1,9 +1,9 @@
+const postID = localStorage.getItem("fetch-post-id");
+const commentTemplate = $("#comment-template");
+const commentsList = $("#posts");
+
 // get the posts with the post-id in localStorage
 $(document).ready(function() {
-
-  var postID = localStorage.getItem("fetch-post-id");
-  var commentTemplate = $("#comment-template");
-  var commentsList = $("#posts");
 
   // are we even supposed to be here
   if (postID) {
@@ -61,7 +61,7 @@ $("#comment-submit").click(function (e) {
   e.preventDefault();
 
   var commentData = {};
-  commentData["post_id"] = localStorage.getItem("fetch-post-id");
+  commentData["post_id"] = postID;
   commentData["author_id"] = localStorage.getItem("author_id");
   commentData["comment_text"] =
   commentData["contentType"] = $("input[name=text-type]").val();
