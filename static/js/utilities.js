@@ -18,10 +18,6 @@
   if ((authenticated == false) && (window.location.pathname != "/login.html")) {
     window.location.href = "login.html";
   }
-  // already authenticated? send to index page
-  else if ((authenticated == true) && (window.location.pathname == "/login.html")) {
-    window.location.href = "index.html"
-  }
 
   // load navbar unless on login page
   if (window.location.pathname != "/login.html") {
