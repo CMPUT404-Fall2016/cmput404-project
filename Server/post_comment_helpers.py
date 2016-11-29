@@ -635,11 +635,16 @@ class AuthorPost(Resource):
                 remoteUsr = request.headers.get("author_id")
                 allPosts = handler.getVisiblePosts(remoteUsr)
                 
-                headers = createAuthHeaders(request.url_root)
+                auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+                
+                
+                
+                
+                headers = createAuthHeaders(auth)
 
                 headers['Content-type'] = 'application/json'
                 
-                [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+                [prefix, suffix] = getAPI(auth, 'GET/friends/A')
                 custom_url = prefix + remoteUsr + suffix
                 print "friend request url: "
                 print custom_url
@@ -749,11 +754,13 @@ class AuthorToAuthorPost(Resource):
                     allPosts = handler.getVisiblePostsByAuthor(remoteUsr, author_id)
                     foafPosts = handler.getAllFoafPostsByUsr(author_id)
                     
-                    headers = createAuthHeaders(request.url_root)
+                    auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+                    
+                    headers = createAuthHeaders(auth)
 
                     headers['Content-type'] = 'application/json'
                     
-                    [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+                    [prefix, suffix] = getAPI(auth, 'GET/friends/A')
                     custom_url = prefix + remoteUsr + suffix
                     print "friend request url: "
                     print custom_url
@@ -855,11 +862,13 @@ class Comment(Resource):
                     else:
                         if got[0][0].view_permission == 4:
                             
-                            headers = createAuthHeaders(request.url_root)
+                            auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+                            
+                            headers = createAuthHeaders(auth)
 
                             headers['Content-type'] = 'application/json'
 
-                            [prefix, suffix] = getAPI(request.url_root, 'GET/friends/A')
+                            [prefix, suffix] = getAPI(auth, 'GET/friends/A')
                             custom_url = prefix + remoteAuthor + suffix
                             print "friend request url: "
                             print custom_url
