@@ -490,10 +490,8 @@ class All_Post(Resource):
 
                     if("image" in data):                       
                         url = saveImage(data["image"], data["image-ext"])
+                        post["img-url"] = url
                         
-                     
-                    
-
                     if handler.make_post(post):
                         return {"query" : "addPost", "success" : "true", "message" : "Post Added"}
                     else:

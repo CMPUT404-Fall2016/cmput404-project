@@ -239,6 +239,13 @@ class RestHandlers():
                             "view_permission" : data["view_permission"],
                             "author_id" :   data["author_id"]
                         }       
+        if "img-url" in data:
+            urlObj = {}
+            urlObj["URL_id"] = uuid.uuid4().hex
+            urlObj["post_id"] = post["post_id"]
+            urlObj["URL_link"] = data["img-url"]
+            db.session.add(URL(urlObj)) 
+            db.session.commit()
 
 
         #If the post comes with images, make them
@@ -399,4 +406,4 @@ class RestHandlers():
 
 
     def getImgUrl(self, post_id):
-        return db.session.query(URL).filter(URL.post_id == post_id).first()
+        return db.session.query(URL).filter(URL.post_id == post_id).first().URL_link
