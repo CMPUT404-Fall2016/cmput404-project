@@ -34,12 +34,6 @@ function getFriendcookieid() {
   return "";
 }
 
-//function editauthorpage() {
-//  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-//  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-//  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-//}
-
 // clear post tab when user on profile tab
 $(".profiletab").click( function(e) {
     e.preventDefault();
@@ -139,7 +133,7 @@ $("#posttabs").click(function(e) {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
-           
+
        if(results.posts[i].contentType == "text/markdown" || results.posts[i].contentType == "text/x-markdown") {
            var cmreader = new commonmark.Parser();
            var writer = new commonmark.HtmlRenderer();
