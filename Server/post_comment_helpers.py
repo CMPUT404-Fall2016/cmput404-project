@@ -16,6 +16,9 @@ from author_endpointHandlers import *
 from requests.auth import HTTPBasicAuth
 from datetime import datetime
 import time
+import uuid
+
+random.seed(time.time())
 
 
 handler = RestHandlers()
@@ -232,8 +235,8 @@ def makePostJson(data, args):
                 break
             rt["posts"].append({
                 "title" :   data[i][0].title,
-                "source"    :   "",
-                "origin"    :   "",
+                "source"    :   myip + "posts/" + data[i][0].post_id,
+                "origin"    :   myip + "posts/" + data[i][0].post_id,
                 "author"    :   makeAuthorJson(data[i][1]),
                 "description"   :   data[i][0].description,
                 "contentType"   :   data[i][0].content_type,
@@ -900,7 +903,8 @@ class Comment(Resource):
                 if "session_id" in cookie:
                     sessionID = cookie["session_id"]
                     if sessionID in APP_state["session_ids"]:
-
+                          
+                        currentTime = datetime.now()
                         data = request.get_json(force=True)
                         comment["post_id"] = data["post"].split("/")[4]
                         comment["comment_text"] = data["comment"]["comment"]
@@ -909,8 +913,10 @@ class Comment(Resource):
                         comment["author_name"] = data["comment"]["author"]["displayName"]
                         comment["author_url"] = data["comment"]["author"]["url"]
                         comment["author_github"] = data["comment"]["author"]["github"]
-                        comment["comment_id"] = data["comment"]["guid"]
-                        comment["published"] = data["comment"]["published"]
+                        #comment["comment_id"] = data["comment"]["guid"]
+                        #comment["published"] = data["comment"]["published"]
+                        data["comment"]["author"]["guid"] = uuid.uuid().hex
+                        data["comment"]["published"] = currentTime.isoformat() 
 
                         start = data["post"].split("/")[0]
                         middle = data["post"].split("/")[1]

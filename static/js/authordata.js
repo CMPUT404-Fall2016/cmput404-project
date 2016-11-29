@@ -139,8 +139,18 @@ $("#posttabs").click(function(e) {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
+           
+       if(results.posts[i].contentType == "text/markdown" || results.posts[i].contentType == "text/x-markdown") {
+           var cmreader = new commonmark.Parser();
+           var writer = new commonmark.HtmlRenderer();
+           var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
+           // transform parsed if you like...
+           var commonmarkresult = writer.render(parsed);
+       } else {
+           postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+       }
 
-      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+      //postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
       if (results.posts[i].count > 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
       }

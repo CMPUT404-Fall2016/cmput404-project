@@ -34,7 +34,7 @@ $(document).ready(function() {
 
         // bind the author's ID to the author link
         var authorBtn = commentTemplate.content.querySelector(".comment-author");
-        authorBtn.setAttribute("post-author-id", results.comments[i].author_id);
+        authorBtn.setAttribute("post-author-id", results.comments[i].author.id);
 
         var clone = document.importNode(commentTemplate.content, true);
         commentsList.append(clone);
