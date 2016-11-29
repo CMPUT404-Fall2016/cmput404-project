@@ -4,6 +4,8 @@
 $(document).ready(function(){
   if (window.location.href != "login.html") {
     $('#navbar').load('/navbar.html');
+    
+            
   }
 });
 
