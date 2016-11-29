@@ -219,6 +219,7 @@ class Post(Resource):
                 
                 print "checking OWN POST"
                 print db.session.query(Posts).filter(Posts.post_id == post_id).first()
+                print "checking OWN POST_end"
                 
                 own_post = handler.getPost(pid)
                 if len(own_post) > 0:
