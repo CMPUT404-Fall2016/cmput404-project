@@ -105,7 +105,12 @@ $("#post-submit").click(function(e) {
   var postData = {};
   postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
-  postData["description"] = postForm.elements["desc"].value;
+  if (postForm.elements["desc"].value == null) {
+    postData["description"] = "";
+  }
+  else {
+    postData["description"] = postForm.elements["desc"].value;
+  }
   postData["contentType"] = postForm.elements["text-type"].value;
   // console.log(postData["contentType"]);
 
