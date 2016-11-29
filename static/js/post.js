@@ -9,23 +9,24 @@ $(document).ready(function() {
   if (postID) {
 
     // request the post from whatever the host is
-    sendAJAX("GET", "/posts/"+postID, "", function(post) {
+    sendAJAX("GET", "/posts/"+postID, "", function(results) {
       // fill the container with details
-      $("#post-title").text() = post.title;
-      $("#post-author").text() = post.author.displayName;
-      $("#post-description").text() = post.description;
-      $("#post-content").text() = post.content;
+      $("#post-title").text() = results.posts.title;
+      $("#post-author").text() = results.posts.author.displayName;
+      $("#post-description").text() = results.posts.description;
+      //$("#post-content").text() = posts.content;
+      document.getElementsByClassName("post-content").innerHTML = results.posts.content;
 
       // bind the author's ID to the author link
       var author = commentTemplate.content.querySelector(".comment-author");
-      $("#post-author").setAttribute("post-author-id", post.author.id);
+      $("#post-author").setAttribute("post-author-id", results.post.author.id);
     });
 
     // now fetch all the comments
-    sendAJAX("GET", "/posts/"+postID+"/comments", "", function(comments) {
-      for (var i=0; i<comments.length; ++i) {
-        commentTemplate.content.querySelector(".comment-author").textContent = comments[i].author.displayName;
-        commentTemplate.content.querySelector(".comment-content").textContent = comments[i].comment;
+    sendAJAX("GET", "/posts/"+postID+"/comments", "", function(results) {
+      for (var i=0; i<results.comments.length; ++i) {
+        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
+        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
 
         // bind the author's ID to the author link
         var authorBtn = commentTemplate.content.querySelector(".comment-author");
