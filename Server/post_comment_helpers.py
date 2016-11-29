@@ -119,7 +119,7 @@ def is_accessible():
     auth = request.authorization or request.environ.get('REMOTE_USER')  # workaround for Apache
     
     if not auth or not check_auth(auth.username, auth.password):
-        raise HTTPException('', Response("NO AUTHENTICATION", 401, {'WWW-Authenticate': 'Basic realm="Login Required"'}))
+        raise HTTPException('', Response('NO AUTHENTICATION', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'}))
     
     return True
 
