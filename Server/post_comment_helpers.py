@@ -229,7 +229,7 @@ class Post(Resource):
                     own_post_return = makePostJson(own_post, {"page":None, "size":None})
                     
                     
-                    json_return["posts"].extend(own_post["posts"])
+                    json_return["posts"].extend(own_post_return["posts"])
                     return jsonify(json_return)
                 else:
                     for node in nodes:
