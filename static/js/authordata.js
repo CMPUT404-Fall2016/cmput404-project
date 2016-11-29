@@ -85,12 +85,12 @@ $(document).ready(function() {
       if(getCookieid() == localStorage.getItem("fetch-author-id")) {
         document.getElementById("addfriendbtn").style.display="none";
       }
-             
+
              var author2sid = getCookieid();
-             
+
        var isfriend = "/friends/" + myauthorid + "/" + author2sid;
        console.log(isfriend);
-       
+
        sendAJAX("GET", isfriend, "", function(response) {
                 console.log(response.friends);
                 if(response.friends == true) {
@@ -103,7 +103,7 @@ $(document).ready(function() {
 
     });
 
-    
+
 
     //var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 //    var isfriend = "/friends/" + myauthorid + "/" + author2sid;
@@ -139,9 +139,11 @@ $("#posttabs").click(function(e) {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
-           
-      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
 
+      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+      if (results.posts[i].count > 0) {
+        postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
+      }
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
       authorBtn.setAttribute("post-author-id", results.posts[i].author.id);
@@ -200,7 +202,7 @@ function afriendone() {
       myinfodatacombines.friendhost = result2.host;
       myinfodatacombines.frienddisplayname = result2.displayName
       myinfodatacombines.friendurl = result2.url;
-             
+
              console.log(myinfodatacombines);
 
       afriendtwo(myinfodatacombines);
@@ -222,7 +224,7 @@ function afriendtwo(result) {
     friendrequestdata["friend"]["host"] = result.friendhost;
     friendrequestdata["friend"]["displayName"] = result.frienddisplayname;
     friendrequestdata["friend"]["url"] = result.friendurl;
-  
+
   console.log(JSON.stringify(friendrequestdata));
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];

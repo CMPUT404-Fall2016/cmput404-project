@@ -46,7 +46,7 @@ def check_auth(username, password):
     # print "foreign server : "
     # print forign_server
     # forign_server = forign_server[:-1]
-    db_server_list = db.session.query(Servers).filter(Servers.username == username).all()
+    db_server_list = db.session.query(Servers).filter(Servers.user_name == username).all()
     
     if len(db_server_list) == 0:
         return False
