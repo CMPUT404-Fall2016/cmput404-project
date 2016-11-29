@@ -125,12 +125,10 @@ class ModelView(flask_admin.contrib.sqla.ModelView):
 
 
 
-
-#@requires_auth
 class UserView(ModelView):
     can_create = True
 
-#@requires_auth
+
 class PostView(ModelView):
     can_create = True
 
@@ -138,27 +136,26 @@ class CommentView(ModelView):
     can_create = True
 
 
-#@requires_auth
 class ImageView(ModelView):
     can_create = True
 
-#@requires_auth
+
 class URLView(ModelView):
     can_create = True
 
-#@requires_auth
+
 class ServerView(ModelView):
     can_create = True
 
-#@requires_auth
+
 class GlobalView(ModelView):
     can_create = True
 
-#@requires_auth
+
 class FriendRelationshipsView(ModelView):
     can_create = True
 
-#@requires_auth
+
 class FriendRequestsView(ModelView):
     can_create = True
 
@@ -436,7 +433,7 @@ def EditProfile():
 
 
 @app.route("/author/<AUTHOR_ID>", methods=['GET'])
-# @requires_auth
+@requires_auth
 def FetchAuthor(AUTHOR_ID):
     
     APP_state = loadGlobalVar()
@@ -643,7 +640,7 @@ def RemoveFriend():
 
 
 @app.route("/friendrequest", methods=['POST'])
-# @requires_auth
+@requires_auth
 def FollowUser():
     """
     User wants to follow someone, aka wants to send a friend request.
@@ -689,7 +686,7 @@ def FollowUser():
 
 
 @app.route("/friends/<AUTHOR_ID>", methods=['GET'])
-# @requires_auth
+@requires_auth
 def GetFriendList(AUTHOR_ID):
     """
     """
@@ -709,7 +706,7 @@ def GetFriendList(AUTHOR_ID):
 
 
 @app.route("/friends/<AUTHOR_ID>", methods=['POST'])
-# @requires_auth
+@requires_auth
 def checkIfFriendsList(AUTHOR_ID):
     """
     """
@@ -736,7 +733,7 @@ def checkIfFriendsList(AUTHOR_ID):
 
 
 @app.route("/friends/<AUTHOR_ID_1>/<AUTHOR_ID_2>", methods=['GET'])
-# @requires_auth
+@requires_auth
 def checkIfFriends(AUTHOR_ID_1, AUTHOR_ID_2):
     """
     """
