@@ -15,16 +15,16 @@
   }
 
   // unauthenticated? send to login page
-  if ((authenticated == false) && (window.location.href != login.html) {
+  if ((authenticated == false) && (window.location.pathname != "/login.html") {
     window.location.href = "login.html";
   }
   // already authenticated? send to index page
-  else if ((authenticated == true) && (window.location.href == login.html)) {
+  else if ((authenticated == true) && (window.location.pathname == "/login.html")) {
     window.location.href = "index.html"
   }
 
   // load navbar unless on login page
-  if (window.location.href != "login.html") {
+  if (window.location.pathname != "/login.html") {
     $('#navbar').load('/navbar.html');
   }
 })();
