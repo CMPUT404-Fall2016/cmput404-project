@@ -191,8 +191,8 @@ function afriendone() {
     var myinfodatacombine = {}
     myinfodatacombine.myhost = result.host;
     myinfodatacombine.mydisplayname = result.displayName;
-     myinfodatacombines.mydisplayname = result.url;
-     console.log(myinfodatacombine);
+    myinfodatacombine.mydisplayname = result.url;
+    console.log(myinfodatacombine);
 
     //var friendid = getFriendcookieid();
     var friendid = localStorage.getItem("fetch-author-id");
