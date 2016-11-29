@@ -4,8 +4,9 @@ from sample_data.data_API import *
 import unittest
 import json
 import re
+from Nodes import *
 
-URL = "http://127.0.0.1:5000"  
+URL = "http://secure-springs-85403.herokuapp.com/"  
 firstTime = True
 """
 CS stands for Client-Server
@@ -25,12 +26,27 @@ class Test_CS_API(unittest.TestCase):
 
 
     def test(self):
-        self.login_()
-        self.friend_()
+    	self.authors_1()
+    	self.posts_1()
+
+    def authors_1(self):
+	    self.sample_Login(author1_log)
+	    data = {}
+	    data['query'] = 'friends'
+	    data['authors'] = [author1_log['author_id'], author2_log['author_id']]
+	    self.isFriends = False
+        self.sample_ifFriends(author1_log, author2_log, data)
+        resp = self.sample_getFriendList(author1_log)
+        self.matchFriendList(resp)
+        self.
+
+
+	def posts_1(self):
+		pass
 
     def login_(self):
         author1_log["author_id"] = self.sample_Registration(author1_reg)
-        # self.sample_Logout()
+        self.sample_Logout()
         self.authorize(author1_log['author_id'])
         self.sample_Login(author1_log)
         self.sample_Logout()
@@ -132,18 +148,20 @@ class Test_CS_API(unittest.TestCase):
         assert(body["status"] == "SUCCESS"), "Should be a success!"
 
 
-    def sample_FetchAuthor(self):
+    def sample_FetchAuthor(self, author):
 
-        headers = {'Foreign_host': 'false'}        
-        url = self.serverURL + "/author/"+ author1_log["author_id"]
-        req1 = requests.Request('GET', url, headers)
-        prepp1 = req1.prepare()
+        # headers = {'Foreign_host': 'false'}        
+        # url = self.serverURL + "/author/"+ author["author_id"]
+        prefix, suffix = getAPI(URL, 'GET/author/A')
+        url = prefix + author['author_id'] + suffix
+        req1 = requests.get(url)
+        # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
-        resp = self.s.send(prepp1)
-        body = json.loads(resp.text)
+        # resp = self.s.send(prepp1)
+        body = json.loads(req1.text)
         print body["status"]
-        print "author_id: ", author1_log["author_id"]
-        assert(body["status"] == "SUCCESS"), "Should be a success!"
+        # print "author_id: ", author1_log["author_id"]
+        # assert(body["status"] == "SUCCESS"), "Should be a success!"
         self.match_author1(body)
 
 
@@ -162,7 +180,7 @@ class Test_CS_API(unittest.TestCase):
             first=names[0]
             last = "".join(names[1:])
 
-        url = self.serverURL + "/authorByName/?first=%s&last=%s"%(first,last)
+        url = self.serverURL + "authorByName/?first=%s&last=%s"%(first,last)
         req1 = requests.Request('GET', url)
         prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
@@ -175,15 +193,13 @@ class Test_CS_API(unittest.TestCase):
         print body
         self.match_author1(body['authors'][0])
 
-    def match_author1(self, body):
+    def match_author1(self, body, author):
 
-        assert(body['id'] == author1_log['author_id'])
+        assert(body['id'] == author['author_id'])
         assert(body['host'] == URL)
-        assert(body['displayName'] == author1_reg['name'])
-        assert(body['url'] == (URL+'/author/'+author1_log['author_id']))
-        assert(len(body['friends']) == 0)
-        assert(body['githubUsername'] == author1_edit['github_id'])
-        assert(body['bio'] == author1_edit['bio'])
+        assert(body['displayName'] == author['name'])
+        assert(body['url'] == (URL+'author/'+author1_log['author_id']))
+        assert(len(body['friends']) > 0)
 
 
     def friend_(self):
@@ -219,20 +235,21 @@ class Test_CS_API(unittest.TestCase):
 
     def sample_friendrequest(self, from_, to, req):
 
-        url = self.serverURL + "/friendrequest"
+    	prefix, suffix = getAPI(URL, 'POST/friendrequest')
+        url = prefix + suffix
         headers = {'Content-type': 'application/json'}
-        req1 = requests.Request('POST', url, data=json.dumps(req), headers=headers)
-        prepp1 = req1.prepare()
-        prepp1 = self.prepCookie(prepp1)
-        resp = self.s.send(prepp1)
-        body = json.loads(resp.text)
+        req1 = requests.post(url, data=json.dumps(req), headers=headers)
+        # prepp1 = req1.prepare()
+        # prepp1 = self.prepCookie(prepp1)
+        # resp = self.s.send(prepp1)
+        body = json.loads(req1.text)
         # print body["status"]
-        assert(body["status"] == "SUCCESS"), "Should be a success!"
+        # assert(body["status"] == "SUCCESS"), "Should be a success!"
 
 
     def sample_getFriendRequests(self, from_author):
 
-        url = self.serverURL + "/getFriendRequests"
+        url = self.serverURL + "getFriendRequests"
         req1 = requests.Request('GET', url)
         prepp1 = req1.prepare()
         prepp1 = self.prepCookie(prepp1)
@@ -247,7 +264,7 @@ class Test_CS_API(unittest.TestCase):
 
     def sample_AcceptFriendRequests(self, FR):
 
-        url = self.serverURL + "/acceptFriendRequest"
+        url = self.serverURL + "acceptFriendRequest"
         headers = {'Content-type': 'application/json'}
         data = {}
         data['author'] = FR['author']['id']
@@ -262,54 +279,71 @@ class Test_CS_API(unittest.TestCase):
 
     def sample_getFriendList(self, logged_author):
 
-        url = self.serverURL + "/friends/" + logged_author['author_id']
-        req1 = requests.Request('GET', url)
-        prepp1 = req1.prepare()
+    	"""
+		Will return friendlist of logged_author 
+    	"""
+    	prefix, suffix = getAPI(URL, 'GET/friends/A')
+        url = prefix + logged_author['author_id'] + suffix
+        req1 = requests.get(url)
+        # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
-        resp = self.s.send(prepp1)
-        body = json.loads(resp.text)
+        # resp = self.s.send(prepp1)
+        body = json.loads(req1.text)
         return body
 
     def sample_ifFriends(self, author1, author2, POST_request):
-        url = self.serverURL + "/friends/" + str(author1['author_id']) + "/" + str(author2['author_id'])
-        req1 = requests.Request('GET', url)
-        prepp1 = req1.prepare()
+    	prefix, suffix = getAPI(URL, 'GET/friends/A1/A2')
+        url = prefix + str(author1['author_id']) + "/" + str(author2['author_id']) + suffix
+        req1 = requests.get(url)
+        # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
-        resp = self.s.send(prepp1)
-        body_duo = json.loads(resp.text)
+        # resp = self.s.send(prepp1)
+        body_duo = json.loads(req1.text)
 
-        url = self.serverURL + "/friends/" + author1['author_id']
+    	prefix, suffix = getAPI(URL, 'POST/friends/A')
+        url = prefix + author1['author_id'] + suffix
         headers = {'Content-type': 'application/json'}
-        req1 = requests.Request('POST', url, data=json.dumps(POST_request), headers=headers)
-        prepp1 = req1.prepare()
+        req1 = requests.post(url, data=json.dumps(POST_request), headers=headers)
+        # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
-        resp = self.s.send(prepp1)
-        body_multiple = json.loads(resp.text)
+        # resp = self.s.send(prepp1)
+        body_multiple = json.loads(req1.text)
 
         self.matchIfFriends(body_duo, body_multiple, author1['author_id'], [author2['author_id']])
 
 
-    def matchIfFriends(self, response_duo, response_multiple, logged_author, TrueFriends):
+    def matchIfFriends(self, response_duo, response_multiple, logged_author):
 
         assert(response_duo['query'] == 'friends')
         # print response_duo['authors']
         assert(set(response_duo['authors']) == set([logged_author]+TrueFriends))
-        assert(response_duo['friends'] == True)
+        if self.isFriends == True:
+        	assert(response_duo['friends'] == True)
+    	else:
+	    	assert(response_duo['friends'] == False)
 
         assert(response_multiple['query'] == 'friends')
         assert(response_multiple['author'] == logged_author)
         print response_multiple["authors"]
-        assert(set(response_multiple['authors']) == set(TrueFriends))
+        if self.isFriends == True:
+        	assert(self.friend in response_multiple['authors'])
+    	else:
+        	assert(self.friend not in response_multiple['authors'])
 
-    def matchFriendList(self, response, TrueFriends):
+
+    def matchFriendList(self, response):
 
         assert(response['query'] == 'friends')
-        assert(response['authors'] == TrueFriends)
+        if self.isFriends == True:
+        	assert(self.friend in response['authors'])
+    	else:
+	    	assert(self.friend not in response['authors'])
+
 
 
     def sample_Unfriend(self, toUnfriend_id):
 
-        url = self.serverURL + "/unFriend"
+        url = self.serverURL + "unFriend"
         headers = {'Content-type': 'application/json'}
         data = {}
         data['author'] = toUnfriend_id
@@ -322,6 +356,42 @@ class Test_CS_API(unittest.TestCase):
         assert(body['status'] == 'SUCCESS')
 
 
+
+
+    def sample_getPosts(self):
+    	prefix, suffix = getAPI(URL, 'GET/posts')
+    	url = prefix + suffix
+    	req1 = requests.get(url)
+        body = json.loads(req1.text)
+        return body
+
+    def sample_getAuthorPosts(self, author_id):
+    	prefix, suffix = getAPI(URL, 'GET/author/A/posts')
+    	url = prefix + author_id + suffix
+    	req1 = requests.get(url)
+    	body = json.loads(req1.text)
+    	return body
+
+	def sample_getPost_ID(self, post_id):
+		prefix, suffix = getAPI(URL, 'GET/posts/P')
+    	url = prefix + post_id + suffix
+    	req1 = requests.get(url)
+        body = json.loads(req1.text)
+        return body
+
+    def sample_getComments(self, post_id):
+    	prefix, suffix = getAPI(URL, 'GET/posts/P/comments')
+    	url = prefix + post_id + suffix
+    	req1 = requests.get(url)
+        body = json.loads(req1.text)
+        return body
+
+    def sample_makeComments(self, data, post_id):
+    	prefix, suffix = getAPI(URL, 'POST/posts/P/comments')
+    	url = prefix + post_id + suffix
+    	req1 = requests.post(url, data=data)
+        body = json.loads(req1.text)
+        return body
 
 
 
