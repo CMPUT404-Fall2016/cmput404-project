@@ -25,6 +25,13 @@
   }
 })();
 
+$(document).ready(function() {
+  // load navbar unless on login page
+  if (window.location.pathname != "/login.html") {
+    $('#navbar').load('/navbar.html');
+  }
+});
+
 // standard AJAX request
 function sendAJAX(method, url, message, callback) {
   var xhr = new XMLHttpRequest();
