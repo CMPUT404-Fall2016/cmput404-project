@@ -18,7 +18,7 @@ $(document).ready(function() {
 
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
-      $(".post-author").click(function(e) {
+      $("#post-author").click(function(e) {
         e.preventDefault();
         // set this for authorpage to use
         localStorage.setItem("fetch-author-id", results.post[0].author.id);
@@ -34,7 +34,7 @@ $(document).ready(function() {
 
         // bind the author's ID to the author link
         var authorBtn = commentTemplate.content.querySelector(".comment-author");
-        authorBtn.setAttribute("post-author-id", results.comments[i].author_id);
+        authorBtn.setAttribute("post-author-id", results.comments[i].author.id);
 
         var clone = document.importNode(commentTemplate.content, true);
         commentsList.append(clone);
