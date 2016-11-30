@@ -592,6 +592,40 @@ def AcceptFriendRequest():
 
 
 
+
+@app.route("/checkUnfriended", methods=['GET'])
+def checkIfUnfriended():
+    APP_state = loadGlobalVar()
+
+    output = getCookie("CheckUnfriended")
+    if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code =200 response is send back.
+        return output
+
+    # print "from RemoveFriend!"
+    # printSessionIDs(APP_state)
+
+    cookie = output
+    if "session_id" in cookie.keys():
+        sessionID = cookie["session_id"]
+        if sessionID in APP_state["session_ids"]:
+            userID = APP_state["session_ids"][sessionID]
+            param = {}
+            param["author"] = userID
+            param["local_server_Obj"] = APP_state["local_server_Obj"]
+            hasUnFriended = True
+            result = getFriendList(param, APP_state, hasUnFriended)
+            return getResponse(body={"status" : "SUCCESS"}, status_code=200)
+
+        else:
+            print "WARNING! Session id not inside server!"
+            return getResponse(body={"status" : "INVALID_SESSION_ID"}, status_code=200)
+
+    else :
+
+        print 'WARNING! "session_id" field is not found inside cookie!'
+        return getResponse(body={"status" : "CLIENT_FAILURE"}, status_code=200)
+
+
 @app.route("/unFriend", methods=['POST'])
 def RemoveFriend():
     """
