@@ -366,7 +366,7 @@ class Post(Resource):
                         #                    paras = {}
                         #                    paras["page"] = request.args.get('page')
                         #                    paras["size"] = request.args.get('size')
-                                    return jsonify(recvJson)
+                                    return jsonify(json_return)
     #
     #                else:
     #                    return {"Response" : "sessionID error"}
