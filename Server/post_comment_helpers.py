@@ -349,6 +349,9 @@ class Post(Resource):
                             
                             if foreign_return.status_code == 200:
                                 recvJson = foreign_return.json()
+                                print "_______ this is singlr post____________"
+                                print recvJson
+                                print "______________end___________________"
                                 json_return["posts"].extend(recvJson["posts"])
 
                                 
@@ -970,7 +973,7 @@ class Comment(Resource):
                                         
                                         else:
                                         
-                                            return foreign_return
+                                            return jsonify(foreign_return.json())
     #                                rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
     #                            if  len(rst) != 0:
     #                                return rst[0]
