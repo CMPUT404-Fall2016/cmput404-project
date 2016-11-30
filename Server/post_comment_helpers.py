@@ -1028,6 +1028,7 @@ class Comment(Resource):
                           
                         currentTime = datetime.now()
                         data = request.get_json(force=True)
+                        comment = {}
                         comment["post_id"] = data["post"].split("/")[4]
                         comment["comment_text"] = data["comment"]["comment"]
                         comment["author_id"] = data["comment"]["author"]["id"]
@@ -1037,16 +1038,18 @@ class Comment(Resource):
                         comment["author_github"] = data["comment"]["author"]["github"]
                         #comment["comment_id"] = data["comment"]["guid"]
                         #comment["published"] = data["comment"]["published"]
-                        data["comment"]["author"]["guid"] = uuid.uuid().hex
+                        data["comment"]["guid"] = str(uuid.uuid())
                         data["comment"]["published"] = currentTime.isoformat() 
 
                         start = data["post"].split("/")[0]
                         middle = data["post"].split("/")[1]
                         end = data["post"].split("/")[2]
 
-                        addr = start + middle
-                        addr += end
-                      
+                        addr = start + "//" + middle + '/'
+                        print "From make comments"
+                        print addr
+                        
+                        myip = db.session.query(Servers).filter(Servers.server_index == 0).all()[0]
                         if addr == myip:
                             if handler.make_comment(comment):
                                 return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
