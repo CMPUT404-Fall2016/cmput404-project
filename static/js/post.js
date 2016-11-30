@@ -51,7 +51,7 @@ $(document).ready(function() {
              commentTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
          }
          else {
-             commentTemplate.content.querySelector(".comment-content").innerHTML = results.posts[0].comments[i].content;
+             commentTemplate.content.querySelector(".comment-content").innerHTML = results.posts[0].comments[i].comment;
          }
              
          var authorBtn = commentTemplate.content.querySelector(".comment-author");
@@ -78,7 +78,20 @@ $(document).ready(function() {
 //    sendAJAX("GET", "/posts/"+postID+"/comments/", "", function(results) {
 //      for (var i=0; i < results.comments.length; ++i) {
 //        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
-//        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
+////        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
+//             
+//         if(results.comments[i].contentType == "text/markdown" || results.comments[i].contentType == "text/x-markdown") {
+//         var cmreader = new commonmark.Parser();
+//         var writer = new commonmark.HtmlRenderer();
+//         var parsed = cmreader.parse(results.comments[i].comment); // parsed is a 'Node' tree
+//         // transform parsed if you like...
+//         var commonmarkresult = writer.render(parsed);
+//         commentTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
+//         }
+//         else {
+//         commentTemplate.content.querySelector(".comment-content").innerHTML = results.comments[i].comment;
+//         }
+//
 //
 //        // bind the author's ID to the author link
 //        var authorBtn = commentTemplate.content.querySelector(".comment-author");
@@ -87,15 +100,15 @@ $(document).ready(function() {
 //        var clone = document.importNode(commentTemplate.content, true);
 //        commentsList.append(clone);
 //      }
-//
-//      // bind the onclick to set author id in localStorage
-//      // and link the user to the author's profile
-//      $(".comment-author").click(function (e) {
-//        e.preventDefault();
-//        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-//        window.location.href = "authorpage.html";
-//      });
-//    });
+
+      // bind the onclick to set author id in localStorage
+      // and link the user to the author's profile
+      $(".comment-author").click(function (e) {
+        e.preventDefault();
+        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+        window.location.href = "authorpage.html";
+      });
+    });
   }
   else {
     // redirect to error page
