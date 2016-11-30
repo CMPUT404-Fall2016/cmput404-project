@@ -654,7 +654,12 @@ class AuthorPost(Resource):
                                     pass
                                 
                                 elif item['visibility'] == "FOAF":
+                                    
                                     get_friend = createAuthHeaders (item['author']['host'])
+                                    
+                                    print "here is HOST"
+                                    print item['author']['host']
+                                    print "here is end _____"
                                     
                                     [prefix, suffix] = getAPI(node, 'GET/friends/A')
                                     custom_url = prefix + item["author"]["id"] + suffix
