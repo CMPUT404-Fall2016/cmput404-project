@@ -304,7 +304,7 @@ class RestHandlers():
                                 "author_github" :   data["author_github"],
                                 "post_id"   :   data["post_id"],
                                 "comment_text"  :   data["comment_text"],
-                                "content_type"  :   "text/markdown",    
+                                "content_type"  :   "text/x-markdown",
                                 "creation_time" :   currentTime
                             }
         try:
