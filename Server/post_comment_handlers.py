@@ -187,8 +187,9 @@ class RestHandlers():
 
     def get_all_post_id (self, post_id):
     
-        all_post = db.session.query(Posts).filter(Posts.post_id == post_id).all()
+        one_post_id = db.session.query(Posts).filter(Posts.post_id == post_id).all()
 #        rst = []
+        print one_post_id
         if len(all_post)==1:
 #            for all_comment in all_post:
 #                rst += all_comment.post_id
