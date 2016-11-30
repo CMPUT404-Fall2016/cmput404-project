@@ -945,6 +945,12 @@ class Comment(Resource):
                             paras["page"] = request.args.get('page')
                             paras["size"] = request.args.get('size')
                             
+                            print "_________list of post_id________"
+                            print handler.get_all_post_id()
+                            print post_id
+                            print " _____________list of post end________"
+                            
+                            
                             if  post_id in handler.get_all_post_id():
                                 return jsonify(makeCommentJson(handler.getComments(post_id), paras))
                             else:
