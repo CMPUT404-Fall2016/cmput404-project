@@ -100,15 +100,15 @@ $(document).ready(function() {
 //        var clone = document.importNode(commentTemplate.content, true);
 //        commentsList.append(clone);
 //      }
-
-      // bind the onclick to set author id in localStorage
-      // and link the user to the author's profile
-      $(".comment-author").click(function (e) {
-        e.preventDefault();
-        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-        window.location.href = "authorpage.html";
-      });
-    });
+//
+//      // bind the onclick to set author id in localStorage
+//      // and link the user to the author's profile
+//      $(".comment-author").click(function (e) {
+//        e.preventDefault();
+//        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+//        window.location.href = "authorpage.html";
+//      });
+//    });
   }
   else {
     // redirect to error page
