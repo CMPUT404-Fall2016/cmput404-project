@@ -352,7 +352,12 @@ class Post(Resource):
                                 print "_______ this is singlr post____________"
                                 print recvJson
                                 print "______________end___________________"
-                                json_return["posts"].extend(recvJson["posts"])
+                                
+                                for single_item in recvJson["posts"]:
+                                    if single_item["id"] == post_id:
+                                
+                                        json_return["posts"].extend(single_item)
+                                        break
 
                                 
 #                            json_return["posts"].extend(foreign_return["posts"])
