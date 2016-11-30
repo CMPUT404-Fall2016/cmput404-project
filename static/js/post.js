@@ -74,7 +74,7 @@ $(document).ready(function() {
       $("#post-author").click(function(e) {
         e.preventDefault();
         // set this for authorpage to use
-        localStorage.setItem("fetch-author-id", results.postx.author.id);
+        localStorage.setItem("fetch-author-id", results.posts.author.id);
         window.location.href = "authorpage.html";
       });
     });
