@@ -285,7 +285,7 @@ class Post(Resource):
             json_return["count"] = 0
             json_return["size"] = 0
             json_return["query"] = "posts"
-            json_return["posts"] = []
+
             
             if "Foreign-Host" in request.headers.keys():
             
@@ -328,10 +328,10 @@ class Post(Resource):
                     if len(own_post) > 0:
                     
                         own_post_return = makePostJson([own_post], {"page":None, "size":None})
-                        
+                        json_return["posts"] = own_post_return["posts"][0]
                         
 #                        json_return["posts"].extend(own_post_return["posts"])
-                        return jsonify(own_post_return)
+                        return jsonify(json_return)
                     else:
                         
                         print "retriving single post here!!!_______"
@@ -354,7 +354,6 @@ class Post(Resource):
                                     print "_______ this is singlr post____________"
                                     print recvJson
                                     print "______________end___________________"
-                                    json_return["posts"].extend(recvJson["posts"])
 
                                 
 #                            json_return["posts"].extend(foreign_return["posts"])
