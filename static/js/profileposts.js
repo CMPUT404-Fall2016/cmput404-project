@@ -52,7 +52,7 @@ $("#posttab").click(function(e) {
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
   sendAJAX("GET", myprofileposts, "", function(results) {
-           console.log(results);
+//           console.log(results);
          // if not post are found
 //         if (posts == "status : NO_MATCH") {
 //              document.getElementById("posts").innerHTML = "";
@@ -69,7 +69,19 @@ $("#posttab").click(function(e) {
 //           console.log(results.posts[i].author.displayName);
 
            //postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+//           postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+           
+           if(results.posts[i].contentType == "text/markdown" || results.posts[i].contentType == "text/x-markdown") {
+           var cmreader = new commonmark.Parser();
+           var writer = new commonmark.HtmlRenderer();
+           var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
+           // transform parsed if you like...
+           var commonmarkresult = writer.render(parsed);
+           postTemplate.content.querySelector(".post-content").innerHTML = commonmarkresult;
+           } else {
            postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+           }
+           
            if (results.posts[i].count > 0) {
              postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
            }
@@ -110,7 +122,7 @@ $("#posttab").click(function(e) {
            $(".deletepost").on('click', (function(e) {
                 e.preventDefault();
 
-                console.log("clicked");
+//                console.log("clicked");
 
                 localStorage.setItem("delete-post-id", $(this).attr("delete-post-id"))
                 deletepost();
@@ -128,7 +140,7 @@ function deletepost() {
   var deletepostlink = "/posts/" + thispostid;
 
   sendAJAX("DELETE", deletepostlink, "", function(result) {
-           console.log(result);
+//           console.log(result);
            //location.reload();
            });
 }

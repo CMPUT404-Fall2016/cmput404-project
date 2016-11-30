@@ -43,7 +43,7 @@ $(".profiletab").click( function(e) {
 // Onready
 $(document).ready(function() {
     var myauthorid = localStorage.getItem("fetch-author-id");
-    console.log(localStorage.getItem("fetch-author-id"));
+//    console.log(localStorage.getItem("fetch-author-id"));
 
     // If author search there own id, it redirect them to the profile page
     if (myauthorid == getCookieid()) {
@@ -83,10 +83,10 @@ $(document).ready(function() {
              var author2sid = getCookieid();
 
        var isfriend = "/friends/" + myauthorid + "/" + author2sid;
-       console.log(isfriend);
+//       console.log(isfriend);
 
        sendAJAX("GET", isfriend, "", function(response) {
-                console.log(response.friends);
+//                console.log(response.friends);
                 if(response.friends == true) {
                 //console.log(">>");
                 //console.log(document.getElementById("addfriendbtn").style.display);
@@ -96,22 +96,6 @@ $(document).ready(function() {
         });
 
     });
-
-
-
-    //var headers2 = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-//    var isfriend = "/friends/" + myauthorid + "/" + author2sid;
-//    console.log(isfriend);
-//
-//    sendAJAX("GET", isfriend, "", function(response) {
-//       console.log(response.friends);
-//       if(response.friends == true) {
-//             console.log(">>");
-//             console.log(document.getElementById("addfriendbtn").style.display);
-//         //document.getElementById("addfriendbtn").style.display="none";
-//             changebtn();
-//       }
-//     });
 });
 
 function changebtn() {
@@ -122,7 +106,7 @@ $("#posttabs").click(function(e) {
   e.preventDefault();
   var authorpid = localStorage.getItem("fetch-author-id");
   var authorpostlink = "/author/" + authorpid + "/posts?size=50";
-  console.log(authorpostlink);
+//  console.log(authorpostlink);
 
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
@@ -193,7 +177,7 @@ function afriendone() {
     myinfodatacombine.myhost = result.host;
     myinfodatacombine.mydisplayname = result.displayName;
     myinfodatacombine.mydisplayname = result.url;
-    console.log(myinfodatacombine);
+//    console.log(myinfodatacombine);
 
     //var friendid = getFriendcookieid();
     var friendid = localStorage.getItem("fetch-author-id");
@@ -201,7 +185,7 @@ function afriendone() {
 
     sendAJAX("GET", getfriendinfo, "", function(result2) {
       var myinfodatacombines = {}
-      console.log(result.displayName);
+//      console.log(result.displayName);
       myinfodatacombines.myhost = result.host;
       myinfodatacombines.mydisplayname = result.displayName;
       myinfodatacombines.myurl = result.url;
@@ -210,7 +194,7 @@ function afriendone() {
       myinfodatacombines.frienddisplayname = result2.displayName
       myinfodatacombines.friendurl = result2.url;
 
-             console.log(myinfodatacombines);
+//             console.log(myinfodatacombines);
 
       afriendtwo(myinfodatacombines);
     });
@@ -234,11 +218,11 @@ function afriendtwo(result) {
     friendrequestdata["friend"]["displayName"] = result.mydisplayname;
     friendrequestdata["friend"]["url"] = result.myurl;
 
-  console.log(JSON.stringify(friendrequestdata));
+//  console.log(JSON.stringify(friendrequestdata));
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX("POST", "/friendrequest/", friendrequestdata, function(response) {
-           console.log(response);
+//           console.log(response);
     //if(response["status"] == "SUCCESS") {
       //document.getElementById("addfriendbtn").style.display="none";
     //}
