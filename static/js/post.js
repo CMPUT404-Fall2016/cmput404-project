@@ -80,7 +80,7 @@ $(document).ready(function() {
     });
 
     // now fetch all the comments
-    sendAJAX("GET", "/posts/"+postID+"/comments/", "", function(results) {
+    sendAJAX("GET", "/posts/"+postID+"/comments/?size=50", "", function(results) {
       for (var i=0; i < results.comments.length; ++i) {
         commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
 //        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
@@ -156,7 +156,7 @@ $("#comment-submit").click(function (e) {
   // console.log(JSON.stringify(commentData));
 
   // don't really care if it worked or not, that's the server's job
-  sendAJAX("POST", "/posts/"+postID+"/comments/?size=50", commentData, function(results) {
+  sendAJAX("POST", "/posts/"+postID+"/comments/", commentData, function(results) {
     // console.log(results);
   });
   window.location.reload();
