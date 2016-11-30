@@ -1,6 +1,7 @@
 const postID = localStorage.getItem("fetch-post-id");
 const commentTemplate = $("#comment-template");
 const commentsList = $("#posts");
+var origin = "";
 
 // get the posts with the post-id in localStorage
 $(document).ready(function() {
@@ -17,7 +18,7 @@ $(document).ready(function() {
       document.getElementById("post-content").innerHTML = results.posts[0].content;
 
       // get the origin for when we need to make a comment
-      var origin = results.posts[0].origin;
+      origin = results.posts[0].origin;
 
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
