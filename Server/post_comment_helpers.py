@@ -1077,6 +1077,7 @@ class Comment(Resource):
                         comment["author_name"] = data["comment"]["author"]["displayName"]
                         comment["author_url"] = data["comment"]["author"]["url"]
                         comment["author_github"] = data["comment"]["author"]["github"]
+                        comment["contentType"] = data["comment"]["contentType"]
                         #comment["comment_id"] = data["comment"]["guid"]
                         #comment["published"] = data["comment"]["published"]
                         data["comment"]["guid"] = uuid.uuid4().hex
