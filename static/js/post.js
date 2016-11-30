@@ -29,7 +29,7 @@ $(document).ready(function() {
        }
 
       document.getElementById("post-content").innerHTML = results.posts[0].content;
-      document.getElementById("post-date").textContent = results.posts[0].published;
+      document.getElementById("post-date").textContent = new Date(results.posts[0].published);
       // get the origin for when we need to make a comment
       origin = results.posts[0].origin;
 

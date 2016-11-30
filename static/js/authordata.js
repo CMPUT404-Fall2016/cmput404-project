@@ -150,7 +150,7 @@ $("#posttabs").click(function(e) {
       e.preventDefault();
       // set this for later
       // localStorage.setItem("fetch-post-host", $(this).data("post-host"));
-      localStorage.setItem("fetch-post-id", $(this).data("post-id"));
+      localStorage.setItem("fetch-post-id", $(this).attr("post-id"));
       window.location.href ="post.html";
       });
 
@@ -159,7 +159,7 @@ $("#posttabs").click(function(e) {
     $(".post-author-url").click(function(e) {
       e.preventDefault();
       // set this for authorpage to use
-      localStorage.setItem("fetch-author-id", $(this).data("post-author-id"));
+      localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
       window.location.href = "authorpage.html";
       });
     });

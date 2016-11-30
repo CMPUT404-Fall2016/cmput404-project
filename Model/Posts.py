@@ -70,7 +70,7 @@ class Posts(db.Model):
 
         """
         if datum == None:
-            self.post_id = uuid.uuid4().hex
+            self.post_id = str(uuid.uuid4())
             return
 
         
