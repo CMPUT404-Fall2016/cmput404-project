@@ -643,7 +643,7 @@ class AuthorPost(Resource):
                         
                         
                         
-                            for item is return_post:
+                            for item in return_post:
                                 if item['visibility'] == "PUBLIC":
                                     list_post.append(post)
                                 elif item['visibility'] == "FRIENDS" and handler.isFriend(APP_state["session_id"][sessionID], item["author"]["id"]):
