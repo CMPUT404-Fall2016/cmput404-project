@@ -81,6 +81,7 @@ $("#comment-submit").click(function (e) {
 
   var commentData = {};
   commentData["post"] = localStorage.getItem("origin");
+  commentData["comment"] = {};
   commentData["comment"]["author"] = {};
   commentData["comment"]["author"]["id"] = localStorage.getItem("author_id");
   var hostname = "http://" + window.location.host;
@@ -89,7 +90,7 @@ $("#comment-submit").click(function (e) {
   commentData["comment"]["author"]["url"] = hostname + "/author/" + localStorage.getItem("author_id");
   commentData["comment"]["author"]["github"] = localStorage.getItem("github_username");
 
-  commentData["contentType"] = $("input[name=text-type]").val();
+  
   if ($("input[name=text-type]").val() == "text/x-markdown") {
     var cmreader = new commonmark.Parser();
     var writer = new commonmark.HtmlRenderer();
@@ -97,11 +98,12 @@ $("#comment-submit").click(function (e) {
     // transform parsed if you like...
     var commonmarkresult = writer.render(parsed);
     // console.log(commonmarkresult);
-    commentData["content"] = commonmarkresult;
+    commentData["comment"]["comment"] = commonmarkresult;
   }
   else {
-    commentData["content"] = $("#comment-content").val();
+    commentData["comment"]["comment"] = $("#comment-content").val();
   }
+  commentData["comment"]["contentType"] = $("input[name=text-type]").val();
 
   console.log(JSON.stringify(commentData));
 
