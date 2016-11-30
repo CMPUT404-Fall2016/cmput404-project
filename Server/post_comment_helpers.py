@@ -1103,11 +1103,11 @@ class Comment(Resource):
                                 return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}, 403
                         else:
                             
-                            headers = createAuthHeaders(addr)
+                            headers = createAuthHeaders(hostName)
                             
                             headers['Content-type'] = 'application/json'
                             
-                            [prefix, suffix] = getAPI(addr, 'POST/posts/P/comments')
+                            [prefix, suffix] = getAPI(hostName, 'POST/posts/P/comments')
                             
                             custom_url = prefix + data["post"].split("/")[4] + suffix
                             
