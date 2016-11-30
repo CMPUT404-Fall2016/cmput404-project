@@ -659,7 +659,13 @@ class AuthorPost(Resource):
                                     [prefix, suffix] = getAPI(node, 'GET/friends/A')
                                     custom_url = prefix + item["author"]["id"] + suffix
                                     print "this is getiing friend request url: " + custom_url
-                                    friend_return = requests.get(custom_url, headers=get_friend).json()["authors"]
+                                    resp = requests.get(custom_url, headers=get_friend) # .json()["authors"]
+                                    
+                                    if resp.status_code == 200:
+                                        friend_resp = resp.json()
+                                        if "authors" in friend_resp.keys():
+                                            friend_return = friend_resp["authors"]
+                                    
                                     print friend_return
                                     
                                     if len(friend_return) > 0:
@@ -668,6 +674,7 @@ class AuthorPost(Resource):
                                         
                                             if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
                                                 list_post.append(item)
+                                                break
                                     
                             own_returns["posts"].extend(list_post)
                             
@@ -818,16 +825,26 @@ class AuthorToAuthorPost(Resource):
                                                     [prefix, suffix] = getAPI(node, 'GET/friends/A')
                                                     custom_url = prefix + item["author"]["id"] + suffix
                                                     print "this is getiing friend request url: " + custom_url
-                                                    friend_return = requests.get(custom_url, headers=get_friend).json()["authors"]
+                                                    resp = requests.get(custom_url, headers=get_friend) #.json()["authors"]
                                                 
+                                                
+                                                    if resp.status_code == 200:
+                                                        friend_resp = resp.json()
+                                                        if "authors" in friend_resp.keys():
+                                                            friend_return = friend_resp["authors"]
+                                                    
+                                                    
                                                     print friend_return
-
+                                                    
+                                                    
                                                     if len(friend_return) > 0:
 
                                                         for myfriend in friend_return:
 
                                                             if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
                                                                 singleAuthor.append(item)
+                                                                break
+                                        
 
                                             json_return["posts"].extend(singleAuthor)
 
