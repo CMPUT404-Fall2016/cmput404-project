@@ -11,6 +11,7 @@ $(document).ready(function() {
 
     // request the post from whatever the host is
     sendAJAX("GET", "/posts/"+postID, "", function(results) {
+      console.log(results);
       // fill the container with details
       document.getElementById("post-title").textContent = results.posts[0].title;
       document.getElementById("post-author").textContent = results.posts[0].author.displayName;
@@ -25,13 +26,14 @@ $(document).ready(function() {
          document.getElementById("post-content").innerHTML = commonmarkresult;
        }
        else {
-         document.getElementById("post-content").innerHTML = results.posts[i].content;
+         document.getElementById("post-content").innerHTML = results.posts[0].content;
        }
 
-      document.getElementById("post-content").innerHTML = results.posts[0].content;
+//      document.getElementById("post-content").innerHTML = results.posts[0].content;
       document.getElementById("post-date").textContent = new Date(results.posts[0].published);
       // get the origin for when we need to make a comment
       origin = results.posts[0].origin;
+      localStorage.setItem("origin", results.posts[0].origin);
 
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
@@ -78,7 +80,7 @@ $("#comment-submit").click(function (e) {
   e.preventDefault();
 
   var commentData = {};
-  commentData["post"] = origin;
+  commentData["post"] = localStorage.getItem("origin");
   commentData["author"] = {};
   commentData["author"]["id"] = localStorage.getItem("author_id");
   var hostname = "http://" + window.location.host;
