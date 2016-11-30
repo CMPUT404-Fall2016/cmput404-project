@@ -480,7 +480,7 @@ class All_Post(Resource):
                             foreign_return = requests.get(custom_url, headers = headers)
                         #auth = HTTPBasicAuth(node_user_name,node_user_pass),
                         
-                        print foreign_return
+#                        print foreign_return
                         print node_user_pass
                         print node_user_name
                         if foreign_return.status_code == 200:
@@ -529,12 +529,12 @@ class All_Post(Resource):
 
                     data = request.get_json(force=True)
                     post = {}
-                    print data
+#                    print data
                     post["author_id"] = data["author_id"]
                     post["title"] = data["title"]
                     post["content"] = data["content"]
                     print "The data we of the post json is: "
-                    print data
+#                    print data
                     print "End"
                     '''                  
                     if data["description"] == None:
@@ -666,8 +666,8 @@ class AuthorPost(Resource):
                                         if "authors" in friend_resp.keys():
                                             friend_return = friend_resp["authors"]
                                     
-                                    print friend_return
-                                    
+#                                    print friend_return
+
                                     if len(friend_return) > 0:
                                         
                                         for myfriend in friend_return:
@@ -770,7 +770,7 @@ class AuthorToAuthorPost(Resource):
                                 print "I AM HERE 2"
                                 own_post = makePostJson(handler.getVisiblePostsByAuthor(APP_state["session_ids"][sessionID], author_id), paras)
                                 
-                                print own_post
+#                                print own_post
                                 return jsonify(own_post)
                             
                             else:
@@ -793,9 +793,9 @@ class AuthorToAuthorPost(Resource):
                                     
                                     foreign_return = requests.get(custom_url, headers = headers)
                                     
-                                    print foreign_return
-                                    print foreign_return.json() # this return none
-                                    
+#                                    print foreign_return
+#                                    print foreign_return.json() # this return none
+
                                     
     #                                if foreign_return.status_code == 200:
     #                                    recvJson = foreign_return.json()
@@ -813,7 +813,7 @@ class AuthorToAuthorPost(Resource):
                                             for item in recvJson["posts"]:
                                                 if item['visibility'] == "PUBLIC":
                                                     singleAuthor.append(item)
-                                                elif item['visibility'] == "FRIENDS" and handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"]):
+                                                elif (item['visibility'] == "FRIENDS") and (handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"])):
                                                     singleAuthor.append(item)
 
                                                 elif item['visibility'] == "PRIVATE":

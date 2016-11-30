@@ -128,7 +128,7 @@ class RestHandlers():
             #Friend of Friend
             for ele in fof:
                 if ele != authenticatedUser:
-                    rtl += db.session.query(Posts).filter(Posts.author_id == ele, Posts.view_permission == 4).all()
+                    rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 4).all()
 
             posts = rtl
 
