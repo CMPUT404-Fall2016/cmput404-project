@@ -1,6 +1,8 @@
 const postID = localStorage.getItem("fetch-post-id");
-const commentTemplate = $("#comment-template");
-const commentsList = $("#posts");
+//const commentTemplate = $("#comment-template");
+const commentTemplate = document.getElementById("comment-template")
+//const commentsList = $("#posts");
+const commentsList = document.getElementById("posts");
 var origin = "";
 
 // get the posts with the post-id in localStorage
@@ -73,27 +75,27 @@ $(document).ready(function() {
     });
 
     // now fetch all the comments
-    sendAJAX("GET", "/posts/"+postID+"/comments/", "", function(results) {
-      for (var i=0; i < results.comments.length; ++i) {
-        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
-        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
-
-        // bind the author's ID to the author link
-        var authorBtn = commentTemplate.content.querySelector(".comment-author");
-        authorBtn.setAttribute("post-author-id", results.comments[i].author.id);
-
-        var clone = document.importNode(commentTemplate.content, true);
-        commentsList.append(clone);
-      }
-
-      // bind the onclick to set author id in localStorage
-      // and link the user to the author's profile
-      $(".comment-author").click(function (e) {
-        e.preventDefault();
-        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-        window.location.href = "authorpage.html";
-      });
-    });
+//    sendAJAX("GET", "/posts/"+postID+"/comments/", "", function(results) {
+//      for (var i=0; i < results.comments.length; ++i) {
+//        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
+//        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
+//
+//        // bind the author's ID to the author link
+//        var authorBtn = commentTemplate.content.querySelector(".comment-author");
+//        authorBtn.setAttribute("post-author-id", results.comments[i].author.id);
+//
+//        var clone = document.importNode(commentTemplate.content, true);
+//        commentsList.append(clone);
+//      }
+//
+//      // bind the onclick to set author id in localStorage
+//      // and link the user to the author's profile
+//      $(".comment-author").click(function (e) {
+//        e.preventDefault();
+//        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+//        window.location.href = "authorpage.html";
+//      });
+//    });
   }
   else {
     // redirect to error page
