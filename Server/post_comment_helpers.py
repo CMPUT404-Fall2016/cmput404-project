@@ -1075,14 +1075,14 @@ class Comment(Resource):
                         end = data["post"].split("/")[2]
 
                         addr = start + "//" + middle + '/'
-                        print "From make comments"
+                        print "=============From make comments============"
                         print addr
                         
                         if addr == myip:
                             if handler.make_comment(comment):
-                                return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
+                                return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}, 200
                             else:
-                                return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}
+                                return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}, 403
                         else:
                             
                             headers = createAuthHeaders(addr)
