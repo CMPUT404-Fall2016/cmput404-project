@@ -141,7 +141,7 @@ $("#comment-submit").click(function (e) {
 
   
 //  if ($("input[name=text-type]").val() == "text/x-markdown") {
-  if (commentform.elements["text-type"].value == "text/x-markdown");
+  if (commentform.elements["text-type"].value == "text/x-markdown") {
     var cmreader = new commonmark.Parser();
     var writer = new commonmark.HtmlRenderer();
     var parsed = cmreader.parse(commentform.elements["post-text"].value); // parsed is a 'Node' tree
@@ -164,3 +164,4 @@ $("#comment-submit").click(function (e) {
   });
   window.location.reload();
 });
+
