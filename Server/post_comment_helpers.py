@@ -730,6 +730,14 @@ class AuthorToAuthorPost(Resource):
     def get(self, author_id):
         
         if is_accessible():
+            
+            json_return = {}
+            json_return["count"] = 0
+            json_return["size"] = 0
+            json_return["query"] = "posts"
+            json_return["posts"] = []
+            
+            singleAuthor = []
 
             APP_state = loadGlobalVar()
             if "Foreign-Host" in request.headers.keys():
@@ -789,11 +797,46 @@ class AuthorToAuthorPost(Resource):
     #                                    else:
     #                                        return jsonify(recvJson)
                                     if foreign_return.status_code == 200:
+                                        
                                         if foreign_return.json() == None:
                                             pass
                                         else:
                                             recvJson = foreign_return.json()
-                                            return jsonify(recvJson)
+                                            
+                                            for item in recvJson["posts"]:
+                                                if item['visibility'] == "PUBLIC":
+                                                    singleAuthor.append(item)
+                                                elif item['visibility'] == "FRIENDS" and handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"]):
+                                                    singleAuthor.append(item)
+
+                                                elif item['visibility'] == "PRIVATE":
+                                                    pass
+
+                                                elif item['visibility'] == "FOAF":
+                                                    get_friend = createAuthHeaders (item['author']['host'])
+
+                                                    [prefix, suffix] = getAPI(node, 'GET/friends/A')
+                                                    custom_url = prefix + item["author"]["id"] + suffix
+                                                    print "this is getiing friend request url: " + custom_url
+                                                    friend_return = requests.get(custom_url, headers=headers).json()["authors"]
+                                                
+                                                    print friend_return
+
+                                                    if len(friend_return) > 0:
+
+                                                    for myfriend in friend_return:
+
+                                                        if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                            singleAuthor.append(item)
+
+                                            json_return["posts"].extend(singleAuthor)
+
+                                            
+                                            return jsonify(json_return)
+                                    
+
+
+
 
     #
     #                               if rt["count"] > 0:
@@ -807,32 +850,32 @@ class AuthorToAuthorPost(Resource):
             else:
             #Remote
                 if author_id in handler.getAllUsers():
-                    remoteUsr = request.headers.get("author_id")
-                    allPosts = handler.getVisiblePostsByAuthor(remoteUsr, author_id)
-                    foafPosts = handler.getAllFoafPostsByUsr(author_id)
-                    
-                    auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
-                    
-                    headers = createAuthHeaders(auth)
-
-                    headers['Content-type'] = 'application/json'
-                    
-                    [prefix, suffix] = getAPI(auth, 'GET/friends/A')
-                    custom_url = prefix + remoteUsr + suffix
-                    print "friend request url: "
-                    print custom_url
-
-                    pfriends = requests.get(custom_url, headers=headers).json()["authors"]
-                    for author in pfriends:
-                        if(handler.isFriend(author, author_id)):
-                            allPosts += foafPosts
-                            break
+#                    remoteUsr = request.headers.get("author_id")
+#                    allPosts = handler.getVisiblePostsByAuthor(remoteUsr, author_id)
+#                    foafPosts = handler.getAllFoafPostsByUsr(author_id)
+#                    
+#                    auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+#                    
+#                    headers = createAuthHeaders(auth)
+#
+#                    headers['Content-type'] = 'application/json'
+#                    
+#                    [prefix, suffix] = getAPI(auth, 'GET/friends/A')
+#                    custom_url = prefix + remoteUsr + suffix
+#                    print "friend request url: "
+#                    print custom_url
+#
+#                    pfriends = requests.get(custom_url, headers=headers).json()["authors"]
+#                    for author in pfriends:
+#                        if(handler.isFriend(author, author_id)):
+#                            allPosts += foafPosts
+#                            break
 
                     paras = {}
                     paras["page"] = request.args.get('page')
                     paras["size"] = request.args.get('size')
 
-                    return jsonify(makePostJson(allPosts, paras))
+                    return jsonify(makePostJson(handler.get_post_dump(author_id), paras))
                     
                 # else:
                     #We don't have this requested user in our server

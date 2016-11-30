@@ -2,7 +2,7 @@
 
 var postList = document.getElementById("posts");
 var postTemplate = document.getElementById("post-container");
-var page = "/posts?page=0";
+var page = "/posts?size=50";
 
 function loadPosts() {
 
@@ -75,8 +75,8 @@ $(document).ready(function() {
   loadPosts();
 });
 
-// load more posts
-$("#load-posts").click( function(e) {
-  e.preventDefault();
-  loadPosts();
-});
+// // load more posts
+// $("#load-posts").click( function(e) {
+//   e.preventDefault();
+//   loadPosts();
+// });
