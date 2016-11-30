@@ -7,7 +7,7 @@ var origin = "";
 
 // get the posts with the post-id in localStorage
 $(document).ready(function() {
-
+  var postList = document.getElementById("posts");
   // are we even supposed to be here
   if (postID) {
 
@@ -58,6 +58,8 @@ $(document).ready(function() {
          var authorBtn = commentsTemplate.content.querySelector(".comment-author");
          authorBtn.setAttribute("post-author-id", results.posts[0].comments[i].author.id);
          
+         var clone = document.importNode(commentsTemplate.content, true);
+         postList.appendChild(clone);
          $(".comment-author").click(function (e) {
               e.preventDefault();
               localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
