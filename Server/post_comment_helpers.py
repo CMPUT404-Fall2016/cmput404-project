@@ -1081,6 +1081,7 @@ class Comment(Resource):
                         print addr
                         print middle
                         print end
+                        print "=============end ==============="
                         
                         if addr == myip:
                             if handler.make_comment(comment):
