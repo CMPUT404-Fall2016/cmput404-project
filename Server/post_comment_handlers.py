@@ -171,10 +171,9 @@ class RestHandlers():
         rst = []
         if get_pid_author != None and len(get_pid_author)>0 :
             for post_self in get_pid_author:
-                rst.append(getPost(post_self.post_id))
-                return rst
-        else:
-            return []
+                rst.append([post_self, self.getAuthor(post_self.author_id), self.getComments(post_self.post_id)])
+        return rst
+
     
     
     
