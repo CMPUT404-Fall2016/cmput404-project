@@ -810,7 +810,7 @@ class AuthorToAuthorPost(Resource):
                                                     singleAuthor.append(item)
 
                                                 elif item['visibility'] == "PRIVATE":
-                                                pass
+                                                    pass
 
                                                 elif item['visibility'] == "FOAF":
                                                     get_friend = createAuthHeaders (item['author']['host'])
