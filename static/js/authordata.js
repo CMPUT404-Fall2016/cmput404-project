@@ -121,7 +121,7 @@ function changebtn() {
 $("#posttabs").click(function(e) {
   e.preventDefault();
   var authorpid = localStorage.getItem("fetch-author-id");
-  var authorpostlink = "/author/" + authorpid + "/posts";
+  var authorpostlink = "/author/" + authorpid + "/posts?size=50";
   console.log(authorpostlink);
 
   var postList = document.getElementById("posts");
@@ -140,6 +140,7 @@ $("#posttabs").click(function(e) {
            var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
            // transform parsed if you like...
            var commonmarkresult = writer.render(parsed);
+           postTemplate.content.querySelector(".post-content").innerHTML = commonmarkresult;
        } else {
            postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
        }
@@ -221,7 +222,7 @@ function afriendtwo(result) {
 
   // This is the body for the POST request
   var friendrequestdata = {};
-  
+
     friendrequestdata["author"] = {};
     friendrequestdata["author"]["id"] = result.friendid;
     friendrequestdata["author"]["host"] = result.friendhost;

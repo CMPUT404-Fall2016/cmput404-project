@@ -46,7 +46,7 @@ $("#posttab").click(function(e) {
   e.preventDefault();
   var myauthorid = getCookieid();
 
-  var myprofileposts = "/author/" + myauthorid + "/posts";
+  var myprofileposts = "/author/" + myauthorid + "/posts?size=50";
 
   var postList = document.getElementById("posts");
   var postTemplate = document.getElementById("post-container");
