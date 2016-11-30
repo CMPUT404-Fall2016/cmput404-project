@@ -1092,7 +1092,7 @@ class Comment(Resource):
                         print "=============From make comments============"
                         print addr
                         print hostName
-                        print end
+                        print comment["contentType"]
                         print myip
                         print "=============end ==============="
                         
