@@ -354,7 +354,6 @@ class Post(Resource):
                                     print "_______ this is singlr post____________"
                                     print recvJson
                                     print "______________end___________________"
-                                    json_return["posts"].extend(recvJson["posts"])
 
                                 
 #                            json_return["posts"].extend(foreign_return["posts"])
