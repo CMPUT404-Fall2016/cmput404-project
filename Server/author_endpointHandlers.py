@@ -100,7 +100,7 @@ def fetchForeignAuthor(param):
 
 
 
-def getFriendList(param, APP_state):
+def getFriendList(param, APP_state, hasUnfriended = False):
 
 
     """
@@ -122,7 +122,7 @@ def getFriendList(param, APP_state):
     query_param={}
     query_param["server_author_1"] = [server_index, author_id] 
     results1 = Author_Relationships.query(query_param)
-    results1 = updateFriendship(results1, author_id, server_index)
+    results1 = updateFriendship(results1, author_id, server_index, hasUnfriended)
     # print results1
     friendList = serializeFriendList(results1, 2)
 
@@ -130,7 +130,7 @@ def getFriendList(param, APP_state):
     query_param["server_author_2"] = [server_index, author_id] #Reverse query, posing the author as the second user in the table
     results2 = Author_Relationships.query(query_param)
     # print results2
-    results2 = updateFriendship(results2, author_id, server_index)
+    results2 = updateFriendship(results2, author_id, server_index, hasUnfriended)
     friendList = serializeFriendList(results2, 1) + friendList
 
 
@@ -152,7 +152,7 @@ def getFriendList(param, APP_state):
     return friendList
 
 
-def updateFriendship(friendList, author_id, server_index):
+def updateFriendship(friendList, author_id, server_index, hasUnfriended=False):
 
     for friend in friendList:
         print "from updateFriendship"
@@ -167,8 +167,9 @@ def updateFriendship(friendList, author_id, server_index):
                     if friend.relationship_type == 2:
                         friend.relationship_type = 3
                 else:
-                    if friend.relationship_type == 3: 
-                        friend.relationship_type = 2
+                    if friend.relationship_type == 3:
+                        if hasUnfriended == True:
+                            friend.relationship_type = 2
                     elif friend.relationship_type == 1:
                         friendList.remove(friend)
                         db.session.delete(friend)
@@ -185,7 +186,8 @@ def updateFriendship(friendList, author_id, server_index):
                         friend.relationship_type = 3
                 else:
                     if friend.relationship_type == 3: 
-                        friend.relationship_type = 1
+                        if hasUnfriended == True:
+                            friend.relationship_type = 1
                     elif friend.relationship_type == 2:
                         friendList.remove(friend)
                         db.session.delete(friend)
@@ -438,6 +440,10 @@ def sendFriendRequest(param):
     r = requests.post(url, data=json.dumps(body), headers=headers)
     print "Sent a friend request to %s. Status code %d: "%(url, r.status_code) 
     return 
+
+
+
+def checkIfUnfriended
 
 
 def serializeFriendRequestList(requestList):
