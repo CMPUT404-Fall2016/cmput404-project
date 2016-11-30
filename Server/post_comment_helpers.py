@@ -659,7 +659,7 @@ class AuthorPost(Resource):
                                     [prefix, suffix] = getAPI(node, 'GET/friends/A')
                                     custom_url = prefix + item["author"]["id"] + suffix
                                     print "this is getiing friend request url: " + custom_url
-                                    friend_return = requests.get(custom_url, headers=headers).json()["authors"]
+                                    friend_return = requests.get(custom_url, headers=get_friend).json()["authors"]
                                     print friend_return
                                     
                                     if len(friend_return) > 0:
@@ -818,7 +818,7 @@ class AuthorToAuthorPost(Resource):
                                                     [prefix, suffix] = getAPI(node, 'GET/friends/A')
                                                     custom_url = prefix + item["author"]["id"] + suffix
                                                     print "this is getiing friend request url: " + custom_url
-                                                    friend_return = requests.get(custom_url, headers=headers).json()["authors"]
+                                                    friend_return = requests.get(custom_url, headers=get_friend).json()["authors"]
                                                 
                                                     print friend_return
 
