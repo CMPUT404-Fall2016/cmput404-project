@@ -957,7 +957,13 @@ class Comment(Resource):
 
 
                                     foreign_return = requests.get(custom_url, headers = headers)
-                                        
+                                    
+                                    print "returned comments "
+                                    print foreign_return.json()
+                                    print "end comment _____"
+                                    
+                                    
+                                    
                                     if foreign_return.status_code == 200:
                                         
                                         if foreign_return.json() == None:
