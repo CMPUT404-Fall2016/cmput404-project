@@ -3,6 +3,7 @@ const postID = localStorage.getItem("fetch-post-id");
 const commentTemplate = document.getElementById("comment-template")
 //const commentsList = $("#posts");
 const commentsList = document.getElementById("posts");
+const commentform = document.getElementById("comment-form");
 var origin = "";
 
 // get the posts with the post-id in localStorage
@@ -148,7 +149,7 @@ $("#comment-submit").click(function (e) {
   else {
     commentData["comment"]["comment"] = $("#comment-content").val();
   }
-  commentData["comment"]["contentType"] = $("input[name=text-type]").val();
+  commentData["comment"]["contentType"] = commentform.elements["text-type"].value;
 
   console.log(JSON.stringify(commentData));
 
