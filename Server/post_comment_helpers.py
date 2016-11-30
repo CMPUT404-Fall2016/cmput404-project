@@ -645,9 +645,9 @@ class AuthorPost(Resource):
                         
                             for item in return_post:
                                 if item['visibility'] == "PUBLIC":
-                                    list_post.append(post)
+                                    list_post.append(item)
                                 elif item['visibility'] == "FRIENDS" and handler.isFriend(APP_state["session_id"][sessionID], item["author"]["id"]):
-                                    list_post.append(post)
+                                    list_post.append(item)
                                 
                                 elif item['visibility'] == "PRIVATE":
                                     pass
@@ -660,7 +660,7 @@ class AuthorPost(Resource):
                                     
                                     friend_return = requests.get(custom_url, headers=headers).json()["authors"]
                                     if APP_state["session_id"][sessionID] in friend_return:
-                                        list_post.append(post)
+                                        list_post.append(item)
                                 
                             own_returns["posts"].extend(list_post)
                             
