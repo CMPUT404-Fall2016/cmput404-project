@@ -16,48 +16,48 @@ $(document).ready(function() {
     sendAJAX("GET", "/posts/"+postID, "", function(results) {
       console.log(results);
       // fill the container with details
-      document.getElementById("post-title").textContent = results.posts[0].title;
-      document.getElementById("post-author").textContent = results.posts[0].author.displayName;
-      document.getElementById("post-description").textContent = results.posts[0].description;
+      document.getElementById("post-title").textContent = results.posts.title;
+      document.getElementById("post-author").textContent = results.posts.author.displayName;
+      document.getElementById("post-description").textContent = results.posts.description;
 
-      if(results.posts[0].contentType == "text/markdown" || results.posts[0].contentType == "text/x-markdown") {
+      if(results.posts.contentType == "text/markdown" || results.posts.contentType == "text/x-markdown") {
          var cmreader = new commonmark.Parser();
          var writer = new commonmark.HtmlRenderer();
-         var parsed = cmreader.parse(results.posts[0].content); // parsed is a 'Node' tree
+         var parsed = cmreader.parse(results.posts.content); // parsed is a 'Node' tree
          // transform parsed if you like...
          var commonmarkresult = writer.render(parsed);
          document.getElementById("post-content").innerHTML = commonmarkresult;
        }
        else {
-         document.getElementById("post-content").innerHTML = results.posts[0].content;
+         document.getElementById("post-content").innerHTML = results.posts.content;
        }
 
-//      document.getElementById("post-content").innerHTML = results.posts[0].content;
-      document.getElementById("post-date").textContent = new Date(results.posts[0].published);
+//      document.getElementById("post-content").innerHTML = results.posts.content;
+      document.getElementById("post-date").textContent = new Date(results.posts.published);
       // get the origin for when we need to make a comment
-      origin = results.posts[0].origin;
-      localStorage.setItem("origin", results.posts[0].origin);
-      console.log(results.posts[0].comments.length);
-      for (var i=0; i < results.posts[0].comments.length; ++i) {
+      origin = results.posts.origin;
+      localStorage.setItem("origin", results.posts.origin);
+      console.log(results.posts.comments.length);
+      for (var i=0; i < results.posts.comments.length; ++i) {
          var commentsTemplate = document.getElementById("comment-template");
-        console.log(results.posts[0].comments);
-        commentsTemplate.content.querySelector(".comment-author").textContent = results.posts[0].comments[i].author.displayName;
-//        commentTemplate.content.querySelector(".comment-content").textContent = results.posts[0].comments[i].comment;
+        console.log(results.posts.comments);
+        commentsTemplate.content.querySelector(".comment-author").textContent = results.posts.comments[i].author.displayName;
+//        commentTemplate.content.querySelector(".comment-content").textContent = results.posts.comments[i].comment;
              
-         if(results.posts[0].comments[i].contentType == "text/markdown" || results.posts[0].comments[i].contentType == "text/x-markdown") {
+         if(results.posts.comments[i].contentType == "text/markdown" || results.posts.comments[i].contentType == "text/x-markdown") {
              var cmreader = new commonmark.Parser();
              var writer = new commonmark.HtmlRenderer();
-             var parsed = cmreader.parse(results.posts[0].comments[i].comment); // parsed is a 'Node' tree
+             var parsed = cmreader.parse(results.posts.comments[i].comment); // parsed is a 'Node' tree
              // transform parsed if you like...
              var commonmarkresult = writer.render(parsed);
              commentsTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
          }
          else {
-             commentsTemplate.content.querySelector(".comment-content").innerHTML = results.posts[0].comments[i].comment;
+             commentsTemplate.content.querySelector(".comment-content").innerHTML = results.posts.comments[i].comment;
          }
              
          var authorBtn = commentsTemplate.content.querySelector(".comment-author");
-         authorBtn.setAttribute("post-author-id", results.posts[0].comments[i].author.id);
+         authorBtn.setAttribute("post-author-id", results.posts.comments[i].author.id);
          
          var clone = document.importNode(commentsTemplate.content, true);
          postList.appendChild(clone);
@@ -73,7 +73,7 @@ $(document).ready(function() {
       $("#post-author").click(function(e) {
         e.preventDefault();
         // set this for authorpage to use
-        localStorage.setItem("fetch-author-id", results.post[0].author.id);
+        localStorage.setItem("fetch-author-id", results.postx.author.id);
         window.location.href = "authorpage.html";
       });
     });
