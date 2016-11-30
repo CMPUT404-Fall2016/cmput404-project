@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     // request the post from whatever the host is
     sendAJAX("GET", "/posts/"+postID, "", function(results) {
-      console.log(results);
+      // console.log(results);
       // fill the container with details
       localStorage.setItem("Author-host-url", results.posts.author.host);
       document.getElementById("post-title").textContent = results.posts.title;
@@ -38,13 +38,13 @@ $(document).ready(function() {
       // get the origin for when we need to make a comment
       origin = results.posts.origin;
       localStorage.setItem("origin", results.posts.origin);
-      console.log(results.posts.comments.length);
+      // console.log(results.posts.comments.length);
       for (var i=0; i < results.posts.comments.length; ++i) {
           var commentsTemplate = document.getElementById("comment-template");
-          console.log(results.posts.comments);
+          // console.log(results.posts.comments);
           commentsTemplate.content.querySelector(".comment-author").textContent = results.posts.comments[i].author.displayName;
           //        commentTemplate.content.querySelector(".comment-content").textContent = results.posts.comments[i].comment;
-             
+
          if(results.posts.comments[i].contentType == "text/markdown" || results.posts.comments[i].contentType == "text/x-markdown") {
              var cmreader = new commonmark.Parser();
              var writer = new commonmark.HtmlRenderer();
@@ -56,10 +56,10 @@ $(document).ready(function() {
          else {
              commentsTemplate.content.querySelector(".comment-content").innerHTML = results.posts.comments[i].comment;
          }
-             
+
          var authorBtn = commentsTemplate.content.querySelector(".comment-author");
          authorBtn.setAttribute("post-author-id", results.posts.comments[i].author.id);
-         
+
          var clone = document.importNode(commentsTemplate.content, true);
          postList.appendChild(clone);
          $(".comment-author").click(function (e) {
@@ -84,7 +84,7 @@ $(document).ready(function() {
 //      for (var i=0; i < results.comments.length; ++i) {
 //        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
 ////        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
-//             
+//
 //         if(results.comments[i].contentType == "text/markdown" || results.comments[i].contentType == "text/x-markdown") {
 //         var cmreader = new commonmark.Parser();
 //         var writer = new commonmark.HtmlRenderer();
@@ -121,7 +121,6 @@ $(document).ready(function() {
   }
 });
 
-
 // send the comment to our server, who sends it to their server
 $("#comment-submit").click(function (e) {
   e.preventDefault();
@@ -137,9 +136,7 @@ $("#comment-submit").click(function (e) {
   commentData["comment"]["author"]["displayName"] = localStorage.getItem("display_name");
   commentData["comment"]["author"]["url"] = hostname + "/author/" + localStorage.getItem("author_id");
   commentData["comment"]["author"]["github"] = localStorage.getItem("github_username");
-                          
 
-  
 //  if ($("input[name=text-type]").val() == "text/x-markdown") {
   if (commentform.elements["text-type"].value == "text/x-markdown") {
     var cmreader = new commonmark.Parser();
@@ -153,15 +150,14 @@ $("#comment-submit").click(function (e) {
   else {
     commentData["comment"]["comment"] = commentform.elements["post-text"].value;;
   }
-                           
+
   commentData["comment"]["contentType"] = commentform.elements["text-type"].value;
 
-  console.log(JSON.stringify(commentData));
+  // console.log(JSON.stringify(commentData));
 
   // don't really care if it worked or not, that's the server's job
   sendAJAX("POST", "/posts/"+postID+"/comments/", commentData, function(results) {
-    console.log(results);
+    // console.log(results);
   });
   window.location.reload();
 });
-

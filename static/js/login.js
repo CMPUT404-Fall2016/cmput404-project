@@ -18,6 +18,7 @@ function checkPassword() {
       $("#create-btn").prop("disabled", false);
     }
 }
+
 // encodes the form data as a json object and sends AJAX request
 $("#create-btn").click(function (e) {
 
@@ -61,10 +62,7 @@ function login(data) {
 
 // stores commonly used data in local storage and redirects to ADMIN
 function login_admin() {
-    // localStorage.setItem(author_id, data["author_id"]);
-    // localStorage.setItem(display_name, data["display_name"]);
-    // localStorage.setItem(github_username, data["github_username"]);
-    window.location.href = "/admin/";
+  window.location.href = "/admin/";
 }
 
 $("#admin-btn").click(function(e) {
@@ -84,7 +82,6 @@ $("#login-btn").click(function(e) {
 
   // // debug
   // console.log(message);
-  // return false;
   sendAJAX("POST", "/login", loginData, function(response) {
     // console.log(response);
     // login is successful so log the user in
