@@ -113,27 +113,37 @@ class RestHandlers():
 
             #Get the user's public post
             rtl = db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 1).all()  
-            fof = set()
+            # fof = set()
+            isFOAF = False    
             if friendship:
                 #they are friends
                 rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 3).all() 
-                
-            fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
-            for ele in fofr:
-                fof.add(ele.author2_id)                                         
+                isFOAF = True
+                print "From getVisiblePostsByAuthor they are friends"
 
-            fofr += db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
-            for ele in fofr:
-                fof.add(ele.author1_id)                                         
+            else:
+                fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
+                for ele in fofr:
+                    if self.isFriend(authenticatedUser, ele) is True:
+                        isFOAF = True
+                        break                                                 
 
-            #Friend of Friend
-            print "this is friend of friend: "
-            print fof
-            print "this is friend of friend_end_____"
+                if isFOAF == False:
+                    fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
+                    for ele in fofr:
+                        if self.isFriend(authenticatedUser, ele) is True:
+                            isFOAF = True
+                            break                                                 
+
+                #Friend of Friend
+                print "From getVisiblePostsByAuthor isFOAF: %s"%(str(isFOAF))
+                # print fof
+                # print "this is friend of friend_end_____"
             
-            for ele in fof:
-                if ele != authenticatedUser:
-                    rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 4).all()
+            # for ele in fof:
+            #     if ele != authenticatedUser:
+            if isFOAF == True:
+                rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 4).all()
 
             posts = rtl
 
