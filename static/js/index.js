@@ -36,7 +36,7 @@ function loadPosts() {
       if (results.posts[i].count > 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
       }
-      postTemplate.content.querySelector(".post-date").textContent = Date(results.posts[i].published);
+      // postTemplate.content.querySelector(".post-date").textContent = Date(results.posts[i].published);
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
