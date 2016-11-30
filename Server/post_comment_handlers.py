@@ -189,11 +189,11 @@ class RestHandlers():
     
         one_post_id = db.session.query(Posts).filter(Posts.post_id == post_id_out).all()
 #        rst = []
-        print one_post_id.post_id
+        print one_post_id[0].post_id
         if len(one_post_id)==1:
 #            for all_comment in all_post:
 #                rst += all_comment.post_id
-            if one_post_id.post_id == post_id_out:
+            if one_post_id[0].post_id == post_id_out:
                 return True
             else:
                 return False
