@@ -1076,7 +1076,7 @@ class Comment(Resource):
                         middle = data["post"].split("/")[1]
                         end = data["post"].split("/")[2]
 
-                        addr = start + "/" + end + '/'
+                        addr = start + "//" + end + '/'
                         print "=============From make comments============"
                         print addr
                         print middle
