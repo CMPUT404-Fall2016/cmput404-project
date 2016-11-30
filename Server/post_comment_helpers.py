@@ -453,7 +453,7 @@ class All_Post(Resource):
                     json_return["size"] = 0
                     json_return["query"] = "posts"
                     json_return["posts"] = []
-                    
+                    new_list =[]
 #                    json_return["posts"].extend(makePostJson(handler.getAllPosts(), paras)["posts"])
 
                     list_post = makePostJson(handler.getAllPosts(), paras)["posts"]
@@ -491,9 +491,9 @@ class All_Post(Resource):
                     # Each json object contains all public posts from a server
                     for post in list_post:
                         if post['visibility'] == "PUBLIC":
-                            list_post.append(post)
+                            new_list.append(post)
                     
-                    json_return["posts"].extend(list_post)
+                    json_return["posts"].extend(new_list)
     
                     return jsonify(json_return)
 
