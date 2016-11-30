@@ -1076,11 +1076,12 @@ class Comment(Resource):
                         middle = data["post"].split("/")[1]
                         end = data["post"].split("/")[2]
 
-                        addr = start + "//" + middle + '/'
+                        addr = start + "/" + end + '/'
                         print "=============From make comments============"
                         print addr
                         print middle
                         print end
+                        print myip
                         print "=============end ==============="
                         
                         if addr == myip:
