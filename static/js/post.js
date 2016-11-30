@@ -86,7 +86,7 @@ $("#comment-submit").click(function (e) {
   var hostname = "http://" + window.location.host;
   commentData["author"]["host"] = hostname;
   commentData["author"]["displayName"] = localStorage.getItem("display_name");
-  commentData["author"]["url"] = hostname + "/author" + localStorage.getItem("author_id");
+  commentData["author"]["url"] = hostname + "/author/" + localStorage.getItem("author_id");
   commentData["author"]["github"] = localStorage.getItem("github_username");
 
   commentData["contentType"] = $("input[name=text-type]").val();
