@@ -10,11 +10,11 @@ function loadPosts() {
     if (results.next) {
       // set the next page of posts
       page = results.next.split(".com")[1];
-      console.log(page);
+      // console.log(page);
     } else {
       // no more posts to show
       $("#load-posts").addClass("hidden");
-      console.log("no more posts");
+      // console.log("no more posts");
     }
 
     // fill the containers with results
@@ -55,7 +55,7 @@ function loadPosts() {
     	e.preventDefault();
     	// set this for authorpage to use
     	localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-                            console.log("clicked");
+                            // console.log("clicked");
     	window.location.href = "authorpage.html";
     });
 
@@ -74,9 +74,3 @@ function loadPosts() {
 $(document).ready(function() {
   loadPosts();
 });
-
-// // load more posts
-// $("#load-posts").click( function(e) {
-//   e.preventDefault();
-//   loadPosts();
-// });

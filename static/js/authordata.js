@@ -42,60 +42,59 @@ $(".profiletab").click( function(e) {
 
 // Onready
 $(document).ready(function() {
-    var myauthorid = localStorage.getItem("fetch-author-id");
+  var myauthorid = localStorage.getItem("fetch-author-id");
 //    console.log(localStorage.getItem("fetch-author-id"));
 
-    // If author search there own id, it redirect them to the profile page
-    if (myauthorid == getCookieid()) {
-      window.location.href = "profilepage.html";
+  // If author search there own id, it redirect them to the profile page
+  if (myauthorid == getCookieid()) {
+    window.location.href = "profilepage.html";
+  }
+
+  var mypTemplate = document.getElementById('profiledatas');
+
+  var myprofilelink = "/author/" + myauthorid;
+
+  sendAJAX("GET", myprofilelink, "", function(result) {
+
+    // fill the container with details
+    var td = mypTemplate.content.querySelector("#profilehname");
+    profileusernametext = result.displayName;
+    td.textContent = profileusernametext;
+
+    mypTemplate.content.querySelector("#profileid").textContent = result.id;
+
+    mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
+
+    mypTemplate.content.querySelector("#profilehost").textContent = result.host;
+
+    mypTemplate.content.querySelector("#profileurl").textContent = result.url;
+    mypTemplate.content.querySelector("#profilegithub_id").textContent = result.githubUsername;
+
+    var normalContent = document.getElementById('profile');
+
+    var clonedTemplate = mypTemplate.content.cloneNode(true);
+    normalContent.appendChild(clonedTemplate);
+
+    // This checks if the user is the same as the search user
+    if(getCookieid() == localStorage.getItem("fetch-author-id")) {
+      document.getElementById("addfriendbtn").style.display="none";
     }
 
-    var mypTemplate = document.getElementById('profiledatas');
+           var author2sid = getCookieid();
 
-    var myprofilelink = "/author/" + myauthorid;
-
-    sendAJAX("GET", myprofilelink, "", function(result) {
-
-      // fill the container with details
-      var td = mypTemplate.content.querySelector("#profilehname");
-      profileusernametext = result.displayName;
-      td.textContent = profileusernametext;
-
-      mypTemplate.content.querySelector("#profileid").textContent = result.id;
-
-      mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
-
-      mypTemplate.content.querySelector("#profilehost").textContent = result.host;
-
-      mypTemplate.content.querySelector("#profileurl").textContent = result.url;
-      mypTemplate.content.querySelector("#profilegithub_id").textContent = result.githubUsername;
-
-      var normalContent = document.getElementById('profile');
-
-      var clonedTemplate = mypTemplate.content.cloneNode(true);
-      normalContent.appendChild(clonedTemplate);
-
-      // This checks if the user is the same as the search user
-      if(getCookieid() == localStorage.getItem("fetch-author-id")) {
-        document.getElementById("addfriendbtn").style.display="none";
-      }
-
-             var author2sid = getCookieid();
-
-       var isfriend = "/friends/" + myauthorid + "/" + author2sid;
+     var isfriend = "/friends/" + myauthorid + "/" + author2sid;
 //       console.log(isfriend);
 
-       sendAJAX("GET", isfriend, "", function(response) {
-//                console.log(response.friends);
-                if(response.friends == true) {
-                //console.log(">>");
-                //console.log(document.getElementById("addfriendbtn").style.display);
-                //document.getElementById("addfriendbtn").style.display="none";
-                  changebtn();
-                }
-        });
-
+     sendAJAX("GET", isfriend, "", function(response) {
+//        console.log(response.friends);
+      if(response.friends == true) {
+        //console.log(">>");
+        //console.log(document.getElementById("addfriendbtn").style.display);
+        //document.getElementById("addfriendbtn").style.display="none";
+          changebtn();
+      }
     });
+  });
 });
 
 function changebtn() {

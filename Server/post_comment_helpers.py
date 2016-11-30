@@ -196,13 +196,10 @@ def makeCommentJson(data, args):
                                     "id"    :   data[i].author_id,
                                     "host"  :   data[i].author_host,
                                     "displayName"   :   data[i].author_name,
-                                    "url"   :   data[i].author_url,
-                                    "github"    :   data[i].author_github
                                 },
                 "comment"   :   data[i].comment_text,
-                "contentType"   :   data[i].content_type,
-                "published" :   data[i].creation_time.isoformat(),
-                "id"    : data[i].comment_id
+                "pubDate" :   data[i].creation_time.isoformat(),
+                "guid"    : data[i].comment_id
             })
 
     return rt
@@ -288,7 +285,7 @@ class Post(Resource):
             json_return["count"] = 0
             json_return["size"] = 0
             json_return["query"] = "posts"
-            json_return["posts"] = []
+
             
             if "Foreign-Host" in request.headers.keys():
             
@@ -331,11 +328,13 @@ class Post(Resource):
                     if len(own_post) > 0:
                     
                         own_post_return = makePostJson([own_post], {"page":None, "size":None})
+                        json_return["posts"] = own_post_return["posts"][0]
                         
-                        
-                        json_return["posts"].extend(own_post_return["posts"])
+#                        json_return["posts"].extend(own_post_return["posts"])
                         return jsonify(json_return)
                     else:
+                        
+                        print "retriving single post here!!!_______"
                         for node in nodes:
                             
                             
@@ -350,7 +349,11 @@ class Post(Resource):
                             
                             if foreign_return.status_code == 200:
                                 recvJson = foreign_return.json()
-                                json_return["posts"].extend(recvJson["posts"])
+                                if len(recvJson["posts"])>0:
+                                    
+                                    print "_______ this is singlr post____________"
+                                    print recvJson
+                                    print "______________end___________________"
 
                                 
 #                            json_return["posts"].extend(foreign_return["posts"])
@@ -362,7 +365,7 @@ class Post(Resource):
                         #                    paras = {}
                         #                    paras["page"] = request.args.get('page')
                         #                    paras["size"] = request.args.get('size')
-                        return jsonify(json_return)
+                                    return jsonify(recvJson)
     #
     #                else:
     #                    return {"Response" : "sessionID error"}
@@ -379,9 +382,11 @@ class Post(Resource):
                 paras["page"] = request.args.get('page')
                 paras["size"] = request.args.get('size')
                 print "SERVERTOSERVER response"
+                own_post = handler.getPost(post_id)
+                own_post_return = makePostJson([own_post], {"page":None, "size":None})
+                json_return["posts"] = own_post_return["posts"][0]
                 
-                
-                return jsonify(makePostJson([handler.getPost(post_id)], {"page":None, "size":None}))
+                return jsonify(json_return)
                 
     #        #Assume we passed server to server auth
     #        #Assume this is the place we do remote get
@@ -550,7 +555,7 @@ class All_Post(Resource):
                         perm = 1
                     elif perm =="PRIVATE":
                         perm = 2
-                    elif perm == "FRIEND":
+                    elif perm == "FRIENDS":
                         perm = 3
                     elif perm == "FOAF":
                         perm = 4
@@ -627,6 +632,10 @@ class AuthorPost(Resource):
                                 
                                 headers['Content-type'] = 'application/json'
                                 headers['author_id'] = APP_state["session_ids"][sessionID]
+                                print "______this is node______"
+                                print node
+                                
+                                print "__________this is node_______end_"
                                 
                                 [prefix, suffix] = getAPI(node, 'GET/author/posts')
                                 custom_url = prefix + suffix
@@ -655,32 +664,38 @@ class AuthorPost(Resource):
                                 
                                 elif item['visibility'] == "FOAF":
                                     
-                                    get_friend = createAuthHeaders (item['author']['host'])
+                                    if handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"]):
+                                        list_post.append(item)
+                                    else:
                                     
-                                    print "here is HOST"
-                                    print item['author']['host']
-                                    print "here is end _____"
                                     
-                                    [prefix, suffix] = getAPI(node, 'GET/friends/A')
-                                    custom_url = prefix + item["author"]["id"] + suffix
-                                    print "this is getiing friend request url: " + custom_url
-                                    resp = requests.get(custom_url, headers=get_friend) # .json()["authors"]
-                                    
-                                    if resp.status_code == 200:
-                                        friend_resp = resp.json()
-                                        if "authors" in friend_resp.keys():
-                                            friend_return = friend_resp["authors"]
-                                    
-#                                    print friend_return
+                                        
+                                        get_friend = createAuthHeaders (item['author']['host'])
+                                        
+                                        print "here is HOST"
+                                        print item['author']['host']
+                                        print "here is end _____"
+                                        
+                                        [prefix, suffix] = getAPI(node, 'GET/friends/A')
+                                        custom_url = prefix + item["author"]["id"] + suffix
+                                        print "this is getiing friend request url: " + custom_url
+                                        resp = requests.get(custom_url, headers=get_friend) # .json()["authors"]
+                                        
+                                        if resp.status_code == 200:
+                                            friend_resp = resp.json()
+                                            if "authors" in friend_resp.keys():
+                                                friend_return = friend_resp["authors"]
+                                        
+    #                                    print friend_return
 
-                                            if len(friend_return) > 0:
+                                                if len(friend_return) > 0:
+                                                    
+                                                    for myfriend in friend_return:
+                                                    
+                                                        if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                            list_post.append(item)
+                                                            break
                                                 
-                                                for myfriend in friend_return:
-                                                
-                                                    if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
-                                                        list_post.append(item)
-                                                        break
-                                            
                             own_returns["posts"].extend(list_post)
                             
                             return jsonify(own_returns)
@@ -825,30 +840,36 @@ class AuthorToAuthorPost(Resource):
                                                     pass
 
                                                 elif item['visibility'] == "FOAF":
-                                                    get_friend = createAuthHeaders (item['author']['host'])
+                                                    
+                                                    if handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"]):
+                                                        singleAuthor.append(item)
+                                                    else:
 
-                                                    [prefix, suffix] = getAPI(node, 'GET/friends/A')
-                                                    custom_url = prefix + item["author"]["id"] + suffix
-                                                    print "this is getiing friend request url: " + custom_url
-                                                    resp = requests.get(custom_url, headers=get_friend) #.json()["authors"]
-                                                
-                                                
-                                                    if resp.status_code == 200:
-                                                        friend_resp = resp.json()
-                                                        if "authors" in friend_resp.keys():
-                                                            friend_return = friend_resp["authors"]
+
+                                                        get_friend = createAuthHeaders (item['author']['host'])
+
+                                                        [prefix, suffix] = getAPI(node, 'GET/friends/A')
+                                                        custom_url = prefix + item["author"]["id"] + suffix
+                                                        print "this is getiing friend request url: " + custom_url
+                                                        resp = requests.get(custom_url, headers=get_friend) #.json()["authors"]
                                                     
                                                     
-                                                            print friend_return
-                                                            
-                                                            
-                                                            if len(friend_return) > 0:
+                                                        if resp.status_code == 200:
+                                                            friend_resp = resp.json()
+                                                            if "authors" in friend_resp.keys():
+                                                                friend_return = friend_resp["authors"]
+                                                        
+                                                        
+                                                                print friend_return
+                                                                
+                                                                
+                                                                if len(friend_return) > 0:
 
-                                                                for myfriend in friend_return:
+                                                                    for myfriend in friend_return:
 
-                                                                    if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
-                                                                        singleAuthor.append(item)
-                                                                        break
+                                                                        if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                                            singleAuthor.append(item)
+                                                                            break
                                         
 
                                             json_return["posts"].extend(singleAuthor)
@@ -929,7 +950,13 @@ class Comment(Resource):
                             paras["page"] = request.args.get('page')
                             paras["size"] = request.args.get('size')
                             
-                            if  handler.getPost(post_id):
+                            print "_________list of post_id________"
+                            print handler.get_all_post_id(post_id)
+                            print post_id
+                            print " _____________list of post end________"
+                            
+                            
+                            if handler.get_all_post_id(post_id):
                                 return jsonify(makeCommentJson(handler.getComments(post_id), paras))
                             else:
                                 #The post is in other server?
@@ -945,7 +972,13 @@ class Comment(Resource):
 
 
                                     foreign_return = requests.get(custom_url, headers = headers)
-                                        
+                                    
+                                    print "returned comments "
+                                    print foreign_return.json()
+                                    print "end comment _____"
+                                    
+                                    
+                                    
                                     if foreign_return.status_code == 200:
                                         
                                         if foreign_return.json() == None:
@@ -953,7 +986,7 @@ class Comment(Resource):
                                         
                                         else:
                                         
-                                            return jsonify(foreign_return)
+                                            return jsonify(foreign_return.json())
     #                                rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
     #                            if  len(rst) != 0:
     #                                return rst[0]
@@ -971,34 +1004,34 @@ class Comment(Resource):
             #Assume we passed server to server auth
             #Assume this is the place we do remote get
 #                pid = request.args.get("post_id")
-                remoteAuthor = request.headers.get("author_id")
-                pg = request.args.get("page")
-                sz = request.args.get("size")
-                
-                got = handler.getPost(post_id)
-
-                if len(got) != 0:
-                    localAuthor = got[0][1].author_id
-                    if  got[0] in handler.getVisiblePosts(remoteAuthor):
-                        return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
-                    else:
-                        if got[0][0].view_permission == 4:
-                            
-                            auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
-                            
-                            headers = createAuthHeaders(auth)
-
-                            headers['Content-type'] = 'application/json'
-
-                            [prefix, suffix] = getAPI(auth, 'GET/friends/A')
-                            custom_url = prefix + remoteAuthor + suffix
-                            print "friend request url: "
-                            print custom_url
-
-                            
-                            pfriends = requests.get(custom_url, headers=headers).json()["authors"]
-                            if(handler.atlOneFriend(localAuthor, pfriends)):
-                                return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
+#                remoteAuthor = request.headers.get("author_id")
+#                pg = request.args.get("page")
+#                sz = request.args.get("size")
+#                
+#                got = handler.getPost(post_id)
+#
+#                if len(got) != 0:
+#                    localAuthor = got[0][1].author_id
+#                    if  got[0] in handler.getVisiblePosts(remoteAuthor):
+#                        return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
+#                    else:
+#                        if got[0][0].view_permission == 4:
+#                            
+#                            auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+#                            
+#                            headers = createAuthHeaders(auth)
+#
+#                            headers['Content-type'] = 'application/json'
+#
+#                            [prefix, suffix] = getAPI(auth, 'GET/friends/A')
+#                            custom_url = prefix + remoteAuthor + suffix
+#                            print "friend request url: "
+#                            print custom_url
+#
+#                            
+#                            pfriends = requests.get(custom_url, headers=headers).json()["authors"]
+#                            if(handler.atlOneFriend(localAuthor, pfriends)):
+#                                return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
                             # else:
                                 #No permission coz the requesting remote user is not foaf of the post author in my server
                         # else:
@@ -1006,12 +1039,21 @@ class Comment(Resource):
                 # else:
                     #Post Not in my server, so does its corresponding comments
 
+                if handler.get_all_post_id(post_id):
+                    paras = {}
+                    paras["page"] = request.args.get('page')
+                    paras["size"] = request.args.get('size')
+
+                    return jsonify(makeCommentJson(handler.getComments(post_id), paras))
+
+
+
         else:
             return "NO AUTHENTICATION", 401
 
 
 #    @requires_auth
-    def post(self):
+    def post(self,post_id):
         if is_accessible():
 
             APP_state = loadGlobalVar()
@@ -1028,6 +1070,8 @@ class Comment(Resource):
                           
                         currentTime = datetime.now()
                         data = request.get_json(force=True)
+                        hostName = data["comment"]["host_id"]
+                        comment = {}
                         comment["post_id"] = data["post"].split("/")[4]
                         comment["comment_text"] = data["comment"]["comment"]
                         comment["author_id"] = data["comment"]["author"]["id"]
@@ -1035,25 +1079,41 @@ class Comment(Resource):
                         comment["author_name"] = data["comment"]["author"]["displayName"]
                         comment["author_url"] = data["comment"]["author"]["url"]
                         comment["author_github"] = data["comment"]["author"]["github"]
+                        comment["contentType"] = data["comment"]["contentType"]
                         #comment["comment_id"] = data["comment"]["guid"]
                         #comment["published"] = data["comment"]["published"]
-                        data["comment"]["author"]["guid"] = uuid.uuid().hex
+                        data["comment"]["guid"] = uuid.uuid4().hex
                         data["comment"]["published"] = currentTime.isoformat() 
 
                         start = data["post"].split("/")[0]
                         middle = data["post"].split("/")[1]
                         end = data["post"].split("/")[2]
+                        del data["comment"]["host_id"]
 
-                        addr = start + middle
-                        addr += end
-                      
-                        if addr == myip:
+                        addr = start + "//" + end + '/'
+                        print "=============From make comments============"
+                        print addr
+                        print hostName
+                        print comment["contentType"]
+                        print myip
+                        print "=============end ==============="
+                        
+                        if hostName == myip:
                             if handler.make_comment(comment):
-                                return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
+                                return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}, 200
                             else:
-                                return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}
+                                return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}, 403
                         else:
-                            return requests.post(data["post"]+"/comments", data).json()
+                            
+                            headers = createAuthHeaders(hostName)
+                            
+                            headers['Content-type'] = 'application/json'
+                            
+                            [prefix, suffix] = getAPI(hostName, 'POST/posts/P/comments')
+                            
+                            custom_url = prefix + data["post"].split("/")[4] + suffix
+                            
+                            return requests.post(custom_url, data=json.dumps(data), headers=headers).json()
 
                     else:
                         return {"Response" : "SESSION_ID_ERROR"}, 403
@@ -1064,6 +1124,7 @@ class Comment(Resource):
             else:
             #Remote
                 data = request.json
+                comment={}
                 comment["post_id"] = data["post"].split("/")[4]
                 comment["comment_text"] = data["comment"]["comment"]
                 comment["author_id"] = data["comment"]["author"]["id"]
@@ -1073,6 +1134,7 @@ class Comment(Resource):
                 comment["author_github"] = data["comment"]["author"]["github"]
                 comment["comment_id"] = data["comment"]["guid"]
                 comment["published"] = data["comment"]["published"]
+                comment["contentType"] = data["comment"]["contentType"]
 
                 
                 if handler.make_comment(comment):

@@ -185,7 +185,18 @@ class RestHandlers():
                 rst.append([post_self, self.getAuthor(post_self.author_id), self.getComments(post_self.post_id)])
         return rst
 
+    def get_all_post_id (self, post_id_out):
     
+        one_post_id = db.session.query(Posts).filter(Posts.post_id == post_id_out).all()
+#        rst = []
+
+        if len(one_post_id)==1:
+#            for all_comment in all_post:
+#                rst += all_comment.post_id
+            if one_post_id[0].post_id == post_id_out:
+                return True
+            else:
+                return False
     
     
 
@@ -294,7 +305,11 @@ class RestHandlers():
 
 
     def make_comment(self, data):
-        currentTime = datetime.now()    
+        currentTime = datetime.now()
+        print "checking data base_________"
+        print data["contentType"]
+        print "checking data base ________end"
+        
         comment = {
                                 "comment_id"    :   uuid.uuid4().hex,
                                 "author_id" :   data["author_id"],
@@ -304,7 +319,7 @@ class RestHandlers():
                                 "author_github" :   data["author_github"],
                                 "post_id"   :   data["post_id"],
                                 "comment_text"  :   data["comment_text"],
-                                "content_type"  :   "text/markdown",    
+                                "content_type"  :   data["contentType"],
                                 "creation_time" :   currentTime
                             }
         try:

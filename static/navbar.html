@@ -59,43 +59,46 @@
   $("#logout").click(function(e) {
 
     e.preventDefault();
-    sendAJAX("GET", "/logout", "", function(response) {
-      //  console.log(response);
-      // if (response["status"] == "Success") {
-      // }
-    });
+    sendAJAX("GET", "/logout", "", null);
     document.cookie="cookie_cmput404_session_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
     document.cookie="cookie_cmput404_github_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
     document.cookie= "cookie_cmput404_author_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
     document.cookie="request_author_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
     localStorage.clear();
     window.location.href = "login.html";
-    // clear cookies and localStorage
-    //var cookies = $.cookie();
-    //for(var cookie in cookies) {
-    //   $.removeCookie(cookie);
-    //}
+
   });
 
   // onclick method for searching for author by id
-  $("#author-search-btn").click(function(e) {
-    e.preventDefault();
-    localStorage.setItem("fetch-author-id",document. getElementById("author-search").value );
-    document.cookie = "request_author_id="+document.getElementById("author-search").value;
-    //window.location.href = "authorpage.html"
-    var linkauthor = "/author/" + document. getElementById("author-search").value;
-    sendAJAX("GET", linkauthor, "", function(response) {
-      if (response["status"] == "SUCCESS") {
-        window.location.href = "authorpage.html"
-      }
-      else {
-        $('.alert').show();
-        document.getElementById("page-container").style.marginTop = "0px";
-
-        //window.location.reload();
-      }
+  if (document.getElementById("author-search").value == "") {
+    $("#author-search-btn").click(function(e) {
+      e.preventDefault();
+      $('.alert').show();
+      document.getElementById("page-container").style.marginTop = "0px";
     });
-  });
+    }
+  else {
+    $("#author-search-btn").click(function(e) {
+      e.preventDefault();
+      localStorage.setItem("fetch-author-id", document.getElementById("author-search").value );
+      document.cookie = "request_author_id="+document.getElementById("author-search").value;
+      //window.location.href = "authorpage.html"
+
+
+        var linkauthor = "/author/" + document. getElementById("author-search").value;
+        sendAJAX("GET", linkauthor, "", function(response) {
+           if (response["status"] == "SUCCESS") {
+             window.location.href = "authorpage.html"
+           }
+           else {
+               $('.alert').show();
+               document.getElementById("page-container").style.marginTop = "0px";
+
+               //window.location.reload();
+           }
+         });
+    });
+  }
 
   // display name in navbar
   $(document).ready(function() {
