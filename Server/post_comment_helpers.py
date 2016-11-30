@@ -382,9 +382,11 @@ class Post(Resource):
                 paras["page"] = request.args.get('page')
                 paras["size"] = request.args.get('size')
                 print "SERVERTOSERVER response"
+                own_post = handler.getPost(post_id)
+                own_post_return = makePostJson([own_post], {"page":None, "size":None})
+                json_return["posts"] = own_post_return["posts"][0]
                 
-                
-                return jsonify(makePostJson([handler.getPost(post_id)], {"page":None, "size":None}))
+                return jsonify(json_return)
                 
     #        #Assume we passed server to server auth
     #        #Assume this is the place we do remote get
