@@ -81,8 +81,7 @@ $(document).ready(function() {
 
 $("#reqtab").click(function(e) {
   e.preventDefault();
-
-  var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
+  document.getElementById("frequest").innerHTML = "";
 
   sendAJAX("GET", "/getFriendRequests", "", function(events) {
 //           console.log(events.friendRequestList.length);
@@ -178,6 +177,7 @@ function acceptfriend() {
 
 // Do this when the user click on the friend tab
 $("#fdtab").click(function(e) {
+    e.preventDefault();
     document.getElementById("friendstab").innerHTML = "";
     function getCookieid() {
     var cookies = document.cookie.split(";");

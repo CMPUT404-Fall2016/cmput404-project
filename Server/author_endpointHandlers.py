@@ -64,7 +64,11 @@ def saveImage(encoded_image, extension):
 
 def createAuthHeaders(host_name):
 
-    server_obj = db.session.query(Servers).filter(Servers.IP == host_name).all()[0]
+    servers = db.session.query(Servers).filter(Servers.IP == host_name).all()
+    if servers ==[]:
+        print "no match found in server table with hostname : %s"%(host_name)
+        return {}
+    server_obj = servers[0]
     auth_str = b"%s:%s"%(server_obj.user_name, server_obj.password)
     userAndPass = b64encode(auth_str).decode("ascii")
     headers = { 'Authorization' : 'Basic %s' %  userAndPass }

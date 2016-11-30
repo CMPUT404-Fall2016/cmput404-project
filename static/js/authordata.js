@@ -104,6 +104,7 @@ function changebtn() {
 
 $("#posttabs").click(function(e) {
   e.preventDefault();
+  document.getElementById("posts").innerHTML = "";
   var authorpid = localStorage.getItem("fetch-author-id");
   var authorpostlink = "/author/" + authorpid + "/posts?size=50";
 //  console.log(authorpostlink);
