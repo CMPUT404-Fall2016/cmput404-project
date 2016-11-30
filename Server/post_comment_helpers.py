@@ -643,11 +643,11 @@ class AuthorPost(Resource):
                         
                         
                         
-                            for item is return_post:
+                            for item in return_post:
                                 if item['visibility'] == "PUBLIC":
-                                    list_post.append(post)
+                                    list_post.append(item)
                                 elif item['visibility'] == "FRIENDS" and handler.isFriend(APP_state["session_id"][sessionID], item["author"]["id"]):
-                                    list_post.append(post)
+                                    list_post.append(item)
                                 
                                 elif item['visibility'] == "PRIVATE":
                                     pass
@@ -657,10 +657,12 @@ class AuthorPost(Resource):
                                     
                                     [prefix, suffix] = getAPI(node, 'GET/friends/A')
                                     custom_url = prefix + item["author"]["id"] + suffix
-                                    
+                                    print "this is getiing friend request url: " + custom_url
                                     friend_return = requests.get(custom_url, headers=headers).json()["authors"]
+                                    print friend_return
+                                    
                                     if APP_state["session_id"][sessionID] in friend_return:
-                                        list_post.append(post)
+                                        list_post.append(item)
                                 
                             own_returns["posts"].extend(list_post)
                             
