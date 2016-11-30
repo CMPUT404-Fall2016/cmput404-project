@@ -661,9 +661,13 @@ class AuthorPost(Resource):
                                     friend_return = requests.get(custom_url, headers=headers).json()["authors"]
                                     print friend_return
                                     
-                                    if APP_state["session_id"][sessionID] in friend_return:
-                                        list_post.append(item)
-                                
+                                    if len(friend_return) > 0:
+                                        
+                                        for myfriend in friend_return:
+                                        
+                                            if handler.isFriend(APP_state["session_id"][sessionID], myfriend):
+                                                list_post.append(item)
+                                    
                             own_returns["posts"].extend(list_post)
                             
                             return jsonify(own_returns)
