@@ -15,8 +15,21 @@ $(document).ready(function() {
       document.getElementById("post-title").textContent = results.posts[0].title;
       document.getElementById("post-author").textContent = results.posts[0].author.displayName;
       document.getElementById("post-description").textContent = results.posts[0].description;
-      document.getElementById("post-content").innerHTML = results.posts[0].content;
 
+      if(results.posts[0].contentType == "text/markdown" || results.posts[0].contentType == "text/x-markdown") {
+         var cmreader = new commonmark.Parser();
+         var writer = new commonmark.HtmlRenderer();
+         var parsed = cmreader.parse(results.posts[0].content); // parsed is a 'Node' tree
+         // transform parsed if you like...
+         var commonmarkresult = writer.render(parsed);
+         document.getElementById("post-content").innerHTML = commonmarkresult;
+       }
+       else {
+         document.getElementById("post-content").innerHTML = results.posts[i].content;
+       }
+
+      document.getElementById("post-content").innerHTML = results.posts[0].content;
+      document.getElementById("post-date").textContent = results.posts[0].published;
       // get the origin for when we need to make a comment
       origin = results.posts[0].origin;
 
