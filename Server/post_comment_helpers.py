@@ -1069,7 +1069,7 @@ class Comment(Resource):
                         comment["author_github"] = data["comment"]["author"]["github"]
                         #comment["comment_id"] = data["comment"]["guid"]
                         #comment["published"] = data["comment"]["published"]
-                        data["comment"]["guid"] = str(uuid.uuid())
+                        data["comment"]["guid"] = uuid.uuid4().hex
                         data["comment"]["published"] = currentTime.isoformat() 
 
                         start = data["post"].split("/")[0]

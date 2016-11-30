@@ -303,7 +303,7 @@ class RestHandlers():
     def make_comment(self, data):
         currentTime = datetime.now()    
         comment = {
-                                "comment_id"    :   str(uuid.uuid()),
+                                "comment_id"    :   uuid.uuid4().hex,
                                 "author_id" :   data["author_id"],
                                 "author_host" :   data["author_host"],
                                 "author_name" :   data["author_name"],
