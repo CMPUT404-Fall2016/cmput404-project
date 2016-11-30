@@ -24,18 +24,18 @@ $(document).ready(function() {
 
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
-                  console.log(myauthorlink);
+//                  console.log(myauthorlink);
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
   sendAJAX("GET", myauthorlink, "", function(events) {
 
-      console.log(events.friends);
+//      console.log(events.friends);
       for(var i=0; i < events.friends.length; ++i) {
         //var friendlink = "http://127.0.0.1:5000/author/" + result[i].authorid;
         var friendsTemplate = document.getElementById('friends-container');
         friendsTemplate.content.querySelector(".friendid").textContent = events.friends[i].id;
         friendsTemplate.content.querySelector(".friendhost").textContent = events.friends[i].host;
         friendsTemplate.content.querySelector(".frienddisplayName").textContent = events.friends[i].displayName;
-        console.log(events.friends[i].displayName);
+//        console.log(events.friends[i].displayName);
         friendsTemplate.content.querySelector(".friendurl").href = events.friends[i].url;
 
         document.cookie = "request_author_id="+events.friends[i].id;
@@ -86,11 +86,11 @@ $("#reqtab").click(function(e) {
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
 
   sendAJAX("GET", "/getFriendRequests", "", function(events) {
-           console.log(events.friendRequestList.length);
-      console.log(events);
+//           console.log(events.friendRequestList.length);
+//      console.log(events);
 
       //console.log(events.friendRequestList[0].fromAuthor_id);
-      console.log(events.friendRequestList.length);
+//      console.log(events.friendRequestList.length);
       for(var i=0; i < events.friendRequestList.length; ++i) {
       var requestTemplate = document.getElementById('request-container');
       requestTemplate.content.querySelector("#thisusername").textContent = events.friendRequestList[i].fromAuthorDisplayName;
@@ -130,12 +130,19 @@ $("#reqtab").click(function(e) {
           // touqir wants these
           acceptfrienddata["author1_name"] = localStorage.getItem("fetch-addfriend-name");
           acceptfrienddata["author2_name"] = localStorage.getItem("display_name");
+<<<<<<< HEAD
 
           console.log(acceptfrienddata);
 
 
+=======
+
+//          console.log(acceptfrienddata);
+
+
+>>>>>>> 2759fb95c0f222590f750e9d28ff3e0c4b794d98
           sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
-                   console.log(response);
+//                   console.log(response);
                    window.location.href="friendspage.html";
 
                    });
@@ -169,11 +176,11 @@ function acceptfriend() {
   acceptfrienddata["author1_name"] = localStorage.getItem("fetch-addfriend-name");
   acceptfrienddata["author2_name"] = localStorage.getItem("display_name");
 
-  console.log(acceptfrienddata);
+//  console.log(acceptfrienddata);
 
 
   sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
-    console.log(response);
+//    console.log(response);
     window.location.href="friendspage.html";
 
   });
@@ -208,7 +215,7 @@ $("#fdtab").click(function(e) {
              friendsTemplate.content.querySelector("#friendid").textContent = events.friends[i].id;
              friendsTemplate.content.querySelector("#friendhost").textContent = events.friends[i].host;
              friendsTemplate.content.querySelector("#frienddisplayName").textContent = events.friends[i].displayName;
-             console.log(events.friends[i].displayName);
+//             console.log(events.friends[i].displayName);
              //console.log(events.friends[i].displayName);
              friendsTemplate.content.querySelector("#friendurl").href = events.friends[i].url;
 
@@ -227,7 +234,7 @@ $("#fdtab").click(function(e) {
 
               //console.log(">>>>");
              //console.log(events.friends[i].host);
-              console.log(unfriendbtn);
+//              console.log(unfriendbtn);
 
 
              var normalContent = document.getElementById('friendstab');
@@ -273,7 +280,7 @@ function unfriendauthor() {
   // console.log(unfrienddata);
 
   sendAJAX("POST", "/unFriend", unfrienddata, function(response) {
-    console.log(response);
+//    console.log(response);
     window.location.href="friendspage.html";
   });
 

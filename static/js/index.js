@@ -13,11 +13,11 @@ function loadPosts() {
     if (results.next) {
       // set the next page of posts
       page = results.next.split(".com")[1];
-      console.log(page);
+//      console.log(page);
     } else {
       // no more posts to show
       $("#load-posts").addClass("hidden");
-      console.log("no more posts");
+//      console.log("no more posts");
     }
 
     for(var i=0; i < results.posts.length; ++i) {
@@ -105,12 +105,16 @@ $("#post-submit").click(function(e) {
   var postData = {};
   postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
-  if (postForm.elements["desc"].value == null) {
-    postData["description"] = "";
-  }
-  else {
-    postData["description"] = postForm.elements["desc"].value;
-  }
+//                        
+//  if (postForm.elements["desc"].value == null) {
+//    postData["description"] = "";
+//  }
+//  else {
+//    postData["description"] = postForm.elements["desc"].value;
+//  }
+  postData["description"] = document.getElementById("description").textContent;
+                        
+                        
   postData["contentType"] = postForm.elements["text-type"].value;
   // console.log(postData["contentType"]);
 
@@ -133,9 +137,9 @@ $("#post-submit").click(function(e) {
   var reader = new FileReader();
   reader.addEventListener("load", function () {
     postData["image"] = reader.result;
-    console.log(JSON.stringify(postData));
+//    console.log(JSON.stringify(postData));
     sendAJAX("POST", "/posts", postData, function(result) {
-      console.log(result);
+//      console.log(result);
       window.location.reload();
     });
   }, false);
@@ -148,7 +152,7 @@ $("#post-submit").click(function(e) {
   // otherwise just send it
   else {
     sendAJAX("POST", "/posts", postData, function(result) {
-      console.log(result);
+//      console.log(result);
       window.location.reload();
     });
   }

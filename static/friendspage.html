@@ -53,11 +53,11 @@
 
   <template id="post-container">
     <li class="list-group-item post-container media">
-      <div class="media-left">
-        <a href="#" class="post-author-dp">
-          <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">
-            </a>
-      </div>
+<!--      <div class="media-left">-->
+<!--        <a href="#" class="post-author-dp">-->
+<!--          <img src="../sample_data/kitten.jpg" class="media-object" height="55" width="55" alt="Avatar">-->
+<!--            </a>-->
+<!--      </div>-->
       <div class="post-body media-body">
         <h4 class="media-heading">Post Title: a sample post</h4>
         <span><a href="#" class="post-source">Source Link</a> | <a href="#" class="post-origin">Origin Link</a> | <a href="#" class="post-author">Author</a> | <span class="post-description">Something<span></span>
@@ -77,21 +77,41 @@
   </template>
 
   <template id="friends-container">
+<!--    <div class="well">-->
+<!--    <div class="row">-->
+<!--      <div class="col-sm-6">-->
+<!--        <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">-->
+<!--          <p style="display:none;" id="friendid" class="friendid"></p>-->
+<!--          <p style="display:none;" id="friendhost" class="friendhost"></p>-->
+<!--          <p style="display:none;" id="friendurl" class="friendurl"></p>-->
+<!--          <a href="#" id="friendp1link" class="list-group-item friendp1link" thisuserid=""><p id="frienddisplayName" class="frienddisplayName"> friends</p></a>-->
+<!---->
+<!--      </div>-->
+<!--      <div class="col-sm-6">-->
+<!--        <input id="unfriendauthor" value="UnFriend" name="unfriend" type="button" class="btn btn-info unfriendauthor" friendhostname=""/>-->
+<!---->
+<!--      </div>-->
+<!--    </div>-->
+<!--    </div>-->
     <div class="well">
-    <div class="row">
-      <div class="col-sm-6">
-        <img src="../sample_data/kitten.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+      <div class="row">
+        <div class="col-sm-6">
+          
           <p style="display:none;" id="friendid" class="friendid"></p>
           <p style="display:none;" id="friendhost" class="friendhost"></p>
           <p style="display:none;" id="friendurl" class="friendurl"></p>
-          <a href="#" id="friendp1link" class="list-group-item friendp1link" thisuserid=""><p id="frienddisplayName" class="frienddisplayName"> friends</p></a>
-
+          <a href="#" id="friendp1link frienddisplayName" class="list-group-item friendp1link frienddisplayName" thisuserid="">Friends</a>
+          
+        </div>
+        <div class="col-sm-2">
+        </div>
+        
+        <div class="col-sm-4">
+          <!--                  <input id="unfriendauthor" value="UnFriend" name="unfriend" type="button" class="btn btn-info unfriendauthor" friendhostname=""/>-->
+          <a id="unfriendauthor" value="UnFriend" name="unfriend" type="button" class="list-group-item unfriendauthor" friendhostname="">UnFriend</a>
+          
+        </div>
       </div>
-      <div class="col-sm-6">
-        <input id="unfriendauthor" value="UnFriend" name="unfriend" type="button" class="btn btn-info unfriendauthor" friendhostname=""/>
-
-      </div>
-    </div>
     </div>
   </template>
 
