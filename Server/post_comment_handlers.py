@@ -305,7 +305,11 @@ class RestHandlers():
 
 
     def make_comment(self, data):
-        currentTime = datetime.now()    
+        currentTime = datetime.now()
+        print "checking data base_________"
+        print data["contentType"]
+        print "checking data base ________end"
+        
         comment = {
                                 "comment_id"    :   uuid.uuid4().hex,
                                 "author_id" :   data["author_id"],
