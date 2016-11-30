@@ -946,12 +946,12 @@ class Comment(Resource):
                             paras["size"] = request.args.get('size')
                             
                             print "_________list of post_id________"
-                            print handler.get_all_post_id()
+                            print handler.get_all_post_id(post_id)
                             print post_id
                             print " _____________list of post end________"
                             
                             
-                            if  post_id in handler.get_all_post_id():
+                            if handler.get_all_post_id(post_id):
                                 return jsonify(makeCommentJson(handler.getComments(post_id), paras))
                             else:
                                 #The post is in other server?
@@ -1034,7 +1034,7 @@ class Comment(Resource):
                 # else:
                     #Post Not in my server, so does its corresponding comments
 
-                if post_id in handler.get_all_post_id():
+                if handler.get_all_post_id(post_id):
                     paras = {}
                     paras["page"] = request.args.get('page')
                     paras["size"] = request.args.get('size')
