@@ -453,7 +453,7 @@ class All_Post(Resource):
                     json_return["size"] = 0
                     json_return["query"] = "posts"
                     json_return["posts"] = []
-                    
+                    new_list =[]
 #                    json_return["posts"].extend(makePostJson(handler.getAllPosts(), paras)["posts"])
 
                     list_post = makePostJson(handler.getAllPosts(), paras)["posts"]
@@ -491,9 +491,9 @@ class All_Post(Resource):
                     # Each json object contains all public posts from a server
                     for post in list_post:
                         if post['visibility'] == "PUBLIC":
-                            list_post.append(post)
+                            new_list.append(post)
                     
-                    json_return["posts"].extend(list_post)
+                    json_return["posts"].extend(new_list)
     
                     return jsonify(json_return)
 
@@ -646,7 +646,7 @@ class AuthorPost(Resource):
                             for item in return_post:
                                 if item['visibility'] == "PUBLIC":
                                     list_post.append(item)
-                                elif item['visibility'] == "FRIENDS" and handler.isFriend(APP_state["session_id"][sessionID], item["author"]["id"]):
+                                elif item['visibility'] == "FRIENDS" and handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"]):
                                     list_post.append(item)
                                 
                                 elif item['visibility'] == "PRIVATE":
@@ -661,9 +661,13 @@ class AuthorPost(Resource):
                                     friend_return = requests.get(custom_url, headers=headers).json()["authors"]
                                     print friend_return
                                     
-                                    if APP_state["session_id"][sessionID] in friend_return:
-                                        list_post.append(item)
-                                
+                                    if len(friend_return) > 0:
+                                        
+                                        for myfriend in friend_return:
+                                        
+                                            if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                list_post.append(item)
+                                    
                             own_returns["posts"].extend(list_post)
                             
                             return jsonify(own_returns)

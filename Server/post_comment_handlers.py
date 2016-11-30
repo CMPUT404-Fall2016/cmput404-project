@@ -327,6 +327,7 @@ class RestHandlers():
                 i += 1
         result += y[i:]
         result += z[j:]
+        result.reverse()
         return result
 
     def updatePost(self, param):
