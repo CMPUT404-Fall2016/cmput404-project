@@ -1113,7 +1113,7 @@ class Comment(Resource):
                             
                             custom_url = prefix + data["post"].split("/")[4] + suffix
                             
-                            return requests.post(custom_url, data=data, headers=headers).json()
+                            return requests.post(custom_url, data=json.dumps(data), headers=headers).json()
 
                     else:
                         return {"Response" : "SESSION_ID_ERROR"}, 403
@@ -1124,6 +1124,7 @@ class Comment(Resource):
             else:
             #Remote
                 data = request.json
+                comment={}
                 comment["post_id"] = data["post"].split("/")[4]
                 comment["comment_text"] = data["comment"]["comment"]
                 comment["author_id"] = data["comment"]["author"]["id"]
