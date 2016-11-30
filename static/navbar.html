@@ -79,8 +79,11 @@
 
   // onclick method for searching for author by id
   if (document.getElementById("author-search").value == "") {
+    $("#author-search-btn").click(function(e) {
+      e.preventDefault();
       $('.alert').show();
       document.getElementById("page-container").style.marginTop = "0px";
+    });
     }
   else {
     $("#author-search-btn").click(function(e) {
