@@ -34,12 +34,6 @@ function getFriendcookieid() {
   return "";
 }
 
-//function editauthorpage() {
-//  document.getElementById("profiledname").textContent = document.getElementById("pdn").value;
-//  //document.getElementById("pdn").placeholder = document.getElementById("profiledname").textContent;
-//  document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-//}
-
 // clear post tab when user on profile tab
 $(".profiletab").click( function(e) {
     e.preventDefault();
@@ -127,7 +121,7 @@ function changebtn() {
 $("#posttabs").click(function(e) {
   e.preventDefault();
   var authorpid = localStorage.getItem("fetch-author-id");
-  var authorpostlink = "/author/" + authorpid + "/posts";
+  var authorpostlink = "/author/" + authorpid + "/posts?size=50";
   console.log(authorpostlink);
 
   var postList = document.getElementById("posts");
@@ -139,13 +133,14 @@ $("#posttabs").click(function(e) {
       postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
-           
+
        if(results.posts[i].contentType == "text/markdown" || results.posts[i].contentType == "text/x-markdown") {
            var cmreader = new commonmark.Parser();
            var writer = new commonmark.HtmlRenderer();
            var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
            // transform parsed if you like...
            var commonmarkresult = writer.render(parsed);
+           postTemplate.content.querySelector(".post-content").innerHTML = commonmarkresult;
        } else {
            postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
        }
@@ -197,7 +192,8 @@ function afriendone() {
     var myinfodatacombine = {}
     myinfodatacombine.myhost = result.host;
     myinfodatacombine.mydisplayname = result.displayName;
-           console.log(myinfodatacombine);
+    myinfodatacombine.mydisplayname = result.url;
+    console.log(myinfodatacombine);
 
     //var friendid = getFriendcookieid();
     var friendid = localStorage.getItem("fetch-author-id");
@@ -208,6 +204,7 @@ function afriendone() {
       console.log(result.displayName);
       myinfodatacombines.myhost = result.host;
       myinfodatacombines.mydisplayname = result.displayName;
+      myinfodatacombines.myurl = result.url;
       myinfodatacombines.friendid = result2.id;
       myinfodatacombines.friendhost = result2.host;
       myinfodatacombines.frienddisplayname = result2.displayName
@@ -225,20 +222,22 @@ function afriendtwo(result) {
 
   // This is the body for the POST request
   var friendrequestdata = {};
-    friendrequestdata["author"] = {}
-    friendrequestdata["author"]["id"]= getCookieid();;
-    friendrequestdata["author"]["host"] = result.myhost;
-    friendrequestdata["author"]["displayName"] = result.mydisplayname;
-    friendrequestdata["friend"] = {};
-    friendrequestdata["friend"]["id"] = result.friendid;
-    friendrequestdata["friend"]["host"] = result.friendhost;
-    friendrequestdata["friend"]["displayName"] = result.frienddisplayname;
-    friendrequestdata["friend"]["url"] = result.friendurl;
+
+    friendrequestdata["author"] = {};
+    friendrequestdata["author"]["id"] = result.friendid;
+    friendrequestdata["author"]["host"] = result.friendhost;
+    friendrequestdata["author"]["displayName"] = result.frienddisplayname;
+//    friendrequestdata["author"]["url"] = result.friendurl;
+    friendrequestdata["friend"] = {}
+    friendrequestdata["friend"]["id"]= getCookieid();;
+    friendrequestdata["friend"]["host"] = result.myhost;
+    friendrequestdata["friend"]["displayName"] = result.mydisplayname;
+    friendrequestdata["friend"]["url"] = result.myurl;
 
   console.log(JSON.stringify(friendrequestdata));
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-  sendAJAX("POST", "/friendrequest", friendrequestdata, function(response) {
+  sendAJAX("POST", "/friendrequest/", friendrequestdata, function(response) {
            console.log(response);
     //if(response["status"] == "SUCCESS") {
       //document.getElementById("addfriendbtn").style.display="none";

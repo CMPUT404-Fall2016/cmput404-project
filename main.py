@@ -661,12 +661,12 @@ def FollowUser():
     printSessionIDs(APP_state)
     # try :
     param={}
-    param["from_author"] = data["author"]["id"]
-    param["from_author_name"] = data["author"]["displayName"]
-    param["from_serverIP"] = data["author"]["host"]
-    param["to_author"] = data["friend"]["id"]
-    param["to_author_name"] = data["friend"]["displayName"]
-    param["to_serverIP"] = data["friend"]["host"]
+    param["to_author"] = data["author"]["id"]
+    param["to_author_name"] = data["author"]["displayName"]
+    param["to_serverIP"] = data["author"]["host"]
+    param["from_author"] = data["friend"]["id"]
+    param["from_author_name"] = data["friend"]["displayName"]
+    param["from_serverIP"] = data["friend"]["host"]
     
     # print data
     result = processFriendRequest(param, APP_state)
@@ -785,13 +785,13 @@ def restart():
         return "FAILURE"
 
 
-@app.route('/images/<path:image_id>', methods=['GET'])
-def getImage(image_id):
+@app.route('/images/<path:image_path>', methods=['GET'])
+def getImage(image_path):
     app.config['UPLOAD_FOLDER']
-    filename = os.path.join(app.config['UPLOAD_FOLDER'], image_id)
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], image_path)
     print "image filename : "
     print filename
-    return send_from_directory(app.config['UPLOAD_FOLDER'], image_id)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], image_path)
 
 
 def init_server():

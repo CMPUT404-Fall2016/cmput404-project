@@ -420,13 +420,13 @@ def sendFriendRequest(param):
     body = {}
     body['query'] = 'friendrequest'
     body["author"] = {}
-    body["author"]['id'] = param['from_author']
-    body["author"]["host"] = param['from_serverIP']
-    body['author']['displayName'] = param['from_author_name'] 
+    body["author"]['id'] = param['to_author']
+    body["author"]["host"] = param['to_serverIP']
+    body['author']['displayName'] = param['to_author_name'] 
     body['friend'] = {}
-    body['friend']['id'] = param['to_author']
-    body['friend']['host'] = param['to_serverIP']
-    body['friend']['displayName'] = param['to_author_name']
+    body['friend']['id'] = param['from_author']
+    body['friend']['host'] = param['from_serverIP']
+    body['friend']['displayName'] = param['from_author_name']
 
     [prefix, suffix] = getAPI(param['to_serverIP'], 'GET/author/A')
     body['friend']['url'] = prefix + body['friend']['id'] + suffix

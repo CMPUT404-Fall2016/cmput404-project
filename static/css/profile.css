@@ -9,3 +9,7 @@
 .media {
   overflow: visible;
 }
+
+ol {
+  padding: 0;
+}

@@ -36,7 +36,7 @@ function loadPosts() {
       if (results.posts[i].count > 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
       }
-      postTemplate.content.querySelector(".post-date").textContent = Date(results.posts[i].published);
+      // postTemplate.content.querySelector(".post-date").textContent = Date(results.posts[i].published);
 
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
@@ -89,7 +89,7 @@ function loadGithub() {
       githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
       githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
 
-      githubTemplate.content.querySelector(".github-date").textContent = Date(events[i].created_at);
+      githubTemplate.content.querySelector(".github-date").textContent = new Date(events[i].created_at);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(githubTemplate.content, true);
@@ -105,7 +105,12 @@ $("#post-submit").click(function(e) {
   var postData = {};
   postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
-  postData["description"] = postForm.elements["desc"].value;
+  if (postForm.elements["desc"].value == null) {
+    postData["description"] = "";
+  }
+  else {
+    postData["description"] = postForm.elements["desc"].value;
+  }
   postData["contentType"] = postForm.elements["text-type"].value;
   // console.log(postData["contentType"]);
 
