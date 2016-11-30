@@ -81,13 +81,13 @@ $("#comment-submit").click(function (e) {
 
   var commentData = {};
   commentData["post"] = localStorage.getItem("origin");
-  commentData["author"] = {};
-  commentData["author"]["id"] = localStorage.getItem("author_id");
+  commentData["comment"]["author"] = {};
+  commentData["comment"]["author"]["id"] = localStorage.getItem("author_id");
   var hostname = "http://" + window.location.host;
-  commentData["author"]["host"] = hostname;
-  commentData["author"]["displayName"] = localStorage.getItem("display_name");
-  commentData["author"]["url"] = hostname + "/author/" + localStorage.getItem("author_id");
-  commentData["author"]["github"] = localStorage.getItem("github_username");
+  commentData["comment"]["author"]["host"] = hostname;
+  commentData["comment"]["author"]["displayName"] = localStorage.getItem("display_name");
+  commentData["comment"]["author"]["url"] = hostname + "/author/" + localStorage.getItem("author_id");
+  commentData["comment"]["author"]["github"] = localStorage.getItem("github_username");
 
   commentData["contentType"] = $("input[name=text-type]").val();
   if ($("input[name=text-type]").val() == "text/x-markdown") {
@@ -107,7 +107,7 @@ $("#comment-submit").click(function (e) {
 
   // don't really care if it worked or not, that's the server's job
   sendAJAX("POST", "/posts/"+postID+"/comments/", commentData, function(results) {
-    console.log(response);
+    console.log(results);
   });
   window.location.reload();
 });
