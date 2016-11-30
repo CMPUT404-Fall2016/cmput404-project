@@ -946,7 +946,7 @@ class Comment(Resource):
                             paras["size"] = request.args.get('size')
                             
                             print "_________list of post_id________"
-                            print handler.get_all_post_id()
+                            print handler.get_all_post_id(post_id)
                             print post_id
                             print " _____________list of post end________"
                             
