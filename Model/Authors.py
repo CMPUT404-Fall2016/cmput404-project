@@ -72,7 +72,7 @@ class Authors(db.Model):
         """
 
         if datum == None:
-            self.author_id = uuid.uuid4().hex
+            self.author_id = str(uuid.uuid4())
             return
 
 

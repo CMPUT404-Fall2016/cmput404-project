@@ -6,6 +6,7 @@ from base64 import b64encode
 from Nodes import *
 import base64
 import os
+from db import *
 
 """
 THINGS TO DO:
@@ -914,7 +915,7 @@ def userRegistration(param):
         return "DUPLICATE"
 
     datum = {}
-    datum["author_id"]  = uuid.uuid4().hex
+    datum["author_id"]  = str(uuid.uuid4())
     datum["name"]       = name
     datum["login_name"] = login_name
     datum["password"]   = password
