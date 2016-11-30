@@ -353,7 +353,7 @@ class Post(Resource):
                                 json_return["posts"].extend(recvJson["posts"])
 
                                 
-                            json_return["posts"].extend(foreign_return["posts"])
+#                            json_return["posts"].extend(foreign_return["posts"])
                                 #rst += requests.get(custom_url, auth = HTTPBasicAuth(node_user_name,node_user_pass), headers = headers).json()
                                     
                         #                        if  len(rst) != 0:
@@ -517,6 +517,7 @@ class All_Post(Resource):
 
             APP_state = loadGlobalVar()
             output = getCookie("post_post")
+            
             if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
                 return output
 
