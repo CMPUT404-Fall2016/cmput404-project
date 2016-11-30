@@ -1113,7 +1113,7 @@ class Comment(Resource):
                             
                             custom_url = prefix + data["post"].split("/")[4] + suffix
                             
-                            return requests.post(custom_url, data, headers=headers).json()
+                            return requests.post(custom_url, data=json.dumps(data), headers=headers).json()
 
                     else:
                         return {"Response" : "SESSION_ID_ERROR"}, 403
