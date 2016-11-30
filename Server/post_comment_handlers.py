@@ -161,6 +161,16 @@ class RestHandlers():
             return []
         #return [db.session.query(Posts).filter(Posts.post_id == post_id).first(), self.getAuthor(author_id), self.getComments(post_id)]
 
+    def get_post_dump(self, author_id):
+        
+        get_pid_author = db.session.query(Posts).filter(Posts.author_id == author_id).all()
+        if get_pid_author != None:
+            return get_pid_author
+        else:
+            return []
+    
+    
+    
 
     def getComments(self, post_id):
         """
