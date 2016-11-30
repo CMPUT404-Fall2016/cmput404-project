@@ -61,7 +61,7 @@ $("#posttab").click(function(e) {
 //         }
 //         // if post are found
 //         else {
-      for(var i=results.posts.length; i > results.posts.length; --i) {
+      for(var i=0; i < results.posts.length; ++i) {
            // fill the container with details
            postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
            //console.log(results.posts[i].title);
