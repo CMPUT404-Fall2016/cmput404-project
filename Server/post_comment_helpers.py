@@ -668,14 +668,14 @@ class AuthorPost(Resource):
                                     
 #                                    print friend_return
 
-                                    if len(friend_return) > 0:
-                                        
-                                        for myfriend in friend_return:
-                                        
-                                            if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
-                                                list_post.append(item)
-                                                break
-                                    
+                                            if len(friend_return) > 0:
+                                                
+                                                for myfriend in friend_return:
+                                                
+                                                    if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                        list_post.append(item)
+                                                        break
+                                            
                             own_returns["posts"].extend(list_post)
                             
                             return jsonify(own_returns)
@@ -834,16 +834,16 @@ class AuthorToAuthorPost(Resource):
                                                             friend_return = friend_resp["authors"]
                                                     
                                                     
-                                                    print friend_return
-                                                    
-                                                    
-                                                    if len(friend_return) > 0:
+                                                            print friend_return
+                                                            
+                                                            
+                                                            if len(friend_return) > 0:
 
-                                                        for myfriend in friend_return:
+                                                                for myfriend in friend_return:
 
-                                                            if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
-                                                                singleAuthor.append(item)
-                                                                break
+                                                                    if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                                        singleAuthor.append(item)
+                                                                        break
                                         
 
                                             json_return["posts"].extend(singleAuthor)
