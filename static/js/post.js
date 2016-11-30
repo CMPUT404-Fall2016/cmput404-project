@@ -39,35 +39,35 @@ $(document).ready(function() {
       origin = results.posts.origin;
       localStorage.setItem("origin", results.posts.origin);
       // console.log(results.posts.comments.length);
-      for (var i=0; i < results.posts.comments.length; ++i) {
-          var commentsTemplate = document.getElementById("comment-template");
-          // console.log(results.posts.comments);
-          commentsTemplate.content.querySelector(".comment-author").textContent = results.posts.comments[i].author.displayName;
-          //        commentTemplate.content.querySelector(".comment-content").textContent = results.posts.comments[i].comment;
-
-         if(results.posts.comments[i].contentType == "text/markdown" || results.posts.comments[i].contentType == "text/x-markdown") {
-             var cmreader = new commonmark.Parser();
-             var writer = new commonmark.HtmlRenderer();
-             var parsed = cmreader.parse(results.posts.comments[i].comment); // parsed is a 'Node' tree
-             // transform parsed if you like...
-             var commonmarkresult = writer.render(parsed);
-             commentsTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
-         }
-         else {
-             commentsTemplate.content.querySelector(".comment-content").innerHTML = results.posts.comments[i].comment;
-         }
-
-         var authorBtn = commentsTemplate.content.querySelector(".comment-author");
-         authorBtn.setAttribute("post-author-id", results.posts.comments[i].author.id);
-
-         var clone = document.importNode(commentsTemplate.content, true);
-         postList.appendChild(clone);
-         $(".comment-author").click(function (e) {
-              e.preventDefault();
-              localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-              window.location.href = "authorpage.html";
-          });
-      }
+//      for (var i=0; i < results.posts.comments.length; ++i) {
+//          var commentsTemplate = document.getElementById("comment-template");
+//          // console.log(results.posts.comments);
+//          commentsTemplate.content.querySelector(".comment-author").textContent = results.posts.comments[i].author.displayName;
+//          //        commentTemplate.content.querySelector(".comment-content").textContent = results.posts.comments[i].comment;
+//
+//         if(results.posts.comments[i].contentType == "text/markdown" || results.posts.comments[i].contentType == "text/x-markdown") {
+//             var cmreader = new commonmark.Parser();
+//             var writer = new commonmark.HtmlRenderer();
+//             var parsed = cmreader.parse(results.posts.comments[i].comment); // parsed is a 'Node' tree
+//             // transform parsed if you like...
+//             var commonmarkresult = writer.render(parsed);
+//             commentsTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
+//         }
+//         else {
+//             commentsTemplate.content.querySelector(".comment-content").innerHTML = results.posts.comments[i].comment;
+//         }
+//
+//         var authorBtn = commentsTemplate.content.querySelector(".comment-author");
+//         authorBtn.setAttribute("post-author-id", results.posts.comments[i].author.id);
+//
+//         var clone = document.importNode(commentsTemplate.content, true);
+//         postList.appendChild(clone);
+//         $(".comment-author").click(function (e) {
+//              e.preventDefault();
+//              localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+//              window.location.href = "authorpage.html";
+//          });
+//      }
 
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
@@ -80,40 +80,40 @@ $(document).ready(function() {
     });
 
     // now fetch all the comments
-//    sendAJAX("GET", "/posts/"+postID+"/comments/", "", function(results) {
-//      for (var i=0; i < results.comments.length; ++i) {
-//        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
-////        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
-//
-//         if(results.comments[i].contentType == "text/markdown" || results.comments[i].contentType == "text/x-markdown") {
-//         var cmreader = new commonmark.Parser();
-//         var writer = new commonmark.HtmlRenderer();
-//         var parsed = cmreader.parse(results.comments[i].comment); // parsed is a 'Node' tree
-//         // transform parsed if you like...
-//         var commonmarkresult = writer.render(parsed);
-//         commentTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
-//         }
-//         else {
-//         commentTemplate.content.querySelector(".comment-content").innerHTML = results.comments[i].comment;
-//         }
-//
-//
-//        // bind the author's ID to the author link
-//        var authorBtn = commentTemplate.content.querySelector(".comment-author");
-//        authorBtn.setAttribute("post-author-id", results.comments[i].author.id);
-//
-//        var clone = document.importNode(commentTemplate.content, true);
-//        commentsList.append(clone);
-//      }
-//
-//      // bind the onclick to set author id in localStorage
-//      // and link the user to the author's profile
-//      $(".comment-author").click(function (e) {
-//        e.preventDefault();
-//        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
-//        window.location.href = "authorpage.html";
-//      });
-//    });
+    sendAJAX("GET", "/posts/"+postID+"/comments/", "", function(results) {
+      for (var i=0; i < results.comments.length; ++i) {
+        commentTemplate.content.querySelector(".comment-author").textContent = results.comments[i].author.displayName;
+//        commentTemplate.content.querySelector(".comment-content").textContent = results.comments[i].comment;
+
+         if(results.comments[i].contentType == "text/markdown" || results.comments[i].contentType == "text/x-markdown") {
+         var cmreader = new commonmark.Parser();
+         var writer = new commonmark.HtmlRenderer();
+         var parsed = cmreader.parse(results.comments[i].comment); // parsed is a 'Node' tree
+         // transform parsed if you like...
+         var commonmarkresult = writer.render(parsed);
+         commentTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
+         }
+         else {
+         commentTemplate.content.querySelector(".comment-content").innerHTML = results.comments[i].comment;
+         }
+
+
+        // bind the author's ID to the author link
+        var authorBtn = commentTemplate.content.querySelector(".comment-author");
+        authorBtn.setAttribute("post-author-id", results.comments[i].author.id);
+
+        var clone = document.importNode(commentTemplate.content, true);
+        commentsList.append(clone);
+      }
+
+      // bind the onclick to set author id in localStorage
+      // and link the user to the author's profile
+      $(".comment-author").click(function (e) {
+        e.preventDefault();
+        localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+        window.location.href = "authorpage.html";
+      });
+    });
   }
   else {
     // redirect to error page
