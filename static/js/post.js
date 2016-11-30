@@ -39,10 +39,10 @@ $(document).ready(function() {
       localStorage.setItem("origin", results.posts.origin);
       console.log(results.posts.comments.length);
       for (var i=0; i < results.posts.comments.length; ++i) {
-         var commentsTemplate = document.getElementById("comment-template");
-        console.log(results.posts.comments);
-        commentsTemplate.content.querySelector(".comment-author").textContent = results.posts.comments[i].author.displayName;
-//        commentTemplate.content.querySelector(".comment-content").textContent = results.posts.comments[i].comment;
+          var commentsTemplate = document.getElementById("comment-template");
+          console.log(results.posts.comments);
+          commentsTemplate.content.querySelector(".comment-author").textContent = results.posts.comments[i].author.displayName;
+          //        commentTemplate.content.querySelector(".comment-content").textContent = results.posts.comments[i].comment;
              
          if(results.posts.comments[i].contentType == "text/markdown" || results.posts.comments[i].contentType == "text/x-markdown") {
              var cmreader = new commonmark.Parser();
