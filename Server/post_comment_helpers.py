@@ -330,8 +330,8 @@ class Post(Resource):
                         own_post_return = makePostJson([own_post], {"page":None, "size":None})
                         
                         
-                        json_return["posts"].extend(own_post_return["posts"])
-                        return jsonify(json_return)
+#                        json_return["posts"].extend(own_post_return["posts"])
+                        return jsonify(own_post_return)
                     else:
                         
                         print "retriving single post here!!!_______"
@@ -349,10 +349,12 @@ class Post(Resource):
                             
                             if foreign_return.status_code == 200:
                                 recvJson = foreign_return.json()
-                                print "_______ this is singlr post____________"
-                                print recvJson
-                                print "______________end___________________"
-                                json_return["posts"].extend(recvJson["posts"])
+                                if len(recvJson["posts"])>0:
+                                    
+                                    print "_______ this is singlr post____________"
+                                    print recvJson
+                                    print "______________end___________________"
+                                    json_return["posts"].extend(recvJson["posts"])
 
                                 
 #                            json_return["posts"].extend(foreign_return["posts"])
@@ -364,7 +366,7 @@ class Post(Resource):
                         #                    paras = {}
                         #                    paras["page"] = request.args.get('page')
                         #                    paras["size"] = request.args.get('size')
-                        return jsonify(json_return)
+                                    return jsonify(recvJson)
     #
     #                else:
     #                    return {"Response" : "sessionID error"}
