@@ -443,9 +443,6 @@ def sendFriendRequest(param):
 
 
 
-def checkIfUnfriended
-
-
 def serializeFriendRequestList(requestList):
 
   results = []
