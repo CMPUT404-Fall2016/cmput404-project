@@ -665,7 +665,7 @@ class AuthorPost(Resource):
                                         
                                         for myfriend in friend_return:
                                         
-                                            if handler.isFriend(APP_state["session_id"][sessionID], myfriend):
+                                            if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
                                                 list_post.append(item)
                                     
                             own_returns["posts"].extend(list_post)
