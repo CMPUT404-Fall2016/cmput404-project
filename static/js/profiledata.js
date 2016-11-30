@@ -36,51 +36,38 @@ function getFriendcookieid() {
 
 $(document).ready(function() {
 
-
   var myauthorid = getCookieid();
   //var myauthorid = localStorage.getItem("author_id");
   var mypTemplate = document.getElementById('profiledatas');
-                  console.log(myauthorid);
-
+                  // console.log(myauthorid);
   var myprofilelink = "/author/" + myauthorid;
-                  console.log(myprofilelink);
-
+                  // console.log(myprofilelink);
   sendAJAX("GET", myprofilelink, "", function(result) {
 
-            console.log("called");
+     var td = mypTemplate.content.querySelector("#profilehname");
+     profileusernametext = result.displayName;
+     td.textContent = profileusernametext;
 
-           console.log(result);
-           var td = mypTemplate.content.querySelector("#profilehname");
-           profileusernametext = result.displayName;
-           td.textContent = profileusernametext;
+     mypTemplate.content.querySelector("#profileid").textContent = result.id;
+     mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
+     mypTemplate.content.querySelector("#profilehost").textContent = result.host;
+     mypTemplate.content.querySelector("#profileurl").textContent = result.url;
+     mypTemplate.content.querySelector("#profilegithub_id").textContent = result.githubUsername;
 
-           mypTemplate.content.querySelector("#profileid").textContent = result.id;
+     var normalContent = document.getElementById('profile');
 
-           mypTemplate.content.querySelector("#profiledname").textContent = result.displayName;
+     var clonedTemplate = mypTemplate.content.cloneNode(true);
+     normalContent.appendChild(clonedTemplate)
 
-           mypTemplate.content.querySelector("#profilehost").textContent = result.host;
+     document.getElementById("editprofilebtn").style.display="";
 
-           mypTemplate.content.querySelector("#profileurl").textContent = result.url;
+     document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
+     document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
 
-           mypTemplate.content.querySelector("#profilegithub_id").textContent = result.githubUsername;
-
-           var normalContent = document.getElementById('profile');
-
-           var clonedTemplate = mypTemplate.content.cloneNode(true);
-           normalContent.appendChild(clonedTemplate)
-
-           document.getElementById("editprofilebtn").style.display="";
-
-
-           document.getElementById("pid").placeholder = document.getElementById("profileid").textContent;
-           document.getElementById("pdn").value = document.getElementById("profiledname").textContent;
-
-           document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
-           document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
-           document.getElementById("pgitid").value = document.getElementById("profilegithub_id").textContent;
+     document.getElementById("phost").placeholder = document.getElementById("profilehost").textContent;
+     document.getElementById("purl").placeholder = document.getElementById("profileurl").textContent;
+     document.getElementById("pgitid").value = document.getElementById("profilegithub_id").textContent;
   });
-
-
 
 });
 
@@ -102,10 +89,10 @@ function saveprofilechange() {
   editprofiledata["name"] = document.getElementById("pdn").value;
   editprofiledata["github_id"] = document.getElementById("pgitid").value;
 
-  console.log(JSON.stringify(editprofiledata));
+  // console.log(JSON.stringify(editprofiledata));
   localStorage.setItem("github_username", document.getElementById("pgitid").value);
   sendAJAX("POST", "/editProfile", editprofiledata, function(response) {
-     console.log(response);
+    //  console.log(response);
      localStorage.setItem("display_name", document.getElementById("pdn").value);
      localStorage.setItem("github_username", document.getElementById("pgitid").value);
      window.location.reload();
