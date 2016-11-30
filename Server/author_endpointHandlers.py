@@ -931,7 +931,7 @@ def userRegistration(param):
     # datum["bio"]        = bio
     # datum["github_id"]  = github_id
 
-    datum["authorized"] = True
+    datum["authorized"] = False
     new_author = Authors(datum)
     print "newly created ID : " + datum["author_id"]
 
