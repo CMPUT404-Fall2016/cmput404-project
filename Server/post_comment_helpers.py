@@ -517,6 +517,7 @@ class All_Post(Resource):
 
             APP_state = loadGlobalVar()
             output = getCookie("post_post")
+            
             if type(output) == flask.wrappers.Response: #In case if cookie is not found a status code = 200 response is send back.
                 return output
 
