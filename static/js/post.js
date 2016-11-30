@@ -16,6 +16,7 @@ $(document).ready(function() {
     sendAJAX("GET", "/posts/"+postID, "", function(results) {
       console.log(results);
       // fill the container with details
+      localStorage.setItem("Author-host-url", results.posts.author.host);
       document.getElementById("post-title").textContent = results.posts.title;
       document.getElementById("post-author").textContent = results.posts.author.displayName;
       document.getElementById("post-description").textContent = results.posts.description;
@@ -128,6 +129,7 @@ $("#comment-submit").click(function (e) {
   var commentData = {};
   commentData["post"] = localStorage.getItem("origin");
   commentData["comment"] = {};
+  commentData["comment"]["host"] = localStorage.getItem("Author-host-url");
   commentData["comment"]["author"] = {};
   commentData["comment"]["author"]["id"] = localStorage.getItem("author_id");
   var hostname = "http://" + window.location.host;
@@ -135,20 +137,23 @@ $("#comment-submit").click(function (e) {
   commentData["comment"]["author"]["displayName"] = localStorage.getItem("display_name");
   commentData["comment"]["author"]["url"] = hostname + "/author/" + localStorage.getItem("author_id");
   commentData["comment"]["author"]["github"] = localStorage.getItem("github_username");
+                          
 
   
-  if ($("input[name=text-type]").val() == "text/x-markdown") {
+//  if ($("input[name=text-type]").val() == "text/x-markdown") {
+  if (commentform.elements["text-type"].value == "text/x-markdown");
     var cmreader = new commonmark.Parser();
     var writer = new commonmark.HtmlRenderer();
-    var parsed = cmreader.parse($("#comment-content").val()); // parsed is a 'Node' tree
+    var parsed = cmreader.parse(commentform.elements["post-text"].value); // parsed is a 'Node' tree
     // transform parsed if you like...
     var commonmarkresult = writer.render(parsed);
     // console.log(commonmarkresult);
     commentData["comment"]["comment"] = commonmarkresult;
   }
   else {
-    commentData["comment"]["comment"] = $("#comment-content").val();
+    commentData["comment"]["comment"] = commentform.elements["post-text"].value;;
   }
+                           
   commentData["comment"]["contentType"] = commentform.elements["text-type"].value;
 
   console.log(JSON.stringify(commentData));
