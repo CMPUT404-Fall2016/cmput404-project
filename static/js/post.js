@@ -34,6 +34,31 @@ $(document).ready(function() {
       // get the origin for when we need to make a comment
       origin = results.posts[0].origin;
       localStorage.setItem("origin", results.posts[0].origin);
+      for (var i=0; i < results.posts[0].comments.length; ++i) {
+        commentTemplate.content.querySelector(".comment-author").textContent = results.posts[0].comments[i].author.displayName;
+        commentTemplate.content.querySelector(".comment-content").textContent = results.posts[0].comments[i].comment;
+             
+         if(results.posts[0].comments[i].contentType == "text/markdown" || results.posts[0].comments[i].contentType == "text/x-markdown") {
+             var cmreader = new commonmark.Parser();
+             var writer = new commonmark.HtmlRenderer();
+             var parsed = cmreader.parse(results.posts[0].comments[i].comment); // parsed is a 'Node' tree
+             // transform parsed if you like...
+             var commonmarkresult = writer.render(parsed);
+             commentTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
+         }
+         else {
+             commentTemplate.content.querySelector("coment-content").innerHTML = results.posts[0].comments[i].content;
+         }
+             
+         var authorBtn = commentTemplate.content.querySelector(".comment-author");
+         authorBtn.setAttribute("post-author-id", results.posts[0].comments[i].author.id);
+         
+         $(".comment-author").click(function (e) {
+              e.preventDefault();
+              localStorage.setItem("fetch-author-id", $(this).attr("post-author-id"));
+              window.location.href = "authorpage.html";
+          });
+      }
 
       // bind the onclick to set author id in localStorage
       // and link the user to the author's profile
