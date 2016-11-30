@@ -196,13 +196,10 @@ def makeCommentJson(data, args):
                                     "id"    :   data[i].author_id,
                                     "host"  :   data[i].author_host,
                                     "displayName"   :   data[i].author_name,
-                                    "url"   :   data[i].author_url,
-                                    "github"    :   data[i].author_github
                                 },
                 "comment"   :   data[i].comment_text,
-                "contentType"   :   data[i].content_type,
-                "published" :   data[i].creation_time.isoformat(),
-                "id"    : data[i].comment_id
+                "pubDate" :   data[i].creation_time.isoformat(),
+                "guid"    : data[i].comment_id
             })
 
     return rt
@@ -336,6 +333,8 @@ class Post(Resource):
                         json_return["posts"].extend(own_post_return["posts"])
                         return jsonify(json_return)
                     else:
+                        
+                        print "retriving single post here!!!_______"
                         for node in nodes:
                             
                             
@@ -989,40 +988,49 @@ class Comment(Resource):
             #Assume we passed server to server auth
             #Assume this is the place we do remote get
 #                pid = request.args.get("post_id")
-                remoteAuthor = request.headers.get("author_id")
-                pg = request.args.get("page")
-                sz = request.args.get("size")
-                
-                got = handler.getPost(post_id)
-
-                if len(got) != 0:
-                    localAuthor = got[0][1].author_id
-                    if  got[0] in handler.getVisiblePosts(remoteAuthor):
-                        return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
-                    else:
-                        if got[0][0].view_permission == 4:
-                            
-                            auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
-                            
-                            headers = createAuthHeaders(auth)
-
-                            headers['Content-type'] = 'application/json'
-
-                            [prefix, suffix] = getAPI(auth, 'GET/friends/A')
-                            custom_url = prefix + remoteAuthor + suffix
-                            print "friend request url: "
-                            print custom_url
-
-                            
-                            pfriends = requests.get(custom_url, headers=headers).json()["authors"]
-                            if(handler.atlOneFriend(localAuthor, pfriends)):
-                                return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
+#                remoteAuthor = request.headers.get("author_id")
+#                pg = request.args.get("page")
+#                sz = request.args.get("size")
+#                
+#                got = handler.getPost(post_id)
+#
+#                if len(got) != 0:
+#                    localAuthor = got[0][1].author_id
+#                    if  got[0] in handler.getVisiblePosts(remoteAuthor):
+#                        return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
+#                    else:
+#                        if got[0][0].view_permission == 4:
+#                            
+#                            auth = db.session.query(Servers).filter(Servers.user_name == request.authorization.username).first().IP
+#                            
+#                            headers = createAuthHeaders(auth)
+#
+#                            headers['Content-type'] = 'application/json'
+#
+#                            [prefix, suffix] = getAPI(auth, 'GET/friends/A')
+#                            custom_url = prefix + remoteAuthor + suffix
+#                            print "friend request url: "
+#                            print custom_url
+#
+#                            
+#                            pfriends = requests.get(custom_url, headers=headers).json()["authors"]
+#                            if(handler.atlOneFriend(localAuthor, pfriends)):
+#                                return jsonify(makeCommentJson(got[0][2]), {"page":pg, "size":sz})
                             # else:
                                 #No permission coz the requesting remote user is not foaf of the post author in my server
                         # else:
                             #No permission coz either this post is private or serveronly, so cant access its comments
                 # else:
                     #Post Not in my server, so does its corresponding comments
+
+                if post_id in handler.get_all_post_id():
+                    paras = {}
+                    paras["page"] = request.args.get('page')
+                    paras["size"] = request.args.get('size')
+
+                    return jsonify(makeCommentJson(handler.getComments(post_id), paras))
+
+
 
         else:
             return "NO AUTHENTICATION", 401
@@ -1067,7 +1075,6 @@ class Comment(Resource):
                         print "From make comments"
                         print addr
                         
-                        myip = db.session.query(Servers).filter(Servers.server_index == 0).all()[0]
                         if addr == myip:
                             if handler.make_comment(comment):
                                 return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}
