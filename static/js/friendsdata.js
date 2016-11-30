@@ -178,6 +178,7 @@ function acceptfriend() {
 
 // Do this when the user click on the friend tab
 $("#fdtab").click(function(e) {
+    document.getElementById("friendstab").innerHTML = "";
     function getCookieid() {
     var cookies = document.cookie.split(";");
     for(var i=0; i < cookies.length; i++) {
