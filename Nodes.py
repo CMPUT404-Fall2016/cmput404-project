@@ -145,13 +145,28 @@ team4 = 	{
 			'POST/posts/P/comments' : ["http://cmput404f16t04dev.herokuapp.com/api/posts/", "/comments/"] 
 			}
 
+team2 = {
+            'GET/friends/A' : ["http://cmput404t02.herokuapp.com/service/friends/", ""],
+            'GET/friends/A1/A2' : ["https://cmput404t02.herokuapp.com/service/friends/", ""],
+            'POST/friends/A' : ["http://cmput404t02.herokuapp.com/service/friends/" , "/"],
+            'POST/friendrequest' : ["https://cmput404t02.herokuapp.com/service/friendrequest/", ""],
+            'GET/author/A' : ["http://cmput404t02.herokuapp.com/service/author/", ""],
+            'GET/posts' : ["http://cmput404t02.herokuapp.com/service/posts", ""],
+            'GET/author/posts' : ["http://cmput404t02.herokuapp.com/service/author/posts", ""],
+            'GET/author/A/posts' : ["http://cmput404t02.herokuapp.com/service/author/", "/posts"],
+            'GET/posts/P' : ["http://cmput404t02.herokuapp.com/service/posts/", ""],
+            'GET/posts/P/comments' : ["http://cmput404t02.herokuapp.com/service/posts/", "/comments"],
+            'POST/posts/P/comments' : ["http://cmput404t02.herokuapp.com/service/posts/", "/comments/"]
+            }
+
 
 
 _NODES_['http://secret-penguin.herokuapp.com/'] = secret_penguin
 _NODES_['http://secure-springs-85403.herokuapp.com/'] = secure_springs
 _NODES_['http://api-bloggyblog404.herokuapp.com/'] = bloggyblog404
 _NODES_['http://cmput404f16t04dev.herokuapp.com/api'] = team4
+_NODES_['http://cmput404t02.herokuapp.com/'] = team2
 
 if __name__ == "__main__":
-	hostnames = ['http://secret-penguin.herokuapp.com/', 'http://secure-springs-85403.herokuapp.com/', 'http://api-bloggyblog404.herokuapp.com/', 'http://cmput404f16t04dev.herokuapp.com/api']
+	hostnames = ['http://secret-penguin.herokuapp.com/', 'http://secure-springs-85403.herokuapp.com/', 'http://api-bloggyblog404.herokuapp.com/', 'http://cmput404f16t04dev.herokuapp.com/api', 'http://cmput404t02.herokuapp.com/']
 	testgetAPI(hostnames)
