@@ -657,8 +657,10 @@ class AuthorPost(Resource):
                                     
                                     [prefix, suffix] = getAPI(node, 'GET/friends/A')
                                     custom_url = prefix + item["author"]["id"] + suffix
-                                    
+                                    print "this is getiing friend request url: " + custom_url
                                     friend_return = requests.get(custom_url, headers=headers).json()["authors"]
+                                    print friend_return
+                                    
                                     if APP_state["session_id"][sessionID] in friend_return:
                                         list_post.append(item)
                                 
