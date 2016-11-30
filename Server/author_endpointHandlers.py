@@ -6,6 +6,7 @@ from base64 import b64encode
 from Nodes import *
 import base64
 import os
+from db import app
 
 """
 THINGS TO DO:
@@ -54,7 +55,7 @@ def saveImage(encoded_image, extension):
     filename = os.path.join(app.config['UPLOAD_FOLDER'], str(id)) + "." + extension
     print "from saveImage"
     print filename
-    decoded_image = base64.b64decode(encoded_image)
+    decoded_image = base64.b64decode(encoded_image + '=' * (-len(encoded_image) % 4))
     with open(filename, 'w') as f:
         f.write(decoded_image)
 
@@ -914,7 +915,7 @@ def userRegistration(param):
         return "DUPLICATE"
 
     datum = {}
-    datum["author_id"]  = uuid.uuid4().hex
+    datum["author_id"]  = str(uuid.uuid4())
     datum["name"]       = name
     datum["login_name"] = login_name
     datum["password"]   = password

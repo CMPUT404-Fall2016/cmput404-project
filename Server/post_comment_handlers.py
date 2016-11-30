@@ -126,9 +126,13 @@ class RestHandlers():
                     fof.add(ele.author1_id)                                         
 
             #Friend of Friend
+            print "this is friend of friend: "
+            print fof
+            print "this is friend of friend_end_____"
+            
             for ele in fof:
                 if ele != authenticatedUser:
-                    rtl += db.session.query(Posts).filter(Posts.author_id == ele, Posts.view_permission == 4).all()
+                    rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 4).all()
 
             posts = rtl
 
@@ -164,8 +168,11 @@ class RestHandlers():
     def get_post_dump(self, author_id):
         
         get_pid_author = db.session.query(Posts).filter(Posts.author_id == author_id).all()
-        if get_pid_author != None:
-            return get_pid_author
+        rst = []
+        if get_pid_author != None and len(get_pid_author)>0 :
+            for post_self in get_pid_author:
+                rst.append(getPost(post_self.post_id))
+                return rst
         else:
             return []
     
