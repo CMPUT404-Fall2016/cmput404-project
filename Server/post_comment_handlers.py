@@ -117,13 +117,14 @@ class RestHandlers():
             if friendship:
                 #they are friends
                 rtl += db.session.query(Posts).filter(Posts.author_id == user_id, Posts.view_permission == 3).all() 
-                fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
-                for ele in fofr:
-                    fof.add(ele.author2_id)                                         
+                
+            fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
+            for ele in fofr:
+                fof.add(ele.author2_id)                                         
 
-                fofr += db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
-                for ele in fofr:
-                    fof.add(ele.author1_id)                                         
+            fofr += db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
+            for ele in fofr:
+                fof.add(ele.author1_id)                                         
 
             #Friend of Friend
             print "this is friend of friend: "
