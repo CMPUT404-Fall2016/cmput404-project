@@ -89,7 +89,7 @@ function loadGithub() {
       githubTemplate.content.querySelector(".github-repo-url").href = repo_url;
       githubTemplate.content.querySelector(".github-repo-url").innerHTML = repo_url;
 
-      githubTemplate.content.querySelector(".github-date").textContent = Date(events[i].created_at);
+      githubTemplate.content.querySelector(".github-date").textContent = new Date(events[i].created_at);
 
       // clone the template to render and append to the dom
       var clone = document.importNode(githubTemplate.content, true);
