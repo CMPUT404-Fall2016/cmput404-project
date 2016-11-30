@@ -6,7 +6,7 @@ from base64 import b64encode
 from Nodes import *
 import base64
 import os
-from db import *
+from db import app
 
 """
 THINGS TO DO:
