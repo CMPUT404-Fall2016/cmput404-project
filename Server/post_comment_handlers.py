@@ -185,7 +185,14 @@ class RestHandlers():
                 rst.append([post_self, self.getAuthor(post_self.author_id), self.getComments(post_self.post_id)])
         return rst
 
+    def get_all_post_id (self, param=None):
     
+        all_post = db.session.query(Posts).all()
+        rst = []
+        if len(all_post)>0:
+            for all_comment in all_post:
+                rst += all_comment.post_id
+        return rst
     
     
 

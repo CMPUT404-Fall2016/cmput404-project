@@ -941,7 +941,7 @@ class Comment(Resource):
                             paras["page"] = request.args.get('page')
                             paras["size"] = request.args.get('size')
                             
-                            if  handler.getPost(post_id):
+                            if  post_id in handler.get_all_post_id():
                                 return jsonify(makeCommentJson(handler.getComments(post_id), paras))
                             else:
                                 #The post is in other server?
