@@ -631,6 +631,10 @@ class AuthorPost(Resource):
                                 
                                 headers['Content-type'] = 'application/json'
                                 headers['author_id'] = APP_state["session_ids"][sessionID]
+                                print "______this is node______"
+                                print node
+                                
+                                print "__________this is node_______end_"
                                 
                                 [prefix, suffix] = getAPI(node, 'GET/author/posts')
                                 custom_url = prefix + suffix
