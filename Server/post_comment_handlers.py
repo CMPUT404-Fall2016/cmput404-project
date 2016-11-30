@@ -185,17 +185,18 @@ class RestHandlers():
                 rst.append([post_self, self.getAuthor(post_self.author_id), self.getComments(post_self.post_id)])
         return rst
 
-    def get_all_post_id (self, post_id):
+    def get_all_post_id (self, post_id_out):
     
-        one_post_id = db.session.query(Posts).filter(Posts.post_id == post_id).all()
+        one_post_id = db.session.query(Posts).filter(Posts.post_id == post_id_out).all()
 #        rst = []
-        print one_post_id
-        if len(all_post)==1:
+        print one_post_id.post_id
+        if len(one_post_id)==1:
 #            for all_comment in all_post:
 #                rst += all_comment.post_id
-            return all_post.post_id
-        else:
-            return []
+            if one_post_id.post_id == post_id_out:
+                return True
+            else:
+                return False
     
     
 
