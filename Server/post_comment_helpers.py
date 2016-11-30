@@ -1079,6 +1079,8 @@ class Comment(Resource):
                         addr = start + "//" + middle + '/'
                         print "=============From make comments============"
                         print addr
+                        print middle
+                        print end
                         
                         if addr == myip:
                             if handler.make_comment(comment):
