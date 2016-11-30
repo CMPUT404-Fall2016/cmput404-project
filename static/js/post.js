@@ -34,9 +34,11 @@ $(document).ready(function() {
       // get the origin for when we need to make a comment
       origin = results.posts[0].origin;
       localStorage.setItem("origin", results.posts[0].origin);
+      console.log(results.posts[0].comments.length);
       for (var i=0; i < results.posts[0].comments.length; ++i) {
+        console.log(results.posts[0].comments);
         commentTemplate.content.querySelector(".comment-author").textContent = results.posts[0].comments[i].author.displayName;
-        commentTemplate.content.querySelector(".comment-content").textContent = results.posts[0].comments[i].comment;
+//        commentTemplate.content.querySelector(".comment-content").textContent = results.posts[0].comments[i].comment;
              
          if(results.posts[0].comments[i].contentType == "text/markdown" || results.posts[0].comments[i].contentType == "text/x-markdown") {
              var cmreader = new commonmark.Parser();
