@@ -1068,6 +1068,7 @@ class Comment(Resource):
                           
                         currentTime = datetime.now()
                         data = request.get_json(force=True)
+                        hostName = data["comment"]["host_id"]
                         comment = {}
                         comment["post_id"] = data["post"].split("/")[4]
                         comment["comment_text"] = data["comment"]["comment"]
@@ -1085,16 +1086,17 @@ class Comment(Resource):
                         start = data["post"].split("/")[0]
                         middle = data["post"].split("/")[1]
                         end = data["post"].split("/")[2]
+                        del data["comment"]["host_id"]
 
                         addr = start + "//" + end + '/'
                         print "=============From make comments============"
                         print addr
-                        print middle
+                        print hostName
                         print end
                         print myip
                         print "=============end ==============="
                         
-                        if addr == myip:
+                        if hostName == myip:
                             if handler.make_comment(comment):
                                 return {"query" : "addComment", "success" : "true", "message" : "Comment Added"}, 200
                             else:
