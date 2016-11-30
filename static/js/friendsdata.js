@@ -253,10 +253,10 @@ function unfriendauthor() {
   });
 
 }
-
-$("#refresh").click(function (e) {
-  e.preventDefault();
-  sendAJAX("GET", "/checkUnfriended", "", function(response) {
-          //  console.log("clicked");
-  });
-})
+//
+//$("#refresh").click(function (e) {
+//  e.preventDefault();
+//  sendAJAX("GET", "/checkUnfriended", "", function(response) {
+//          //  console.log("clicked");
+//  });
+//})
