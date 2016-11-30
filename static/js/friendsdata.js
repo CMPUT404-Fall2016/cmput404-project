@@ -179,7 +179,7 @@ $("#fdtab").click(function(e) {
     }
     return "";
   }
-
+  sendAJAX("GET", "/checkUnfriended", "", function(response) {
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
     //                  console.log(myauthorlink);
@@ -232,6 +232,7 @@ $("#fdtab").click(function(e) {
 
           });
        });
+    });
 
   document.getElementById("frequest").innerHTML = "";
 });
