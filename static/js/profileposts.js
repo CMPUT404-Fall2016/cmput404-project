@@ -52,7 +52,7 @@ $("#posttab").click(function(e) {
   var postTemplate = document.getElementById("post-container");
   // page=<Page_No>&size=<Page_Zize>
   sendAJAX("GET", myprofileposts, "", function(results) {
-           console.log(results);
+//           console.log(results);
          // if not post are found
 //         if (posts == "status : NO_MATCH") {
 //              document.getElementById("posts").innerHTML = "";
@@ -122,7 +122,7 @@ $("#posttab").click(function(e) {
            $(".deletepost").on('click', (function(e) {
                 e.preventDefault();
 
-                console.log("clicked");
+//                console.log("clicked");
 
                 localStorage.setItem("delete-post-id", $(this).attr("delete-post-id"))
                 deletepost();
@@ -140,7 +140,7 @@ function deletepost() {
   var deletepostlink = "/posts/" + thispostid;
 
   sendAJAX("DELETE", deletepostlink, "", function(result) {
-           console.log(result);
+//           console.log(result);
            //location.reload();
            });
 }
