@@ -21,7 +21,9 @@ $(document).ready(function() {
     }
     return "";
   }
-
+  sendAJAX("GET", "/checkUnfriended", "", function(response) {
+                           //  console.log("clicked");
+           
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
 //                  console.log(myauthorlink);
@@ -72,6 +74,7 @@ $(document).ready(function() {
        unfriendauthor();
 
     });
+  });
   });
 });
 
