@@ -124,14 +124,14 @@ class RestHandlers():
             else:
                 fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author1_id == user_id, Author_Relationships.relationship_type == 3).all()
                 for ele in fofr:
-                    if self.isFriend(authenticatedUser, ele) is True:
+                    if self.isFriend(authenticatedUser, ele.author2_id) is True:
                         isFOAF = True
                         break                                                 
 
                 if isFOAF == False:
                     fofr = db.session.query(Author_Relationships).filter(Author_Relationships.author2_id == user_id, Author_Relationships.relationship_type == 3).all()
                     for ele in fofr:
-                        if self.isFriend(authenticatedUser, ele) is True:
+                        if self.isFriend(authenticatedUser, ele.author1_id) is True:
                             isFOAF = True
                             break                                                 
 
