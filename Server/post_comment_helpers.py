@@ -1134,6 +1134,7 @@ class Comment(Resource):
                 comment["author_github"] = data["comment"]["author"]["github"]
                 comment["comment_id"] = data["comment"]["guid"]
                 comment["published"] = data["comment"]["published"]
+                comment["contentType"] = data["comment"]["contentType"]
 
                 
                 if handler.make_comment(comment):
