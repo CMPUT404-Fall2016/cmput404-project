@@ -64,8 +64,11 @@ def saveImage(encoded_image, extension):
 
 def createAuthHeaders(host_name):
 
+    if hostname[:5] == "https":
+        hostname = hostname[:4] + hostname[5:] #replacing https with http if exits
+
     servers = db.session.query(Servers).filter(Servers.IP == host_name).all()
-    if servers ==[]:
+    if servers == []:
         print "no match found in server table with hostname : %s"%(host_name)
         return {}
     server_obj = servers[0]
