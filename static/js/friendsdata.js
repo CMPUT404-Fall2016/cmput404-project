@@ -130,17 +130,7 @@ $("#reqtab").click(function(e) {
           // touqir wants these
           acceptfrienddata["author1_name"] = localStorage.getItem("fetch-addfriend-name");
           acceptfrienddata["author2_name"] = localStorage.getItem("display_name");
-<<<<<<< HEAD
 
-          console.log(acceptfrienddata);
-
-
-=======
-
-//          console.log(acceptfrienddata);
-
-
->>>>>>> 2759fb95c0f222590f750e9d28ff3e0c4b794d98
           sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
 //                   console.log(response);
                    window.location.href="friendspage.html";
@@ -286,7 +276,7 @@ function unfriendauthor() {
 
 }
 
-$("#refresh").onclick(function (e) {
+$("#refresh").click(function (e) {
   e.preventDefault();
   sendAJAX("GET", "/checkUnfriended", "", null);
 })

@@ -3,7 +3,7 @@
 const postForm = document.getElementById("post-form");
 const postList = document.getElementById("posts");
 const postTemplate = document.getElementById("post-container");
-var page = "/posts?page=0";
+var page = "/posts?size=50";
 
 var github_name = localStorage.getItem("github_username");
 
@@ -27,12 +27,19 @@ function loadPosts() {
       postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
       postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
 
-      var cmreader = new commonmark.Parser();
-      var writer = new commonmark.HtmlRenderer();
-      var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
-      // transform parsed if you like...
-      var commonmarkresult = writer.render(parsed);
-      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+      if(results.posts[i].contentType == "text/markdown" || results.posts[i].contentType == "text/x-markdown") {
+         var cmreader = new commonmark.Parser();
+         var writer = new commonmark.HtmlRenderer();
+         var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
+         // transform parsed if you like...
+         var commonmarkresult = writer.render(parsed);
+        postTemplate.content.querySelector(".post-content").innerHTML = commonmarkresult;
+       } else {
+       postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+       }
+
+//      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+
       if (results.posts[i].count > 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
       }
@@ -105,7 +112,7 @@ $("#post-submit").click(function(e) {
   var postData = {};
   postData["author_id"] = localStorage.getItem("author_id");
   postData["title"] = postForm.elements["title"].value;
-//                        
+//
 //  if (postForm.elements["desc"].value == null) {
 //    postData["description"] = "";
 //  }
@@ -113,8 +120,8 @@ $("#post-submit").click(function(e) {
 //    postData["description"] = postForm.elements["desc"].value;
 //  }
   postData["description"] = document.getElementById("description").textContent;
-                        
-                        
+
+
   postData["contentType"] = postForm.elements["text-type"].value;
   // console.log(postData["contentType"]);
 
@@ -168,8 +175,8 @@ $(document).ready(function() {
   }
 });
 
-// load more posts
-$("#load-posts").click( function(e) {
-  e.preventDefault();
-  loadPosts();
-});
+// // load more posts
+// $("#load-posts").click( function(e) {
+//   e.preventDefault();
+//   loadPosts();
+// });
