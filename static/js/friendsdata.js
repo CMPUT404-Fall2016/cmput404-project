@@ -276,7 +276,7 @@ function unfriendauthor() {
 
 }
 
-$("#refresh").onclick(function (e) {
+$("#refresh").click(function (e) {
   e.preventDefault();
   sendAJAX("GET", "/checkUnfriended", "", null);
 })
