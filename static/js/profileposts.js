@@ -61,17 +61,13 @@ $("#posttab").click(function(e) {
 //         }
 //         // if post are found
 //         else {
-           for(var i=0; i < results.posts.length; ++i) {
+      for(var i=results.posts.length; i > results.posts.length; --i) {
            // fill the container with details
            postTemplate.content.querySelector(".post-title").textContent = results.posts[i].title;
            //console.log(results.posts[i].title);
            postTemplate.content.querySelector(".post-description").textContent = results.posts[i].description;
 //           console.log(results.posts[i].description);
            postTemplate.content.querySelector(".post-author").textContent = results.posts[i].author.displayName;
-//           console.log(results.posts[i].author.displayName);
-
-           //postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
-//           postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
            
            if(results.posts[i].contentType == "text/markdown" || results.posts[i].contentType == "text/x-markdown") {
            var cmreader = new commonmark.Parser();
