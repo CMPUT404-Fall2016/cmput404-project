@@ -824,10 +824,10 @@ class AuthorToAuthorPost(Resource):
 
                                                     if len(friend_return) > 0:
 
-                                                    for myfriend in friend_return:
+                                                        for myfriend in friend_return:
 
-                                                        if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
-                                                            singleAuthor.append(item)
+                                                            if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                                singleAuthor.append(item)
 
                                             json_return["posts"].extend(singleAuthor)
 
