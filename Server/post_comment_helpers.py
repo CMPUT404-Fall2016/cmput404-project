@@ -655,32 +655,38 @@ class AuthorPost(Resource):
                                 
                                 elif item['visibility'] == "FOAF":
                                     
-                                    get_friend = createAuthHeaders (item['author']['host'])
+                                    if handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"]):
+                                        list_post.append(item)
+                                    else:
                                     
-                                    print "here is HOST"
-                                    print item['author']['host']
-                                    print "here is end _____"
                                     
-                                    [prefix, suffix] = getAPI(node, 'GET/friends/A')
-                                    custom_url = prefix + item["author"]["id"] + suffix
-                                    print "this is getiing friend request url: " + custom_url
-                                    resp = requests.get(custom_url, headers=get_friend) # .json()["authors"]
-                                    
-                                    if resp.status_code == 200:
-                                        friend_resp = resp.json()
-                                        if "authors" in friend_resp.keys():
-                                            friend_return = friend_resp["authors"]
-                                    
-#                                    print friend_return
+                                        
+                                        get_friend = createAuthHeaders (item['author']['host'])
+                                        
+                                        print "here is HOST"
+                                        print item['author']['host']
+                                        print "here is end _____"
+                                        
+                                        [prefix, suffix] = getAPI(node, 'GET/friends/A')
+                                        custom_url = prefix + item["author"]["id"] + suffix
+                                        print "this is getiing friend request url: " + custom_url
+                                        resp = requests.get(custom_url, headers=get_friend) # .json()["authors"]
+                                        
+                                        if resp.status_code == 200:
+                                            friend_resp = resp.json()
+                                            if "authors" in friend_resp.keys():
+                                                friend_return = friend_resp["authors"]
+                                        
+    #                                    print friend_return
 
-                                            if len(friend_return) > 0:
+                                                if len(friend_return) > 0:
+                                                    
+                                                    for myfriend in friend_return:
+                                                    
+                                                        if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                            list_post.append(item)
+                                                            break
                                                 
-                                                for myfriend in friend_return:
-                                                
-                                                    if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
-                                                        list_post.append(item)
-                                                        break
-                                            
                             own_returns["posts"].extend(list_post)
                             
                             return jsonify(own_returns)
@@ -825,30 +831,36 @@ class AuthorToAuthorPost(Resource):
                                                     pass
 
                                                 elif item['visibility'] == "FOAF":
-                                                    get_friend = createAuthHeaders (item['author']['host'])
+                                                    
+                                                    if handler.isFriend(APP_state["session_ids"][sessionID], item["author"]["id"]):
+                                                        singleAuthor.append(item)
+                                                    else:
 
-                                                    [prefix, suffix] = getAPI(node, 'GET/friends/A')
-                                                    custom_url = prefix + item["author"]["id"] + suffix
-                                                    print "this is getiing friend request url: " + custom_url
-                                                    resp = requests.get(custom_url, headers=get_friend) #.json()["authors"]
-                                                
-                                                
-                                                    if resp.status_code == 200:
-                                                        friend_resp = resp.json()
-                                                        if "authors" in friend_resp.keys():
-                                                            friend_return = friend_resp["authors"]
+
+                                                        get_friend = createAuthHeaders (item['author']['host'])
+
+                                                        [prefix, suffix] = getAPI(node, 'GET/friends/A')
+                                                        custom_url = prefix + item["author"]["id"] + suffix
+                                                        print "this is getiing friend request url: " + custom_url
+                                                        resp = requests.get(custom_url, headers=get_friend) #.json()["authors"]
                                                     
                                                     
-                                                            print friend_return
-                                                            
-                                                            
-                                                            if len(friend_return) > 0:
+                                                        if resp.status_code == 200:
+                                                            friend_resp = resp.json()
+                                                            if "authors" in friend_resp.keys():
+                                                                friend_return = friend_resp["authors"]
+                                                        
+                                                        
+                                                                print friend_return
+                                                                
+                                                                
+                                                                if len(friend_return) > 0:
 
-                                                                for myfriend in friend_return:
+                                                                    for myfriend in friend_return:
 
-                                                                    if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
-                                                                        singleAuthor.append(item)
-                                                                        break
+                                                                        if handler.isFriend(APP_state["session_ids"][sessionID], myfriend):
+                                                                            singleAuthor.append(item)
+                                                                            break
                                         
 
                                             json_return["posts"].extend(singleAuthor)
@@ -1011,7 +1023,7 @@ class Comment(Resource):
 
 
 #    @requires_auth
-    def post(self):
+    def post(self,post_id):
         if is_accessible():
 
             APP_state = loadGlobalVar()
