@@ -965,7 +965,7 @@ class Comment(Resource):
                                         
                                         else:
                                         
-                                            return jsonify(foreign_return)
+                                            return foreign_return
     #                                rst += requests.get(node + "/posts/" + post_id + "/comments", paras = paras).json()
     #                            if  len(rst) != 0:
     #                                return rst[0]
@@ -1076,6 +1076,7 @@ class Comment(Resource):
                             [prefix, suffix] = getAPI(addr, 'POST/posts/P/comments')
                             
                             custom_url = prefix + data["post"].split("/")[4] + suffix
+                            
                             return requests.post(custom_url, data, headers=headers).json()
 
                     else:
