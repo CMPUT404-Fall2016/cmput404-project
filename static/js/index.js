@@ -119,7 +119,7 @@ $("#post-submit").click(function(e) {
 //  else {
 //    postData["description"] = postForm.elements["desc"].value;
 //  }
-  postData["description"] = document.getElementById("description").textContent;
+  postData["description"] = document.getElementById("description").value;
                         
                         
   postData["contentType"] = postForm.elements["text-type"].value;
