@@ -88,7 +88,7 @@ $("#reqtab").click(function(e) {
   sendAJAX("GET", "/getFriendRequests", "", function(events) {
            console.log(events.friendRequestList.length);
       console.log(events);
-           
+
       //console.log(events.friendRequestList[0].fromAuthor_id);
       console.log(events.friendRequestList.length);
       for(var i=0; i < events.friendRequestList.length; ++i) {
@@ -101,7 +101,7 @@ $("#reqtab").click(function(e) {
 
      var rpBtn = requestTemplate.content.querySelector(".reqprofile");
      rpBtn.setAttribute("reqprofileid", events.friendRequestList[i].fromAuthor_id);
-           
+
       var addingfriendbtn = requestTemplate.content.querySelector(".friend-accept");
       addingfriendbtn.name = events.friendRequestList[i].fromAuthor_id;
       addingfriendbtn.setAttribute("friendhostserver", events.friendRequestList[i].fromServerIP);
@@ -111,7 +111,7 @@ $("#reqtab").click(function(e) {
 
       var clonedTemplate = requestTemplate.content.cloneNode(true);
       normalContent.appendChild(clonedTemplate);
-      
+
 
 
       $(".friend-accept").click(function (e) {
@@ -126,22 +126,22 @@ $("#reqtab").click(function(e) {
           var acceptfrienddata = {};
           acceptfrienddata["author"] = localStorage.getItem("fetch-addfriend-id");
           acceptfrienddata["server_address"] = localStorage.getItem("fetch-addfriend-host");
-          
+
           // touqir wants these
           acceptfrienddata["author1_name"] = localStorage.getItem("fetch-addfriend-name");
           acceptfrienddata["author2_name"] = localStorage.getItem("display_name");
-          
+
           console.log(acceptfrienddata);
-          
-          
+
+
           sendAJAX("POST", "/acceptFriendRequest", acceptfrienddata, function(response) {
                    console.log(response);
                    window.location.href="friendspage.html";
-                   
+
                    });
 
       });
-           
+
      $(".reqprofile").click(function(e) {
          e.preventDefault();
          // set this for authorpage to use
@@ -278,3 +278,8 @@ function unfriendauthor() {
   });
 
 }
+
+$("#refresh").onclick(function (e) {
+  e.preventDefault();
+  sendAJAX("GET", "/checkUnfriended", "", null);
+})
