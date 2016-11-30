@@ -44,6 +44,8 @@ $("#profiletab").click(function(e) {
 // When user click post tab
 $("#posttab").click(function(e) {
   e.preventDefault();
+  document.getElementById("posts").innerHTML = "";
+  
   var myauthorid = getCookieid();
 
   var myprofileposts = "/author/" + myauthorid + "/posts?size=50";
