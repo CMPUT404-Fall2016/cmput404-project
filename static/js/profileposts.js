@@ -69,7 +69,19 @@ $("#posttab").click(function(e) {
 //           console.log(results.posts[i].author.displayName);
 
            //postTemplate.content.querySelector(".post-content").textContent = posts[i].content;
+//           postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+           
+           if(results.posts[i].contentType == "text/markdown" || results.posts[i].contentType == "text/x-markdown") {
+           var cmreader = new commonmark.Parser();
+           var writer = new commonmark.HtmlRenderer();
+           var parsed = cmreader.parse(results.posts[i].content); // parsed is a 'Node' tree
+           // transform parsed if you like...
+           var commonmarkresult = writer.render(parsed);
+           postTemplate.content.querySelector(".post-content").innerHTML = commonmarkresult;
+           } else {
            postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
+           }
+           
            if (results.posts[i].count > 0) {
              postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
            }
