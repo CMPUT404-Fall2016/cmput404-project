@@ -129,7 +129,7 @@ $("#comment-submit").click(function (e) {
   var commentData = {};
   commentData["post"] = localStorage.getItem("origin");
   commentData["comment"] = {};
-  commentData["comment"]["host"] = localStorage.getItem("Author-host-url");
+  commentData["comment"]["host_id"] = localStorage.getItem("Author-host-url");
   commentData["comment"]["author"] = {};
   commentData["comment"]["author"]["id"] = localStorage.getItem("author_id");
   var hostname = "http://" + window.location.host;
