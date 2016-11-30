@@ -47,7 +47,7 @@ $(document).ready(function() {
              commentTemplate.content.querySelector(".comment-content").innerHTML = commonmarkresult;
          }
          else {
-             commentTemplate.content.querySelector("comment-content").innerHTML = results.posts[0].comments[i].content;
+             commentTemplate.content.querySelector(".comment-content").innerHTML = results.posts[0].comments[i].content;
          }
              
          var authorBtn = commentTemplate.content.querySelector(".comment-author");
