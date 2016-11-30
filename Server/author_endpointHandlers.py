@@ -55,7 +55,7 @@ def saveImage(encoded_image, extension):
     filename = os.path.join(app.config['UPLOAD_FOLDER'], str(id)) + "." + extension
     print "from saveImage"
     print filename
-    decoded_image = base64.b64decode(encoded_image)
+    decoded_image = base64.b64decode(encoded_image + '=' * (-len(encoded_image) % 4))
     with open(filename, 'w') as f:
         f.write(decoded_image)
 
