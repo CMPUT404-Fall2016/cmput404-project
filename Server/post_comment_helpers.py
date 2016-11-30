@@ -550,7 +550,7 @@ class All_Post(Resource):
                         perm = 1
                     elif perm =="PRIVATE":
                         perm = 2
-                    elif perm == "FRIEND":
+                    elif perm == "FRIENDS":
                         perm = 3
                     elif perm == "FOAF":
                         perm = 4
@@ -1056,7 +1056,15 @@ class Comment(Resource):
                             else:
                                 return {"query" : "addComment", "success" : "false", "message" : "Comment not allowed"}
                         else:
-                            return requests.post(data["post"]+"/comments", data).json()
+                            
+                            headers = createAuthHeaders(addr)
+                            
+                            headers['Content-type'] = 'application/json'
+                            
+                            [prefix, suffix] = getAPI(addr, 'POST/posts/P/comments')
+                            
+                            custom_url = prefix + data["post"].split("/")[4] + suffix
+                            return requests.post(custom_url, data, headers=headers).json()
 
                     else:
                         return {"Response" : "SESSION_ID_ERROR"}, 403
