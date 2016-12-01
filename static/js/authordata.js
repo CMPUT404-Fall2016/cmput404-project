@@ -132,6 +132,8 @@ $("#posttabs").click(function(e) {
       //postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
       if (results.posts[i].count > 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
+      } else {
+        postTemplate.content.querySelector(".comments-num").textContent = "";
       }
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
