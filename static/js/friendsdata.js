@@ -21,7 +21,9 @@ $(document).ready(function() {
     }
     return "";
   }
-
+  sendAJAX("GET", "/checkUnfriended", "", function(response) {
+                           //  console.log("clicked");
+           
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
 //                  console.log(myauthorlink);
@@ -72,6 +74,7 @@ $(document).ready(function() {
        unfriendauthor();
 
     });
+  });
   });
 });
 
@@ -176,7 +179,7 @@ $("#fdtab").click(function(e) {
     }
     return "";
   }
-
+  sendAJAX("GET", "/checkUnfriended", "", function(response) {
   var myauthorid = getCookieid();
   var myauthorlink = "/author/" + myauthorid;
     //                  console.log(myauthorlink);
@@ -229,6 +232,7 @@ $("#fdtab").click(function(e) {
 
           });
        });
+    });
 
   document.getElementById("frequest").innerHTML = "";
 });
@@ -250,10 +254,10 @@ function unfriendauthor() {
   });
 
 }
-
-$("#refresh").click(function (e) {
-  e.preventDefault();
-  sendAJAX("GET", "/checkUnfriended", "", function(response) {
-          //  console.log("clicked");
-  });
-})
+//
+//$("#refresh").click(function (e) {
+//  e.preventDefault();
+//  sendAJAX("GET", "/checkUnfriended", "", function(response) {
+//          //  console.log("clicked");
+//  });
+//})
