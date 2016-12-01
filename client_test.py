@@ -17,6 +17,14 @@ COOKIE_NAMES = ["cookie_cmput404_author_id","cookie_cmput404_session_id","cookie
 class Test_CS_API(unittest.TestCase):
     
     s=requests.Session()
+
+    def createAuthHeaders():
+
+        auth_str = b"%s:%s"%("servertoserver", "654321")
+        userAndPass = b64encode(auth_str).decode("ascii")
+        headers = { 'Authorization' : 'Basic %s' %  userAndPass }
+        return headers
+
     def setUp(self):
         global firstTime
         self.serverURL = URL
@@ -166,9 +174,10 @@ class Test_CS_API(unittest.TestCase):
 
         # headers = {'Foreign_host': 'false'}        
         # url = self.serverURL + "/author/"+ author["author_id"]
+        headers = self.createAuthHeaders()
         prefix, suffix = getAPI(URL, 'GET/author/A')
         url = prefix + author['author_id'] + suffix
-        req1 = requests.get(url)
+        req1 = requests.get(url, headers = headers)
         # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
         # resp = self.s.send(prepp1)
@@ -260,9 +269,10 @@ class Test_CS_API(unittest.TestCase):
 
     def sample_friendrequest(self, body):
 
+        headers = self.createAuthHeaders()
     	prefix, suffix = getAPI(URL, 'POST/friendrequest')
         url = prefix + suffix
-        headers = {'Content-type': 'application/json'}
+        headers['Content-type'] = 'application/json'
         req1 = requests.post(url, data=json.dumps(body), headers=headers)
         # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
@@ -427,8 +437,10 @@ class Test_CS_API(unittest.TestCase):
         body = json.loads(req1.text)
         return body
 
-    def check_getPost_ID(self, post_id, post_body, exists):
+    def check_getPost_ID(self, thePost, post_body, exists):
         posts = post_body['posts']
+        post_id = thePost['id']
+        content = thePost['content']
         if exists == True:
             assert(len(post) == 1)
         else:
@@ -436,6 +448,7 @@ class Test_CS_API(unittest.TestCase):
 
         for post in posts:
             assert(post["id"] == post_id)
+            assert(post['content'] == content )
 
 
     def sample_getComments(self, post_id):
@@ -445,10 +458,18 @@ class Test_CS_API(unittest.TestCase):
         body = json.loads(req1.text)
         return body
 
-    def check_getComments(self, post_body, comment_ids)
-        comments = post_body[]
+    def check_getComments(self, body, comments)
+        get_comments = body['comment']
+        assert(len(get_comments) == len(comments))
+        ids1 = [comment['guid'] for comment in get_comments]
+        contents1 = [comment['comment'] for comment in get_comments]
+        ids2 = [comment['guid'] for comment in comments]
+        contents2 = [comment['comment'] for comment in comments]
 
-        
+        assert(set(ids1) == set(ids2))
+        assert(set(comments1) == set(comments2))
+
+
     def sample_makeComments(self, data, post_id):
     	prefix, suffix = getAPI(URL, 'POST/posts/P/comments')
     	url = prefix + post_id + suffix
