@@ -132,6 +132,8 @@ $("#posttabs").click(function(e) {
       //postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
       if (results.posts[i].count > 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "("+results.posts[i].count+")";
+      } else {
+        postTemplate.content.querySelector(".comments-num").textContent = "";
       }
       // attach data to the links so it can be referenced when clicked
       var authorBtn = postTemplate.content.querySelector(".post-author");
@@ -221,12 +223,6 @@ function afriendtwo(result) {
 //  console.log(JSON.stringify(friendrequestdata));
 
   var headers = [["Foreign-Host", "false"], ["Authorization", "Basic c2VydmVydG9zZXJ2ZXI6NjU0MzIx"]];
-  sendAJAX("POST", "/friendrequest/", friendrequestdata, function(response) {
-//           console.log(response);
-    //if(response["status"] == "SUCCESS") {
-      //document.getElementById("addfriendbtn").style.display="none";
-    //}
-    //window.location.href="friendspage.html";
-  });
+  sendAJAX("POST", "/friendrequest/", friendrequestdata, null);
   document.getElementById("addfriendbtn").style.display="none";
 }

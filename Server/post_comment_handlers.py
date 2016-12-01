@@ -270,7 +270,7 @@ class RestHandlers():
         #Make the post 
         currentTime = datetime.now()
         post =  {
-                            "post_id" : uuid.uuid4().hex, #Need to change to self generated uuid
+                            "post_id" : str(uuid.uuid4()), #Need to change to self generated uuid
                             "title" :   data["title"],
                             "content_type"  : data["content_type"],
                             "description"    : data["description"],
@@ -282,7 +282,7 @@ class RestHandlers():
                         }       
         if "img-url" in data:
             urlObj = {}
-            urlObj["URL_id"] = uuid.uuid4().hex
+            urlObj["URL_id"] = str(uuid.uuid4())
             urlObj["post_id"] = post["post_id"]
             urlObj["URL_link"] = data["img-url"]
             db.session.add(URL(urlObj)) 
@@ -311,7 +311,7 @@ class RestHandlers():
         print "checking data base ________end"
         
         comment = {
-                                "comment_id"    :   uuid.uuid4().hex,
+                                "comment_id"    :   str(uuid.uuid4()),
                                 "author_id" :   data["author_id"],
                                 "author_host" :   data["author_host"],
                                 "author_name" :   data["author_name"],
@@ -337,7 +337,7 @@ class RestHandlers():
         try:
             for image in data["images"]: 
                 img =   {   
-                                "image_id"  :   uuid.uuid4().hex, #Need to change to self generated uuid
+                                "image_id"  :   str(uuid.uuid4()), #Need to change to self generated uuid
                                 "post_id"   :   data["post_id"],
                                 "image" :   image   #Decode to BLOB from Base64 encoded string
                             }

@@ -38,8 +38,11 @@ function loadPosts() {
        postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
        }
 
-      if (results.posts[i].count != 0) {
+
+      if (results.posts[i].count > 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "(" + results.posts[i].count + ")";
+      } else {
+        postTemplate.content.querySelector(".comments-num").textContent = "";
       }
       // postTemplate.content.querySelector(".post-date").textContent = Date(results.posts[i].published);
 
