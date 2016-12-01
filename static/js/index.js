@@ -38,8 +38,6 @@ function loadPosts() {
        postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
        }
 
-//      postTemplate.content.querySelector(".post-content").innerHTML = results.posts[i].content;
-
       if (results.posts[i].count != 0) {
         postTemplate.content.querySelector(".comments-num").textContent = "(" + results.posts[i].count + ")";
       }
