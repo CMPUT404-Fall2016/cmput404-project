@@ -31,14 +31,28 @@ class Test_CS_API(unittest.TestCase):
 
     def authors_1(self):
 	    self.sample_Login(author1_log)
+        self.isFriends = False
+        self.friend = author2_log['author_id'] 
 	    data = {}
 	    data['query'] = 'friends'
 	    data['authors'] = [author1_log['author_id'], author2_log['author_id']]
-	    self.isFriends = False
+        
         self.sample_ifFriends(author1_log, author2_log, data)
         resp = self.sample_getFriendList(author1_log)
         self.matchFriendList(resp)
-        self.
+        fetched_author=self.sample_FetchAuthor(author1_log)
+        self.match_author1(fetched_author, author1_log) 
+       
+        FR1 = createFriendRequest()
+        self.sample_friendrequest(FR1)
+        self.sample_AcceptFriendRequests(FR1)
+
+        self.isFriends = True
+        self.sample_ifFriends(author1_log, author2_log, data)        
+        resp = self.sample_getFriendList(author1_log)
+        self.matchFriendList(resp)
+        fetched_author=self.sample_FetchAuthor(author1_log)
+        self.match_author1(fetched_author, author1_log) 
 
 
 	def posts_1(self):
@@ -158,11 +172,12 @@ class Test_CS_API(unittest.TestCase):
         # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
         # resp = self.s.send(prepp1)
+        assert(req1.status_code == 200)
         body = json.loads(req1.text)
-        print body["status"]
+        return body
         # print "author_id: ", author1_log["author_id"]
         # assert(body["status"] == "SUCCESS"), "Should be a success!"
-        self.match_author1(body)
+        # self.match_author1(body, author)
 
 
     def sample_FetchAuthorByName(self):
@@ -193,13 +208,23 @@ class Test_CS_API(unittest.TestCase):
         print body
         self.match_author1(body['authors'][0])
 
+
     def match_author1(self, body, author):
 
         assert(body['id'] == author['author_id'])
         assert(body['host'] == URL)
         assert(body['displayName'] == author['name'])
-        assert(body['url'] == (URL+'author/'+author1_log['author_id']))
-        assert(len(body['friends']) > 0)
+        assert(body['url'] == (URL+'author/'+author['author_id']))
+        exists = False 
+        for friend in body['friends']:
+            if friend['id'] == self.friend:
+                exists = True
+
+        if self.isFriends:
+            assert(exists == True)
+        else:
+            assert(exists == False)
+
 
 
     def friend_(self):
@@ -233,15 +258,16 @@ class Test_CS_API(unittest.TestCase):
 
 
 
-    def sample_friendrequest(self, from_, to, req):
+    def sample_friendrequest(self, body):
 
     	prefix, suffix = getAPI(URL, 'POST/friendrequest')
         url = prefix + suffix
         headers = {'Content-type': 'application/json'}
-        req1 = requests.post(url, data=json.dumps(req), headers=headers)
+        req1 = requests.post(url, data=json.dumps(body), headers=headers)
         # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
         # resp = self.s.send(prepp1)
+        assert(req1.status_code == 200)
         body = json.loads(req1.text)
         # print body["status"]
         # assert(body["status"] == "SUCCESS"), "Should be a success!"
@@ -267,14 +293,15 @@ class Test_CS_API(unittest.TestCase):
         url = self.serverURL + "acceptFriendRequest"
         headers = {'Content-type': 'application/json'}
         data = {}
-        data['author'] = FR['author']['id']
-        data['server_address'] = FR['author']['host']
+        data['author'] = FR['friend']['id']
+        data['server_address'] = FR['friend']['host']
         req1 = requests.Request('POST', url, data=json.dumps(data), headers=headers)
         prepp1 = req1.prepare()
         prepp1 = self.prepCookie(prepp1)
         resp = self.s.send(prepp1)
         body = json.loads(resp.text)
-        assert(body["status"] == "SUCCESS")
+        # assert()
+        # assert(body["status"] == "SUCCESS")
 
 
     def sample_getFriendList(self, logged_author):
@@ -288,6 +315,7 @@ class Test_CS_API(unittest.TestCase):
         # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
         # resp = self.s.send(prepp1)
+        assert(req1.status_code == 200)
         body = json.loads(req1.text)
         return body
 
@@ -298,6 +326,7 @@ class Test_CS_API(unittest.TestCase):
         # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
         # resp = self.s.send(prepp1)
+        assert(req1.status_code == 200)
         body_duo = json.loads(req1.text)
 
     	prefix, suffix = getAPI(URL, 'POST/friends/A')
@@ -307,6 +336,7 @@ class Test_CS_API(unittest.TestCase):
         # prepp1 = req1.prepare()
         # prepp1 = self.prepCookie(prepp1)
         # resp = self.s.send(prepp1)
+        assert(req1.status_code == 200)
         body_multiple = json.loads(req1.text)
 
         self.matchIfFriends(body_duo, body_multiple, author1['author_id'], [author2['author_id']])
@@ -365,12 +395,30 @@ class Test_CS_API(unittest.TestCase):
         body = json.loads(req1.text)
         return body
 
+    def check_getPosts(self, body):
+        posts = body['posts']
+        allPublic = True
+        for post in posts:
+            if post['visibility'] != "PUBLIC":
+                allPublic = False
+
+        assert(allPublic == True)
+
     def sample_getAuthorPosts(self, author_id):
     	prefix, suffix = getAPI(URL, 'GET/author/A/posts')
     	url = prefix + author_id + suffix
     	req1 = requests.get(url)
     	body = json.loads(req1.text)
     	return body
+
+    def check_getAuthorPosts(self, body, author_id):
+        posts = body['posts']
+        allAuthorPost = True
+        for post in posts:
+            if post['author']['id'] != author_id:
+                allAuthorPost = False
+
+        assert(allAuthorPost == True)
 
 	def sample_getPost_ID(self, post_id):
 		prefix, suffix = getAPI(URL, 'GET/posts/P')
@@ -379,6 +427,17 @@ class Test_CS_API(unittest.TestCase):
         body = json.loads(req1.text)
         return body
 
+    def check_getPost_ID(self, post_id, post_body, exists):
+        posts = post_body['posts']
+        if exists == True:
+            assert(len(post) == 1)
+        else:
+            assert(len(post) == 0)
+
+        for post in posts:
+            assert(post["id"] == post_id)
+
+
     def sample_getComments(self, post_id):
     	prefix, suffix = getAPI(URL, 'GET/posts/P/comments')
     	url = prefix + post_id + suffix
@@ -386,6 +445,10 @@ class Test_CS_API(unittest.TestCase):
         body = json.loads(req1.text)
         return body
 
+    def check_getComments(self, post_body, comment_ids)
+        comments = post_body[]
+
+        
     def sample_makeComments(self, data, post_id):
     	prefix, suffix = getAPI(URL, 'POST/posts/P/comments')
     	url = prefix + post_id + suffix

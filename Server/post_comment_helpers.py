@@ -1083,7 +1083,8 @@ class Comment(Resource):
                         #comment["comment_id"] = data["comment"]["guid"]
                         #comment["published"] = data["comment"]["published"]
                         data["comment"]["guid"] = uuid.uuid4().hex
-                        data["comment"]["published"] = currentTime.isoformat() 
+                        data["comment"]["published"] = currentTime.isoformat()
+                        data["query"] = "addComment"
 
                         start = data["post"].split("/")[0]
                         middle = data["post"].split("/")[1]
