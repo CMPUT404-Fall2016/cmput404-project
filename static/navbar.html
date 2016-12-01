@@ -71,32 +71,32 @@
 
   // onclick method for searching for author by id
   if (document.getElementById("author-search").value == "") {
-    $("#author-search-btn").click(function(e) {
-      e.preventDefault();
-      $('.alert').show();
-      document.getElementById("page-container").style.marginTop = "0px";
-    });
+    // $("#author-search-btn").click(function(e) {
+    $("#author-search-btn").prop("disabled", true);
+    //   e.preventDefault();
+    //   $('.alert').show();
+    //   document.getElementById("page-container").style.marginTop = "0px";
+    // });
     }
   else {
+    $("#author-search-btn").prop("disabled", false);
     $("#author-search-btn").click(function(e) {
       e.preventDefault();
       localStorage.setItem("fetch-author-id", document.getElementById("author-search").value );
       document.cookie = "request_author_id="+document.getElementById("author-search").value;
       //window.location.href = "authorpage.html"
+      var linkauthor = "/author/" + document. getElementById("author-search").value;
+      sendAJAX("GET", linkauthor, "", function(response) {
+         if (response["status"] == "SUCCESS") {
+           window.location.href = "authorpage.html"
+         }
+         else {
+           $('.alert').show();
+           document.getElementById("page-container").style.marginTop = "0px";
 
-
-        var linkauthor = "/author/" + document. getElementById("author-search").value;
-        sendAJAX("GET", linkauthor, "", function(response) {
-           if (response["status"] == "SUCCESS") {
-             window.location.href = "authorpage.html"
-           }
-           else {
-               $('.alert').show();
-               document.getElementById("page-container").style.marginTop = "0px";
-
-               //window.location.reload();
-           }
-         });
+             //window.location.reload();
+         }
+       });
     });
   }
 
