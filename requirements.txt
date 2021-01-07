@@ -39,7 +39,7 @@ ipaddress==1.0.16
 itsdangerous==0.24
 Jinja2==2.8
 jsonschema==2.5.1
-lxml==3.5.0
+lxml==4.6.2
 Markdown==2.6.7
 MarkupSafe==0.23
 misaka==2.0.0
